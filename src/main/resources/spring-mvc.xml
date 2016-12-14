@@ -22,9 +22,9 @@
 
     <!-- 配置自定义AuthInterceptor权限过滤拦截器 -->
     <!-- 如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
-    <mvc:interceptors>
+<!--    <mvc:interceptors>
         <bean class="com.jinlele.util.authority.AuthInterceptor"></bean>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
     <!-- 如果当前请求为“/”时，则转发到“/index” -->
     <mvc:view-controller path="/" view-name="forward:/pc/index"/>
