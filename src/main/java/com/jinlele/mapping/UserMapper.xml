@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="sexCode" property="sexcode" jdbcType="CHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="forbidenCode" property="forbidencode" jdbcType="CHAR" />
+    <result column="usertypeCode" property="usertypecode" jdbcType="CHAR" />
+    <result column="gradeCode" property="gradecode" jdbcType="CHAR" />
+    <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, email, phone, nickname, sexCode, openid, forbidenCode, usertypeCode, 
+    gradeCode, deleteCode, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.User" >
+    insert into user (id, username, password, 
+      email, phone, nickname, 
+      sexCode, openid, forbidenCode, 
+      usertypeCode, gradeCode, deleteCode, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{sexcode,jdbcType=CHAR}, #{openid,jdbcType=VARCHAR}, #{forbidencode,jdbcType=CHAR}, 
+      #{usertypecode,jdbcType=CHAR}, #{gradecode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="sexcode != null" >
+        sexCode,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="forbidencode != null" >
+        forbidenCode,
+      </if>
+      <if test="usertypecode != null" >
+        usertypeCode,
+      </if>
+      <if test="gradecode != null" >
+        gradeCode,
+      </if>
+      <if test="deletecode != null" >
+        deleteCode,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sexcode != null" >
+        #{sexcode,jdbcType=CHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="forbidencode != null" >
+        #{forbidencode,jdbcType=CHAR},
+      </if>
+      <if test="usertypecode != null" >
+        #{usertypecode,jdbcType=CHAR},
+      </if>
+      <if test="gradecode != null" >
+        #{gradecode,jdbcType=CHAR},
+      </if>
+      <if test="deletecode != null" >
+        #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sexcode != null" >
+        sexCode = #{sexcode,jdbcType=CHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="forbidencode != null" >
+        forbidenCode = #{forbidencode,jdbcType=CHAR},
+      </if>
+      <if test="usertypecode != null" >
+        usertypeCode = #{usertypecode,jdbcType=CHAR},
+      </if>
+      <if test="gradecode != null" >
+        gradeCode = #{gradecode,jdbcType=CHAR},
+      </if>
+      <if test="deletecode != null" >
+        deleteCode = #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sexCode = #{sexcode,jdbcType=CHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      forbidenCode = #{forbidencode,jdbcType=CHAR},
+      usertypeCode = #{usertypecode,jdbcType=CHAR},
+      gradeCode = #{gradecode,jdbcType=CHAR},
+      deleteCode = #{deletecode,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
