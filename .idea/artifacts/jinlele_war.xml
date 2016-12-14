@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="jinlele:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="jinlele.war">
+      <element id="artifact" artifact-name="jinlele:war exploded" />
+    </root>
+  </artifact>
+</component>
