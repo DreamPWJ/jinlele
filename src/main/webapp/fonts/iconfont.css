@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* SELECT*PUBLIC*/
+
+@font-face {
+  font-family: 'iconfont';  /* project id："172410" */
+  src: url('http://at.alicdn.com/t/font_f5ulxn0taat3mcxr.eot');
+  src: url('http://at.alicdn.com/t/font_f5ulxn0taat3mcxr.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_f5ulxn0taat3mcxr.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_f5ulxn0taat3mcxr.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_f5ulxn0taat3mcxr.svg#iconfont') format('svg');
+}
+ 
+.icon{
+	font-family:"iconfont";
+	font-style:normal;
+}
+
+

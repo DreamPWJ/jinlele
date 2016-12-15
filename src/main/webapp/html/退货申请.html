@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>退货申请</title>
+<link rel="stylesheet" href="../css/style.css" />
+<link rel="stylesheet" href="../css/select.css" />
+<link rel="stylesheet" href="../fonts/iconfont.css" />
+</head>
+
+<body>
+
+<!-- 内容 -->
+<main class="content bottom">
+	<dl class="returned">
+    	<dd>
+        	<em>退款类型：</em>
+        	<span>
+            <select class="default">
+            	<option value="">请选择</option>
+                <option value="1">我要退款</option>
+                <option value="2">我要退货</option>
+            </select>
+        	</span>
+        </dd>
+    	<dd>
+        	<em>收货状态：</em>
+        	<span>
+            <select class="default">
+            	<option value="">请选择</option>
+                <option value="1">未收到货</option>
+                <option value="2">已收到货</option>
+            </select>
+        	</span>
+        </dd>
+    	<dd>
+        	<em>退款原因：</em>
+        	<span>
+            <select class="default">
+            	<option value="">请选择</option>
+                <option value="1">买家发错</option>
+                <option value="2">发票问题</option>
+                <option value="3">和图片描述不一样</option>
+            </select>
+        	</span>
+        </dd>
+    	<dd>
+        	<em>退货说明：</em>
+        	<span><input placeholder="请输入退货说明" type="text"></span>
+        </dd>
+    </dl>
+    <section class="submit"><a href="">提交申请</a></section>
+</main>
+
+<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../js/jquery.dropkick-min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){  
+    $('.default').dropkick();
+    theme:'black'
+}); 
+</script>
+</body>
+</html>

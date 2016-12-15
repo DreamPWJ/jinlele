@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+section.mask{ width:100%; height:100%; position:fixed; top:0px; left:0px; overflow:auto; z-index:9999; background:rgba(0,0,0,0.50);}
+
+section.layer{ width:80%; float:left; position:absolute; top:50%; left:10%; background:#FFF; border-radius:5px;}
+section.layer section.title{ width:92%; height:50px; float:left; margin:0 4%; border-bottom:1px solid #EDEDED;}
+section.layer section.title em{ /*width:100%;*/ height:50px; float:left; line-height:50px; font-style:normal; text-align:center;}
+section.layer section.title a{ height:30px; float:left; line-height:30px; color:#FF5A0A; font-size:12px; position:absolute; top:10px; right:4%;}
+section.layer section.submit{ width:100%; height:38px; float:left; padding:12px 0; text-align:center; border-top:1px solid #EDEDED;}
+section.layer section.submit a{ height:38px; display:inline-block; vertical-align:top; line-height:38px; color:#FFF; padding:0 26px; margin:0 3px; border-radius:3px;}
+section.layer section.submit a:nth-child(1){ background:#F5D000;}
+section.layer section.submit a:nth-child(2){ background:#A8A8A8;}
+
+section.mask section.prompt{ width:80%; float:left; padding:20px 0 0 0; overflow:hidden; position:absolute; top:20%; left:10%; background:#FFF; border-radius:5px;}
+section.mask section.prompt i{ width:100%; float:left; line-height:100%; font-size:40px; text-align:center; color:#FE2E2E;}
+section.mask section.prompt p{ width:88%; float:left; padding:10px 6% 25px 6%; line-height:26px; text-align:center;}
+
+section.mask .prompt{ width:80%; float:left; padding:6px; position:absolute; top:30%; left:10%; border-radius:5px; background:#FFF; box-shadow:0 0 5px rgba(0,0,0,0.30);}
+section.mask .prompt p{ display:block; padding:15px 30px; line-height:30px; text-align:center; background:#FFF;}
+section.mask .prompt p em{ font-style:normal; color:#FE2E2E;}
+section.mask .prompt p i{ height:34px; display:inline-block; vertical-align:top; font-size:32px; line-height:34px; padding:0 15px 0 0; color:#FE2E2E;}
+
+
+
+
+
+
+
+
