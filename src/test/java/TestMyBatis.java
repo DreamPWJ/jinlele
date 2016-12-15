@@ -42,13 +42,18 @@ public class TestMyBatis {
         //至于程序里如何变换数据源,你可以在切面上检测哪些方法加入before方法,或者在程序里直接使用DataSourceEntry调用set方法
         //dataSourceEntry.set(DataSourceEntry.INTRANET_SOURCE);
     }*/
+
+    @Test
+    public void getAccount() {
+        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getAccount(1)));
+    }
     @Test
     public void getAdminUser() {
-        logger.info("=======================" + JSON.toJSONString(testService.getAdminUser(1)));
+        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getAdminUser(1)));
     }
 
     @Test
     public void pageResultMap() {
-        logger.info("=======================" + JSON.toJSONString(testService.getUser()));
+        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getUser()));
     }
 }
