@@ -28,7 +28,7 @@ public class DataSourceAdvice implements Ordered {
     @Resource
     private DataSourceEntry dataSourceEntry = null;
 
-    @Pointcut("execution(* com.jinlele.service.services.*.*(..))")
+    @Pointcut("execution(* com.jinlele.service.interfaces.*.*(..))")
     //service里的方法调用
     private void serviceInvoke() {//增强处理
 

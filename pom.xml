@@ -182,6 +182,12 @@
             <version>2.4</version>
         </dependency>
 
+        <!-- 导入连接池数据源druid(阿里巴巴的框架）jar包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.14</version>
+        </dependency>
 
         <!-- 导入sqlserver数据库链接第三方jar包 -->
         <!--    <dependency>
@@ -211,12 +217,7 @@
             <version>1.2.2</version>
         </dependency>
 
-        <!-- 导入连接池数据源druid(阿里巴巴的框架）jar包 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.14</version>
-        </dependency>
+
         <!-- AspectJ是一个面向切面AOP的框架jar包-->
         <dependency>
             <groupId>org.aspectj</groupId>

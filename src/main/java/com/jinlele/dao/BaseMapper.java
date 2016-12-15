@@ -13,7 +13,7 @@ public interface BaseMapper<Entity> {
      * 公用分页存储过程方法
      * map存储过程传入的参数
      */
-    public List getPaging(Map map);
+     List getPaging(Map map);
 
 
 }

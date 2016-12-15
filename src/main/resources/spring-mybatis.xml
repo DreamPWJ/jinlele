@@ -11,12 +11,12 @@
   http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--Dao实现类 自动扫描注解@Repository   use-default-filters="false" 只扫描指定的注解 -->
-    <context:component-scan base-package="com.jinlele.dao.daos" use-default-filters="false">
+    <context:component-scan base-package="com.jinlele.dao" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
     <!--Service实现类 自动扫描注解@Service  use-default-filters="false" 只扫描指定的注解  -->
-    <context:component-scan base-package="com.jinlele.service.services" use-default-filters="false">
+    <context:component-scan base-package="com.jinlele.service.interfaces" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
@@ -126,7 +126,7 @@
 
     <!--自动扫描mapper接口 DAO接口所在包名，Spring会自动查找其下的类   创建不同的sqlsession自动注入service中-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.jinlele.dao.interfaces"/>
+        <property name="basePackage" value="com.jinlele.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
 
@@ -168,7 +168,7 @@
         <!-- 只对类业务逻辑层实施事务 定义AOP事务的切入点(service层实现类的所有方法进行事务管理) -->
         <!-- Sirvice实现类中的方法名上述定义tx:method方法的 被调用之前Spring会获取事务对象并且开启事务管理
            方法执行成功提交事务  出现异常失败回滚事务-->
-        <aop:pointcut id="TxPointcut" expression="execution(* com.jinlele.service.services.*.*(..))"/>
+        <aop:pointcut id="TxPointcut" expression="execution(* com.jinlele.service.interfaces.*.*(..))"/>
         <aop:advisor advice-ref="txManager" pointcut-ref="TxPointcut"/>
     </aop:config>
 

@@ -3,7 +3,7 @@
   * MySQL系统通用分页存储过程
   * 创建人 ：潘维吉
   */
-------------------------------------------------------------
+
 -- MySQL系统通用分页存储过程sp_com_page
 
 DROP PROCEDURE IF EXISTS sp_com_page;
@@ -54,7 +54,7 @@ BEGIN
      EXECUTE  sqlstrrow ; -- 执行SQL语句
      deallocate prepare sqlstrrow;     -- 释放掉预处理段
 
-    SET myrows = @myrows;  --总的记录数赋值
+    SET myrows = @myrows;  -- 总的记录数赋值
 
    -- 计算myPageCount总的分页数 mod函数是一个求余函数 MOD函数是用于返回两数相除的余数
   if mod(myrows,pagesize)=0 then
