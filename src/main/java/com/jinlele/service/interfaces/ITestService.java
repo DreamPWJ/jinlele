@@ -9,7 +9,8 @@ import java.util.Map;
  * 测试用的service接口
  */
 public interface ITestService {
-    Map<String, Object> getUser();
+    Map<String, Object> getUserPaging();
 
     AdminUser getAdminUser(int id);
+
 }
