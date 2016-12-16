@@ -73,3 +73,6 @@ else
      deallocate prepare sqlstr;     -- 释放掉预处理段
 
 END ;
+
+-- 调试存储过程call sp_com_page('admin_user','*',null,5,1,null,1,@a,@b);select @a,@b;
+

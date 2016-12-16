@@ -70,7 +70,7 @@
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
         <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
         <!-- 用来检测连接是否有效的sql，要求是一个查询语句-->
-        <property name="validationQuery" value="${jdbc.validationQuery}" />
+<!--        <property name="validationQuery" value="${jdbc.validationQuery}" />-->
         <!-- 申请连接的时候检测 -->
         <property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
         <!-- 申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能 -->
@@ -157,6 +157,7 @@
             <tx:method name="put*" propagation="REQUIRED"/>
             <!--查询方法 propagation="REQUIRED" 有事务不创建没有事务创建新事务 read-only="true"事务只允许读取 能提高事务的执行速度-->
             <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="get*Paging*" propagation="REQUIRED" read-only="false"/>
             <tx:method name="search*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="count*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="find*" propagation="REQUIRED" read-only="true"/>

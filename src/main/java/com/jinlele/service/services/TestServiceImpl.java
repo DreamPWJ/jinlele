@@ -22,13 +22,17 @@ public class TestServiceImpl implements ITestService {
     AdminUserMapper adminUserMapper;
 
     @Override
-    public Map<String, Object> getUser() {
+    public Map<String, Object> getUserPaging() {
         Map<String,Object> paramMap=new HashMap<String, Object>();
-        paramMap.put("tableName", "admin_user");
-        paramMap.put("fields","*");
+        paramMap.put("tableName", " admin_permission ");
+        paramMap.put("fields"," * ");
         paramMap.put("pageNow", 1);
-        paramMap.put("pageSize", 10);
+        paramMap.put("pageSize", 5);
+/*        paramMap.put("wherecase",null);
+        paramMap.put("orderField", null);*/
+        paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
+        paramMap.put("pagingList",this.baseMapper.getPaging(paramMap));
         return paramMap;
     }
 
@@ -37,4 +41,8 @@ public class TestServiceImpl implements ITestService {
         AdminUser adminUser=adminUserMapper.selectByPrimaryKey(id);
         return adminUser;
     }
+
+
+
+
 }

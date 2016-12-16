@@ -6,7 +6,7 @@
     <!-- 导入属性配置 数据库链接信息 -->
 
     <!-- 数据库驱动的jar包位置 -->
-    <classPathEntry location="E:/mysql-connector-java-5.1.10.jar"/>
+    <classPathEntry location="E:/mysql-connector-java-5.1.39.jar"/>
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="true"/>
@@ -15,7 +15,7 @@
         </commentGenerator>
         <!-- 数据库链接URL，用户名、密码 -->
 
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://139.224.54.94:3306/jinlele" userId="root"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.90.133:3306/jinlele" userId="root"
                         password="123456">
         </jdbcConnection>
         <javaTypeResolver>

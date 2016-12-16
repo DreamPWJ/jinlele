@@ -43,10 +43,7 @@ public class TestMyBatis {
         //dataSourceEntry.set(DataSourceEntry.INTRANET_SOURCE);
     }*/
 
-    @Test
-    public void getAccount() {
-        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getAccount(1)));
-    }
+
     @Test
     public void getAdminUser() {
         logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getAdminUser(1)));
@@ -54,6 +51,6 @@ public class TestMyBatis {
 
     @Test
     public void pageResultMap() {
-        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getUser()));
+        logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getUserPaging()));
     }
 }
