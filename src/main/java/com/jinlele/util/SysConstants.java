@@ -8,6 +8,6 @@ public class SysConstants {
 
     public static final int PAGENOW = 1;//当前分页的页数
 
-    public static final int PAGESIZE = 1;//每次分页的条数
+    public static final int PAGESIZE = 5;//每次分页的条数
 }
 

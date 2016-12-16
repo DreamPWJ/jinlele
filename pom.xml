@@ -164,12 +164,14 @@
             <version>${slf4j.version}</version>
         </dependency>
         <!-- log end -->
-        <!-- 映入JSON -->
-        <dependency>
+
+        <!-- 映入JSON @ResponseBody,要把对象转换成json格式 -->
+      <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
         </dependency>
+
         <!-- 上传组件和IO流包 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -186,7 +188,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.14</version>
+            <version>1.0.18</version>
         </dependency>
 
         <!-- 导入sqlserver数据库链接第三方jar包 -->
@@ -208,8 +210,9 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.30</version>
+            <version>5.1.39</version>
         </dependency>
+
         <!-- 导入dbcp的jar包，用来在spring-mybatis.xml中配置数据库   已更换切换为数据源druid(阿里巴巴的框架）-->
         <dependency>
             <groupId>commons-dbcp</groupId>
@@ -224,6 +227,7 @@
             <artifactId>aspectjrt</artifactId>
             <version>1.6.10</version>
         </dependency>
+
         <!--aopalliance包是AOP联盟的API包，里面包含了针对面向切面的接口。通常Spring等其它具备动态织入功能的框架依赖此包。-->
         <dependency>
             <groupId>aopalliance</groupId>
