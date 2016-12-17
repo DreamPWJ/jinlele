@@ -6,23 +6,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>首页</title>
 <link rel="stylesheet" href="../../css/style.css" />
+<link rel="stylesheet" href="../../css/select.css" />
 <link rel="stylesheet" href="../../fonts/iconfont.css" />
 </head>
 
 <body>
 <!-- title -->
-<section class="process_title"><i>产品检测</i></section>
+<section class="process_title"><i>产品维修</i></section>
 
 <main class="content submit">
 
     <!-- 流程 -->
-    <section class="process testing">
+    <section class="process fanx">
         <b class="right"></b>
-        <b class="left"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="sec"></b>
         <ul>
             <li class="hover">
                 <span><i class="t01"></i></span>
                 <em>拍照</em>
+            </li>
+            <li>
+                <span><i class="t10"></i></span>
+                <em>定价</em>
             </li>
             <li>
                 <span><i class="t02"></i></span>
@@ -33,16 +40,20 @@
                 <em>平台收货</em>
             </li>
             <li>
-                <span><i class="t04"></i></span>
-                <em>检测</em>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
             </li>
             <li>
                 <span><i class="t06"></i></span>
                 <em>拍照邮寄</em>
             </li>
             <li>
-                <span><i class="t07"></i></span>
-                <em>收货验证</em>
+                <span><i class="t12"></i></span>
+                <em>维修</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
             </li>
             <li>
                 <span><i class="t08"></i></span>
@@ -50,6 +61,36 @@
             </li>
         </ul>
     </section>
+    
+    <!-- 产品信息 -->
+    <dl class="add_product">
+        <dd>
+            <em>产品类别：</em>
+            <span>
+            <select class="default">
+                <option value="">请选择</option>
+                <option value="1">戒指</option>
+            </select>
+            </span>
+        </dd>
+        <dd>
+            <em>数量：</em>
+            <span><input placeholder="备注内容..." type="text"></span>
+        </dd>
+        <dd>
+            <em>材质：</em>
+            <span>
+            <select class="default">
+                <option value="">请选择</option>
+                <option value="1">黄金</option>
+            </select>
+            </span>
+        </dd>
+        <dd>
+            <em>备注：</em>
+            <span><input placeholder="备注内容..." type="text"></span>
+        </dd>
+    </dl>
     
     <!-- 拍照 -->
     <section class="photograph">
@@ -97,8 +138,16 @@
         </ul>
     </section>
     
-    <section class="submit"><a href="">下一步</a></section>
+    <section class="submit"><a href="fixprice.html">下一步</a></section>
 </main>
 
+<script type="text/javascript" src="../../js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../../js/jquery.dropkick-min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){  
+    $('.default').dropkick();
+    theme:'black'
+}); 
+</script>
 </body>
 </html>
