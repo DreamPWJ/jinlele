@@ -2,10 +2,10 @@ package com.jinlele.service.services;
 
 import com.jinlele.dao.GoodCatogoryMapper;
 import com.jinlele.service.interfaces.IIndexService;
-import com.sun.tools.jdi.LinkedHashMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class IndexServiceImpl implements IIndexService
      */
     @Override
     public Map<String, Object> getIndexInfo() {
-        Map<String, Object> indexMap= new LinkedHashMap();
+        Map<String, Object> indexMap= new HashMap();
         List firstCatogoryList=goodCatogoryMapper.getFirstCatogory();
         indexMap.put("firstCatogoryList",firstCatogoryList);
         return indexMap;
