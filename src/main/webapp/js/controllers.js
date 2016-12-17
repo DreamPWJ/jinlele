@@ -9,21 +9,18 @@ angular.module('starter.controllers', [])
     //APP首页面
     .controller('IndexCtrl', function ($scope, $rootScope, MainService) {
         MainService.getMainUser().success(function (data) {
-            $scope.userinfo=data;
+            $scope.userinfo = data;
             console.log(data);
         })
 
     })
 
+    //用户中心
+    .controller('UserCenterCtrl', function ($scope, AccountService) {
+
+    })
     //登录页面
-    .controller('LoginCtrl', function ($scope, $rootScope, $state, CommonService, AccountService) {
-        $scope.user = {};//定义用户对象
-        $scope.loginSubmit = function () {
-            AccountService.login($scope.user).success(function (data) {
-                CommonService.getStateName();   //跳转页面
-            }).error(function () {
-                CommonService.platformPrompt("登录失败", 'close');
-            })
-        }
+    .controller('LoginCtrl', function ($scope, $state, CommonService, AccountService) {
+
     })
 
