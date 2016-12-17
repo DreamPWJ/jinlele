@@ -9,6 +9,8 @@ public class Good {
 
     private Double price;
 
+    private String bannerurl;
+
     private Integer categoryId;
 
     private Integer salesvol;
@@ -67,6 +69,14 @@ public class Good {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getBannerurl() {
+        return bannerurl;
+    }
+
+    public void setBannerurl(String bannerurl) {
+        this.bannerurl = bannerurl == null ? null : bannerurl.trim();
     }
 
     public Integer getCategoryId() {

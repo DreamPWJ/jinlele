@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="bannerurl" property="bannerurl" jdbcType="VARCHAR" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="salesvol" property="salesvol" jdbcType="INTEGER" />
     <result column="weight" property="weight" jdbcType="DOUBLE" />
@@ -27,8 +28,8 @@
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, price, category_id, salesvol, weight, purity, material, canchange, kind, 
-    stocknum, discprice, saleprice, comments, colorCode, ishotCode, showCode, deleteCode, 
+    id, title, price, bannerurl, category_id, salesvol, weight, purity, material, canchange, 
+    kind, stocknum, discprice, saleprice, comments, colorCode, ishotCode, showCode, deleteCode, 
     create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
@@ -48,21 +49,21 @@
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Good" >
     insert into good (id, title, price, 
-      category_id, salesvol, weight, 
-      purity, material, canchange, 
-      kind, stocknum, discprice, 
-      saleprice, comments, colorCode, 
-      ishotCode, showCode, deleteCode, 
-      create_time, update_time, description
-      )
+      bannerurl, category_id, salesvol, 
+      weight, purity, material, 
+      canchange, kind, stocknum, 
+      discprice, saleprice, comments, 
+      colorCode, ishotCode, showCode, 
+      deleteCode, create_time, update_time, 
+      description)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
-      #{categoryId,jdbcType=INTEGER}, #{salesvol,jdbcType=INTEGER}, #{weight,jdbcType=DOUBLE}, 
-      #{purity,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{canchange,jdbcType=INTEGER}, 
-      #{kind,jdbcType=VARCHAR}, #{stocknum,jdbcType=INTEGER}, #{discprice,jdbcType=DOUBLE}, 
-      #{saleprice,jdbcType=DOUBLE}, #{comments,jdbcType=INTEGER}, #{colorcode,jdbcType=CHAR}, 
-      #{ishotcode,jdbcType=CHAR}, #{showcode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
-      )
+      #{bannerurl,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{salesvol,jdbcType=INTEGER}, 
+      #{weight,jdbcType=DOUBLE}, #{purity,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, 
+      #{canchange,jdbcType=INTEGER}, #{kind,jdbcType=VARCHAR}, #{stocknum,jdbcType=INTEGER}, 
+      #{discprice,jdbcType=DOUBLE}, #{saleprice,jdbcType=DOUBLE}, #{comments,jdbcType=INTEGER}, 
+      #{colorcode,jdbcType=CHAR}, #{ishotcode,jdbcType=CHAR}, #{showcode,jdbcType=CHAR}, 
+      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Good" >
     insert into good
@@ -75,6 +76,9 @@
       </if>
       <if test="price != null" >
         price,
+      </if>
+      <if test="bannerurl != null" >
+        bannerurl,
       </if>
       <if test="categoryId != null" >
         category_id,
@@ -141,6 +145,9 @@
       <if test="price != null" >
         #{price,jdbcType=DOUBLE},
       </if>
+      <if test="bannerurl != null" >
+        #{bannerurl,jdbcType=VARCHAR},
+      </if>
       <if test="categoryId != null" >
         #{categoryId,jdbcType=INTEGER},
       </if>
@@ -206,6 +213,9 @@
       <if test="price != null" >
         price = #{price,jdbcType=DOUBLE},
       </if>
+      <if test="bannerurl != null" >
+        bannerurl = #{bannerurl,jdbcType=VARCHAR},
+      </if>
       <if test="categoryId != null" >
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
@@ -267,6 +277,7 @@
     update good
     set title = #{title,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
+      bannerurl = #{bannerurl,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       salesvol = #{salesvol,jdbcType=INTEGER},
       weight = #{weight,jdbcType=DOUBLE},
@@ -291,6 +302,7 @@
     update good
     set title = #{title,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
+      bannerurl = #{bannerurl,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       salesvol = #{salesvol,jdbcType=INTEGER},
       weight = #{weight,jdbcType=DOUBLE},

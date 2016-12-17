@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.GoodCatogoryMapper">
+    <resultMap id="BaseResultMap" type="com.jinlele.model.GoodCatogory">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="INTEGER"/>
+        <result column="hotCode" property="hotcode" jdbcType="CHAR"/>
+        <result column="bannerurl" property="bannerurl" jdbcType="VARCHAR"/>
+        <result column="deleteCode" property="deletecode" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="level" property="level" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, pid, hotCode, bannerurl, deleteCode, create_time, update_time, level
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from goodcatogory
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goodcatogory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.jinlele.model.GoodCatogory">
+    insert into goodcatogory (id, name, pid, 
+      hotCode, bannerurl, deleteCode, 
+      create_time, update_time, level
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{hotcode,jdbcType=CHAR}, #{bannerurl,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{level,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.jinlele.model.GoodCatogory">
+        insert into goodcatogory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="hotcode != null">
+                hotCode,
+            </if>
+            <if test="bannerurl != null">
+                bannerurl,
+            </if>
+            <if test="deletecode != null">
+                deleteCode,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="hotcode != null">
+                #{hotcode,jdbcType=CHAR},
+            </if>
+            <if test="bannerurl != null">
+                #{bannerurl,jdbcType=VARCHAR},
+            </if>
+            <if test="deletecode != null">
+                #{deletecode,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.GoodCatogory">
+        update goodcatogory
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="hotcode != null">
+                hotCode = #{hotcode,jdbcType=CHAR},
+            </if>
+            <if test="bannerurl != null">
+                bannerurl = #{bannerurl,jdbcType=VARCHAR},
+            </if>
+            <if test="deletecode != null">
+                deleteCode = #{deletecode,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jinlele.model.GoodCatogory">
+    update goodcatogory
+    set name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      hotCode = #{hotcode,jdbcType=CHAR},
+      bannerurl = #{bannerurl,jdbcType=VARCHAR},
+      deleteCode = #{deletecode,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      level = #{level,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <!-- 获取首页一级分类 -->
+    <select id="getFirstCatogory" resultType="Map">
+      select id ,name,bannerurl FROM goodcatogory WHERE pid is null
+  </select>
+</mapper>
