@@ -23,7 +23,7 @@ CREATE  procedure sp_com_page
 BEGIN
   --  定义部分变量
   --  定义两个整数并且赋值
-  SET @v_begin = (pageNow-1)*pagesize+1; --  开始记录数
+  SET @v_begin = (pageNow-1)*pagesize; --  开始记录数 limit从0开始
   SET @v_end =pageSize;         --  每页的个数
 
   SET @v_orderSql ='';  --  排序sql
