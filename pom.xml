@@ -123,11 +123,11 @@
         </dependency>
 
         <!-- Hibernate Validator 是 Bean Validation 的参考实现 . Hibernate Validator 提供了 JSR 303 规范中所有内置 constraint 的实现,除此之外还有一些附加的 constraint-->
-<!--        <dependency>
+       <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.2.4.Final</version>
-        </dependency>-->
+        </dependency>
 
         <!-- JSTL标签类 -->
         <dependency>
