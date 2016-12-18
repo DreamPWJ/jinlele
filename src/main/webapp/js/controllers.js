@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope,$stateParams) {
+    .controller('CategoryCtrl', function ($scope) {
 
     })
     //用户中心
