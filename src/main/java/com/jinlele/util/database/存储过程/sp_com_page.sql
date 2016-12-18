@@ -32,15 +32,15 @@ BEGIN
  --  如果orderField不为空，则进行排序，如果orderFlag=0为升序，1为降序
   if orderField is not null then
     if orderFlag=0 then
-      SET @v_orderSql=' order by '+orderField;  -- 升序
+      SET @v_orderSql=concat(' order by ',orderField);  -- 升序 concat函数mysql存储过程字符串
     elseif orderFlag=1 then
-      SET @v_orderSql=' order by '+orderField+' desc'; -- 降序
+      SET @v_orderSql=concat(' order by ',orderField,' desc'); -- 降序 concat函数mysql存储过程字符串
     end if;
   end if;
 
    -- 条件判断语句
   if wherecase is not null then
-    SET  @v_wherecase='  where '+wherecase;
+    SET  @v_wherecase=concat('  where ',wherecase);
   end if;
 
 
