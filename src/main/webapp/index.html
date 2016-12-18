@@ -1,13 +1,13 @@
 <!doctype html>
-<html  ng-app="starter"  >
+<html ng-app="starter">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>首页</title>
-<link rel="stylesheet" href="css/style.css" />
-<link rel="stylesheet" href="css/keyframes.css" />
-<link rel="stylesheet" href="fonts/iconfont.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/keyframes.css"/>
+    <link rel="stylesheet" href="fonts/iconfont.css"/>
 </head>
 
 <body ng-controller="IndexCtrl">
@@ -36,18 +36,18 @@
 
 <!-- BANNER -->
 <main class="banner">
-	<ul class="swiper-wrapper">
-    	<li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-    	<li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-    	<li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-  	</ul>
+    <ul class="swiper-wrapper">
+        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+    </ul>
     <section class="spot"></section>
 </main><!-- BANNER END -->
 
 <!-- 搜索 -->
 <section class="search">
-	<span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
-	<a class="icon" href="">&#xe60a;</a>
+    <span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
+    <a class="icon" href="">&#xe60a;</a>
 </section>
 
 <!-- 主功能 -->
@@ -61,19 +61,13 @@
 
 <!-- 材质 -->
 <section class="nav">
-    <a href="html/category.html?id="><i>K金</i><em><img src="images/com/nav@_01.jpg"></em></a>
-    <a href="html/category.html?id="><i>铂金</i><em><img src="images/com/nav@_02.jpg"></em></a>
-    <a href="html/category.html?id="><i>彩色宝石</i><em><img src="images/com/nav@_03.jpg"></em></a>
-    <a href="html/category.html?id="><i>黄金</i><em><img src="images/com/nav@_04.jpg"></em></a>
-    <a href="html/category.html?id="><i>硬金</i><em><img src="images/com/nav@_05.jpg"></em></a>
-    <a href="html/category.html?id="><i>珍珠</i><em><img src="images/com/nav@_06.jpg"></em></a>
-    <a href="html/category.html?id="><i>钻石</i><em><img src="images/com/nav@_07.jpg"></em></a>
-    <a href="html/category.html?id="><i>其它</i><em><img src="images/com/nav@_08.jpg"></em></a>
+    <a ng-repeat="item in indexinfo.firstCatogory" href="html/category.html?id="><i ng-bind="item.name"></i><em><img
+            ng-src="{{item.bannerurl}}"></em></a>
 </section>
 
 <!-- 栏目类型 -->
 <section class="assortment">
-	<ul>
+    <ul>
         <li><a href="">手链</a></li>
         <li><a href="">戒指</a></li>
         <li><a href="">吊坠</a></li>
@@ -87,85 +81,47 @@
 
 <!-- 新品推荐 -->
 <section class="recommend">
-	<span class="title"><i>新品推荐</i></span>
+    <span class="title"><i>新品推荐</i></span>
     <ul>
-    	<li>
-        	<a href="">
-       		<span class="pic"><img src="images/com/01.jpg"></span>
-        	<span class="text">小福猴转运珠黄金手链串珠男...</span>
-            <em>￥1980</em>
-            <i class="icon">&#xe68d;</i>
-        	</a>
+        <li ng-repeat="item in indexinfo.newProducts">
+            <a href="">
+                <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
+                <span class="text">{{item.title}}</span>
+                <em>{{item.saleprice | currency:'￥'}}</em>
+                <i class="icon">&#xe68d;</i>
+            </a>
         </li>
-    	<li>
-        	<a href="">
-       		<span class="pic"><img src="images/com/03.jpg"></span>
-        	<span class="text">小福猴转运珠黄金手链串珠男...</span>
-            <em>￥1980</em>
-            <i class="icon">&#xe68d;</i>
-        	</a>
-        </li>
-    	<li>
-        	<a href="">
-       		<span class="pic"><img src="images/com/04.jpg"></span>
-        	<span class="text">小福猴转运珠黄金手链串珠男...</span>
-            <em>￥1980</em>
-            <i class="icon">&#xe68d;</i>
-        	</a>
-        </li>
+
     </ul>
 </section>
 
 <!-- 产品列表 -->
 <main class="list">
-	<section class="list_main">
-    	<a href="">
-    	<span class="pic"><img src="images/com/02.jpg"></span>
-    	<span class="text">FANCI范琦彩金对戒k金环珠宝首饰品14k黄金戒指女款日韩情侣对戒</span>
-        <p>14K金戒指 简约时尚设计 大牌格调</p>
-    	<span class="price">
-            <em>现价：3199.00</em>
-            <em>原价：3199.00</em>
+    <section class="list_main" ng-repeat="item in newProductsinfo.pagingList">
+        <a href="">
+            <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
+            <span class="text">{{item.title}}</span>
+            <p>{{item.description}}</p>
+            <span class="price">
+            <em>现价：{{item.saleprice}}</em>
+            <em>原价：{{item.discprice}}</em>
             <i class="icon">&#xe68d;</i>
     	</span>
         </a>
     </section>
-	<section class="list_main">
-    	<a href="">
-    	<span class="pic"><img src="images/com/02.jpg"></span>
-    	<span class="text">FANCI范琦彩金对戒k金环珠宝首饰品14k黄金戒指女款日韩情侣对戒</span>
-        <p>14K金戒指 简约时尚设计 大牌格调</p>
-    	<span class="price">
-            <em>现价：3199.00</em>
-            <em>原价：3199.00</em>
-            <i class="icon">&#xe68d;</i>
-    	</span>
-        </a>
-    </section>
-	<section class="list_main">
-    	<a href="">
-    	<span class="pic"><img src="images/com/02.jpg"></span>
-    	<span class="text">FANCI范琦彩金对戒k金环珠宝首饰品14k黄金戒指女款日韩情侣对戒</span>
-        <p>14K金戒指 简约时尚设计 大牌格调</p>
-    	<span class="price">
-            <em>现价：3199.00</em>
-            <em>原价：3199.00</em>
-            <i class="icon">&#xe68d;</i>
-    	</span>
-        </a>
-    </section>
+
 </main>
 
 <footer class="bottom">
-	<a class="hover" href="index.html"><i class="icon">&#xe653;</i><em>首页</em></a>
-	<a href="html/category.html"><i class="icon">&#xe658;</i><em>分类</em></a>
-	<a href="html/shoppingcart.html"><i class="icon">&#xe68d;</i><em>购物车</em></a>
-	<a href="html/member.html"><i class="icon">&#xe625;</i><em>会员</em></a>
+    <a class="hover" href="index.html"><i class="icon">&#xe653;</i><em>首页</em></a>
+    <a href="html/category.html"><i class="icon">&#xe658;</i><em>分类</em></a>
+    <a href="html/shoppingcart.html"><i class="icon">&#xe68d;</i><em>购物车</em></a>
+    <a href="html/member.html"><i class="icon">&#xe625;</i><em>会员</em></a>
 </footer>
 
 <!-- 菜单栏 -->
 <section class="menu_bg show_menu"><!-- menu_bg 起始状态  show_menu 显示  hide_menu 隐藏 -->
-	<a class="icon menu_tion" href="">&#xe600;</a>
+    <a class="icon menu_tion" href="">&#xe600;</a>
     <span class="menu_nav">
     	<a href="index.html"><img src="images/column@_07.png"></a>
         <a href="html/shoppingcart.html"><img src="images/column@_06.png"></a>
@@ -176,6 +132,10 @@
         <a href="html/exchange/估价.html"><img src="images/column@_05.png"></a>
     </span>
 </section>
+
+</body>
+</html>
+
 <script type="text/javascript" src="js/ionic.bundle.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/config.js"></script>
@@ -184,10 +144,8 @@
 <script type="text/javascript" src="js/directive.js"></script>
 <script type="text/javascript" src="js/swiper.min.js"></script>
 <script type="text/javascript">
-var swiper = new Swiper('.banner', {
-	pagination: '.spot',
-    paginationClickable: true
-});
+    var swiper = new Swiper('.banner', {
+        pagination: '.spot',
+        paginationClickable: true
+    });
 </script>
-</body>
-</html>

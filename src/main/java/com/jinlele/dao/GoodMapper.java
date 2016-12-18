@@ -2,6 +2,8 @@ package com.jinlele.dao;
 
 import com.jinlele.model.Good;
 
+import java.util.List;
+
 public interface GoodMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,11 @@ public interface GoodMapper {
     int updateByPrimaryKeyWithBLOBs(Good record);
 
     int updateByPrimaryKey(Good record);
+
+    /**
+     * 获取首页新品推荐
+     *
+     * @return
+     */
+    List getNewProducts();
 }

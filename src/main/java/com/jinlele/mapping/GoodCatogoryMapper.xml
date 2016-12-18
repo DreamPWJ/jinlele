@@ -142,6 +142,6 @@
 
     <!-- 获取首页一级分类 -->
     <select id="getFirstCatogory" resultType="Map">
-      select id ,name,bannerurl FROM goodcatogory WHERE pid is null
+      select id ,name,bannerurl  FROM goodcatogory WHERE pid is null
   </select>
 </mapper>

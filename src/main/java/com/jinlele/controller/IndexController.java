@@ -2,6 +2,7 @@ package com.jinlele.controller;
 
 import com.jinlele.service.interfaces.IIndexService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class IndexController {
     @Resource
     IIndexService indexService;
+
     /**
      * 获取首页数据展示
      *
@@ -29,4 +31,16 @@ public class IndexController {
         return indexService.getIndexInfo();
     }
 
+    /**
+     * 首页新品推荐分页显示
+     *
+     * @param pagenow 当前页
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/getNewProducts/{pagenow}", method = RequestMethod.GET)
+    public Map<String, Object> getNewProducts(@PathVariable int pagenow) {
+        return indexService.getNewProductsPaging(pagenow);
+    }
 }
