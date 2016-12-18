@@ -18,6 +18,11 @@ angular.module('starter.controllers', [])
             console.log(data);
         })
     })
+
+    //分类tab
+    .controller('CategoryCtrl', function ($scope,$stateParams) {
+
+    })
     //用户中心
     .controller('UserCenterCtrl', function ($scope) {
 
