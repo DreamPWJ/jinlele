@@ -16,7 +16,7 @@
     </context:component-scan>
 
     <!--Service实现类 自动扫描注解@Service  use-default-filters="false" 只扫描指定的注解  -->
-    <context:component-scan base-package="com.jinlele.service.interfaces" use-default-filters="false">
+    <context:component-scan base-package="com.jinlele.service" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
