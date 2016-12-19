@@ -20,8 +20,13 @@ angular.module('starter.controllers', [])
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope) {
-
+    .controller('CategoryCtrl', function ($scope,$http,JinLeLe) {
+        $http({
+            method:"GET",
+            url:JinLeLe.api+'/good/getFirstCatogotory'
+        }).success(function(data){
+            $scope.catogory=data;
+        });
     })
     //用户中心
     .controller('UserCenterCtrl', function ($scope) {
