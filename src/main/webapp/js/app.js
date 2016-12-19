@@ -33,7 +33,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/favourite.html',
                 controller: 'FavorCtrl'
             })
-            .state('orderlist', {  //订单详情
+            .state('orderlist', {  // 商城订单
                 url: '/orderlist',
                 templateUrl: 'html/order.html',
                 controller: 'OrderListCtrl'
@@ -53,10 +53,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/gooddetail.html',
                 controller: 'GoodCtrl'
             })
-            .state('repair', {  //翻新
+            .state('addcomment', {  //商品评论
+                url: '/addcomment',
+                templateUrl: 'html/comment.html',
+                controller: 'AddCommentCtrl'
+            })
+            .state('refurbish', {  //翻新
+                url: '/refurbish',
+                templateUrl: 'html/refurbish/index.html',
+                controller: 'RefurbishCtrl'
+            })
+            .state('repair', {  //维修
                 url: '/repair',
                 templateUrl: 'html/repair/index.html',
                 controller: 'RepairCtrl'
+            })
+            .state('detect', {  //检测
+                url: '/detect',
+                templateUrl: 'html/detect/index.html',
+                controller: 'DetectCtrl'
+            })
+            .state('recycle', {  //回收
+                url: '/recycle',
+                templateUrl: 'html/recycle/index.html',
+                controller: 'RecycleCtrl'
+            })
+            .state('exchange', {  //换款
+                url: '/exchange',
+                templateUrl: 'html/exchange/index.html',
+                controller: 'ExchangCtrl'
             })
 
         $urlRouterProvider.otherwise('main')

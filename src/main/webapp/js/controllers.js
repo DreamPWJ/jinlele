@@ -20,18 +20,11 @@ angular.module('starter.controllers', [])
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope,$http,JinLeLe,$stateParams) {
+    .controller('CategoryCtrl', function ($scope,$stateParams,CategoryService) {
         console.log($stateParams.id);
-        $http({
-            method:"GET",
-            url:JinLeLe.api+'/good/getFirstCatogotory'
-        }).success(function(data){
+        CategoryService.getcatogories().success(function(data){
             $scope.catogory=data;
         });
-    })
-    //用户中心
-    .controller('UserCenterCtrl', function ($scope) {
-
     })
     //登录页面
     .controller('LoginCtrl', function ($scope, $state, CommonService, AccountService) {
@@ -79,6 +72,18 @@ angular.module('starter.controllers', [])
     })
     //维修
     .controller('RepairCtrl',function($scope){
+
+    })
+    //检测
+    .controller('DetectCtrl',function($scope){
+
+    })
+    //回收
+    .controller('RecycleCtrl',function($scope){
+
+    })
+    //换款
+    .controller('ExchangCtrl',function($scope){
 
     })
 
