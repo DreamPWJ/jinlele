@@ -1,137 +1,18 @@
-<!doctype html>
-<html ng-app="starter">
+<!DOCTYPE html>
+<html >
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>首页</title>
+    <title>金乐乐珠宝</title>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/keyframes.css"/>
     <link rel="stylesheet" href="fonts/iconfont.css"/>
+
 </head>
 
-<body ng-controller="IndexCtrl">
-<!-- HEAD -->
-<!-- show 显示导航 -->
-<!--<header class="head">
-	<section class="head_main">
-        <h1>金乐乐珠宝</h1>
-        <a class="icon more" href="">&#xe6ff;</a>
-    </section>
-	<section class="user">
-		<i class="icon"></i>
-        <span class="menu">
-        	<a href=""><em><img src="images/column@_07.png"></em><i>主页</i></a>
-            <a href=""><em><img src="images/column@_06.png"></em><i>商场</i></a>
-            <a href=""><em><img src="images/column@_01.png"></em><i>翻新</i></a>
-            <a href=""><em><img src="images/column@_02.png"></em><i>维修</i></a>
-            <a href=""><em><img src="images/column@_03.png"></em><i>检查</i></a>
-            <a href=""><em><img src="images/column@_04.png"></em><i>回收</i></a>
-            <a href=""><em><img src="images/column@_05.png"></em><i>换款</i></a>
-      	</span>
-	</section>
-    <section class="user_bg"></section>
-</header>-->
-<!-- HEAD NED -->
-
-<!-- BANNER -->
-<main class="banner">
-    <ul class="swiper-wrapper">
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-    </ul>
-    <section class="spot"></section>
-</main><!-- BANNER END -->
-
-<!-- 搜索 -->
-<section class="search">
-    <span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
-    <a class="icon" href="">&#xe60a;</a>
-</section>
-
-<!-- 主功能 -->
-<section class="column">
-    <a href="html/refurbish/index.html"><i><img src="images/column@_01.png"></i><em>翻新</em></a>
-    <a href="html/repair/index.html"><i><img src="images/column@_02.png"></i><em>维修</em></a>
-    <a href="html/testing/index.html"><i><img src="images/column@_03.png"></i><em>检测</em></a>
-    <a href="html/recovery/index.html"><i><img src="images/column@_04.png"></i><em>回收</em></a>
-    <a href="html/exchange/估价.html"><i><img src="images/column@_05.png"></i><em>换款</em></a>
-</section>
-
-<!-- 材质 -->
-<section class="nav">
-    <a ng-repeat="item in indexinfo.firstCatogory" href="html/category.html?id="><i ng-bind="item.name"></i><em><img
-            ng-src="{{item.bannerurl}}"></em></a>
-</section>
-
-<!-- 栏目类型 -->
-<section class="assortment">
-    <ul>
-        <li><a href="">手链</a></li>
-        <li><a href="">戒指</a></li>
-        <li><a href="">吊坠</a></li>
-        <li><a href="">耳环</a></li>
-        <li><a href="">手镯</a></li>
-        <li><a href="">项链</a></li>
-        <li><a href="">金条</a></li>
-        <li><a href="">套链</a></li>
-    </ul>
-</section>
-
-<!-- 新品推荐 -->
-<section class="recommend">
-    <span class="title"><i>新品推荐</i></span>
-    <ul>
-        <li ng-repeat="item in indexinfo.newProducts">
-            <a href="">
-                <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
-                <span class="text">{{item.title}}</span>
-                <em>{{item.saleprice | currency:'￥'}}</em>
-                <i class="icon">&#xe68d;</i>
-            </a>
-        </li>
-
-    </ul>
-</section>
-
-<!-- 产品列表 -->
-<main class="list">
-    <section class="list_main" ng-repeat="item in newProductsinfo.pagingList">
-        <a href="">
-            <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
-            <span class="text">{{item.title}}</span>
-            <p>{{item.description}}</p>
-            <span class="price">
-            <em>现价：{{item.saleprice}}</em>
-            <em>原价：{{item.discprice}}</em>
-            <i class="icon">&#xe68d;</i>
-    	</span>
-        </a>
-    </section>
-
-</main>
-
-<footer class="bottom">
-    <a class="hover" href="index.html"><i class="icon">&#xe653;</i><em>首页</em></a>
-    <a href="html/category.html"><i class="icon">&#xe658;</i><em>分类</em></a>
-    <a href="html/shoppingcart.html"><i class="icon">&#xe68d;</i><em>购物车</em></a>
-    <a href="html/member.html"><i class="icon">&#xe625;</i><em>会员</em></a>
-</footer>
-
-<!-- 菜单栏 -->
-<section class="menu_bg show_menu"><!-- menu_bg 起始状态  show_menu 显示  hide_menu 隐藏 -->
-    <a class="icon menu_tion" href="">&#xe600;</a>
-    <span class="menu_nav">
-    	<a href="index.html"><img src="images/column@_07.png"></a>
-        <a href="html/shoppingcart.html"><img src="images/column@_06.png"></a>
-        <a href="html/refurbish/index.html"><img src="images/column@_01.png"></a>
-        <a href="html/repair/index.html"><img src="images/column@_02.png"></a>
-        <a href="html/testing/index.html"><img src="images/column@_03.png"></a>
-        <a href="html/recovery/index.html"><img src="images/column@_04.png"></a>
-        <a href="html/exchange/估价.html"><img src="images/column@_05.png"></a>
-    </span>
-</section>
+<body ng-app="starter">
+ <div ui-view> </div>
 
 </body>
 </html>
@@ -143,9 +24,6 @@
 <script type="text/javascript" src="js/services.js"></script>
 <script type="text/javascript" src="js/directive.js"></script>
 <script type="text/javascript" src="js/swiper.min.js"></script>
-<script type="text/javascript">
-    var swiper = new Swiper('.banner', {
-        pagination: '.spot',
-        paginationClickable: true
-    });
-</script>
+
+
+

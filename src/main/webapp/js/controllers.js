@@ -20,7 +20,8 @@ angular.module('starter.controllers', [])
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope,$http,JinLeLe) {
+    .controller('CategoryCtrl', function ($scope,$http,JinLeLe,$stateParams) {
+        console.log($stateParams.id);
         $http({
             method:"GET",
             url:JinLeLe.api+'/good/getFirstCatogotory'
