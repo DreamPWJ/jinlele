@@ -37,4 +37,48 @@ angular.module('starter.controllers', [])
     .controller('LoginCtrl', function ($scope, $state, CommonService, AccountService) {
 
     })
+    //购物车
+    .controller('ShoppingCartCtrl',function($scope){
+
+    })
+    //会员
+    .controller('MemberCtrl',function($scope){
+
+    })
+    //商城订单
+    .controller('OrderListCtrl',function($scope){
+
+    })
+    //订单详情
+    .controller('OrderCtrl',function($scope){
+
+    })
+    //我的钱包
+    .controller('WalletCtrl',function($scope){
+
+    })
+    //我的收藏
+    .controller('FavorCtrl',function($scope){
+
+    })
+    //商品列表
+    .controller('GoodCtrl',function($scope){
+
+    })
+    //发表评论
+    .controller('AddCommentCtrl',function($scope){
+
+    })
+    //确认订单
+    .controller('ConfirmOrderCtrl',function($scope){
+
+    })
+    //翻新
+    .controller('RefurbishCtrl',function($scope){
+
+    })
+    //维修
+    .controller('RepairCtrl',function($scope){
+
+    })
 
