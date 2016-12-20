@@ -2,6 +2,7 @@ package com.jinlele.service.services;
 
 import com.jinlele.dao.BaseMapper;
 import com.jinlele.service.interfaces.IUserService;
+import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,6 @@ public class UserServiceImpl implements IUserService {
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
-        return paramMap;
+        return CommonUtil.removePaingMap(paramMap);
     }
 }
