@@ -28,8 +28,8 @@ public class OrderController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getGoodList/{pagenow}/{userid}", method = RequestMethod.GET)
-    public Map<String, Object> getGoodList(@PathVariable int pagenow, @PathVariable  int userid) {
+    @RequestMapping(value = "/getCartList/{pagenow}/{userid}", method = RequestMethod.GET)
+    public Map<String, Object> getCartList(@PathVariable int pagenow, @PathVariable  int userid) {
         return shoppingCartService.getShoppingCartPaging(pagenow, userid);
     }
 }

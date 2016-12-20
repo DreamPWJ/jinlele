@@ -26,7 +26,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         paramMap.put("fields", " g.id,g.bannerurl,g.price,s.num ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " s.deleteCode='001' AND user_id=" + userId + ")");
+        paramMap.put("wherecase", " s.deleteCode='001' AND s.deleteCode='001' AND user_id=" + userId + ")");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);

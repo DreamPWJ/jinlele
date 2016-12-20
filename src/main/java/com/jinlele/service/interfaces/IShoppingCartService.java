@@ -13,4 +13,6 @@ public interface IShoppingCartService {
      * @return
      */
     Map<String, Object> getShoppingCartPaging(int pagenow, int userId);
+
+
 }
