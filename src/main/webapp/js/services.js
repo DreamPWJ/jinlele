@@ -116,6 +116,29 @@ angular.module('starter.services', [])
 
         }
     })
+    .service('ResizeService',function(){
+        return {
+            autoHeight: function () {
+                if (window.innerHeight) {//FF
+                    nowHeight = window.innerHeight;
+                } else {
+                    nowHeight = document.documentElement.clientHeight;
+                }
+                var jianHeight = 50;
+                if (nowHeight > jianHeight) {
+                    document.getElementById('fenlei').style.height = nowHeight - jianHeight + 'px';
+                } else {
+                    document.getElementById('fenlei').style.height = jianHeight + 'px';
+                }
+                var jianHeight = 50;
+                if (nowHeight > jianHeight) {
+                    document.getElementById('leibie').style.height = nowHeight - jianHeight + 'px';
+                } else {
+                    document.getElementById('leibie').style.height = jianHeight + 'px';
+                }
+            }
+        }
+    })
     .service('WeiXinService', function ($q, $http, JinLeLe) { //微信 JS SDK 接口服务定义
 
     })
