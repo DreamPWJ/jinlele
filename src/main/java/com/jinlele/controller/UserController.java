@@ -31,6 +31,11 @@ public class UserController {
         return userparamMap;
     }
 
+    /**
+     * 获取用户信息
+     * @param openid
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/getUserInfo/{openid}",method = RequestMethod.GET)
     public Map<String,Object> getUserInfo(@PathVariable("openid") String openid){
