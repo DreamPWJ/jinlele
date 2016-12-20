@@ -24,18 +24,22 @@ public class IndexServiceImpl implements IIndexService {
     GoodCatogoryMapper goodCatogoryMapper;
     @Resource
     GoodMapper goodMapper;
+
     /**
      * 获取首页数据展示
      */
     @Override
     public Map<String, Object> getIndexInfo() {
-        Map<String, Object> indexMap= new HashMap();
+        Map<String, Object> indexMap = new HashMap();
         //首页一级分类获取
-        List firstCatogoryList=goodCatogoryMapper.getFirstCatogory();
+        List firstCatogoryList = goodCatogoryMapper.getFirstCatogory();
+        //首页二级分类获取
+        List secondCatogoryList = goodCatogoryMapper.getSecondCatogory();
         //新品推荐展示
-        List  newProductsList=goodMapper.getNewProducts();
-        indexMap.put("firstCatogory",firstCatogoryList);
-        indexMap.put("newProducts",newProductsList);
+        List newProductsList = goodMapper.getNewProducts();
+        indexMap.put("firstCatogory", firstCatogoryList);
+        indexMap.put("secondCatogory", secondCatogoryList);
+        indexMap.put("newProducts", newProductsList);
         return indexMap;
     }
 
@@ -50,15 +54,13 @@ public class IndexServiceImpl implements IIndexService {
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase"," ishotCode ='001' ");
+        paramMap.put("wherecase", " ishotCode ='001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
         return paramMap;
     }
-
-
 
 
 }

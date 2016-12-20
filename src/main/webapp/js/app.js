@@ -60,7 +60,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ConfirmOrderCtrl'
             })
             .state('goodlist', {  //商品列表
-                url: '/goodlist/:id',
+                url: '/goodlist/:name',
                 templateUrl: 'html/goodlist.html',
                 controller: 'GoodListCtrl'
             })

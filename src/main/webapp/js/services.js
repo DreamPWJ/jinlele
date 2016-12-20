@@ -47,14 +47,14 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('CategoryService',function($q, $http, JinLeLe){
+    .service('CategoryService', function ($q, $http, JinLeLe) {
         return {
-            getcatogories:function(params){ //获取首页信息
+            getcatogories: function (params) { //获取首页信息
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
-                    method:"GET",
-                    url:JinLeLe.api+'/good/getFirstCatogotory'
+                    method: "GET",
+                    url: JinLeLe.api + '/good/getFirstCatogotory'
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -64,7 +64,23 @@ angular.module('starter.services', [])
             }
         }
     })
-
+    .service('GoodService', function ($q, $http, JinLeLe) { //商品相关的服务
+        return {
+                getGoodList: function (params) { //获取产品列表
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: "GET",
+                    url: JinLeLe.api + '/good/getGoodList/'+params.pagenow+'/'+params.categoryname+'/'+params.querytype
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            }
+        }
+    })
     .service('AccountService', function ($q, $http, JinLeLe, $state, $interval, $timeout, $ionicLoading) {
         return {
             login: function (datas) { //登录

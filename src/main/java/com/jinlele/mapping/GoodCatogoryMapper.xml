@@ -140,8 +140,13 @@
   </update>
 
 
-    <!-- 获取首页一级分类 -->
-    <select id="getFirstCatogory" resultType="Map">
-      select id ,name,bannerurl  FROM goodcatogory WHERE pid is null
+    <!-- 获取首页商品一级分类-->
+    <select id="getFirstCatogory" resultType="map">
+      SELECT id ,name,bannerurl  FROM goodcatogory WHERE pid is null
   </select>
+
+    <!-- 获取首页商品二级分类-->
+    <select id="getSecondCatogory" resultType="map">
+     SELECT DISTINCT name FROM goodcatogory  WHERE  pid is not null
+    </select>
 </mapper>

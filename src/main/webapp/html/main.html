@@ -33,14 +33,7 @@
 <!-- 栏目类型 -->
 <section class="assortment">
     <ul>
-        <li><a href="#/goodlist/3">手链</a></li>
-        <li><a href="#/goodlist/3">戒指</a></li>
-        <li><a href="#/goodlist/3">吊坠</a></li>
-        <li><a href="#/goodlist/3">耳环</a></li>
-        <li><a href="#/goodlist/3">手镯</a></li>
-        <li><a href="#/goodlist/3">项链</a></li>
-        <li><a href="#/goodlist/3">金条</a></li>
-        <li><a href="#/goodlist/3">套链</a></li>
+        <li ng-repeat="item in indexinfo.secondCatogory"><a href="#/goodlist/{{item.name}}">{{item.name}}</a></li>
     </ul>
 </section>
 

@@ -18,8 +18,12 @@ public interface GoodCatogoryMapper {
     int updateByPrimaryKey(GoodCatogory record);
 
     /**
-     *   获取首页一级分类
-     * @return
+     * 获取首页商品一级分类
      */
-     List getFirstCatogory();
+    List getFirstCatogory();
+
+    /**
+     * 获取首页商品二级分类
+     */
+    List getSecondCatogory();
 }

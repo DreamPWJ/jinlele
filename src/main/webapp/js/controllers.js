@@ -20,17 +20,16 @@ angular.module('starter.controllers', [])
             //首页新品推荐分页显示
             MainService.getNewProducts({pagenow: 1}).success(function (data) {
                 $scope.newProductsinfo = data;
-                console.log(data);
+
             })
         })
 
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope,$stateParams,CategoryService) {
-        console.log($stateParams.id);
-        CategoryService.getcatogories().success(function(data){
-            $scope.catogory=data;
+    .controller('CategoryCtrl', function ($scope, $stateParams, CategoryService) {
+        CategoryService.getcatogories().success(function (data) {
+            $scope.catogory = data;
         });
     })
     //登录页面
@@ -38,44 +37,53 @@ angular.module('starter.controllers', [])
 
     })
     //购物车
-    .controller('ShoppingCartCtrl',function($scope){
+    .controller('ShoppingCartCtrl', function ($scope) {
         $(".check_label").checkbox();
     })
     //会员
-    .controller('MemberCtrl',function($scope){
+    .controller('MemberCtrl', function ($scope) {
 
     })
     //商城订单
-    .controller('OrderListCtrl',function($scope){
-        var mySwiper = new Swiper('.swiper-container',{
+    .controller('OrderListCtrl', function ($scope) {
+        var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
             //autoHeight: true,
             paginationBulletRender: function (index, className) {
                 switch (index) {
-                    case 0: name='未支付';break;
-                    case 1: name='已支付';break;
-                    case 2: name='已签收';break;
-                    case 3: name='退单';break;
-                    default: name='';
+                    case 0:
+                        name = '未支付';
+                        break;
+                    case 1:
+                        name = '已支付';
+                        break;
+                    case 2:
+                        name = '已签收';
+                        break;
+                    case 3:
+                        name = '退单';
+                        break;
+                    default:
+                        name = '';
                 }
                 return '<span class="' + className + '">' + name + '</span>';
             }
         });
     })
     //订单详情
-    .controller('OrderCtrl',function($scope){
+    .controller('OrderCtrl', function ($scope) {
 
     })
     //退货
-    .controller('ReturnsCtrl',function($scope){
-        $(document).ready(function(){
+    .controller('ReturnsCtrl', function ($scope) {
+        $(document).ready(function () {
             $('.default').dropkick();
             theme:'black'
         });
     })
     //我的钱包
-    .controller('WalletCtrl',function($scope){
+    .controller('WalletCtrl', function ($scope) {
 
     })
     //提现记录
@@ -83,52 +91,62 @@ angular.module('starter.controllers', [])
 
     })
     //我的收藏
-    .controller('FavorCtrl',function($scope){
+    .controller('FavorCtrl', function ($scope) {
 
     })
     //商品列表
-    .controller('GoodListCtrl',function($scope){
-        $('a.button').click(function() {
+    .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
+
+        //获取产品列表
+        GoodService.getGoodList({pagenow:1,categoryname: $stateParams.name, querytype: 0}).success(function (data) {
+            $scope.goodList=data;
+            console.log(data);
+
+        })
+
+        $('a.button').click(function () {
             if ($('.content').hasClass('square')) {
                 $('.content').removeClass('square');
-            }else{
+            } else {
                 $('.content').addClass('square');
             }
         });
+
+
     })
     //商品详情
-    .controller('GoodCtrl',function($scope){
+    .controller('GoodCtrl', function ($scope) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true
         });
     })
     //发表评论
-    .controller('AddCommentCtrl',function($scope){
+    .controller('AddCommentCtrl', function ($scope) {
 
     })
     //确认订单
-    .controller('ConfirmOrderCtrl',function($scope){
+    .controller('ConfirmOrderCtrl', function ($scope) {
         $(".check_label").checkbox();
     })
     //翻新
-    .controller('RefurbishCtrl',function($scope){
+    .controller('RefurbishCtrl', function ($scope) {
 
     })
     //维修
-    .controller('RepairCtrl',function($scope){
+    .controller('RepairCtrl', function ($scope) {
 
     })
     //检测
-    .controller('DetectCtrl',function($scope){
+    .controller('DetectCtrl', function ($scope) {
 
     })
     //回收
-    .controller('RecycleCtrl',function($scope){
+    .controller('RecycleCtrl', function ($scope) {
 
     })
     //换款
-    .controller('ExchangCtrl',function($scope){
+    .controller('ExchangCtrl', function ($scope) {
 
     })
 
