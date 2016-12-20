@@ -18,4 +18,6 @@ public interface IGoodCatogoryService {
      * @param querytype  查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
      */
     Map<String, Object> getGoodListPaging(int pagenow,String categoryname,int  querytype);
+
+
 }

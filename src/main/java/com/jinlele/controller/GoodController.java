@@ -1,6 +1,7 @@
 package com.jinlele.controller;
 
 import com.jinlele.service.interfaces.IGoodCatogoryService;
+import com.jinlele.service.interfaces.IGoodService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import java.util.Map;
 @RequestMapping("/good")
 public class GoodController {
     @Resource
+    IGoodService goodService;
+    @Resource
     IGoodCatogoryService goodCatogoryService;
 
     /**
@@ -31,13 +34,26 @@ public class GoodController {
 
     /**
      * 获取产品列表
+     *
      * @param categoryname 二级分类名称
-     * @param querytype  查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
+     * @param querytype    查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getGoodList/{pagenow}/{categoryname}/{querytype}", method = RequestMethod.GET)
-    public  Map<String, Object> getGoodList(@PathVariable int  pagenow,@PathVariable String  categoryname,@PathVariable int  querytype) {
+    public Map<String, Object> getGoodList(@PathVariable int pagenow, @PathVariable String categoryname, @PathVariable int querytype) {
         return goodCatogoryService.getGoodListPaging(pagenow, categoryname, querytype);
+    }
+
+    /**
+     * 获取产品详情
+     * @param goodId 商品id
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/getGoodDetail/{goodId}", method = RequestMethod.GET)
+    public Map<String, Object> getGoodDetail(@PathVariable int goodId) {
+        return goodService.getGoodDetail(goodId);
     }
 }

@@ -117,11 +117,16 @@ angular.module('starter.controllers', [])
 
     })
     //商品详情
-    .controller('GoodDetailCtrl', function ($scope,$stateParams) {
+    .controller('GoodDetailCtrl', function ($scope,$stateParams,GoodService) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true
         });
+
+        GoodService.getGoodDetail({goodId:$stateParams.id}).success(function (data) {
+            console.log(data);
+        })
+
     })
     //发表评论
     .controller('AddCommentCtrl', function ($scope) {
