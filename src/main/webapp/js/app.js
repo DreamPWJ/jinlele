@@ -39,7 +39,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/order.html',
                 controller: 'OrderListCtrl'
             })
-            .state('order', {  //订单详情
+            .state('return', {  //退货
+                url: '/return/:id',
+                templateUrl: 'html/returnapply.html',
+                controller: 'ReturnsCtrl'
+            })
+            .state('order', {  //退货
                 url: '/order/:id',
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderCtrl'

@@ -39,7 +39,7 @@ angular.module('starter.controllers', [])
     })
     //购物车
     .controller('ShoppingCartCtrl',function($scope){
-
+        $(".check_label").checkbox();
     })
     //会员
     .controller('MemberCtrl',function($scope){
@@ -47,11 +47,32 @@ angular.module('starter.controllers', [])
     })
     //商城订单
     .controller('OrderListCtrl',function($scope){
-
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.tab',
+            paginationClickable: true,
+            //autoHeight: true,
+            paginationBulletRender: function (index, className) {
+                switch (index) {
+                    case 0: name='未支付';break;
+                    case 1: name='已支付';break;
+                    case 2: name='已签收';break;
+                    case 3: name='退单';break;
+                    default: name='';
+                }
+                return '<span class="' + className + '">' + name + '</span>';
+            }
+        });
     })
     //订单详情
     .controller('OrderCtrl',function($scope){
 
+    })
+    //退货
+    .controller('ReturnsCtrl',function($scope){
+        $(document).ready(function(){
+            $('.default').dropkick();
+            theme:'black'
+        });
     })
     //我的钱包
     .controller('WalletCtrl',function($scope){
@@ -63,11 +84,20 @@ angular.module('starter.controllers', [])
     })
     //商品列表
     .controller('GoodListCtrl',function($scope){
-
+        $('a.button').click(function() {
+            if ($('.content').hasClass('square')) {
+                $('.content').removeClass('square');
+            }else{
+                $('.content').addClass('square');
+            }
+        });
     })
     //商品详情
     .controller('GoodCtrl',function($scope){
-
+        var swiper = new Swiper('.banner', {
+            pagination: '.spot',
+            paginationClickable: true
+        });
     })
     //发表评论
     .controller('AddCommentCtrl',function($scope){
@@ -75,7 +105,7 @@ angular.module('starter.controllers', [])
     })
     //确认订单
     .controller('ConfirmOrderCtrl',function($scope){
-
+        $(".check_label").checkbox();
     })
     //翻新
     .controller('RefurbishCtrl',function($scope){

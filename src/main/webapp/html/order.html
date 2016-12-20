@@ -209,7 +209,7 @@
                     </span>
                     <span>
                         <a href="">联系卖家</a>
-                        <a href="">退货</a>
+                        <a href="#/return/2323">退货</a>
                     </span>
                 </section>
             </section>
@@ -250,7 +250,7 @@
                     </span>
                     <span>
                         <a href="">联系卖家</a>
-                        <a href="returnapply.html">退货</a>
+                        <a href="#/return/2323">退货</a>
                     </span>
                 </section>
             </section>
@@ -345,21 +345,3 @@
     </section>
     
 </main>
-
-<script type="text/javascript">
-var mySwiper = new Swiper('.swiper-container',{
-	pagination: '.tab',
-	paginationClickable: true,
-	//autoHeight: true,
-	paginationBulletRender: function (index, className) {
-		switch (index) {
-			case 0: name='未支付';break;
-			case 1: name='已支付';break;
-			case 2: name='已签收';break;
-			case 3: name='退单';break;
-			default: name='';
-		}
-  	return '<span class="' + className + '">' + name + '</span>';
-	}
-});
-</script>
