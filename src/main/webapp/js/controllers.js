@@ -124,6 +124,7 @@ angular.module('starter.controllers', [])
         });
 
         GoodService.getGoodDetail({goodId:$stateParams.id}).success(function (data) {
+            $scope.goodDetail=data;
             console.log(data);
         })
 

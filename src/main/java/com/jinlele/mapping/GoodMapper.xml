@@ -331,7 +331,7 @@
 
     <!-- 获取产品详情 -->
     <select id="getGoodDetail" resultType="map">
-        select id ,title,bannerurl,saleprice FROM good  WHERE  id=#{gooodId}
+        select  g.id as goodid,g.title,g.bannerurl,g.description,g.weight,g.stocknum,g.saleprice,g.discprice FROM good g WHERE  g.id=#{gooodId}
     </select>
 
 </mapper>
