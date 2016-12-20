@@ -30,10 +30,35 @@ angular.module('starter.controllers', [])
     .controller('CategoryCtrl', function ($scope, $stateParams,$window, CategoryService,ResizeService) {
         ResizeService.autoHeight();
         $window.onresize = ResizeService.autoHeight;
+        $scope.init = {
+            pagenow:1,
+            goodArr:[],//产品列表
+            //根据分类id查询所有的商品 分页展示
+            findGoods:function (catogoryId) {
+                CategoryService.getGoodsByCidPaging($scope.init.pagenow , catogoryId).success(function (data) {
+                    $scope.goods = data.pagingList;
+                });
+            },
+            //根据一级分类id 查询所有的二级分类
+            getSecondCatogories:function (pid) {
+                CategoryService.getSecondCatogories(pid).success(function (data) {
+                    $scope.secondCatogories = data;
+                    if($scope.secondCatogories!=null && $scope.secondCatogories.length>0){
+                        $scope.init.findGoods($scope.secondCatogories[0].id);
+                    }
+                });
+            }
+        };
+        //初始加载
         CategoryService.getcatogories().success(function (data) {
-            $scope.catogory = data;
+            $scope.catogory = data.firstList;
         });
+        //初始加载二级分类和下面的产品列表
+        $scope.init.getSecondCatogories($stateParams.id);
+
     })
+
+
     //登录页面
     .controller('LoginCtrl', function ($scope, $state, CommonService, AccountService) {
 

@@ -149,4 +149,16 @@
     <select id="getSecondCatogory" resultType="map">
      SELECT DISTINCT name FROM goodcatogory  WHERE  pid is not null
     </select>
+
+    <!--根据一级分类 查询该分类下的二级分类-->
+    <select id="getSecondCatogaryByPid" resultType="map" parameterType="Integer">
+        select
+        id,
+        name,
+        bannerurl,
+        pid
+        from goodcatogory
+        where
+        pid is not null and pid = #{pid}  LIMIT 0,6
+    </select>
 </mapper>

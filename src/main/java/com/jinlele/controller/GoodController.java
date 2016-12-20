@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,9 +35,8 @@ public class GoodController {
 
     /**
      * 获取产品列表
-     *
      * @param categoryname 二级分类名称
-     * @param querytype    查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
+     * @param querytype  查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
      * @return
      */
     @ResponseBody
@@ -55,5 +55,23 @@ public class GoodController {
     @RequestMapping(value = "/getGoodDetail/{goodId}", method = RequestMethod.GET)
     public Map<String, Object> getGoodDetail(@PathVariable int goodId) {
         return goodService.getGoodDetail(goodId);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getSecondCatogaryByPid/{pid}")
+    public List getSecondCatogaryByPid(@PathVariable("pid") int pid){
+        return goodCatogoryService.getSecondCatogaryByPid(pid);
+    }
+
+    /**
+     * 获取产品列表
+     * @param pagenow     当前页码
+     * @param catogoryId  二级分类id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getGoodsByCidPaging/{pagenow}/{catogoryId}")
+    public  Map<String, Object>  getGoodsByCidPaging(@PathVariable("pagenow") int pagenow ,@PathVariable("catogoryId") int catogoryId){
+        return goodCatogoryService.getGoodsByCidPaging(pagenow ,catogoryId);
     }
 }

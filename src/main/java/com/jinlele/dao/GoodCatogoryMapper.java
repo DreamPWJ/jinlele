@@ -1,6 +1,7 @@
 package com.jinlele.dao;
 
 import com.jinlele.model.GoodCatogory;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,4 +27,11 @@ public interface GoodCatogoryMapper {
      * 获取首页商品二级分类
      */
     List getSecondCatogory();
+
+    /**
+     * 获取一级分类下的二级分类
+     * @param pid 一级分类id
+     * @return  二级分类集合
+     */
+    List getSecondCatogaryByPid(@Param("pid")Integer pid);
 }

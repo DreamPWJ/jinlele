@@ -2,81 +2,53 @@
 <main class="content" >
     <!-- 分类 -->
     <section id="fenlei" class="classification" >
-    	<ul ng-repeat="item in catogory.firstList">
-        	<li>
+    	<ul ng-repeat="item in catogory">
+        	<li ng-click="init.getSecondCatogories(item.id)">
             	<span><img ng-src="{{item.bannerurl}}"></span>
             	<em>{{item.name}}</em>
             </li>
-        	<!--<li class="hover">-->
-            	<!--<span><img src="images/com/03.jpg"></span>-->
-            	<!--<em>K金</em>-->
-            <!--</li>-->
         </ul>
     </section>
 
     <!-- 栏目 -->
     <section id="leibie" class="category">
         <span class="title">热门品类</span>
-        <section class="leibie_list">
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>耳钉</em>
+        <section class="leibie_list" >
+        	<a  ng-repeat="item in secondCatogories" ng-click="init.findGoods(item.id)">
+            	<span><img ng-src="{{item.bannerurl}}"></span>
+            	<em>{{item.name}}</em>
             </a>
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>戒指</em>
-            </a>
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>手链</em>
-            </a>
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>钻石戒指</em>
-            </a>
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>项链</em>
-            </a>
-        	<a href="">
-            	<span><img src="images/com/01.jpg"></span>
-            	<em>钻石耳钉</em>
-            </a>
+        	<!--<a href="">-->
+            	<!--<span><img src="images/com/01.jpg"></span>-->
+            	<!--<em>戒指</em>-->
+            <!--</a>-->
+        	<!--<a href="">-->
+            	<!--<span><img src="images/com/01.jpg"></span>-->
+            	<!--<em>手链</em>-->
+            <!--</a>-->
+        	<!--<a href="">-->
+            	<!--<span><img src="images/com/01.jpg"></span>-->
+            	<!--<em>钻石戒指</em>-->
+            <!--</a>-->
+        	<!--<a href="">-->
+            	<!--<span><img src="images/com/01.jpg"></span>-->
+            	<!--<em>项链</em>-->
+            <!--</a>-->
+        	<!--<a href="">-->
+            	<!--<span><img src="images/com/01.jpg"></span>-->
+            	<!--<em>钻石耳钉</em>-->
+            <!--</a>-->
         </section>
 
         <span class="title">热门单品</span>
         <section class="list">
-            <section class="list_main">
-            	<span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-            	<section class="text">
-                	<p><a href="#/good/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                	<em>￥568.00</em>
-                    <a class="icon" href="">&#xe68d;</a>
-                </section>
-            </section>
-            <section class="list_main">
-            	<span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-            	<section class="text">
-                	<p><a href="#/good/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                	<em>￥568.00</em>
-                    <a class="icon" href="">&#xe68d;</a>
-                </section>
-            </section>
-            <section class="list_main">
-            	<span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-            	<section class="text">
-                	<p><a href="#/good/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                	<em>￥568.00</em>
-                    <a class="icon" href="">&#xe68d;</a>
-                </section>
-            </section>
-            <section class="list_main">
-            	<span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-            	<section class="text">
-                	<p><a href="#/good/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                	<em>￥568.00</em>
-                    <a class="icon" href="">&#xe68d;</a>
-                </section>
+            <section class="list_main" ng-repeat="item in goods">
+                    <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+                    <section class="text">
+                        <p><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></p>
+                        <em>￥{{item.saleprice}}</em>
+                        <a class="icon" href="">&#xe68d;</a>
+                    </section>
             </section>
         </section>
     </section>

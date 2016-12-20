@@ -25,8 +25,10 @@
 
 <!-- 材质 -->
 <section class="nav">
-    <a ng-repeat="item in indexinfo.firstCatogory" ng-href="#/category/{{item.id}}"><i ng-bind="item.name"></i><em><img
-            ng-src="{{item.bannerurl}}"></em></a>
+    <a ng-repeat="item in indexinfo.firstCatogory"  ng-href="#/category/{{item.id}}">
+        <i ng-bind="item.name"></i>
+        <em><img ng-src="{{item.bannerurl}}"></em>
+    </a>
 </section>
 
 <!-- 栏目类型 -->
@@ -71,7 +73,7 @@
 
 <footer class="bottom">
     <a class="hover" href=""><i class="icon">&#xe653;</i><em>首页</em></a>
-    <a href="#/category/"><i class="icon">&#xe658;</i><em>分类</em></a>
+    <a href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
     <a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em></a>
     <a href="#/member"><i class="icon">&#xe625;</i><em>会员</em></a>
 </footer>
