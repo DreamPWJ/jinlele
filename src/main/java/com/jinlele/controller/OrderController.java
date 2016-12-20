@@ -1,6 +1,7 @@
 package com.jinlele.controller;
 
 import com.jinlele.model.ShoppingCart;
+import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,6 +21,8 @@ import java.util.Map;
 public class OrderController {
     @Resource
     IShoppingCartService shoppingCartService;
+    @Resource
+    IOrderService orderService;
 
     /**
      * 分页获取购物车数据
@@ -43,5 +45,14 @@ public class OrderController {
     @RequestMapping(value = "/addtocart",method = RequestMethod.GET)
     public int AddShoppingCart(ShoppingCart cart) {
         return shoppingCartService.insertSelective(cart);
+    }
+
+    /**
+     *商城订单列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getShopList/{pagenow}/{userid}", method = RequestMethod.GET)
+    public Map<String, Object> getShopList(@PathVariable int pagenow, @PathVariable  int userid) {
+       return orderService.getShopListPaging(pagenow, userid);
     }
 }
