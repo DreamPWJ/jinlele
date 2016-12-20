@@ -27,7 +27,9 @@ angular.module('starter.controllers', [])
     })
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope, $stateParams, CategoryService) {
+    .controller('CategoryCtrl', function ($scope, $stateParams,$window, CategoryService,ResizeService) {
+        ResizeService.autoHeight();
+        $window.onresize = ResizeService.autoHeight;
         CategoryService.getcatogories().success(function (data) {
             $scope.catogory = data;
         });

@@ -1,6 +1,8 @@
 package com.jinlele.service.services;
 
 import com.jinlele.dao.BaseMapper;
+import com.jinlele.dao.UserMapper;
+import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements IUserService {
     @Resource
     BaseMapper baseMapper;
 
+    @Resource
+    UserMapper userMapper;
+
     /**
      * 获取用户的分页方法
      */
@@ -35,5 +40,10 @@ public class UserServiceImpl implements IUserService {
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
         return CommonUtil.removePaingMap(paramMap);
+    }
+
+    @Override
+    public User getUserInfo(String openid) {
+        return userMapper.getUserInfo(openid);
     }
 }
