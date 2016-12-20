@@ -1,5 +1,7 @@
 package com.jinlele.service.interfaces;
 
+import com.jinlele.model.ShoppingCart;
+
 import java.util.Map;
 
 /**
@@ -14,5 +16,6 @@ public interface IShoppingCartService {
      */
     Map<String, Object> getShoppingCartPaging(int pagenow, int userId);
 
-
+    //添加购物车
+    int insertSelective(ShoppingCart record);
 }

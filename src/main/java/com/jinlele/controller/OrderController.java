@@ -1,5 +1,6 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,5 +32,16 @@ public class OrderController {
     @RequestMapping(value = "/getCartList/{pagenow}/{userid}", method = RequestMethod.GET)
     public Map<String, Object> getCartList(@PathVariable int pagenow, @PathVariable  int userid) {
         return shoppingCartService.getShoppingCartPaging(pagenow, userid);
+    }
+
+    /**
+     * 添加到购物车
+     * @param cart
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addtocart",method = RequestMethod.GET)
+    public int AddShoppingCart(ShoppingCart cart) {
+        return shoppingCartService.insertSelective(cart);
     }
 }
