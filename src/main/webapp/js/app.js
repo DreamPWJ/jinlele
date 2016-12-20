@@ -64,10 +64,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/goodlist.html',
                 controller: 'GoodListCtrl'
             })
-            .state('good', {  //商品详情
-                url: '/good/:id',
+            .state('gooddetail', {  //商品详情
+                url: '/gooddetail/:id',
                 templateUrl: 'html/gooddetail.html',
-                controller: 'GoodCtrl'
+                controller: 'GoodDetailCtrl'
             })
             .state('addcomment', {  //商品评论
                 url: '/addcomment',

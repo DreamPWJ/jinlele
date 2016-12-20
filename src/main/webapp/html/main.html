@@ -1,6 +1,5 @@
-
 <!-- BANNER -->
-<main class="banner" >
+<main class="banner">
     <ul class="swiper-wrapper">
         <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
         <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
@@ -26,7 +25,7 @@
 
 <!-- 材质 -->
 <section class="nav">
-    <a ng-repeat="item in indexinfo.firstCatogory"  ng-href="#/category/{{item.id}}"><i ng-bind="item.name"></i><em><img
+    <a ng-repeat="item in indexinfo.firstCatogory" ng-href="#/category/{{item.id}}"><i ng-bind="item.name"></i><em><img
             ng-src="{{item.bannerurl}}"></em></a>
 </section>
 
@@ -42,7 +41,7 @@
     <span class="title"><i>新品推荐</i></span>
     <ul>
         <li ng-repeat="item in indexinfo.newProducts">
-            <a href="">
+            <a ng-href="#/gooddetail/{{item.id}}">
                 <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
                 <span class="text">{{item.title}}</span>
                 <em>{{item.saleprice | currency:'￥'}}</em>
@@ -56,7 +55,7 @@
 <!-- 产品列表 -->
 <main class="list">
     <section class="list_main" ng-repeat="item in newProductsinfo.pagingList">
-        <a href="">
+        <a ng-href="#/gooddetail/{{item.id}}">
             <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
             <span class="text">{{item.title}}</span>
             <p>{{item.description}}</p>
@@ -72,7 +71,7 @@
 
 <footer class="bottom">
     <a class="hover" href=""><i class="icon">&#xe653;</i><em>首页</em></a>
-    <a href="#/category/"><i class="icon">&#xe658;</i><em>分类</em></a>
+    <a href="#/category"><i class="icon">&#xe658;</i><em>分类</em></a>
     <a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em></a>
     <a href="#/member"><i class="icon">&#xe625;</i><em>会员</em></a>
 </footer>

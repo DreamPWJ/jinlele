@@ -115,7 +115,7 @@ angular.module('starter.controllers', [])
 
     })
     //商品详情
-    .controller('GoodCtrl', function ($scope) {
+    .controller('GoodDetailCtrl', function ($scope,$stateParams) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true
