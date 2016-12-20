@@ -29,6 +29,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/wallet.html',
                 controller: 'WalletCtrl'
             })
+            .state('cashdetail', {  //钱包
+                url: '/cashdetail',
+                templateUrl: 'html/cashdetail.html',
+                controller: 'CashdetailCtrl'
+            })
             .state('favourite', {  //我的收藏
                 url: '/favourite',
                 templateUrl: 'html/favourite.html',
@@ -44,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/returnapply.html',
                 controller: 'ReturnsCtrl'
             })
-            .state('order', {  //退货
+            .state('order', {  //订单详情
                 url: '/order/:id',
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderCtrl'

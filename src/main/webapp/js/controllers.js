@@ -78,6 +78,10 @@ angular.module('starter.controllers', [])
     .controller('WalletCtrl',function($scope){
 
     })
+    //提现记录
+    .controller('CashdetailCtrl',function($scope){
+
+    })
     //我的收藏
     .controller('FavorCtrl',function($scope){
 
