@@ -1,8 +1,10 @@
 package com.jinlele.dao;
 
 import com.jinlele.model.Good;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodMapper {
     int deleteByPrimaryKey(Integer id);
@@ -25,4 +27,9 @@ public interface GoodMapper {
      * @return
      */
     List getNewProducts();
+
+    /**
+     * 获取产品详情
+     */
+    Map<String, Object> getGoodDetail(@Param("gooodId") int gooodId);
 }

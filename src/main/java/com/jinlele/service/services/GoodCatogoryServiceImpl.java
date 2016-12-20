@@ -52,4 +52,5 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
         return CommonUtil.removePaingMap(paramMap) ;
     }
+
 }

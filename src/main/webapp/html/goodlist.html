@@ -11,7 +11,7 @@
         <section class="product" ng-repeat="item in goodList.pagingList">
             <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
             <section class="text">
-                <p><a href="#/good/{{item.id}}">{{item.title}}</a></p>
+                <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
                 <em>差价：{{item.saleprice-item.discprice | currency:'￥'}}</em>
                 <em>销售价：{{item.saleprice | currency:'￥'}}</em>
                 <a class="icon" href="">&#xe68d;</a>
