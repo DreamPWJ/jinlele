@@ -7,16 +7,23 @@ angular.module('starter.controllers', [])
 
 
     //APP首页面
-    .controller('IndexCtrl', function ($scope, $rootScope, MainService) {
+    .controller('MainCtrl', function ($scope, $rootScope, MainService) {
+        var swiper = new Swiper('.banner', {
+            pagination: '.spot',
+            paginationClickable: true
+        });
+
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
+        }).then(function () {
+            //首页新品推荐分页显示
+            MainService.getNewProducts({pagenow: 1}).success(function (data) {
+                $scope.newProductsinfo = data;
+                console.log(data);
+            })
         })
-        //首页新品推荐分页显示
-        MainService.getNewProducts({pagenow: 1}).success(function (data) {
-            $scope.newProductsinfo = data;
-            console.log(data);
-        })
+
     })
 
     //分类tab

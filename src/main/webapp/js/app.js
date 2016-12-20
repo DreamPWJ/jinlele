@@ -1,12 +1,13 @@
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'starter.directive'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'starter.directive','starter.filter'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('main', {  //APP首页面
                 url: '/main',
+                cache:true,
                 templateUrl: 'html/main.html',
-                controller: 'IndexCtrl'
+                controller: 'MainCtrl'
             })
             .state('category', {  //分类
                 url: '/category/:id',
