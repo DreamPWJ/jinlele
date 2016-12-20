@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 //service在使用this指针，而factory直接返回一个对象
-    .service('CommonService', function ($rootScope) {
+    .service('CommonService', function ($rootScope,$timeout) {
         return {
 
             toolTip: function (msg, type) { //全局tooltip提示

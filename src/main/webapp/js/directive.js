@@ -27,7 +27,7 @@ angular.module('starter.directive', [])
 
     return {
       restrict: 'EA',
-      templateUrl: 'templates/popover/tooltip.html',
+      templateUrl: 'html/tooltip.html',
       scope: {
         message: "=",
         type: "="

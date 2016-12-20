@@ -1,4 +1,4 @@
-;(function($){
+(function($){
 	$.fn.extend({
 		checkbox : function(){
 			return this.each(function(){
