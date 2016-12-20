@@ -2,22 +2,22 @@
 <!-- 产品图 -->
 <main class="banner">
 	<ul class="swiper-wrapper">
-    	<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
-    	<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
-    	<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
+    	<li class="swiper-slide"><img ng-src="{{goodDetail.bannerurl}}"></li>
+<!--    	<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
+    	<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>-->
   	</ul>
     <section class="spot"></section>
 </main>
 
 <!-- 基本信息 -->
 <section class="essential">
-	<h1>范琦14K金戒指女男情侣对戒14K黄金定情结婚戒指珠宝首饰品 </h1>
+	<h1>{{goodDetail.title}} </h1>
 	<section class="essential_main">
-    	<em>￥3199.00</em>
-    	<em>￥3199.00</em>
+    	<em>{{goodDetail.saleprice | currency:'￥'}}</em>
+    	<em>{{goodDetail.discprice | currency:'￥'}}</em>
         <span>
         	<i>评价442</i>
-        	<i>库存15</i>
+        	<i>库存{{goodDetail.stocknum}}</i>
         </span>
     </section>
     <ul>
@@ -60,7 +60,7 @@
 <!-- 商品详情 -->
 <section class="depict_week">
 	<span class="title">商品详情</span>
-	<span class="picture"><img src="images/com/0001.jpg"></span>
+	<span class="picture" ng-bind-html="goodDetail.description"></span>
 </section>
 
 <!-- FOOTER -->

@@ -22,6 +22,7 @@ public class GoodServiceImpl implements IGoodService {
      */
     @Override
     public Map<String, Object> getGoodDetail(int goodId) {
+
         return goodMapper.getGoodDetail(goodId);
     }
 }
