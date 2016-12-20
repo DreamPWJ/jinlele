@@ -33,7 +33,7 @@
         	<em>数量：</em>
            	<span class="amount">
             	<a class="icon" href="">&#xe603;</a>
-                <input value="1" type="text">
+                <input value="1" type="text" ng-model="gooddetail.num">
                 <a class="icon" href="">&#xe600;</a>
            	</span>
         </li>
@@ -73,6 +73,6 @@
         	<u>5</u>
         </a>
     </span>
-	<a class="cart" href="">加入购物车</a>
+	<a class="cart" ng-click="addtocart()">加入购物车</a>
 </footer>
 

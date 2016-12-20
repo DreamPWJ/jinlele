@@ -28,11 +28,11 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public Map<String, Object> getShoppingCartPaging(int pagenow, int userId) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " shoppingcart s INNER JOIN good  g ON s.good_id=g.id ");
-        paramMap.put("fields", " g.id,g.bannerurl,g.price,s.num ");
+        paramMap.put("fields", " g.id,g.bannerurl,g.saleprice,s.num,g.title ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " s.deleteCode='001' AND s.deleteCode='001' AND user_id=" + userId + ")");
-        paramMap.put("orderField", " create_time ");
+        paramMap.put("wherecase", " s.deleteCode='001' AND g.deleteCode='001' AND s.user_id=1 ");
+        paramMap.put("orderField", " s.create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));

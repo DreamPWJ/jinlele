@@ -4,10 +4,7 @@ import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -33,7 +30,7 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/getCartList/{pagenow}/{userid}", method = RequestMethod.GET)
     public Map<String, Object> getCartList(@PathVariable int pagenow, @PathVariable  int userid) {
-        return shoppingCartService.getShoppingCartPaging(pagenow, userid);
+        return  shoppingCartService.getShoppingCartPaging(pagenow, userid);
     }
 
     /**
@@ -42,8 +39,8 @@ public class OrderController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/addtocart",method = RequestMethod.GET)
-    public int AddShoppingCart(ShoppingCart cart) {
+    @RequestMapping(value = "/addtocart",method = RequestMethod.POST)
+    public int AddShoppingCart(@RequestBody ShoppingCart cart) {
         return shoppingCartService.insertSelective(cart);
     }
 

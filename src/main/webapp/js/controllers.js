@@ -64,8 +64,15 @@ angular.module('starter.controllers', [])
 
     })
     //购物车
-    .controller('ShoppingCartCtrl', function ($scope) {
+    .controller('ShoppingCartCtrl', function ($scope,CartService) {
         $(".check_label").checkbox();
+        $scope.init={
+            userid:1,
+            pagenow:1
+        };
+        CartService.getcartinfo($scope.init).success(function(data){
+            $scope.cartlist=data;
+        })
     })
     //会员
     .controller('MemberCtrl', function ($scope) {
@@ -142,17 +149,30 @@ angular.module('starter.controllers', [])
 
     })
     //商品详情
-    .controller('GoodDetailCtrl', function ($scope,$stateParams,GoodService) {
+    .controller('GoodDetailCtrl', function ($scope,$stateParams,$rootScope,GoodService,AddtoCartService,CommonService) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true
         });
 
+        $scope.gooddetail={
+            userId:1,
+            goodId:$stateParams.id,
+            num:1
+        };
         GoodService.getGoodDetail({goodId:$stateParams.id}).success(function (data) {
             $scope.goodDetail=data;
             console.log(data);
-        })
+        });
 
+        $scope.addtocart = function(){
+            AddtoCartService.addtocart($scope.gooddetail).success(
+                function(data){
+                    $rootScope.commonService=CommonService;
+                    CommonService.toolTip("添加成功","tool-tip-message-success");
+                }
+            )
+        }
     })
     //发表评论
     .controller('AddCommentCtrl', function ($scope) {
