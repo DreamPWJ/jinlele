@@ -62,6 +62,10 @@ angular.module('starter.controllers', [])
 
     })
     //商品列表
+    .controller('GoodListCtrl',function($scope){
+
+    })
+    //商品详情
     .controller('GoodCtrl',function($scope){
 
     })
