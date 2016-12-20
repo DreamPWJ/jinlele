@@ -72,11 +72,11 @@ angular.module('starter.controllers', [])
         });
     })
     //订单详情
-    .controller('OrderCtrl', function ($scope) {
+    .controller('OrderDetailCtrl', function ($scope) {
 
     })
     //退货
-    .controller('ReturnsCtrl', function ($scope) {
+    .controller('ReturnApplyCtrl', function ($scope) {
         $(document).ready(function () {
             $('.default').dropkick();
             theme:'black'

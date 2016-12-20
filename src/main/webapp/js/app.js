@@ -1,11 +1,10 @@
-
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'starter.directive','starter.filter'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'starter.directive', 'starter.filter'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('main', {  //APP首页面
                 url: '/main',
-                cache:true,
+                cache: true,
                 templateUrl: 'html/main.html',
                 controller: 'MainCtrl'
             })
@@ -41,21 +40,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             })
             .state('orderlist', {  // 商城订单
                 url: '/orderlist',
-                templateUrl: 'html/order.html',
+                templateUrl: 'html/orderlist.html',
                 controller: 'OrderListCtrl'
             })
-            .state('return', {  //退货
-                url: '/return/:id',
+            .state('returnapply', {  //退货
+                url: '/returnapply/:id',
                 templateUrl: 'html/returnapply.html',
-                controller: 'ReturnsCtrl'
+                controller: 'ReturnApplyCtrl'
             })
-            .state('order', {  //订单详情
-                url: '/order/:id',
+            .state('orderdetail', {  //订单详情
+                url: '/orderdetail/:id',
                 templateUrl: 'html/orderdetail.html',
-                controller: 'OrderCtrl'
+                controller: 'OrderDetailCtrl'
             })
-            .state('confirm', {  //确认订单
-                url: '/confirm',
+            .state('confirmorder', {  //确认订单
+                url: '/confirmorder',
                 templateUrl: 'html/confirmorder.html',
                 controller: 'ConfirmOrderCtrl'
             })
