@@ -1,9 +1,9 @@
 
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
-	<section class="cart" ng-repeat="item in cartlist.pagingList">
+	<section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="1" type="checkbox" />
-		<label for="1" class="check_label">
+        <input id="{{item.id}}" type="checkbox" ng-checked="isSelected({{item.id}})" ng-click="updateSelection($event,{{item.id}})" />
+		<label for="{{item.id}}" class="check_label" >
 			<i class="checkbox_icon"></i>
 		</label>
         </span>
@@ -14,7 +14,7 @@
             	<em>{{item.saleprice | currency:'￥'}}</em>
                 <span class="addto">
                 	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
+                    <input value="{{item.num}}" type="text">
                 	<a class="icon" href="">&#xe600;</a>
                 </span>
             </section>
@@ -26,9 +26,9 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-	<span class="check">
-        <input id="5" type="checkbox" />
-		<label for="5" class="check_label">
+	<span class="check" ng-click="choseall()">
+        <input id="all" type="checkbox"  />
+		<label for="all" class="check_label">
 			<i class="checkbox_icon"></i>
 		</label>
         <em>全选</em>

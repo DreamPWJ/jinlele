@@ -177,11 +177,11 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('ResizeService',function(){
+    .service('ResizeService',function($window){
         return {
             autoHeight: function () {
-                if (window.innerHeight) {//FF
-                    nowHeight = window.innerHeight;
+                if ($window.innerHeight) {//FF
+                    nowHeight = $window.innerHeight;
                 } else {
                     nowHeight = document.documentElement.clientHeight;
                 }

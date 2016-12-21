@@ -65,14 +65,48 @@ angular.module('starter.controllers', [])
     })
     //购物车
     .controller('ShoppingCartCtrl', function ($scope,CartService) {
-        $(".check_label").checkbox();
+        //$(".check_label").checkbox();
+        $scope.isSelect="";//样式定义
+
         $scope.init={
             userid:1,
             pagenow:1
         };
         CartService.getcartinfo($scope.init).success(function(data){
             $scope.cartlist=data;
-        })
+        });
+        $scope.selected = [];
+        $scope.updateSelection = function($event, id){
+            var checkbox = $event.target;
+            var action = (checkbox.checked?'add':'remove');
+            if(action == 'add' && $scope.selected.indexOf(id) == -1){
+                $scope.selected.push(id);
+                $($event.target).siblings("label").addClass("on");
+            }
+            if(action == 'remove' && $scope.selected.indexOf(id)!=-1){
+                var idx = $scope.selected.indexOf(id);
+                $scope.selected.splice(idx,1);
+                $($event.target).siblings("label").removeClass("on");
+            }
+            if ($scope.cartlist.myrows==$scope.selected.length){
+                $('#all').siblings("label").addClass("on");
+            }else{
+                $('#all').siblings("label").removeClass("on");
+            }
+        }
+        $scope.isSelected = function(id){
+            return $scope.selected.indexOf(id)>=0;
+        }
+        $scope.choseall=function(){
+            var label =$('#all').siblings("label");
+            if(label.hasClass("on")){
+                label.siblings("input").removeAttr("checked");
+                label.removeClass("on");
+            }else{
+                label.siblings("input").prop("checked","checked");
+                label.addClass("on");
+            }
+        }
     })
     //会员
     .controller('MemberCtrl', function ($scope) {
