@@ -32,9 +32,9 @@
     	<li>
         	<em>数量：</em>
            	<span class="amount">
-            	<a class="icon" href="">&#xe603;</a>
-                <input value="1" type="text" ng-model="gooddetail.num">
-                <a class="icon" href="">&#xe600;</a>
+            	<a class="icon" href="" ng-click="minusNum()">&#xe603;</a>
+                <input  type="text" ng-model="gooddetail.num" ng-change="changeNum(gooddetail.num)">
+                <a class="icon" href="" ng-click="addNum()">&#xe600;</a>
            	</span>
         </li>
     </ul>
@@ -70,7 +70,7 @@
         <a href="#/exchange"><i class="icon">&#xe602;</i><em>换款</em></a>
         <a href="#/shoppingcart">
         	<i class="icon">&#xe68d;</i><em>购物车</em>
-        	<u>5</u>
+        	<u>{{totalnum}}</u>
         </a>
     </span>
 	<a class="cart" ng-click="addtocart()">加入购物车</a>

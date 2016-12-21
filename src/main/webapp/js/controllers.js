@@ -13,6 +13,11 @@ angular.module('starter.controllers', [])
             paginationClickable: true
         });
 
+        //加载此页面的时候
+        //自动读取网页授权接口获取用户的opendId,从而得到用户的信息，得到前台用户的id，这里暂时强制设定用户的id
+        localStorage.setItem("jinlele_id" , 1); //1应该是从数据库中查到的
+
+
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
@@ -65,9 +70,7 @@ angular.module('starter.controllers', [])
     })
     //购物车
     .controller('ShoppingCartCtrl', function ($scope,CartService) {
-        //$(".check_label").checkbox();
-        $scope.isSelect="";//样式定义
-
+        $(".check_label").checkbox();
         $scope.init={
             userid:1,
             pagenow:1
@@ -190,22 +193,39 @@ angular.module('starter.controllers', [])
         });
 
         $scope.gooddetail={
-            userId:1,
+            userId:localStorage.getItem("jinlele_id"),
             goodId:$stateParams.id,
             num:1
         };
-        GoodService.getGoodDetail({goodId:$stateParams.id}).success(function (data) {
-            $scope.goodDetail=data;
+        GoodService.getGoodDetail({goodId:$stateParams.id , userId:$scope.gooddetail.userId}).success(function (data) {
+            $scope.goodDetail=data.good;
+            $scope.totalnum=data.totalnum;
+            $scope.initNum = data.totalnum;
             console.log(data);
         });
 
         $scope.addtocart = function(){
+            $scope.changeNum();
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function(data){
+                    console.log('data===' + data);
                     $rootScope.commonService=CommonService;
                     CommonService.toolTip("添加成功","tool-tip-message-success");
                 }
             )
+        }
+        $scope.changeNum = function () {
+            $scope.totalnum =    $scope.initNum + parseInt($scope.gooddetail.num || 0);
+        }
+        $scope.addNum = function () {
+            $scope.gooddetail.num++;
+            $scope.totalnum =  $scope.totalnum + 1;
+        }
+        $scope.minusNum = function () {
+            if($scope.gooddetail.num>1){
+                $scope.gooddetail.num --;
+                $scope.totalnum = $scope.totalnum -1;
+            }
         }
     })
     //发表评论
