@@ -2,6 +2,8 @@ package com.jinlele.controller;
 
 import com.jinlele.service.interfaces.IGoodCatogoryService;
 import com.jinlele.service.interfaces.IGoodService;
+import com.jinlele.service.interfaces.IShoppingCartService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ public class GoodController {
     IGoodService goodService;
     @Resource
     IGoodCatogoryService goodCatogoryService;
+    @Resource
+    IShoppingCartService shoppingCartService;
 
     /**
      * 获取一级分类
@@ -52,9 +56,14 @@ public class GoodController {
      */
 
     @ResponseBody
-    @RequestMapping(value = "/getGoodDetail/{goodId}", method = RequestMethod.GET)
-    public Map<String, Object> getGoodDetail(@PathVariable int goodId) {
-        return goodService.getGoodDetail(goodId);
+    @RequestMapping(value = "/getGoodDetail/{goodId}/{userId}", method = RequestMethod.GET)
+    public Map<String, Object> getGoodDetail(@PathVariable int goodId,@PathVariable int userId) {
+        Map<String, Object> newMap = new HashedMap();
+        Map<String, Object> goodmap = goodService.getGoodDetail(goodId);
+        int totalnum = shoppingCartService.getShopcharTotalNum(userId);
+        newMap.put("good" , goodmap);
+        newMap.put("totalnum" , totalnum);
+        return newMap;
     }
 
     @ResponseBody

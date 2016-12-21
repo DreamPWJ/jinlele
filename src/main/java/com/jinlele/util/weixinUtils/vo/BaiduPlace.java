@@ -1,0 +1,73 @@
+package com.jinlele.util.weixinUtils.vo;
+
+/**
+ * 用户地理类
+ */
+public class BaiduPlace implements Comparable<BaiduPlace> {
+    //名称
+    private String name;
+    //详细地址
+    private String address;
+    //经度
+    private String lng;
+    //纬度
+    private String lat;
+    //联系电话
+    private String telPhone;
+    //距离
+    private String distance;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getTelPhone() {
+        return telPhone;
+    }
+
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public int compareTo(BaiduPlace o) {
+        return 0;
+    }
+}
