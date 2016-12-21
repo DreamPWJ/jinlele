@@ -2,6 +2,8 @@
 
 
 import com.alibaba.fastjson.JSON;
+import com.jinlele.model.ShoppingCart;
+import com.jinlele.service.interfaces.IShoppingCartService;
 import com.jinlele.service.interfaces.ITestService;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -11,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author pwj on 2016/6/23 0023.
@@ -26,6 +30,9 @@ public class TestMyBatis {
     /* private ApplicationContext ac = null;*/
     @Resource
     private ITestService testService ;
+
+    @Resource
+    private IShoppingCartService shoppingCartService;
 
     /**
      * 注释掉的部分是不使用 Spring 时，一般情况下的一种测试方法  ；
@@ -52,5 +59,15 @@ public class TestMyBatis {
     @Test
     public void pageResultMap() {
         logger.info("TestMyBatis=======================" + JSON.toJSONString(testService.getUserPaging()));
+    }
+
+    //测试购物车之前记录的接口
+    @Test
+    public void getShopcharInfo(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setGoodId(18);;
+        shoppingCart.setUserId(1);
+       List<Map<String , Object>> list = shoppingCartService.getShopcharInfo(shoppingCart);
+        System.out.println(list.toString());
     }
 }
