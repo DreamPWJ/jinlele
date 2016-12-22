@@ -1,8 +1,7 @@
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
     <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="{{item.id}}" type="checkbox" ng-checked="isSelected({{item.id}})"
-               ng-click="updateSelection($event,{{item.id}})"/>
+        <input id="{{item.id}}" type="checkbox"  ng-model="m[item.id]" ng-checked = "select_one" ng-click="selectOne($event,m[i.id])"/>
 		<label for="{{item.id}}" class="check_label">
             <i class="checkbox_icon"></i>
         </label>
@@ -25,8 +24,8 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-	<span class="check" ng-click="choseall()" >
-        <input id="all" type="checkbox"/>
+	<span class="check">
+        <input id="all" type="checkbox" ng-model="select_all" ng-click="selectAll($event)"/>
 		<label for="all" class="check_label">
             <i class="checkbox_icon"></i>
         </label>

@@ -77,53 +77,49 @@ angular.module('starter.controllers', [])
         CartService.getcartinfo($scope.init).success(function(data){
             $scope.cartlist=data;
         });
-        $scope.selected = [];
-        $scope.updateSelection = function($event, id){
-            var checkbox = $event.target;
-            var action = (checkbox.checked?'add':'remove');
-            if(action == 'add' && $scope.selected.indexOf(id) == -1){
-                $scope.selected.push(id);
-                $($event.target).siblings("label").addClass("on");
+        $scope.m = [];
+        $scope.checked = [];
+        $scope.selectAll = function ($event){
+            var choseall = $event.target;
+            if($scope.select_all) {
+                $scope.select_one = true;
+                $scope.checked = [];
+                angular.forEach($scope.cartlist.pagingList, function (i, index) {
+                    $scope.checked.push(i.id);
+                    $scope.m[i.id] = true;
+                })
+                $('#'+choseall.id).siblings("label").addClass("on");
+                angular.forEach($scope.checked, function (i, index) {
+                    $('#'+i).siblings("label").addClass("on");
+                })
+            }else {
+                $scope.select_one = false;
+                $scope.checked = [];
+                $scope.m = [];
+                $('.check_label').removeClass("on");
             }
-            if(action == 'remove' && $scope.selected.indexOf(id)!=-1){
-                var idx = $scope.selected.indexOf(id);
-                $scope.selected.splice(idx,1);
-                $($event.target).siblings("label").removeClass("on");
-            }
-            if ($scope.cartlist.myrows==$scope.selected.length){
+            console.log($scope.checked);
+        };
+        $scope.selectOne = function ($event,select) {
+            var choseone=$event.target;
+            angular.forEach($scope.m , function (i, id) {
+                var index = $scope.checked.indexOf(id);
+                if(i && index === -1) {
+                    $scope.checked.push(id);
+                    $('#'+choseone.id).siblings("label").addClass("on");
+                } else if (!i && index !== -1){
+                    $scope.checked.splice(index, 1);
+                    $('#'+choseone.id).siblings("label").removeClass("on");
+                };
+            });
+            if ($scope.cartlist.pagingList.length === $scope.checked.length) {
+                $scope.select_all = true;
                 $('#all').siblings("label").addClass("on");
-            }else{
+            } else {
+                $scope.select_all = false;
                 $('#all').siblings("label").removeClass("on");
             }
-        }
-        $scope.isSelected = function(id){
-            return $scope.selected.indexOf(id)>=0;
-        }
-        $scope.choseall=function(){
-            var label =$('#all').siblings("label");
-            if(label.hasClass("on")){
-                label.siblings("input").removeAttr("checked");
-                label.removeClass("on");
-                angular.forEach($document.find('label'),function(node){
-                    node.className ="check_label";
-                });
-                angular.forEach($document.find('input'),function(node){
-                    if(node.type=="checkbox"){
-                        node.checked=false;
-                    }
-                });
-            }else{
-                label.siblings("input").prop("checked","checked");
-                label.addClass("on");
-                angular.forEach($document.find('label'),function(node){
-                    node.className+=" on";
-                });
-                angular.forEach($document.find('input'),function(node){
-                    if(node.type=="checkbox"){
-                        node.checked=true;
-                    }
-                });
-            }
+            console.log($scope.checked);
         }
     })
     //会员
