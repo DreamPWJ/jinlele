@@ -69,8 +69,7 @@ angular.module('starter.controllers', [])
 
     })
     //购物车
-    .controller('ShoppingCartCtrl', function ($scope,CartService) {
-        $(".check_label").checkbox();
+    .controller('ShoppingCartCtrl', function ($scope,$document,CartService) {
         $scope.init={
             userid:1,
             pagenow:1
@@ -105,9 +104,25 @@ angular.module('starter.controllers', [])
             if(label.hasClass("on")){
                 label.siblings("input").removeAttr("checked");
                 label.removeClass("on");
+                angular.forEach($document.find('label'),function(node){
+                    node.className ="check_label";
+                });
+                angular.forEach($document.find('input'),function(node){
+                    if(node.type=="checkbox"){
+                        node.checked=false;
+                    }
+                });
             }else{
                 label.siblings("input").prop("checked","checked");
                 label.addClass("on");
+                angular.forEach($document.find('label'),function(node){
+                    node.className+=" on";
+                });
+                angular.forEach($document.find('input'),function(node){
+                    if(node.type=="checkbox"){
+                        node.checked=true;
+                    }
+                });
             }
         }
     })
@@ -238,6 +253,14 @@ angular.module('starter.controllers', [])
     })
     //翻新
     .controller('RefurbishCtrl', function ($scope) {
+
+    })
+    //翻新支付
+    .controller('RefpayCtrl', function ($scope) {
+
+    })
+    //翻新平台收货
+    .controller('RefReceiptCtrl', function ($scope) {
 
     })
     //维修

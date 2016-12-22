@@ -1,17 +1,17 @@
-
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
-	<section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
+    <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="{{item.id}}" type="checkbox" ng-checked="isSelected({{item.id}})" ng-click="updateSelection($event,{{item.id}})" />
-		<label for="{{item.id}}" class="check_label" >
-			<i class="checkbox_icon"></i>
-		</label>
+        <input id="{{item.id}}" type="checkbox" ng-checked="isSelected({{item.id}})"
+               ng-click="updateSelection($event,{{item.id}})"/>
+		<label for="{{item.id}}" class="check_label">
+            <i class="checkbox_icon"></i>
+        </label>
         </span>
-    	<span class="cart_pic"><a href=""><img 	ng-src="{{item.bannerurl}}"></a></span>
-    	<section class="cart_main">
-        	<span class="title"><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></span>
-        	<section class="cart_price">
-            	<em>{{item.saleprice | currency:'￥'}}</em>
+        <span class="cart_pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+        <section class="cart_main">
+            <span class="title"><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></span>
+            <section class="cart_price">
+                <em>{{item.saleprice | currency:'￥'}}</em>
                 <span class="addto">
                 	<a class="icon" href="">&#xe603;</a>
                     <input value="1" type="text">
@@ -20,30 +20,29 @@
             </section>
         </section>
     </section>
-
-	<section class="delete"><a href=""><i class="icon">&#xe721;</i><em>删除</em></a></section>
+    <section class="delete"><a href=""><i class="icon">&#xe721;</i><em>删除</em></a></section>
 </main>
 
 <!-- FOOTER -->
 <footer class="submit">
-	<span class="check">
-        <input id="5" type="checkbox" />
-		<label for="5" class="check_label">
-			<i class="checkbox_icon"></i>
-		</label>
+	<span class="check" ng-click="choseall()">
+        <input id="all" type="checkbox"/>
+		<label for="all" class="check_label">
+            <i class="checkbox_icon"></i>
+        </label>
         <em>全选</em>
     </span>
     <span class="total">合计：420000.00</span>
-	<a href="#/confirmorder">去结算<i>(10)</i></a>
+    <a href="#/confirmorder">去结算<i>(10)</i></a>
 </footer>
 
 <!-- 提示 -->
 <section class="mask" style="display:none;">
-	<section class="layer prompt">
+    <section class="layer prompt">
         <p>确定要删除这件商品？</p>
         <section class="submit">
-        	<a href="">确定</a>
-        	<a href="">取消</a>
+            <a href="">确定</a>
+            <a href="">取消</a>
         </section>
     </section>
 </section>

@@ -78,6 +78,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/refurbish/index.html',
                 controller: 'RefurbishCtrl'
             })
+            .state('refpay', {  //翻新付款
+                url: '/refpay',
+                templateUrl: 'html/refurbish/pay.html',
+                controller: 'RefpayCtrl'
+            })
+            .state('refreceipt', {  //翻新收货
+                url: '/refreceipt',
+                templateUrl: 'html/refurbish/receipt.html',
+                controller: 'RefReceiptCtrl'
+            })
             .state('repair', {  //维修
                 url: '/repair',
                 templateUrl: 'html/repair/index.html',
