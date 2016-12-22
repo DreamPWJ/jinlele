@@ -108,6 +108,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/exchange/index.html',
                 controller: 'ExchangCtrl'
             })
+            .state('ordercomment', {  //换款
+                url: '/ordercomment/:name',
+                templateUrl: 'html/common/ordercomment.html',
+                controller: 'OrderCommentCtrl'
+            })
 
         $urlRouterProvider.otherwise('main')
     })

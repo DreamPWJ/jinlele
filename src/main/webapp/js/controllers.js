@@ -279,4 +279,8 @@ angular.module('starter.controllers', [])
     .controller('ExchangCtrl', function ($scope) {
 
     })
+    //流程评价
+    .controller('OrderCommentCtrl', function ($scope,$stateParams) {
+        console.log($stateParams.name);
+    })
 
