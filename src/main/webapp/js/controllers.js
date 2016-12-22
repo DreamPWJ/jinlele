@@ -251,36 +251,101 @@ angular.module('starter.controllers', [])
     .controller('ConfirmOrderCtrl', function ($scope) {
         $(".check_label").checkbox();
     })
+    //流程-拍照
+    .controller('ProcPhotoCtrl', function ($scope,$stateParams) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        $scope.localflag=false;
+        if($stateParams.name=="repair"){
+            $scope.localflag=true;
+        }
+
+    })
+    //流程-提交订单
+    .controller('ProcCommitOrderCtrl', function ($scope,$stateParams,$window) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        $scope.showaddr=$stateParams.name=='recycle'?false:true;
+        $scope.goback=function(){
+            $window.history.back();
+        }
+
+    })
+    //流程-平台收货
+    .controller('ProcReceiveCtrl', function ($scope,$stateParams,$window) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        $scope.tracking=$stateParams.name=='recycle'?true:false;
+
+    })
+    //流程-检测
+    .controller('ProcTestCtrl', function ($scope,$stateParams) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+    })
+    //流程-邮寄
+    .controller('ProcPostCtrl', function ($scope,$stateParams,$location) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        if($stateParams.name=="recycle"){
+            $location.path("/");
+        }
+
+    })
+    //流程-验货
+    .controller('ProcCheckCtrl', function ($scope,$stateParams,$location) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        if($stateParams.name=="recycle"){
+            $location.path("/");
+        }
+
+    })
+    //流程-评价
+    .controller('ProcAddCmtCtrl', function ($scope,$stateParams) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+    })
+    //估价结果(回收、换款)
+    .controller('ProcPricingCtrl', function ($scope,$stateParams,$location) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        switch ($stateParams.name){
+            case "recycle":
+                break;
+            case "exchange":
+                break;
+            default :
+                $location.path("/");
+                break;
+        }
+    })
     //翻新
-    .controller('RefurbishCtrl', function ($scope) {
+    .controller('ProcRefurbishCtrl', function ($scope,$stateParams,$location) {
+        console.log($stateParams.name);
+        $scope.pagetheme=$stateParams.name;
+        if($stateParams.name!="refurbish"){
+            $location.path("/");
+        }
 
     })
-    //翻新支付
-    .controller('RefpayCtrl', function ($scope) {
-
-    })
-    //翻新平台收货
-    .controller('RefReceiptCtrl', function ($scope) {
-
+    //维修-定价
+    .controller('ProcFixpriceCtrl', function ($scope,$stateParams) {
+        $scope.pagetheme=$stateParams.name;
     })
     //维修
-    .controller('RepairCtrl', function ($scope) {
-
+    .controller('ProcRepairCtrl', function ($scope,$stateParams) {
+        $scope.pagetheme=$stateParams.name;
+        if($stateParams.name!="repair"){
+            $location.path("/");
+        }
     })
-    //检测
-    .controller('DetectCtrl', function ($scope) {
-
-    })
-    //回收
+    //回收-估价
     .controller('RecycleCtrl', function ($scope) {
 
     })
     //换款
     .controller('ExchangCtrl', function ($scope) {
 
-    })
-    //流程评价
-    .controller('OrderCommentCtrl', function ($scope,$stateParams) {
-        console.log($stateParams.name);
     })
 

@@ -1,23 +1,16 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>平台收货</title>
-<link rel="stylesheet" href="../../css/style.css" />
-<link rel="stylesheet" href="../../css/select.css" />
-<link rel="stylesheet" href="../../fonts/iconfont.css" />
-</head>
-
-<body>
+<link rel="stylesheet" href="css/select.css" />
 <!-- title -->
-<section class="process_title"><i>产品翻新</i></section>
+<section class="process_title" ng-switch on="pagetheme">
+    <i ng-switch-when="refurbish">产品翻新</i>
+    <i ng-switch-when="repair">产品维修</i>
+    <i ng-switch-when="detect">产品检测</i>
+    <i ng-switch-when="exchange">产品换款</i>
+</section>
 
-<main class="content">
+<main class="content" ng-switch on="pagetheme">
 
-    <!-- 流程 -->
-    <section class="process">
+    <!-- 翻新流程 -->
+    <section class="process" ng-switch-when="refurbish">
         <b class="right huan"></b>
         <b class="left"></b>
         <ul>
@@ -27,7 +20,7 @@
             </li>
             <li class="hover">
                 <span><i class="t02"></i></span>
-                <em>付款</em>
+                <em>提交订单</em>
             </li>
             <li class="hover">
                 <span><i class="t03"></i></span>
@@ -56,6 +49,139 @@
         </ul>
     </section>
 
+    <!-- 维修流程 -->
+    <section class="process fanx" ng-switch-when="repair">
+        <b class="right huan"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="sec"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t10"></i></span>
+                <em>定价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t02"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li class="hover">
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
+            </li>
+            <li class="hover">
+                <span><i class="t06"></i></span>
+                <em>拍照邮寄</em>
+            </li>
+            <li class="hover">
+                <span><i class="t12"></i></span>
+                <em>维修</em>
+            </li>
+            <li class="hover">
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 检测流程 -->
+    <section class="process testing" ng-switch-when="detect">
+        <b class="right huan"></b>
+        <b class="left"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t02"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li class="hover">
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li class="hover">
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li class="hover">
+                <span><i class="t06"></i></span>
+                <em>拍照邮寄</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验证</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+        </ul>
+    </section>
+
+    <!--换款流程 -->
+    <section class="process fanx" ng-switch-when="exchange">
+        <b class="right huan"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="kuen"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t13"></i></span>
+                <em>估价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t09"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li class="hover">
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
+            </li>
+            <li class="hover">
+                <span><i class="t06"></i></span>
+                <em>邮寄</em>
+            </li>
+            <li class="hover">
+                <span><i class="t10"></i></span>
+                <em>实际定价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t11"></i></span>
+                <em>确认换款</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价换款</em>
+            </li>
+        </ul>
+    </section>
+
+    <a href="#/proccheck/{{pagetheme}}">{{pagetheme}}</a>
     <!-- 单号 TAB -->
 	<section class="numbers">
     	<section class="numbers_list">
@@ -145,11 +271,11 @@
 	<!-- 拍照 -->
     <section class="photograph">
         <ul>
-            <li><span><img src="../../images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="../../images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="../../images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="../../images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="../../images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
+            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
+            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
+            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
+            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
+            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
             <li><i class="icon">&#xe600;</i><input type="file"></li>
         </ul>
     </section>
@@ -168,5 +294,3 @@ function test_item(n){
 	}
 }
 </script>
-</body>
-</html>

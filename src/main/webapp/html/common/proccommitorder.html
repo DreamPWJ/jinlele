@@ -1,0 +1,340 @@
+<link rel="stylesheet" href="css/select.css"/>
+<!-- title -->
+<section class="process_title" ng-switch on="pagetheme">
+    <i ng-switch-when="refurbish">产品翻新</i>
+    <i ng-switch-when="repair">产品维修</i>
+    <i ng-switch-when="detect">产品检测</i>
+    <i ng-switch-when="recycle">产品回收</i>
+    <i ng-switch-when="exchange">产品换款</i>
+</section>
+
+<main class="content bottom" ng-switch on="pagetheme">
+
+    <!-- 翻新流程 -->
+    <section class="process" ng-switch-when="refurbish">
+        <b class="right"></b>
+        <b class="left"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t02"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验证</em>
+            </li>
+            <li>
+                <span><i class="t06"></i></span>
+                <em>拍照邮寄</em>
+            </li>
+            <li>
+                <span><i class="t11"></i></span>
+                <em>翻新</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 维修流程 -->
+    <section class="process fanx" ng-switch-when="repair">
+        <b class="right"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="sec"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t10"></i></span>
+                <em>定价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t02"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
+            </li>
+            <li>
+                <span><i class="t06"></i></span>
+                <em>拍照邮寄</em>
+            </li>
+            <li>
+                <span><i class="t12"></i></span>
+                <em>维修</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 检测流程 -->
+    <section class="process testing" ng-switch-when="detect">
+        <b class="right"></b>
+        <b class="left"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t02"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t06"></i></span>
+                <em>拍照邮寄</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验证</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 回收流程 -->
+    <section class="process" ng-switch-when="recycle">
+        <b class="right"></b>
+        <b class="left"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t13"></i></span>
+                <em>估价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t09"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+            <li>
+                <span><i class="t14"></i></span>
+                <em>确认回收</em>
+            </li>
+            <li>
+                <span><i class="t10"></i></span>
+                <em>实际定价</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+        </ul>
+    </section>
+
+    <!--换款流程 -->
+    <section class="process fanx" ng-switch-when="exchange">
+        <b class="right"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="kuen"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t13"></i></span>
+                <em>估价</em>
+            </li>
+            <li class="hover">
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li class="hover">
+                <span><i class="t09"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
+            </li>
+            <li>
+                <span><i class="t06"></i></span>
+                <em>邮寄</em>
+            </li>
+            <li>
+                <span><i class="t10"></i></span>
+                <em>实际定价</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t11"></i></span>
+                <em>确认换款</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价换款</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 产品信息 -->
+    <dl class="add_product">
+        <dd>
+            <em>选择门店：</em>
+            <span>
+            <select class="default">
+                <option value="">请选择</option>
+                <option value="1">金乐乐门店</option>
+                <option value="2">其他门店</option>
+            </select>
+            </span>
+        </dd>
+        <dd>
+            <em>寄件方式：</em>
+            <span class="check">
+                <input id="1" type="radio"/>
+                <label for="1" class="check_label">
+                    <i class="checkbox_icon"></i>
+                </label>
+           		<u>邮寄</u>
+            </span>
+            <span class="check">
+                <input id="1" type="radio"/>
+                <label for="1" class="check_label">
+                    <i class="checkbox_icon"></i>
+                </label>
+           		<u>到店</u>
+            </span>
+        </dd>
+        <dd ng-if="showaddr">
+            <em>取件方式：</em>
+            <span class="check">
+                <input id="1" type="radio"/>
+                <label for="1" class="check_label">
+                    <i class="checkbox_icon"></i>
+                </label>
+           		<u>邮寄</u>
+            </span>
+            <span class="check">
+                <input id="1" type="radio"/>
+                <label for="1" class="check_label">
+                    <i class="checkbox_icon"></i>
+                </label>
+           		<u>到店</u>
+            </span>
+        </dd>
+    </dl>
+
+    <!-- 地址 -->
+    <section class="address add" ng-if="showaddr">
+        <i class="icon">&#xe617;</i>
+        <i class="icon">&#xe722;</i>
+        <a href="">
+    	<span class="title">
+        	<em>收货人：张三</em>
+        	<em>15872325323</em>
+        </span>
+            <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
+        </a>
+    </section>
+
+    <!-- 产品信息 -->
+    <dl class="add_product">
+        <dd>
+            <em>产品类别：</em>
+            <span>
+            <select class="default">
+                <option value="">请选择</option>
+                <option value="1">戒指</option>
+            </select>
+            </span>
+        </dd>
+        <dd>
+            <em>数量：</em>
+            <span><input placeholder="备注内容..." type="text"></span>
+        </dd>
+        <dd>
+            <em>材质：</em>
+            <span>
+            <select class="default">
+                <option value="">请选择</option>
+                <option value="1">黄金</option>
+            </select>
+            </span>
+        </dd>
+        <dd>
+            <em>备注：</em>
+            <span><input placeholder="备注内容..." type="text"></span>
+        </dd>
+    </dl>
+
+    <section class="addto"><a href=""><i class="icon">&#xe600;</i><em>添加产品信息</em></a></section>
+    <section class="prompt_tisi">
+        <p>以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
+
+        <p>免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="submit">
+    <span class="total">合计：420000.00</span>
+	<span class="button">
+        <a href="" ng-click="goback()">上一步</a>
+        <a href="#/procreceive/{{pagetheme}}">立即下单</a>
+    </span>
+</footer>
+
+<!--<script type="text/javascript" src="../../js/checkbox.js"></script>-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.default').dropkick();
+        theme:'black'
+    });
+    //$(".check_label").checkbox();
+</script>

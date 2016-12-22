@@ -15,8 +15,8 @@
 .dk_open .dk_options ul.dk_options_inner li.dk_option_current{ border:0px;}
 .dk_open .dk_options ul.dk_options_inner li.dk_option_current a{ color:#FFF; background:#F5D000;}
 
-.default a.dk_toggle{ height:32px; line-height:32px; font-size:80%; overflow:hidden; display:block; padding:0 25px 0 0; white-space:nowrap; text-overflow:ellipsis; background:#FFF url(../Images/default@icon.png) right no-repeat;}
-.dk_open a.dk_toggle{ overflow:hidden; display:block; background:#FFF url(../Images/default@icon.png) right no-repeat;}
+.default a.dk_toggle{ height:32px; line-height:32px; font-size:80%; overflow:hidden; display:block; padding:0 25px 0 0; white-space:nowrap; text-overflow:ellipsis; background:#FFF url(../images/default@icon.png) right no-repeat;}
+.dk_open a.dk_toggle{ overflow:hidden; display:block; background:#FFF url(../images/default@icon.png) right no-repeat;}
 
 
 

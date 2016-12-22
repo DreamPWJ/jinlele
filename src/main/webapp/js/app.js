@@ -73,32 +73,62 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/addcomment.html',
                 controller: 'AddCommentCtrl'
             })
-            .state('refurbish', {  //翻新
-                url: '/refurbish',
-                templateUrl: 'html/refurbish/index.html',
-                controller: 'RefurbishCtrl'
+            .state('procphoto', {  //流程-拍照
+                url: '/procphoto/:name',
+                templateUrl: 'html/common/procphoto.html',
+                controller: 'ProcPhotoCtrl'
             })
-            .state('refpay', {  //翻新付款
-                url: '/refpay',
-                templateUrl: 'html/refurbish/pay.html',
-                controller: 'RefpayCtrl'
+            .state('proccommitorder', {  //流程-提交订单
+                url: '/proccommitorder/:name',
+                templateUrl: 'html/common/proccommitorder.html',
+                controller: 'ProcCommitOrderCtrl'
             })
-            .state('refreceipt', {  //翻新收货
-                url: '/refreceipt',
-                templateUrl: 'html/refurbish/receipt.html',
-                controller: 'RefReceiptCtrl'
+            .state('procreceive', {  //流程-平台收货
+                url: '/procreceive/:name',
+                templateUrl: 'html/common/procreceive.html',
+                controller: 'ProcReceiveCtrl'
             })
-            .state('repair', {  //维修
-                url: '/repair',
-                templateUrl: 'html/repair/index.html',
-                controller: 'RepairCtrl'
+            .state('proctest', {  //流程-检测
+                url: '/proctest/:name',
+                templateUrl: 'html/common/proctest.html',
+                controller: 'ProcTestCtrl'
             })
-            .state('detect', {  //检测
-                url: '/detect',
-                templateUrl: 'html/detect/index.html',
-                controller: 'DetectCtrl'
+            .state('procpost', {  //流程-邮寄
+                url: '/procpost/:name',
+                templateUrl: 'html/common/procpost.html',
+                controller: 'ProcPostCtrl'
             })
-            .state('recycle', {  //回收
+            .state('proccheck', {  //流程-验货
+                url: '/proccheck/:name',
+                templateUrl: 'html/common/proccheck.html',
+                controller: 'ProcCheckCtrl'
+            })
+            .state('procaddcmt', {  //流程-评论
+                url: '/procaddcmt/:name',
+                templateUrl: 'html/common/procaddcmt.html',
+                controller: 'ProcAddCmtCtrl'
+            })
+            .state('procpricing', {  //流程-估价结果
+                url: '/procpricing/:name',
+                templateUrl: 'html/common/procpricing.html',
+                controller: 'ProcPricingCtrl'
+            })
+            .state('procrefurbish', {  //翻新
+                url: '/procrefurbish/:name',
+                templateUrl: 'html/refurbish/procrefurbish.html',
+                controller: 'ProcRefurbishCtrl'
+            })
+            .state('procfixprice', {  //定价
+                url: '/procfixprice/:name',
+                templateUrl: 'html/repair/procfixprice.html',
+                controller: 'ProcFixpriceCtrl'
+            })
+            .state('procrepair', {  //维修
+                url: '/procrepair/:name',
+                templateUrl: 'html/repair/procrepair.html',
+                controller: 'ProcRepairCtrl'
+            })
+            .state('recycle', {  //回收-估价
                 url: '/recycle',
                 templateUrl: 'html/recycle/index.html',
                 controller: 'RecycleCtrl'
@@ -107,11 +137,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 url: '/exchange',
                 templateUrl: 'html/exchange/index.html',
                 controller: 'ExchangCtrl'
-            })
-            .state('ordercomment', {  //换款
-                url: '/ordercomment/:name',
-                templateUrl: 'html/common/ordercomment.html',
-                controller: 'OrderCommentCtrl'
             })
 
         $urlRouterProvider.otherwise('main')
