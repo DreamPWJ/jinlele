@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jinlele.model.ShoppingCart" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="goodchild_id" property="goodchildId" jdbcType="INTEGER" />
     <result column="good_id" property="goodId" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -11,7 +12,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, good_id, num, deleteCode, create_time, update_time
+    id, user_id, goodchild_id , good_id, num, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,10 +25,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.ShoppingCart" >
-    insert into shoppingcart (id, user_id, good_id, 
+    insert into shoppingcart (id, user_id, goodchild_id ,good_id,
       num, deleteCode, create_time, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodchildId,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER},
       #{num,jdbcType=INTEGER}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -39,6 +40,9 @@
       </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="goodchildId != null" >
+        goodchild_id,
       </if>
       <if test="goodId != null" >
         good_id,
@@ -62,6 +66,9 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="goodchildId != null" >
+        #{goodchildId,jdbcType=INTEGER},
       </if>
       <if test="goodId != null" >
         #{goodId,jdbcType=INTEGER},
@@ -107,6 +114,9 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="goodId != null" >
+        goodchild_id = #{goodchildId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
         good_id = #{goodId,jdbcType=INTEGER},
       </if>
       <if test="num != null" >
@@ -127,6 +137,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ShoppingCart" >
     update shoppingcart
     set user_id = #{userId,jdbcType=INTEGER},
+      goodchild_id = #{goodchildId,jdbcType=INTEGER},
       good_id = #{goodId,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       deleteCode = #{deletecode,jdbcType=CHAR},

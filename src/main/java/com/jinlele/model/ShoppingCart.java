@@ -9,6 +9,8 @@ public class ShoppingCart {
 
     private Integer goodId;
 
+    private Integer goodchildId;
+
     private Integer num;
 
     private String deletecode;
@@ -51,6 +53,14 @@ public class ShoppingCart {
 
     public String getDeletecode() {
         return deletecode;
+    }
+
+    public Integer getGoodchildId() {
+        return goodchildId;
+    }
+
+    public void setGoodchildId(Integer goodchildId) {
+        this.goodchildId = goodchildId;
     }
 
     public void setDeletecode(String deletecode) {

@@ -1,19 +1,20 @@
 package com.jinlele.util.weixinUtils.service;
-
-
 import com.jinlele.util.weixinUtils.vo.TokenThread;
 import com.jinlele.util.weixinUtils.vo.WeiXinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 /**
  *
  */
+@WebServlet(name="InitGetTokenServlet",urlPatterns="/InitGetTokenServlet" ,loadOnStartup = 1)
 public class InitGetTokenServlet extends HttpServlet {
     private static  final  long serialVersionUID  = 1L;
+    private static  final  String appid  = "wx7a6a63e9ee94e24d";
+    private static  final  String appsecret  = "wx7a6a63e9ee94e24d";
     private static Logger log =  LoggerFactory.getLogger(WeiXinUtil.class);
 
 
@@ -23,9 +24,7 @@ public class InitGetTokenServlet extends HttpServlet {
         TokenThread.appsecret = getInitParameter("appsecret");
 
         log.info("微api appid:{}" , TokenThread.appid);
-        System.out.println("微api appid:{}====" + TokenThread.appid);
         log.info("微api appsecret:{}" , TokenThread.appsecret);
-        System.out.println("微api appsecret:{}====" + TokenThread.appsecret);
 
         //未配置appid ，appsecret时给出提示
         if("".equals(TokenThread.appid) || "".equals(TokenThread.appsecret)){

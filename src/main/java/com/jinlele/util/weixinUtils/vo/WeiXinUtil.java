@@ -1,7 +1,7 @@
 package com.jinlele.util.weixinUtils.vo;
 
 
-
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,8 @@ public class WeiXinUtil {
     //凭证获取(get)
     public final static String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 
+    //获取JSAPI_Ticket
+    public static String jsapi_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
 
 
 
@@ -119,6 +121,34 @@ public class WeiXinUtil {
         }
         return  token;
     }
+
+    /**
+     * 获取JSAPI_Ticket
+     * @param accessToken
+     * @return
+     */
+    public static String JSApiTIcket(String accessToken){
+        int result = 0;
+        String jsApiTicket = null;
+        //拼装创建菜单Url
+        String url =  jsapi_ticket_url.replace("ACCESS_TOKEN", accessToken);
+        //调用接口获取jsapi_ticket
+        JSONObject jsonObject = httpsRequset(url, "GET", null);
+        // 如果请求成功
+        if (null != jsonObject) {
+            try {
+                jsApiTicket = jsonObject.getString("ticket");
+            } catch (JSONException e) {
+                if (0 != jsonObject.getInt("errcode")) {
+                    result = jsonObject.getInt("errcode");
+                    log.error("JSAPI_Ticket获取失败 errcode:{} errmsg:{}", jsonObject.getInt("errcode"), jsonObject.getString("errmsg"));
+                }
+            }
+        }
+        return jsApiTicket;
+    }
+
+
 
     /**
      *URL编码(utf-8)

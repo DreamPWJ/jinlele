@@ -20,6 +20,7 @@ public class TokenThread implements Runnable {
     public  static  String appsecret = Parameter.appsecret;
 
     private static Token accessToken = null;
+    public static String jsapi_ticket=null;
 
     public static Token getAccessToken() {
         return accessToken;
@@ -34,6 +35,8 @@ public class TokenThread implements Runnable {
         while (true){
             try {
                 accessToken = WeiXinUtil.getToken(appid , appsecret);
+                //获取JSAPI_Ticket
+                jsapi_ticket = WeiXinUtil.JSApiTIcket(accessToken.getAccessToken());
                 if(null != accessToken){
                     String dataStr = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     log.info("【"+dataStr+"】,获取access_token成功，有效时长{}秒 token:{}" ,accessToken.getExpiresIn());
