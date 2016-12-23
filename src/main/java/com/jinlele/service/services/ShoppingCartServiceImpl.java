@@ -29,12 +29,19 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     public Map<String, Object> getShoppingCartPaging(int pagenow, int userId) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " shoppingcart s INNER JOIN good  g ON s.good_id=g.id INNER JOIN goodchild  c ON c.good_id=g.id ");
-        paramMap.put("fields", " g.id,g.bannerurl,g.saleprice,s.num,g.title ,c.id as goodchildId ");
+        paramMap.put("tableName", " (\n" +
+                "select s.goodchild_id as gcid,g.title,g.saleprice, s.id as cartId ,s.create_time,\n" +
+                "s.user_id as userId, s.num ,g.id as goodId  ,\n" +
+                "s.deleteCode as sdelCode , g.deleteCode as gdelCode\n" +
+                "from  shoppingcart s \n" +
+                "LEFT JOIN good g on s.good_id = g.id order by s.id\n" +
+                ")as m\n" +
+                "left join goodchild  c on m.gcid = c.id ");
+        paramMap.put("fields", " m.* ,c.imgurl  ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " s.deleteCode='001' AND g.deleteCode='001' AND s.user_id= "+userId);
-        paramMap.put("orderField", " s.create_time ");
+        paramMap.put("pageSize", 100);
+        paramMap.put("wherecase", " m.sdelCode='001' AND m.gdelCode='001' AND m.userId= "+userId);
+        paramMap.put("orderField", " m.create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
