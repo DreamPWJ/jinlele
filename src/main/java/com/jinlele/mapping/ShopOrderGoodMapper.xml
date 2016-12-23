@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.ShopOrderGoodMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.ShopOrderGood" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shoporder_no" property="shoporderNo" jdbcType="VARCHAR" />
+    <result column="goodchild_id" property="goodchildId" jdbcType="INTEGER" />
+    <result column="good_id" property="goodId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shoporder_no, goodchild_id, good_id, comment, deleteCode, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shoporder_good
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shoporder_good
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.ShopOrderGood" >
+    insert into shoporder_good (id, shoporder_no, goodchild_id, 
+      good_id, comment, deleteCode, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{shoporderNo,jdbcType=VARCHAR}, #{goodchildId,jdbcType=INTEGER}, 
+      #{goodId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.ShopOrderGood" >
+    insert into shoporder_good
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shoporderNo != null" >
+        shoporder_no,
+      </if>
+      <if test="goodchildId != null" >
+        goodchild_id,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="deletecode != null" >
+        deleteCode,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shoporderNo != null" >
+        #{shoporderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodchildId != null" >
+        #{goodchildId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="deletecode != null" >
+        #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ShopOrderGood" >
+    update shoporder_good
+    <set >
+      <if test="shoporderNo != null" >
+        shoporder_no = #{shoporderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodchildId != null" >
+        goodchild_id = #{goodchildId,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="deletecode != null" >
+        deleteCode = #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ShopOrderGood" >
+    update shoporder_good
+    set shoporder_no = #{shoporderNo,jdbcType=VARCHAR},
+      goodchild_id = #{goodchildId,jdbcType=INTEGER},
+      good_id = #{goodId,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      deleteCode = #{deletecode,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
