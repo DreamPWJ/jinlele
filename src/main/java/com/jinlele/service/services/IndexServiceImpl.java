@@ -55,7 +55,7 @@ public class IndexServiceImpl implements IIndexService {
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " ishotCode ='001' ");
+        paramMap.put("wherecase", " ishotCode ='001' and deleteCode = '001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);

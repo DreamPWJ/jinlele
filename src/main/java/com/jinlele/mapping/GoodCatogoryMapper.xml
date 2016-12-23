@@ -142,12 +142,12 @@
 
     <!-- 获取首页商品一级分类-->
     <select id="getFirstCatogory" resultType="map">
-      SELECT id ,name,bannerurl  FROM goodcatogory WHERE pid is null
+      SELECT id ,name,bannerurl  FROM goodcatogory WHERE pid is null and deleteCode = '001'
   </select>
 
     <!-- 获取首页商品二级分类-->
     <select id="getSecondCatogory" resultType="map">
-     SELECT DISTINCT name FROM goodcatogory  WHERE  pid is not null
+     SELECT DISTINCT name FROM goodcatogory  WHERE  pid is not null   and deleteCode = '001'
     </select>
 
     <!--根据一级分类 查询该分类下的二级分类-->

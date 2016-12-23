@@ -46,7 +46,7 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')");
+        paramMap.put("wherecase", " category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -75,7 +75,7 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", "category_id = " + catogoryId);
+        paramMap.put("wherecase", "category_id = " + catogoryId + " and deleteCode = '001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
