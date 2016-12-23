@@ -334,4 +334,9 @@
         select  g.id as goodid,g.title,g.bannerurl,g.description,g.weight,g.stocknum,g.saleprice,g.discprice FROM good g WHERE  g.id=#{gooodId}
     </select>
 
+    <!--根据商品的id 查询所有的子商品信息-->
+    <select id="getGoodChildsByGoodId" resultType="map">
+          SELECT id , color , stocknumber,imgurl FROM goodchild WHERE good_id =#{gooodId}
+    </select>
+
 </mapper>

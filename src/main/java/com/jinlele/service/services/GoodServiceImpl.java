@@ -2,9 +2,11 @@ package com.jinlele.service.services;
 
 import com.jinlele.dao.GoodMapper;
 import com.jinlele.service.interfaces.IGoodService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +27,13 @@ public class GoodServiceImpl implements IGoodService {
 
         return goodMapper.getGoodDetail(goodId);
     }
+
+    /**
+     * 根据商品的id 查询所有的子商品信息
+     */
+    @Override
+    public List<Map<String, Object>> getGoodChildsByGoodId(@Param("gooodId") int gooodId) {
+        return goodMapper.getGoodChildsByGoodId(gooodId);
+    }
+
 }

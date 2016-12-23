@@ -207,17 +207,25 @@ angular.module('starter.controllers', [])
             pagination: '.spot',
             paginationClickable: true
         });
-
+        //初始化参数
+        $scope.init ={
+            bannerUrl:"",//商品主图
+            stockNum:0//库存数
+        };
         $scope.gooddetail={
             userId:localStorage.getItem("jinlele_id"),
             goodId:$stateParams.id,
             num:1
         };
         GoodService.getGoodDetail({goodId:$stateParams.id , userId:$scope.gooddetail.userId}).success(function (data) {
+            console.log(JSON.stringify(data));
             $scope.goodDetail=data.good;
+            $scope.goodChilds = data.goodchilds;
             $scope.totalnum=data.totalnum;
             $scope.initNum = data.totalnum;
-            console.log(data);
+            $scope.init.bannerUrl = $scope.goodChilds[0].imgurl;
+            $scope.init.stockNum = $scope.goodChilds[0].stocknumber;
+
         });
 
         $scope.addtocart = function(){
@@ -242,6 +250,11 @@ angular.module('starter.controllers', [])
                 $scope.gooddetail.num --;
                 $scope.totalnum = $scope.totalnum -1;
             }
+        }
+        //切换主图和库存
+        $scope.changeGoodChild = function (index) {
+            $scope.init.bannerUrl = $scope.goodChilds[index].imgurl;
+            $scope.init.stockNum = $scope.goodChilds[index].stocknumber;
         }
     })
     //发表评论

@@ -1,5 +1,8 @@
 package com.jinlele.service.interfaces;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,4 +16,10 @@ public interface IGoodService {
      * @return
      */
     Map<String, Object> getGoodDetail(int goodId);
+
+    /**
+     * 根据商品的id 查询所有的子商品信息
+     */
+    List<Map<String, Object>> getGoodChildsByGoodId(@Param("gooodId") int gooodId);
+
 }

@@ -59,9 +59,11 @@ public class GoodController {
     @RequestMapping(value = "/getGoodDetail/{goodId}/{userId}", method = RequestMethod.GET)
     public Map<String, Object> getGoodDetail(@PathVariable int goodId,@PathVariable int userId) {
         Map<String, Object> newMap = new HashedMap();
-        Map<String, Object> goodmap = goodService.getGoodDetail(goodId);
-        int totalnum = shoppingCartService.getShopcharTotalNum(userId);
+        Map<String, Object> goodmap = goodService.getGoodDetail(goodId);   //获得商品详情信息
+        int totalnum = shoppingCartService.getShopcharTotalNum(userId);  //初始页面时，获得该用户加入购车商品总数量
+        List<Map<String, Object>>  goodchilds = goodService.getGoodChildsByGoodId(goodId);
         newMap.put("good" , goodmap);
+        newMap.put("goodchilds" , goodchilds);
         newMap.put("totalnum" , totalnum);
         return newMap;
     }

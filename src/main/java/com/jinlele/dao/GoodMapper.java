@@ -32,4 +32,9 @@ public interface GoodMapper {
      * 获取产品详情
      */
     Map<String, Object> getGoodDetail(@Param("gooodId") int gooodId);
+
+    /**
+     * 根据商品的id 查询所有的子商品信息
+     */
+    List<Map<String, Object>>  getGoodChildsByGoodId(@Param("gooodId") int gooodId);
 }
