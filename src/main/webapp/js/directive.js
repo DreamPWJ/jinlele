@@ -109,3 +109,39 @@ angular.module('starter.directive', [])
     }
   }
 })
+
+//点击单选切换
+.directive('toggleColor', function() { //利用angular指令监听ng-repeat渲染完成后执行脚本
+    return {
+        restrict: 'ACE',
+        replace:true,
+        scope:{
+            eObj:'=',
+            stockNum:'=',
+            bannerUrl:'=',
+            goodchildId:'='
+        },
+        link:function(scope,elem,attrs){
+            angular.element(elem).on('click', function(event) {
+                var target = event.target;
+                while (target && target.nodeType == 1) {
+                    if (target.tagName.toLocaleLowerCase() == 'a'){
+                        var index=target.getAttribute('attr');
+                        angular.forEach(scope.eObj,function(item){
+                             item.flag = false;
+                        });
+                        scope.eObj[index].flag=true;
+                        scope.stockNum = scope.eObj[index].stocknumber;
+                        scope.bannerUrl = scope.eObj[index].imgurl;
+                        scope.goodchildId = scope.eObj[index].id;
+                        console.log(scope.goodchildId);
+                        scope.$apply();
+                        return;
+                    } else {
+                        target = target.parentNode;
+                    }
+                }
+            })
+        }
+    }
+})

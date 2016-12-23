@@ -208,13 +208,13 @@ angular.module('starter.controllers', [])
             paginationClickable: true
         });
         //初始化参数
-        $scope.init ={
-            bannerUrl:"",//商品主图
-            stockNum:0//库存数
-        };
+        $scope.bannerurl="";
+        $scope.stocknum=0;//库存数
+
         $scope.gooddetail={
             userId:localStorage.getItem("jinlele_id"),
             goodId:$stateParams.id,
+            goodchildId:"",
             num:1
         };
         GoodService.getGoodDetail({goodId:$stateParams.id , userId:$scope.gooddetail.userId}).success(function (data) {
@@ -223,8 +223,14 @@ angular.module('starter.controllers', [])
             $scope.goodChilds = data.goodchilds;
             $scope.totalnum=data.totalnum;
             $scope.initNum = data.totalnum;
-            $scope.init.bannerUrl = $scope.goodChilds[0].imgurl;
-            $scope.init.stockNum = $scope.goodChilds[0].stocknumber;
+            $scope.bannerurl = $scope.goodChilds[0].imgurl;
+            $scope.stocknum = $scope.goodChilds[0].stocknumber;
+            if($scope.goodChilds && $scope.goodChilds.length>0){
+                angular.forEach($scope.goodChilds,function (item) {
+                     item.flag = false;
+                });
+            }
+            console.log("$scope.goodChilds=="+JSON.stringify($scope.goodChilds));
 
         });
 

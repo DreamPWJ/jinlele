@@ -336,7 +336,7 @@
 
     <!--根据商品的id 查询所有的子商品信息-->
     <select id="getGoodChildsByGoodId" resultType="map">
-          SELECT id , color , stocknumber,imgurl FROM goodchild WHERE good_id =#{gooodId}
+          SELECT id , color , stocknumber,imgurl, good_id as goodId  FROM goodchild WHERE good_id =#{gooodId}
     </select>
 
 </mapper>
