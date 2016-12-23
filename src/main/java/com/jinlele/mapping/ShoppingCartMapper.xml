@@ -104,7 +104,7 @@
           num
        from shoppingcart
        where
-          user_id = #{userId}  AND good_id= #{goodId}  AND deleteCode = '001'
+          user_id = #{userId}  AND goodchild_id= #{goodchildId}  AND deleteCode = '001'
   </select>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ShoppingCart" >

@@ -235,6 +235,11 @@ angular.module('starter.controllers', [])
         });
 
         $scope.addtocart = function(){
+            if(!$scope.gooddetail.goodchildId){
+                $rootScope.commonService=CommonService;
+                CommonService.toolTip("请选择颜色分类","tool-tip-message");
+                return;
+            }
             $scope.changeNum();
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function(data){
