@@ -77,7 +77,7 @@
                 <span><i class="t06"></i></span>
                 <em>邮寄</em>
             </li>
-            <li>
+            <li class="hover">
                 <span><i class="t10"></i></span>
                 <em>实际定价</em>
             </li>
@@ -103,7 +103,7 @@
     	<em>￥1688.00</em>
     </section>
     <section class="price_button">
-    	<span><a href="">确认变现</a></span>
+    	<span><a href="" ng-if="decide">确认变现</a><a href="#/procpost/{{pagetheme}}" ng-if="!decide">确认变现</a></span>
     	<span><a href="#/main">放弃变现</a></span>
     </section>
     

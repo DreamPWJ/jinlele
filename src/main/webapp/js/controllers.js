@@ -79,6 +79,7 @@ angular.module('starter.controllers', [])
         });
         $scope.m = [];
         $scope.checked = [];
+        //全选
         $scope.selectAll = function ($event){
             var choseall = $event.target;
             if($scope.select_all) {
@@ -100,6 +101,7 @@ angular.module('starter.controllers', [])
             }
             console.log($scope.checked);
         };
+        //单选
         $scope.selectOne = function ($event,select) {
             var choseone=$event.target;
             angular.forEach($scope.m , function (i, id) {
@@ -119,6 +121,9 @@ angular.module('starter.controllers', [])
                 $scope.select_all = false;
                 $('#all').siblings("label").removeClass("on");
             }
+            console.log($scope.checked);
+        }
+        $scope.del=function(){
             console.log($scope.checked);
         }
     })
@@ -306,8 +311,10 @@ angular.module('starter.controllers', [])
     .controller('ProcPricingCtrl', function ($scope,$stateParams,$location) {
         console.log($stateParams.name);
         $scope.pagetheme=$stateParams.name;
+        $scope.decide=false;
         switch ($stateParams.name){
             case "recycle":
+                $scope.decide=true;
                 break;
             case "exchange":
                 break;

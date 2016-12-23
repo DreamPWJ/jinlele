@@ -13,13 +13,13 @@
                 <em>{{item.saleprice | currency:'￥'}}</em>
                 <span class="addto">
                 	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
+                    <input value="{{item.num}}" type="text" >
                 	<a class="icon" href="">&#xe600;</a>
                 </span>
             </section>
         </section>
     </section>
-    <section class="delete"><a href=""><i class="icon">&#xe721;</i><em>删除</em></a></section>
+    <section class="delete"><a href="" ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
 </main>
 
 <!-- FOOTER -->
