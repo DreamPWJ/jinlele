@@ -69,7 +69,7 @@ angular.module('starter.controllers', [])
 
     })
     //购物车
-    .controller('ShoppingCartCtrl', function ($scope,$document,CartService) {
+    .controller('ShoppingCartCtrl',['$scope','CartService',function ($scope,CartService) {
         $scope.init={
             userid:1,
             pagenow:1
@@ -77,6 +77,8 @@ angular.module('starter.controllers', [])
         CartService.getcartinfo($scope.init).success(function(data){
             $scope.cartlist=data;
         });
+        $scope.totalnum=0;
+        $scope.totalprice=0;
         $scope.m = [];
         $scope.checked = [];
         //全选
@@ -85,11 +87,13 @@ angular.module('starter.controllers', [])
             if($scope.select_all) {
                 $scope.select_one = true;
                 $scope.checked = [];
-                angular.forEach($scope.cartlist.pagingList, function (i, index) {
-                    $scope.checked.push(i.id);
-                    $scope.m[i.id] = true;
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    $scope.checked.push(data.gcid);
+                    $scope.m[data.gcid] = true;
+                    $scope.totalnum +=data.num;
+                    $scope.totalprice += data.num * data.saleprice;
                 })
-                $('#'+choseall.id).siblings("label").addClass("on");
+                $('#'+choseall.gcid).siblings("label").addClass("on");
                 angular.forEach($scope.checked, function (i, index) {
                     $('#'+i).siblings("label").addClass("on");
                 })
@@ -97,6 +101,8 @@ angular.module('starter.controllers', [])
                 $scope.select_one = false;
                 $scope.checked = [];
                 $scope.m = [];
+                $scope.totalnum=0;
+                $scope.totalprice=0;
                 $('.check_label').removeClass("on");
             }
             console.log($scope.checked);
@@ -104,16 +110,16 @@ angular.module('starter.controllers', [])
         //单选
         $scope.selectOne = function ($event,select) {
             var choseone=$event.target;
-            angular.forEach($scope.m , function (i, id) {
+            angular.forEach($scope.m , function (data, id) {
                 var index = $scope.checked.indexOf(id);
-                if(i && index === -1) {
+                if(data && index === -1) {
                     $scope.checked.push(id);
                     $('#'+choseone.id).siblings("label").addClass("on");
-                } else if (!i && index !== -1){
+                } else if (!data && index !== -1){
                     $scope.checked.splice(index, 1);
                     $('#'+choseone.id).siblings("label").removeClass("on");
                 };
-            });
+            })
             if ($scope.cartlist.pagingList.length === $scope.checked.length) {
                 $scope.select_all = true;
                 $('#all').siblings("label").addClass("on");
@@ -121,12 +127,59 @@ angular.module('starter.controllers', [])
                 $scope.select_all = false;
                 $('#all').siblings("label").removeClass("on");
             }
+            $scope.totalnum=0;//去除重复，记录最后一遍数据
+            $scope.totalprice =0;
+            angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                var f = $scope.checked.indexOf(data.gcid);
+                if (data && f !== -1) {
+                    $scope.totalnum += data.num;
+                    $scope.totalprice += data.num * data.saleprice;
+                }
+            })
             console.log($scope.checked);
         }
+        //删除
         $scope.del=function(){
             console.log($scope.checked);
         }
-    })
+        //数量更新(点击，手改)
+        $scope.updateamount = function (id, count) {
+            $scope.totalnum=0;
+            $scope.totalprice=0;
+            for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                var item = $scope.cartlist.pagingList[i];
+                if (item.gcid == id) {
+                    item.num = item.num + count;//这里可以增加上下限制
+                    if (item.num < 1) {
+                        //$scope.cartlist.pagingList.splice(i, 1);
+                        item.num=1;
+                    }
+                }
+                var f = $scope.checked.indexOf(item.gcid);
+                if (item && f !== -1) {
+                    $scope.totalnum += item.num;
+                    $scope.totalprice += item.num * item.saleprice;
+                }
+            }
+        }
+        $scope.changenamount=function(id){
+            $scope.totalnum=0;
+            $scope.totalprice=0;
+            for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                var item = $scope.cartlist.pagingList[i];
+                if (item.gcid == id) {
+                    if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
+                        item.num=1;
+                    }
+                }
+                var f = $scope.checked.indexOf(item.gcid);
+                if (item && f !== -1) {
+                    $scope.totalnum += parseInt( item.num);
+                    $scope.totalprice += item.num * item.saleprice;
+                }
+            }
+        }
+    }])
     //会员
     .controller('MemberCtrl', function ($scope) {
 
@@ -235,11 +288,6 @@ angular.module('starter.controllers', [])
         });
 
         $scope.addtocart = function(){
-            if(!$scope.gooddetail.goodchildId){
-                $rootScope.commonService=CommonService;
-                CommonService.toolTip("请选择颜色分类","tool-tip-message");
-                return;
-            }
             $scope.changeNum();
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function(data){

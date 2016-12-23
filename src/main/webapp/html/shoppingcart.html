@@ -1,20 +1,20 @@
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
     <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="{{item.id}}" type="checkbox"  ng-model="m[item.id]" ng-checked = "select_one" ng-click="selectOne($event,m[i.id])"/>
-		<label for="{{item.id}}" class="check_label">
+        <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne($event,m[i.gcid])"/>
+		<label for="{{item.gcid}}" class="check_label">
             <i class="checkbox_icon"></i>
         </label>
         </span>
-        <span class="cart_pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+        <span class="cart_pic"><a href=""><img ng-src="{{item.imgurl}}"></a></span>
         <section class="cart_main">
-            <span class="title"><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></span>
+            <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title}}</a></span>
             <section class="cart_price">
                 <em>{{item.saleprice | currency:'￥'}}</em>
                 <span class="addto">
-                	<a class="icon" href="">&#xe603;</a>
-                    <input value="{{item.num}}" type="text" >
-                	<a class="icon" href="">&#xe600;</a>
+                	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
+                    <input  type="text" ng-model="item.num" ng-change="changenamount(item.gcid)" />
+                	<a class="icon" href="" ng-click="updateamount(item.gcid,1)">&#xe600;</a>
                 </span>
             </section>
         </section>
@@ -31,8 +31,8 @@
         </label>
         <em>全选</em>
     </span>
-    <span class="total">合计：420000.00</span>
-    <a href="#/confirmorder">去结算<i>(10)</i></a>
+    <span class="total">合计：{{totalprice|number:2}}</span>
+    <a href="#/confirmorder">去结算<i>({{totalnum}})</i></a>
 </footer>
 
 <!-- 提示 -->
