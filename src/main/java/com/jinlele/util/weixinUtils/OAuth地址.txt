@@ -1,5 +1,5 @@
- https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa06520c8220f7b68&redirect_uri=http%3A%2F%2F139.224.54.94%2FhflBlog2%2FoauthServlet&response_type=
-code&scope=snsapi_userinfo&state=STATE#wechat_redirect 
+ https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2F6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 
 
 
+http%3A%2F%2F6weiyi.com%2Fjinlele%2FoauthServlet
