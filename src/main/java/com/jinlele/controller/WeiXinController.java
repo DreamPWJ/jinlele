@@ -12,6 +12,7 @@ import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -156,8 +157,7 @@ public class WeiXinController{
      * @throws UnsupportedEncodingException
      */
     @RequestMapping(value = "/oauthServlet" ,method = RequestMethod.POST)
-    @ResponseBody
-    public SNSuserInfo oauthServlet(HttpServletRequest request , HttpServletResponse response) throws UnsupportedEncodingException {
+    public String oauthServlet(HttpServletRequest request , HttpServletResponse response, Model model) throws UnsupportedEncodingException {
         //将请求、响应的编码设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -184,14 +184,15 @@ public class WeiXinController{
             System.out.println("accessToken===="+code);
 
             //设置要传递的参数
-            request.setAttribute("snSuserInfo", snSuserInfo);
             System.out.println("snSuserInfo==="+ JSONObject.fromObject(snSuserInfo));
-            return  snSuserInfo;
+            model.addAttribute("snSuserInfo",snSuserInfo);
         } else {
             return  null;
+
         }
 //        //oAuth.jsp
-//        request.getRequestDispatcher("/oAuth.jsp").forward(request , response);
+
+        return "oAuth" ;
 
     }
 }
