@@ -11,6 +11,25 @@
   http://www.springframework.org/schema/mvc
   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
+    <!--@ResponseBody Json返回类型 乱码处理 注意加在<mvc:annotation-driven />之前 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"/>
+                <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
     <!-- 默认的注解映射的支持  相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter
         即解决了@Controller注解的使用前提配置。-->
     <mvc:annotation-driven/>
@@ -22,9 +41,9 @@
 
     <!-- 配置自定义AuthInterceptor权限过滤拦截器 -->
     <!-- 如果不定义 mvc:mapping path 将拦截所有的URL请求 -->
-<!--    <mvc:interceptors>
-        <bean class="com.jinlele.util.authority.AuthInterceptor"></bean>
-    </mvc:interceptors>-->
+    <!--    <mvc:interceptors>
+            <bean class="com.jinlele.util.authority.AuthInterceptor"></bean>
+        </mvc:interceptors>-->
 
     <!-- 如果当前请求为“/”时，则转发到“/index” -->
     <mvc:view-controller path="/" view-name="forward:/index"/>
@@ -36,6 +55,7 @@
     <mvc:resources mapping="/images/**" location="/images/"/>
     <!-- 当上面要访问的静态资源不包括在上面的配置中时，则根据此配置来访问 -->
     <mvc:default-servlet-handler/>
+
 
     <!--视图解析器 定义跳转的文件的前后缀 ，视图模式配置   InternalResourceViewResolver:支持JSP视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
