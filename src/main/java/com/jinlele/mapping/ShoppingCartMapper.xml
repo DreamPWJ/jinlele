@@ -145,4 +145,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--根据选中的商品子表查询购物车中的goodid id-->
+  <select id="findCartIdAndGoodId" resultType="map" parameterType="Integer">
+    select id ,good_id as goodId from shoppingcart where goodchild_id = #{goodchildId}
+  </select>
 </mapper>

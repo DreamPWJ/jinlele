@@ -69,7 +69,7 @@ angular.module('starter.controllers', [])
 
     })
     //购物车
-    .controller('ShoppingCartCtrl',['$scope','CartService',function ($scope,CartService) {
+    .controller('ShoppingCartCtrl',['$scope','CartService' ,'CommonService','$state', '$rootScope',function ($scope,CartService ,CommonService ,$state ,$rootScope) {
         $scope.init={
             userid:1,
             pagenow:1
@@ -178,6 +178,41 @@ angular.module('starter.controllers', [])
                     $scope.totalprice += item.num * item.saleprice;
                 }
             }
+        }
+        $scope.confirmorder = function () {
+            console.log($scope.checked);
+            if($scope.checked.length==0){
+                $rootScope.commonService=CommonService;
+                CommonService.toolTip("请选择要购买的商品");
+                return;
+            }
+            $scope.checkedGoodArr = [];
+            angular.forEach($scope.cartlist.pagingList, function (item) {
+                console.log(JSON.stringify(item.gcid));
+                for(var i =0,len=$scope.checked.length;i<len;i++){
+                    if(item.gcid == $scope.checked[i]){
+                        console.log('item.gcid ==');
+                        $scope.checkedGoodArr.push(item);
+                    }
+                }
+            })
+
+            $scope.obj = {
+                totalprice:$scope.totalprice,
+                totalnum:$scope.totalnum,
+                userId:localStorage.getItem("jinlele_id"),
+                storeId:1,//后续需要根据客户选择传入
+                goodchildIds:$scope.checked
+            };
+            //去后台生成商成订单 和 订单_商品子表的数据
+            CartService.saveOrder($scope.obj).success(function (data) {
+                 console.log(JSON.stringify(data));
+                 if(data && data.status == "ok"){
+                     //跳转到支付页面
+                     $state.go("confirmorder",{checkedGoodArr:JSON.stringify($scope.checkedGoodArr), totalprice:$scope.totalprice , totalnum:$scope.totalnum});
+                 }
+            });
+
         }
     }])
     //会员
@@ -288,6 +323,11 @@ angular.module('starter.controllers', [])
         });
 
         $scope.addtocart = function(){
+            if(!$scope.gooddetail.goodchildId){
+                $rootScope.commonService=CommonService;
+                CommonService.toolTip("请选择颜色分类","tool-tip-message");
+                return;
+            }
             $scope.changeNum();
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function(data){
@@ -310,19 +350,25 @@ angular.module('starter.controllers', [])
                 $scope.totalnum = $scope.totalnum -1;
             }
         }
-        //切换主图和库存
-        $scope.changeGoodChild = function (index) {
-            $scope.init.bannerUrl = $scope.goodChilds[index].imgurl;
-            $scope.init.stockNum = $scope.goodChilds[index].stocknumber;
-        }
+
     })
+
+
     //发表评论
     .controller('AddCommentCtrl', function ($scope) {
 
     })
+
     //确认订单
-    .controller('ConfirmOrderCtrl', function ($scope) {
-        $(".check_label").checkbox();
+    .controller('ConfirmOrderCtrl', function ($scope , $stateParams) {
+        $scope.goodsArr =  JSON.parse($stateParams.checkedGoodArr);
+        $scope.totalprice =  $stateParams.totalprice;
+        $scope.totalnum =  $stateParams.totalnum;
+        // $(".check_label").checkbox();
+        console.log("--"+JSON.stringify($scope.goodsArr));
+        // $scope.goodArr =    $stateParams.checkedGoodArr;
+        // console.log( $scope.goodArr);
+
     })
     //流程-拍照
     .controller('ProcPhotoCtrl', function ($scope,$stateParams) {

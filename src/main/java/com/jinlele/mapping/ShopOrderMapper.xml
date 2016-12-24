@@ -197,4 +197,6 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where orderno = #{orderno,jdbcType=VARCHAR}
   </update>
+
+
 </mapper>

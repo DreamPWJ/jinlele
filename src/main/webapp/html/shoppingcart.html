@@ -31,8 +31,12 @@
         </label>
         <em>全选</em>
     </span>
+
     <span class="total">合计：{{totalprice|number:2}}</span>
-    <a href="#/confirmorder">去结算<i>({{totalnum}})</i></a>
+
+    <!--<a ng-href="#/confirmorder/{{checked}}/{{totalprice}}/{{totalnum}}">去结算<i>({{totalnum}})</i></a>-->
+    <a href=""  ng-click="confirmorder()" >去结算<i>({{totalnum}})</i></a>
+
 </footer>
 
 <!-- 提示 -->

@@ -19,6 +19,19 @@ public class ShopOrderGood {
 
     private Date updateTime;
 
+
+
+    public ShopOrderGood() {
+
+    }
+
+    public ShopOrderGood(String shoporderNo, Integer goodchildId, Integer goodId, String deletecode) {
+        this.shoporderNo = shoporderNo;
+        this.goodchildId = goodchildId;
+        this.goodId = goodId;
+        this.deletecode = deletecode;
+    }
+
     public Integer getId() {
         return id;
     }

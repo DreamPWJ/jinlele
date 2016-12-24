@@ -11,4 +11,8 @@ public interface IOrderService {
      *商城订单列表
      */
     Map<String, Object> getShopListPaging(int pagenow, int userid);
+    /**
+     *生成订单
+     */
+    public void saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds);
 }

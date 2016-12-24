@@ -3,6 +3,7 @@ package com.jinlele.controller;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class OrderController {
 
     /**
      * 分页获取购物车数据
+     *
      * @param pagenow
      * @param userid
      * @return
@@ -51,14 +53,26 @@ public class OrderController {
        return shoppingCartService.addShoppingCart(cart);
     }
 
-
-
     /**
-     *商城订单列表
+     * 商城订单列表
      */
     @ResponseBody
     @RequestMapping(value = "/getShopList/{pagenow}/{userid}", method = RequestMethod.GET)
-    public Map<String, Object> getShopList(@PathVariable int pagenow, @PathVariable  int userid) {
-       return orderService.getShopListPaging(pagenow, userid);
+    public Map<String, Object> getShopList(@PathVariable int pagenow, @PathVariable int userid) {
+        return orderService.getShopListPaging(pagenow, userid);
     }
+
+
+    /**
+     * 生成订单
+     */
+    @ResponseBody
+    @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
+    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds){
+        orderService.saveOrder(totalprice,totalnum,userId,storeId,goodchildIds);
+        Map<String, Object> map = new HashedMap();
+        map.put("status" , "ok");
+        return map;
+    }
+
 }

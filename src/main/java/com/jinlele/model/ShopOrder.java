@@ -31,6 +31,20 @@ public class ShopOrder {
 
     private Date updateTime;
 
+
+    public ShopOrder() {
+    }
+
+    public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
+        this.orderno = orderno;
+        this.totalprice = totalprice;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.receiptAddressId = receiptAddressId;
+        this.deletecode = deletecode;
+    }
+
     public String getOrderno() {
         return orderno;
     }
