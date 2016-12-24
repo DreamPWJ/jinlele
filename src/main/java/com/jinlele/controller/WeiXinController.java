@@ -1,4 +1,5 @@
 package com.jinlele.controller;
+
 import com.jinlele.util.weixinUtils.service.CoreService;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
 import com.jinlele.util.weixinUtils.util.Parameter;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -156,7 +158,7 @@ public class WeiXinController{
      * @return
      * @throws UnsupportedEncodingException
      */
-    @RequestMapping(value = "/oauthServlet" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/oauthServlet")
     public String oauthServlet(HttpServletRequest request , HttpServletResponse response, Model model) throws UnsupportedEncodingException {
         //将请求、响应的编码设置为UTF-8（防止中文乱码）
         request.setCharacterEncoding("UTF-8");

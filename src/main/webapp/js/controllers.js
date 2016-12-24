@@ -206,8 +206,7 @@ angular.module('starter.controllers', [])
             };
             //去后台生成商成订单 和 订单_商品子表的数据
             CartService.saveOrder($scope.obj).success(function (data) {
-                 console.log(JSON.stringify(data));
-                 if(data && data.status == "ok"){
+                 if(data.status == "ok"){
                      //跳转到支付页面
                      $state.go("confirmorder",{checkedGoodArr:JSON.stringify($scope.checkedGoodArr), totalprice:$scope.totalprice , totalnum:$scope.totalnum});
                  }

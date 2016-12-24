@@ -38,13 +38,9 @@ public class OAuthServlet extends HttpServlet {
         if (!"authdeny".equals(code)){
             //获取网页授权access_token
             WeiXinOauth2Token weiXinOauth2Token = AdvancedUtil.getOauth2AccessToken(Parameter.corId, Parameter.appsecret, code);
-
             //网页授权接口访问凭证
             String accessToken = weiXinOauth2Token.getAccessToken();
-
             System.out.println("accessToken===="+code);
-
-
             //用户标示
             String openId = weiXinOauth2Token.getOpenId();
             System.out.println("openid==="+openId);
@@ -58,7 +54,7 @@ public class OAuthServlet extends HttpServlet {
             System.out.println("snSuserInfo==="+ JSONObject.fromObject(snSuserInfo));
         }
         //oAuth.jsp
-        request.getRequestDispatcher("/oAuth.jsp").forward(request , response);
+        request.getRequestDispatcher("jsp/oAuth.jsp").forward(request , response);
     }
 
 
