@@ -13,7 +13,13 @@
 
     <!-- 默认的注解映射的支持  相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter
         即解决了@Controller注解的使用前提配置。-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value = "text/plain;charset=UTF-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!-- 自动扫描该包，使SpringMVC认为com.jinlele.*包下用了@controller注解的类是控制器 -->
     <context:component-scan base-package="com.jinlele.controller" use-default-filters="false">
