@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 public class InitGetTokenServlet extends HttpServlet {
     private static  final  long serialVersionUID  = 1L;
     private static  final  String appid  = "wx7a6a63e9ee94e24d";
-    private static  final  String appsecret  = "wx7a6a63e9ee94e24d";
+    private static  final  String appsecret  = "94687ed9a79a98b05115f4ff37049ab8";
     private static Logger log =  LoggerFactory.getLogger(WeiXinUtil.class);
 
 
