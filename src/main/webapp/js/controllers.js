@@ -35,11 +35,11 @@ angular.module('starter.controllers', [])
                     url: location.href.split('#')[0] //当前网页的URL，不包含#及其后面部分
                 }
                 WeiXinService.getWCSignature($scope.wxparams).success(function (data) {
-                        localStorage.setItem("timestamp", data.timestamp);//生成签名的时间戳
-                        localStorage.setItem("noncestr", data.nonceStr);//生成签名的随机串
-                        localStorage.setItem("signature", data.signature);//生成签名
-                        //通过config接口注入权限验证配置
-                        WeiXinService.weichatConfig(data.timestamp, data.nonceStr, data.signature);
+                    localStorage.setItem("timestamp", data.timestamp);//生成签名的时间戳
+                    localStorage.setItem("noncestr", data.nonceStr);//生成签名的随机串
+                    localStorage.setItem("signature", data.signature);//生成签名
+                    //通过config接口注入权限验证配置
+                    WeiXinService.weichatConfig(data.timestamp, data.nonceStr, data.signature);
 
 
                 })
@@ -242,7 +242,7 @@ angular.module('starter.controllers', [])
 
     })
     //商城订单
-    .controller('OrderListCtrl', function ($scope) {
+    .controller('OrderListCtrl', function ($scope, WeiXinService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -267,6 +267,30 @@ angular.module('starter.controllers', [])
                 return '<span class="' + className + '">' + name + '</span>';
             }
         });
+        $scope.weixinPay=function () {
+            //调用微信支付服务器端接口
+            WeiXinService.getweixinPayData().success(function (data) {
+                alert(JSON.stringify(data));
+                //通过config接口注入权限验证配置
+                WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+                //通过ready接口处理成功验证
+                wx.ready(function () {
+                    WeiXinService.wxchooseWXPay(data); //调起微支付接口
+                })
+
+            })
+        }
+
+        $scope.wxchooseImage=function () {
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxchooseImage(1)
+            })
+
+        }
+
     })
     //订单详情
     .controller('OrderDetailCtrl', function ($scope) {
