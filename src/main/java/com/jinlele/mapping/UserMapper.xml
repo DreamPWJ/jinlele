@@ -10,15 +10,24 @@
     <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="sexCode" property="sexcode" jdbcType="CHAR" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
-    <result column="forbidenCode" property="forbidencode" jdbcType="CHAR" />
+    <result column="subscribe" property="subscribe" jdbcType="CHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="subscribeTime" property="subscribetime" jdbcType="TIMESTAMP" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="groupid" property="groupid" jdbcType="VARCHAR" />
     <result column="usertypeCode" property="usertypecode" jdbcType="CHAR" />
+    <result column="forbidenCode" property="forbidencode" jdbcType="CHAR" />
     <result column="gradeCode" property="gradecode" jdbcType="CHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, username, password, email, phone, nickname, sexCode, openid, forbidenCode, usertypeCode, 
+    id, username, password, email, phone, nickname, sexCode, openid, subscribe, city, 
+    country, headimgurl, subscribeTime, unionid, remark, groupid, usertypeCode, forbidenCode, 
     gradeCode, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -41,14 +50,20 @@
   <insert id="insert" parameterType="com.jinlele.model.User" >
     insert into user (id, username, password, 
       email, phone, nickname, 
-      sexCode, openid, forbidenCode, 
-      usertypeCode, gradeCode, deleteCode, 
-      create_time, update_time)
+      sexCode, openid, subscribe, 
+      city, country, headimgurl, 
+      subscribeTime, unionid, remark, 
+      groupid, usertypeCode, forbidenCode, 
+      gradeCode, deleteCode, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
-      #{sexcode,jdbcType=CHAR}, #{openid,jdbcType=VARCHAR}, #{forbidencode,jdbcType=CHAR}, 
-      #{usertypecode,jdbcType=CHAR}, #{gradecode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{sexcode,jdbcType=CHAR}, #{openid,jdbcType=VARCHAR}, #{subscribe,jdbcType=CHAR}, 
+      #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{headimgurl,jdbcType=VARCHAR}, 
+      #{subscribetime,jdbcType=TIMESTAMP}, #{unionid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{groupid,jdbcType=VARCHAR}, #{usertypecode,jdbcType=CHAR}, #{forbidencode,jdbcType=CHAR}, 
+      #{gradecode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.User" >
     insert into user
@@ -77,11 +92,35 @@
       <if test="openid != null" >
         openid,
       </if>
-      <if test="forbidencode != null" >
-        forbidenCode,
+      <if test="subscribe != null" >
+        subscribe,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl,
+      </if>
+      <if test="subscribetime != null" >
+        subscribeTime,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="groupid != null" >
+        groupid,
       </if>
       <if test="usertypecode != null" >
         usertypeCode,
+      </if>
+      <if test="forbidencode != null" >
+        forbidenCode,
       </if>
       <if test="gradecode != null" >
         gradeCode,
@@ -121,11 +160,35 @@
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
       </if>
-      <if test="forbidencode != null" >
-        #{forbidencode,jdbcType=CHAR},
+      <if test="subscribe != null" >
+        #{subscribe,jdbcType=CHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribetime != null" >
+        #{subscribetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null" >
+        #{groupid,jdbcType=VARCHAR},
       </if>
       <if test="usertypecode != null" >
         #{usertypecode,jdbcType=CHAR},
+      </if>
+      <if test="forbidencode != null" >
+        #{forbidencode,jdbcType=CHAR},
       </if>
       <if test="gradecode != null" >
         #{gradecode,jdbcType=CHAR},
@@ -165,11 +228,35 @@
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
       </if>
-      <if test="forbidencode != null" >
-        forbidenCode = #{forbidencode,jdbcType=CHAR},
+      <if test="subscribe != null" >
+        subscribe = #{subscribe,jdbcType=CHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribetime != null" >
+        subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupid != null" >
+        groupid = #{groupid,jdbcType=VARCHAR},
       </if>
       <if test="usertypecode != null" >
         usertypeCode = #{usertypecode,jdbcType=CHAR},
+      </if>
+      <if test="forbidencode != null" >
+        forbidenCode = #{forbidencode,jdbcType=CHAR},
       </if>
       <if test="gradecode != null" >
         gradeCode = #{gradecode,jdbcType=CHAR},
@@ -195,8 +282,16 @@
       nickname = #{nickname,jdbcType=VARCHAR},
       sexCode = #{sexcode,jdbcType=CHAR},
       openid = #{openid,jdbcType=VARCHAR},
-      forbidenCode = #{forbidencode,jdbcType=CHAR},
+      subscribe = #{subscribe,jdbcType=CHAR},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      subscribeTime = #{subscribetime,jdbcType=TIMESTAMP},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      groupid = #{groupid,jdbcType=VARCHAR},
       usertypeCode = #{usertypecode,jdbcType=CHAR},
+      forbidenCode = #{forbidencode,jdbcType=CHAR},
       gradeCode = #{gradecode,jdbcType=CHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

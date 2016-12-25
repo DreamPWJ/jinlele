@@ -19,9 +19,25 @@ public class User {
 
     private String openid;
 
-    private String forbidencode;
+    private String subscribe;
+
+    private String city;
+
+    private String country;
+
+    private String headimgurl;
+
+    private Date subscribetime;
+
+    private String unionid;
+
+    private String remark;
+
+    private String groupid;
 
     private String usertypecode;
+
+    private String forbidencode;
 
     private String gradecode;
 
@@ -95,12 +111,68 @@ public class User {
         this.openid = openid == null ? null : openid.trim();
     }
 
-    public String getForbidencode() {
-        return forbidencode;
+    public String getSubscribe() {
+        return subscribe;
     }
 
-    public void setForbidencode(String forbidencode) {
-        this.forbidencode = forbidencode == null ? null : forbidencode.trim();
+    public void setSubscribe(String subscribe) {
+        this.subscribe = subscribe == null ? null : subscribe.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getHeadimgurl() {
+        return headimgurl;
+    }
+
+    public void setHeadimgurl(String headimgurl) {
+        this.headimgurl = headimgurl == null ? null : headimgurl.trim();
+    }
+
+    public Date getSubscribetime() {
+        return subscribetime;
+    }
+
+    public void setSubscribetime(Date subscribetime) {
+        this.subscribetime = subscribetime;
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid == null ? null : unionid.trim();
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getGroupid() {
+        return groupid;
+    }
+
+    public void setGroupid(String groupid) {
+        this.groupid = groupid == null ? null : groupid.trim();
     }
 
     public String getUsertypecode() {
@@ -109,6 +181,14 @@ public class User {
 
     public void setUsertypecode(String usertypecode) {
         this.usertypecode = usertypecode == null ? null : usertypecode.trim();
+    }
+
+    public String getForbidencode() {
+        return forbidencode;
+    }
+
+    public void setForbidencode(String forbidencode) {
+        this.forbidencode = forbidencode == null ? null : forbidencode.trim();
     }
 
     public String getGradecode() {
