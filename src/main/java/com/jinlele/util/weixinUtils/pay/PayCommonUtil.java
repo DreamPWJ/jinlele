@@ -60,7 +60,7 @@ public class PayCommonUtil {
         parameterMap.put("total_fee", df.format(total));// 支付金额
 
         parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
-        parameterMap.put("notify_url", "http://xxx.com");// 接收微信支付异步通知回调地址
+        parameterMap.put("notify_url", "http://6weiyi.com");// 接收微信支付异步通知回调地址
         parameterMap.put("trade_type", "JSAPI");// 交易类型
         //trade_type为JSAPI是 openid为必填项
         parameterMap.put("openid", openid);// 用户标识
