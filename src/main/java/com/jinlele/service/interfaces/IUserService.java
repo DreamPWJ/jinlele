@@ -1,6 +1,7 @@
 package com.jinlele.service.interfaces;
 
 import com.jinlele.model.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -10,10 +11,13 @@ import java.util.Map;
  */
 public interface IUserService {
 
+    int insertSelective(User record);
+
+
     /**
      * 获取用户的分页方法
      */
      Map<String,Object> getUserPaging();
 
-    User getUserInfo(String openid);
+    User getUserInfo(@Param("openid")String openid);
 }

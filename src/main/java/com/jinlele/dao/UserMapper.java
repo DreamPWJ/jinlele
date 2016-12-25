@@ -1,6 +1,7 @@
 package com.jinlele.dao;
 
 import com.jinlele.model.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -11,9 +12,9 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer id);
 
-    User getUserInfo(String openid);
-
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    User getUserInfo(@Param("openid") String openid);
+
 }

@@ -1,11 +1,12 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.User;
+import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.weixinUtils.service.CoreService;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
 import com.jinlele.util.weixinUtils.util.Parameter;
 import com.jinlele.util.weixinUtils.util.SignUtil;
 import com.jinlele.util.weixinUtils.util.ValidationUtil;
-import com.jinlele.util.weixinUtils.vo.SNSuserInfo;
 import com.jinlele.util.weixinUtils.vo.WeiXinOauth2Token;
 import com.jinlele.util.weixinUtils.vo.WeiXinUtil;
 import com.qq.weixin.mp.aes.AesException;
@@ -14,11 +15,11 @@ import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,6 +33,9 @@ import java.util.UUID;
 
 @Controller
 public class WeiXinController{
+
+    @Resource
+    IUserService userService;
 
 
     /**
@@ -167,35 +171,32 @@ public class WeiXinController{
         //用户同意授权后，能获取到code
         String code = request.getParameter("code");
         System.out.println("code===="+code);
-
         //用户同意授权
         if (!"authdeny".equals(code)){
             //获取网页授权access_token
             WeiXinOauth2Token weiXinOauth2Token = AdvancedUtil.getOauth2AccessToken(Parameter.corId, Parameter.appsecret, code);
-
             //网页授权接口访问凭证
             String accessToken = weiXinOauth2Token.getAccessToken();
-
             System.out.println("accessToken===="+code);
-
             //用户标示
             String openId = weiXinOauth2Token.getOpenId();
             System.out.println("openid==="+openId);
-            //获取用户信息
-            SNSuserInfo snSuserInfo = AdvancedUtil.getsnsUserInfo(accessToken , openId);
-
-            System.out.println("accessToken===="+code);
-
-            //设置要传递的参数
-            System.out.println("snSuserInfo==="+ JSONObject.fromObject(snSuserInfo));
-            model.addAttribute("snSuserInfo",snSuserInfo);
+            //去数据库查询有无数据，没有就去保存
+            User userInfo = userService.getUserInfo(openId);
+            System.out.println("数据库中的数据==="+new JSONObject().fromObject(userInfo));
+            if(userInfo==null){
+                //获取接口访问凭证
+                String Token  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
+                //获取用户信息
+                userInfo = AdvancedUtil.getUserInfo(Token, openId);
+                userService.insertSelective(userInfo);
+            }
+            System.out.println(new JSONObject().fromObject(userInfo));
+            model.addAttribute("snSuserInfo" , userInfo);
         } else {
             return  null;
-
         }
-//        //oAuth.jsp
-
-        return "oAuth" ;
+        return "index";
 
     }
 }

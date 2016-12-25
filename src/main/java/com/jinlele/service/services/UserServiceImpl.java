@@ -6,6 +6,7 @@ import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +25,12 @@ public class UserServiceImpl implements IUserService {
     @Resource
     UserMapper userMapper;
 
+
+    public int insertSelective(User record){
+        return   userMapper.insertSelective(record);
+    }
+
+
     /**
      * 获取用户的分页方法
      */
@@ -34,7 +41,7 @@ public class UserServiceImpl implements IUserService {
         paramMap.put("fields", " * ");
         paramMap.put("pageNow", SysConstants.PAGENOW);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-/*        paramMap.put("wherecase",null);
+/*      paramMap.put("wherecase",null);
         paramMap.put("orderField", null);*/
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -43,7 +50,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User getUserInfo(String openid) {
+    public User getUserInfo(@Param("openid")String openid) {
         return userMapper.getUserInfo(openid);
     }
 }

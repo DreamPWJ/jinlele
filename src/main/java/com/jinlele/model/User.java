@@ -15,19 +15,23 @@ public class User {
 
     private String nickname;
 
-    private String sexcode;
+    private Integer sex;
 
     private String openid;
 
-    private String subscribe;
+    private Integer subscribe;
 
     private String city;
 
     private String country;
 
+    private String language;
+
+    private String province;
+
     private String headimgurl;
 
-    private Date subscribetime;
+    private String subscribetime;
 
     private String unionid;
 
@@ -95,12 +99,12 @@ public class User {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
-    public String getSexcode() {
-        return sexcode;
+    public Integer getSex() {
+        return sex;
     }
 
-    public void setSexcode(String sexcode) {
-        this.sexcode = sexcode == null ? null : sexcode.trim();
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 
     public String getOpenid() {
@@ -111,12 +115,12 @@ public class User {
         this.openid = openid == null ? null : openid.trim();
     }
 
-    public String getSubscribe() {
+    public Integer getSubscribe() {
         return subscribe;
     }
 
-    public void setSubscribe(String subscribe) {
-        this.subscribe = subscribe == null ? null : subscribe.trim();
+    public void setSubscribe(Integer subscribe) {
+        this.subscribe = subscribe;
     }
 
     public String getCity() {
@@ -135,6 +139,22 @@ public class User {
         this.country = country == null ? null : country.trim();
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language == null ? null : language.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
     public String getHeadimgurl() {
         return headimgurl;
     }
@@ -143,12 +163,12 @@ public class User {
         this.headimgurl = headimgurl == null ? null : headimgurl.trim();
     }
 
-    public Date getSubscribetime() {
+    public String getSubscribetime() {
         return subscribetime;
     }
 
-    public void setSubscribetime(Date subscribetime) {
-        this.subscribetime = subscribetime;
+    public void setSubscribetime(String subscribetime) {
+        this.subscribetime = subscribetime == null ? null : subscribetime.trim();
     }
 
     public String getUnionid() {
