@@ -328,18 +328,7 @@ angular.module('starter.services', [])
                     }
                 });
             },
-   /*         wxchooseWXPay: function () {//微信支付请求接口
-                wx.chooseWXPay({
-                    timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: '', // 支付签名随机串，不长于 32 位
-                    package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=123
-                    signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: '', // 支付签名
-                    success: function (res) {
-                        // 支付成功后的回调函数
-                    }
-                })
-            },*/
+
             wxonMenuShareAppMessage: function (title,desc,link,imgUrl) { //获取“分享给朋友”按钮点击状态及自定义分享内容接口
                 wx.onMenuShareAppMessage({
                     title: title, // 分享标题
@@ -394,6 +383,18 @@ angular.module('starter.services', [])
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
+                    }
+                });
+            },
+            wxchooseWXPay:function (data) {//微信支付请求接口
+                wx.chooseWXPay({
+                    timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+                    package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: data.paySign, // 支付签名
+                    success: function (res) {
+                        // 支付成功后的回调函数
                     }
                 });
             }

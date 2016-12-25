@@ -123,7 +123,7 @@
         </dependency>
 
         <!-- Hibernate Validator 是 Bean Validation 的参考实现 . Hibernate Validator 提供了 JSR 303 规范中所有内置 constraint 的实现,除此之外还有一些附加的 constraint-->
-       <dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>5.2.4.Final</version>
@@ -166,7 +166,7 @@
         <!-- log end -->
 
         <!-- 映入JSON @ResponseBody,要把对象转换成json格式 -->
-      <dependency>
+        <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
@@ -270,27 +270,27 @@
         </dependency>
 
         <!-- Lucene是apache一个开放源代码的全文和整个数据库精确模糊检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎-->
-<!--        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>5.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-common</artifactId>
-            <version>5.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-            <version>5.4.1</version>
-        </dependency>
+        <!--        <dependency>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-core</artifactId>
+                    <version>5.4.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-analyzers-common</artifactId>
+                    <version>5.4.1</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-queryparser</artifactId>
+                    <version>5.4.1</version>
+                </dependency>
 
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-highlighter</artifactId>
-            <version>5.4.1</version>
-        </dependency>-->
+                <dependency>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-highlighter</artifactId>
+                    <version>5.4.1</version>
+                </dependency>-->
 
         <!-- jsoup作为Java世界最好的HTML解析库 ，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API-->
         <dependency>
@@ -314,9 +314,9 @@
 
         <!--微信相关-->
         <!--<dependency>-->
-            <!--<groupId>cn.com.riversoft</groupId>-->
-            <!--<artifactId>weixin-common</artifactId>-->
-            <!--<version>0.8.9</version>-->
+        <!--<groupId>cn.com.riversoft</groupId>-->
+        <!--<artifactId>weixin-common</artifactId>-->
+        <!--<version>0.8.9</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>commons-beanutils</groupId>
@@ -354,7 +354,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -378,6 +377,13 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.7</version>
+        </dependency>
+
+        <!--微信支付相关jar-->
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
         </dependency>
 
     </dependencies>
