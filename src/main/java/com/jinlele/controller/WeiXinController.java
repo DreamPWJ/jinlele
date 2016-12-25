@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -130,8 +131,8 @@ public class WeiXinController{
     /**
      * js端 连接jssdk 数据准备
      */
-    @RequestMapping(value = "/connect", method = RequestMethod.POST)
     @ResponseBody
+    @RequestMapping(value = "/weixin/jsconnect", method = RequestMethod.POST)
     public Map<String, String> connect(String url) throws Exception {
         Map<String, String> ret = new HashMap<String, String>();
         String token =  WeiXinUtil.getToken(Parameter.corId,Parameter.appsecret).getAccessToken();

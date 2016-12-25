@@ -45,6 +45,7 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
+
         }
     })
     .service('CategoryService', function ($q, $http, JinLeLe) {
@@ -97,7 +98,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise;
                 promise = $http({
                     method: "GET",
-                    url: JinLeLe.api + '/good/getGoodList/'+params.pagenow+'/'+params.categoryname+'/'+params.querytype
+                    url: encodeURI(JinLeLe.api + '/good/getGoodList/'+params.pagenow+'/'+params.categoryname+'/'+params.querytype)
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -225,7 +226,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise
                 promise = $http({
                     method: 'POST',
-                    url: JinLeLe.api + "/wc/signature",
+                    url: JinLeLe.api + "/weixin/jsconnect",
                     params:params
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
@@ -262,7 +263,7 @@ angular.module('starter.services', [])
             weichatConfig: function (timestamp,nonceStr,signature) { //微信JS SDK 通过config接口注入权限验证配置
                 wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                    appId: 'wx39ba5b2a2f59ef2c', // 必填，公众号的唯一标识
+                    appId: 'wx7a6a63e9ee94e24d', // 必填，公众号的唯一标识
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
@@ -327,18 +328,18 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxchooseWXPay: function () {//微信支付请求接口
+   /*         wxchooseWXPay: function () {//微信支付请求接口
                 wx.chooseWXPay({
                     timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                     nonceStr: '', // 支付签名随机串，不长于 32 位
-                    package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=123
                     signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: '', // 支付签名
                     success: function (res) {
                         // 支付成功后的回调函数
                     }
-                });
-            },
+                })
+            },*/
             wxonMenuShareAppMessage: function (title,desc,link,imgUrl) { //获取“分享给朋友”按钮点击状态及自定义分享内容接口
                 wx.onMenuShareAppMessage({
                     title: title, // 分享标题
