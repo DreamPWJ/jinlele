@@ -3,6 +3,7 @@ package com.jinlele.controller;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
+import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,8 +69,9 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
-    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds){
-        orderService.saveOrder(totalprice,totalnum,userId,storeId,goodchildIds);
+    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds ,String chars){
+        JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","")); // 首先把字符串转成 JSONArray  对象
+        orderService.saveOrder(totalprice,totalnum,userId,storeId ,json);
         Map<String, Object> map = new HashedMap();
         map.put("status" , "ok");
         return map;

@@ -205,11 +205,18 @@ angular.module('starter.controllers', [])
                 return;
             }
             $scope.checkedGoodArr = [];
+            $scope.checkedGoodChildArr = [];
             angular.forEach($scope.cartlist.pagingList, function (item) {
                 console.log(JSON.stringify(item.gcid));
                 for (var i = 0, len = $scope.checked.length; i < len; i++) {
+                    var obj = {};
                     if (item.gcid == $scope.checked[i]) {
                         console.log('item.gcid ==');
+                        obj.goodId = item.goodId;
+                        obj.cartId = item.cartId;
+                        obj.gcid = item.gcid;
+                        obj.num = item.num;
+                        $scope.checkedGoodChildArr.push(obj);
                         $scope.checkedGoodArr.push(item);
                     }
                 }
@@ -220,7 +227,7 @@ angular.module('starter.controllers', [])
                 totalnum: $scope.totalnum,
                 userId: localStorage.getItem("jinlele_id"),
                 storeId: 1,//后续需要根据客户选择传入
-                goodchildIds: $scope.checked
+                chars:JSON.stringify($scope.checkedGoodChildArr)
             };
             //去后台生成商成订单 和 订单_商品子表的数据
             CartService.saveOrder($scope.obj).success(function (data) {

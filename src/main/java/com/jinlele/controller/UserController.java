@@ -1,6 +1,8 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IUserService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +45,21 @@ public class UserController {
         Map<String,Object> map=new HashMap();
         map.put("userInfo",userService.getUserInfo(openid));
         return  map;
+    }
+
+    /**
+     * 获得用户id的方法
+     */
+    @ResponseBody
+    @RequestMapping("/getUserInfo")
+    public Map<String,Object>  getUserInfo(HttpServletRequest request){
+        Integer id = (Integer) request.getSession().getAttribute("jinlele_id");
+        User userInfo = (User) request.getSession().getAttribute("userInfo");
+        Map<String ,Object> map = new HashedMap();
+        map.put("userId" , id);
+        map.put("userInfo" , userInfo);
+        return map;
+
     }
 
 }

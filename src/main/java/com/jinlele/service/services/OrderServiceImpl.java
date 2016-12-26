@@ -10,6 +10,8 @@ import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,7 +55,7 @@ public class OrderServiceImpl implements IOrderService {
         return CommonUtil.removePaingMap(paramMap);
     }
 
-    public void saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds){
+    public void saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId ,JSONArray json){
         //订单号生成
         String orderno = StringHelper.getOrderNum();
         ShopOrder order = new ShopOrder(orderno ,totalprice ,totalnum ,userId ,storeId ,1,"001");
@@ -61,13 +63,13 @@ public class OrderServiceImpl implements IOrderService {
         //生成订单
         orderMapper.insertSelective(order);
         //订单_商品中间表数据添加
-        for (int i =0 ,len= goodchildIds.length;i<len;i++){
-            Integer goodchildId = goodchildIds[i];
-            //根据选中的商品子表查询购物车中的id , goodid
-            Map map = cartMapper.findCartIdAndGoodId(goodchildId);
-            Integer cartId = (Integer) map.get("id");
-            Integer goodId = (Integer) map.get("goodId");
-            ShopOrderGood ordergood = new ShopOrderGood(orderno ,goodchildId ,goodId ,"001");
+        for (int i = 0; i < json.size(); i++) {
+            JSONObject jo = (JSONObject) json.get(i);
+            Integer goodId= (Integer) jo.get("goodId");
+            Integer cartId = (Integer) jo.get("cartId");
+            Integer goodchildId = (Integer) jo.get("gcid");
+            Integer num = (Integer) jo.get("num");
+            ShopOrderGood ordergood = new ShopOrderGood(orderno ,goodchildId ,goodId ,num,"001");
             //订单_商品中间表保存数据
             shopOrderGoodMapper.insertSelective(ordergood);
             //删除购物车中下单的数据

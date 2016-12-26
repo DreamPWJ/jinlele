@@ -1,5 +1,7 @@
 package com.jinlele.service.interfaces;
 
+import net.sf.json.JSONArray;
+
 import java.util.Map;
 
 /**
@@ -14,5 +16,5 @@ public interface IOrderService {
     /**
      *生成订单
      */
-    public void saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds);
+    public void saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId ,JSONArray json);
 }

@@ -11,6 +11,8 @@ public class ShopOrderGood {
 
     private Integer goodId;
 
+    private Integer num;
+
     private String comment;
 
     private String deletecode;
@@ -19,16 +21,14 @@ public class ShopOrderGood {
 
     private Date updateTime;
 
-
-
     public ShopOrderGood() {
-
     }
 
-    public ShopOrderGood(String shoporderNo, Integer goodchildId, Integer goodId, String deletecode) {
+    public ShopOrderGood(String shoporderNo, Integer goodchildId, Integer goodId, Integer num, String deletecode) {
         this.shoporderNo = shoporderNo;
         this.goodchildId = goodchildId;
         this.goodId = goodId;
+        this.num = num;
         this.deletecode = deletecode;
     }
 
@@ -62,6 +62,14 @@ public class ShopOrderGood {
 
     public void setGoodId(Integer goodId) {
         this.goodId = goodId;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public String getComment() {
