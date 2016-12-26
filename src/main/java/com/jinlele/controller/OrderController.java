@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,7 +74,7 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
-    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer[] goodchildIds ,String chars){
+    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,String chars){
         JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","")); // 首先把字符串转成 JSONArray  对象
         orderService.saveOrder(totalprice,totalnum,userId,storeId ,json);
         Map<String, Object> map = new HashedMap();
