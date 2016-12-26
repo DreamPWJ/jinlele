@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
 
     })
     //商城订单
-    .controller('OrderListCtrl', function ($scope, WeiXinService) {
+    .controller('OrderListCtrl',['$scope','WeiXinService','OrderListService', function ($scope, WeiXinService,OrderListService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -273,6 +273,13 @@ angular.module('starter.controllers', [])
                 }
                 return '<span class="' + className + '">' + name + '</span>';
             }
+        });
+        $scope.init = {
+            userid: 1,
+            pagenow: 1
+        };
+        OrderListService.getorderLists($scope.init).success(function (data) {
+            $scope.list = data;
         });
         $scope.weixinPay=function () {
             //调用微信支付服务器端接口
@@ -298,7 +305,7 @@ angular.module('starter.controllers', [])
 
         }
 
-    })
+    }])
     //订单详情
     .controller('OrderDetailCtrl', function ($scope) {
 

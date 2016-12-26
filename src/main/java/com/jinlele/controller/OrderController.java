@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +64,11 @@ public class OrderController {
         return orderService.getShopListPaging(pagenow, userid);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getOrderListDetail/{pagenow}/{userid}", method = RequestMethod.GET)
+    public Map<String, Object> getOrderListDetail(@PathVariable int pagenow, @PathVariable int userid) {
+        return orderService.getOrderListDetail(orderService.getShopListPaging(pagenow, userid));
+    }
 
     /**
      * 生成订单

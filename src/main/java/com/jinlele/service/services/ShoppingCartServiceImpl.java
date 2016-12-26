@@ -37,7 +37,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
                 "LEFT JOIN good g on s.good_id = g.id order by s.id\n" +
                 ")as m\n" +
                 "left join goodchild  c on m.gcid = c.id ");
-        paramMap.put("fields", " m.* ,c.imgurl  ");
+        paramMap.put("fields", " m.* ,c.imgurl,c.color  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 100);
         paramMap.put("wherecase", " m.sdelCode='001' AND m.gdelCode='001' AND m.userId= "+userId);

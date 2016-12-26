@@ -6,76 +6,34 @@
     <section class="swiper-wrapper">
         <!-- 未支付 -->
         <section class="swiper-slide">
-            <section class="check">
+            <section class="check" ng-repeat="item in list.orderdetails">
                 <span class="check_title">
-                    <i>2016.10.25 16:20</i>
+                    <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <i>回收</i>
-                    <em>等待买家支付</em>
+                    <em>{{item.shoporderstatusCode}}</em>
                 </span>
-                <section class="product_list">
+                <section class="product_list"  ng-repeat="subitem in item.child">
                     <section class="product">
-                        <span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
+                        <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
                         <section class="text">
-                            <p><a href="#/gooddetail/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                            <span>颜色分类：白色</span>
+                            <p><a href="#/gooddetail/{{subitem.id}}">{{subitem.title}}</a></p>
+                            <span>颜色分类：{{subitem.color}}</span>
                         </section>
                         <section class="price_1">
-                            <em>￥8000.00</em>
-                            <i>X 1</i>
-                        </section>
-                    </section>
-                    <section class="product">
-                        <span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-                        <section class="text">
-                            <p><a href="#/gooddetail/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                            <span>颜色分类：白色</span>
-                        </section>
-                        <section class="price_1">
-                            <em>￥8000.00</em>
-                            <i>X 1</i>
+                            <em>￥{{subitem.saleprice}}</em>
+                            <i>X {{subitem.num}}</i>
                         </section>
                     </section>
                 </section>
                 <section class="check_button">
                     <span>
-                        <em>共1件商品</em>
-                        <em>合计：<i>1800.00</i></em>
+                        <em>共{{item.totalnum}}件商品</em>
+                        <em>合计：<i>{{item.totalprice|number:2}}</i></em>
                     </span>
                     <span>
                         <a href="">联系卖家</a>
-                        <a href="">取消订单</a>
-                        <a href="#/confirmorder">付款</a>
-                    </span>
-                </section>
-            </section>
-            <section class="check">
-                <span class="check_title">
-                    <i>2016.10.25 16:20</i>
-                    <i>换款</i>
-                    <em>等待买家支付</em>
-                </span>
-                <section class="product_list">
-                    <section class="product">
-                        <span class="pic"><a href=""><img src="images/com/01.jpg"></a></span>
-                        <section class="text">
-                            <p><a href="#/gooddetail/2">六福珠宝黄金吊坠女香港热卖款招财...</a></p>
-                            <span>颜色分类：白色</span>
-                        </section>
-                        <section class="price_1">
-                            <em>￥8000.00</em>
-                            <i>X 1</i>
-                        </section>
-                    </section>
-                </section>
-                <section class="check_button">
-                    <span>
-                        <em>共1件商品</em>
-                        <em>合计：<i>1800.00</i></em>
-                    </span>
-                    <span>
-                        <a href="">联系卖家</a>
-                        <a href="">取消订单</a>
-                        <a href="">付款</a>
+                        <a href="{{item.orderno}}">取消订单</a>
+                        <a href="#/confirmorder/{{item.orderno}}">付款</a>
                     </span>
                 </section>
             </section>

@@ -21,6 +21,14 @@
     from shoporder_good
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
+    select o.orderno,o.create_time,o.shoporderstatusCode,g.id,g.title,gc.imgurl,gc.color,g.saleprice,m.num
+from shoporder_good m
+join shoporder o on m.shoporder_no=o.orderno
+join good g on g.id=m.good_id
+join goodchild gc on gc.id=m.goodchild_id
+where m.deleteCode='001' and o.orderno=#{orderno};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shoporder_good
     where id = #{id,jdbcType=INTEGER}

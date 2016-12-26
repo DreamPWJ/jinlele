@@ -15,7 +15,9 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,12 +45,12 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getShopListPaging(int pagenow, int userid) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " shoporder ");
-        paramMap.put("fields", " * ");
+        paramMap.put("tableName", "  shoporder  ");
+        paramMap.put("fields", "  *  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " ");
-        paramMap.put("orderField", " create_time ");
+        paramMap.put("wherecase", " deleteCode='001' and user_id="+userid);
+        paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
@@ -75,6 +77,20 @@ public class OrderServiceImpl implements IOrderService {
             //删除购物车中下单的数据
             cartMapper.deleteByPrimaryKey(cartId);
         }
+    }
+
+    @Override
+    public Map<String, Object> getOrderListDetail(Map map) {
+        Map<String, Object> paramMap = new HashMap<>();
+        List<Map<String, Object>> orderLists = new ArrayList<>();
+        List<Map<String, Object>> orders = (ArrayList) map.get("pagingList");
+        for (int i = 0; i < orders.size(); i++) {
+            List<Map<String, Object>> orderDetailLists = shopOrderGoodMapper.selectOrderDetailByOrderno(orders.get(i).get("orderno").toString());
+            orders.get(i).put("child", orderDetailLists);
+            orderLists.add(orders.get(i));
+        }
+        paramMap.put("orderdetails", orderLists);
+        return paramMap;
     }
 
 }
