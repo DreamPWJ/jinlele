@@ -195,9 +195,9 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('OrderListService',function($q, $http, JinLeLe){
+    .service('OrderListService', function ($q, $http, JinLeLe) {
         return {
-            getorderLists:function(params){
+            getorderLists: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
@@ -258,7 +258,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/weixin/testweixinPay/20150806125346/0.01/商品微信支付测试/okhnkvnWbEdBcu6Oh7j334yqyB0E",
+                    url: JinLeLe.api + "/weixin/testweixinPay/20150806125347/1/商品微信支付测试/okhnkvnWbEdBcu6Oh7j334yqyB0E",
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -298,7 +298,7 @@ angular.module('starter.services', [])
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
-                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'getLocation', 'scanQRCode', 'chooseWXPay', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
             },
             wxcheckJsApi: function () { //判断当前客户端版本是否支持指定微信 JS SDK接口
@@ -316,7 +316,7 @@ angular.module('starter.services', [])
                 wx.chooseImage({
                     count: 6, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                    sourceType:  ['album','camera'] , // 可以指定来源是相册还是相机，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (results) {
                         var localIds = results.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         for (var i = 0, len = localIds.length; i < len; i++) {
@@ -418,17 +418,51 @@ angular.module('starter.services', [])
                 });
             },
             wxchooseWXPay: function (data) {//微信支付请求接口
-                wx.chooseWXPay({
-                    timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                    nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
-                    package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                    paySign: data.paySign, // 支付签名
-                    success: function (res) {
-                        alert("微信支付成功=" + JSON.stringify(res));
-                        // 支付成功后的回调函数
+                function onBridgeReady() {
+                    WeixinJSBridge.invoke(
+                        'getBrandWCPayRequest', {
+                            "appId": "wx7a6a63e9ee94e24d",     //公众号名称，由商户传入
+                            "timeStamp": data.timeStamp,         //时间戳，自1970年以来的秒数
+                            "nonceStr": data.nonceStr, //随机串
+                            "package": data.package,
+                            "signType": "MD5",         //微信签名方式:
+                            "paySign": data.paySign //微信签名
+                        },
+                        function (res) {
+                            alert(JSON.stringify(res));
+                            alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+
+                        }
+                    );
+                }
+
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
                     }
-                });
+                } else {
+                    onBridgeReady();
+                }
+
+                /*           wx.chooseWXPay({
+                 timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                 nonceStr: data.nonceStr, // 支付签名随机串，不长于 32 位
+                 package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                 signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                 paySign: data.paySign, // 支付签名
+                 success: function (res) {
+                 alert("微信支付成功=" + JSON.stringify(res));
+                 // 支付成功后的回调函数
+                 },
+
+
+                 });
+                 wx.error(function (res) {
+                 alert(res.errMsg);
+                 });*/
             }
         }
     })

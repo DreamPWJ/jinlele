@@ -30,8 +30,8 @@ import java.util.*;
  * 微信支付公共类
  */
 public class PayCommonUtil {
-    //微信参数配置
-    public static String API_KEY = "94687ed9a79a98b05115f4ff37049ab8";
+    //微信商户微信参数配置（与微信公共号的不一样）
+    public static String API_KEY = "abcdefghijklmnopqrstuvwxyztuokem";
     public static String APPID = "wx7a6a63e9ee94e24d";
     public static String MCH_ID = "1422893502";
 
@@ -53,27 +53,27 @@ public class PayCommonUtil {
         parameterMap.put("nonce_str", randomString);// 随机字符串
         parameterMap.put("body", description);// 商品描述
         parameterMap.put("out_trade_no", sn);// 商户订单号
-        parameterMap.put("fee_type", "CNY");
+        parameterMap.put("fee_type", "CNY");//人民币
 
-        BigDecimal total = totalAmount.multiply(new BigDecimal(100));
+        BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
         java.text.DecimalFormat df = new java.text.DecimalFormat("0");
         parameterMap.put("total_fee", df.format(total));// 支付金额
 
         parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
         parameterMap.put("notify_url", "http://6weiyi.com");// 接收微信支付异步通知回调地址
-        parameterMap.put("trade_type", "JSAPI");// 交易类型
+        parameterMap.put("trade_type", "JSAPI");// 交易类型 JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参可参考这里MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
         //trade_type为JSAPI是 openid为必填项
         parameterMap.put("openid", openid);// 用户标识
-        System.out.println("");
+
         String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
 
         parameterMap.put("sign", sign);// 签名
         String requestXML = PayCommonUtil.getRequestXml(parameterMap);
-        System.out.println(requestXML);
+        System.out.println("requestXML===============" + requestXML);
         String result = PayCommonUtil.httpsRequest(
                 "https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",
                 requestXML);
-        System.out.println(result);
+        System.out.println("result===============" + result);
         Map<String, String> map = null;
         try {
             map = PayCommonUtil.doXMLParse(result);
@@ -134,7 +134,7 @@ public class PayCommonUtil {
             }
         }
         sb.append("key=" + API_KEY);
-        System.out.println(sb.toString());
+        System.out.println("createSign==============="+sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;
     }

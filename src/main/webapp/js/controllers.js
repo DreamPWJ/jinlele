@@ -227,7 +227,7 @@ angular.module('starter.controllers', [])
                 totalnum: $scope.totalnum,
                 userId: localStorage.getItem("jinlele_id"),
                 storeId: 1,//后续需要根据客户选择传入
-                chars:JSON.stringify($scope.checkedGoodChildArr)
+                chars: JSON.stringify($scope.checkedGoodChildArr)
             };
             //去后台生成商成订单 和 订单_商品子表的数据
             CartService.saveOrder($scope.obj).success(function (data) {
@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
 
     })
     //商城订单
-    .controller('OrderListCtrl',['$scope','WeiXinService','OrderListService', function ($scope, WeiXinService,OrderListService) {
+    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', function ($scope, WeiXinService, OrderListService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -281,29 +281,15 @@ angular.module('starter.controllers', [])
         OrderListService.getorderLists($scope.init).success(function (data) {
             $scope.list = data;
         });
-        $scope.weixinPay=function () {
+
+        //微信支付调用
+        $scope.weixinPay = function () {
             //调用微信支付服务器端接口
             WeiXinService.getweixinPayData().success(function (data) {
-                alert(JSON.stringify(data));
-                //通过config接口注入权限验证配置
-                WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-                //通过ready接口处理成功验证
-                wx.ready(function () {
-                    WeiXinService.wxchooseWXPay(data); //调起微支付接口
-                })
-
+                WeiXinService.wxchooseWXPay(data); //调起微支付接口
             })
         }
 
-        $scope.wxchooseImage=function () {
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
-                WeiXinService.wxchooseImage(1)
-            })
-
-        }
 
     }])
     //订单详情

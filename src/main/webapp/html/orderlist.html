@@ -1,4 +1,3 @@
-
 <!-- 内容 -->
 <main class="content swiper-container">
 
@@ -12,7 +11,7 @@
                     <i>回收</i>
                     <em>{{item.shoporderstatusCode}}</em>
                 </span>
-                <section class="product_list"  ng-repeat="subitem in item.child">
+                <section class="product_list" ng-repeat="subitem in item.child">
                     <section class="product">
                         <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
                         <section class="text">
@@ -33,13 +32,14 @@
                     <span>
                         <a href="">联系卖家</a>
                         <a href="{{item.orderno}}">取消订单</a>
-                        <a href="#/confirmorder/{{item.orderno}}">付款</a>
+                        <a ng-click="weixinPay()">付款</a>
+                        <!--        <a href="#/confirmorder/{{item.orderno}}">付款</a>-->
                     </span>
                 </section>
             </section>
             <section class="collection_load"><a href="">加载更多</a></section>
         </section>
-        
+
         <!-- 已支付 -->
         <section class="swiper-slide">
             <section class="check">
@@ -126,7 +126,7 @@
             </section>
             <section class="collection_load"><a href="">加载更多</a></section>
         </section>
-        
+
         <!-- 已签收 -->
         <section class="swiper-slide">
             <section class="check">
@@ -211,10 +211,10 @@
                     </span>
                 </section>
             </section>
-            
+
             <section class="collection_load"><a href="">加载更多</a></section>
         </section>
-        
+
         <!-- 退单 -->
         <section class="swiper-slide">
             <section class="check">
@@ -300,5 +300,5 @@
             <section class="collection_load"><a href="">加载更多</a></section>
         </section>
     </section>
-    
+
 </main>
