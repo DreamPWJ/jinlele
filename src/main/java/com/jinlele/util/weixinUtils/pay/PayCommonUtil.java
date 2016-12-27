@@ -27,13 +27,12 @@ import java.util.*;
 
 /**
  * Created by Administrator on 2016/12/25 0025.
- * 微信支付公共类
+ * 微信JS SDK支付公共类
  */
 public class PayCommonUtil {
-    //微信商户微信参数配置（与微信公共号的不一样）
-    public static String API_KEY = "abcdefghijklmnopqrstuvwxyztuokem";
-    public static String APPID = "wx7a6a63e9ee94e24d";
-    public static String MCH_ID = "1422893502";
+    public static String APPID = "wx7a6a63e9ee94e24d"; //公共号APPID
+    public static String MCH_ID = "1422893502";//公共号商户ID
+    public static String API_KEY = "abcdefghijklmnopqrstuvwxyztuokem";  //微信商户微信参数配置（与微信公共号的不一样）
 
     /**
      * 微信支付预处理
@@ -134,7 +133,7 @@ public class PayCommonUtil {
             }
         }
         sb.append("key=" + API_KEY);
-        System.out.println("createSign==============="+sb.toString());
+        System.out.println("createSign===============" + sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;
     }
