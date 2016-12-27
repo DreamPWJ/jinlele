@@ -36,10 +36,8 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/getCartList/{pagenow}/{userid}", method = RequestMethod.GET)
     public Map<String, Object> getCartList(@PathVariable int pagenow, @PathVariable  int userid) {
-
         return  shoppingCartService.getShoppingCartPaging(pagenow, userid);
     }
-
 
     /**
      * 更新或添加购物车
@@ -58,15 +56,26 @@ public class OrderController {
      * 商城订单列表
      */
     @ResponseBody
-    @RequestMapping(value = "/getShopList/{pagenow}/{userid}", method = RequestMethod.GET)
-    public Map<String, Object> getShopList(@PathVariable int pagenow, @PathVariable int userid) {
-        return orderService.getShopListPaging(pagenow, userid);
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/getOrderListDetail/{pagenow}/{userid}", method = RequestMethod.GET)
     public Map<String, Object> getOrderListDetail(@PathVariable int pagenow, @PathVariable int userid) {
         return orderService.getOrderListDetail(orderService.getShopListPaging(pagenow, userid));
+    }
+
+    /**
+     * 获取添加评价
+     * @param orderno
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getAddComment/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getAddComment(@PathVariable String orderno) {
+        return orderService.selectOrderDetailByOrderno(orderno);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updateOrderStatus/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> updateOrderStatus(@PathVariable String orderno) {
+        return orderService.updateOrderStatusByOrderno(orderno);
     }
 
     /**

@@ -107,8 +107,8 @@ angular.module('starter.controllers', [])
                 angular.forEach($scope.cartlist.pagingList, function (data, index) {
                     $scope.checked.push(data.gcid);
                     $scope.m[data.gcid] = true;
-                    $scope.totalnum += data.num;
-                    $scope.totalprice += data.num * data.saleprice;
+                    $scope.totalnum += parseInt(data.num);
+                    $scope.totalprice += parseInt(data.num) * data.saleprice;
                 })
                 $('#' + choseall.gcid).siblings("label").addClass("on");
                 angular.forEach($scope.checked, function (i, index) {
@@ -150,8 +150,8 @@ angular.module('starter.controllers', [])
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
                 var f = $scope.checked.indexOf(data.gcid);
                 if (data && f !== -1) {
-                    $scope.totalnum += data.num;
-                    $scope.totalprice += data.num * data.saleprice;
+                    $scope.totalnum +=parseInt(data.num);
+                    $scope.totalprice += parseInt(data.num) * data.saleprice;
                 }
             })
             console.log($scope.checked);
@@ -175,8 +175,8 @@ angular.module('starter.controllers', [])
                 }
                 var f = $scope.checked.indexOf(item.gcid);
                 if (item && f !== -1) {
-                    $scope.totalnum += item.num;
-                    $scope.totalprice += item.num * item.saleprice;
+                    $scope.totalnum += parseInt(item.num);
+                    $scope.totalprice += parseInt(item.num) * item.saleprice;
                 }
             }
         }
@@ -193,7 +193,7 @@ angular.module('starter.controllers', [])
                 var f = $scope.checked.indexOf(item.gcid);
                 if (item && f !== -1) {
                     $scope.totalnum += parseInt(item.num);
-                    $scope.totalprice += item.num * item.saleprice;
+                    $scope.totalprice += parseInt(item.num) * item.saleprice;
                 }
             }
         }
@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
 
     })
     //商城订单
-    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', function ($scope, WeiXinService, OrderListService) {
+    .controller('OrderListCtrl',['$scope','WeiXinService','OrderListService','CancleOrderService', function ($scope, WeiXinService,OrderListService,CancleOrderService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -257,7 +257,7 @@ angular.module('starter.controllers', [])
             paginationBulletRender: function (index, className) {
                 switch (index) {
                     case 0:
-                        name = '未支付';
+                        name = '待付款';
                         break;
                     case 1:
                         name = '已支付';
@@ -281,7 +281,16 @@ angular.module('starter.controllers', [])
         OrderListService.getorderLists($scope.init).success(function (data) {
             $scope.list = data;
         });
-
+        $scope.cancleorder=function(orderno){
+            //修改后，重新请求数据
+            CancleOrderService.updateStatus({orderno:orderno}).success(function(data){
+                if(parseInt(data.resultnumber)>0){
+                    OrderListService.getorderLists($scope.init).success(function (data) {
+                        $scope.list = data;
+                    });
+                }
+            });
+        }
         //微信支付调用
         $scope.weixinPay = function () {
             //调用微信支付服务器端接口
@@ -298,7 +307,7 @@ angular.module('starter.controllers', [])
     })
     //退货
     .controller('ReturnApplyCtrl', function ($scope) {
-        $(document).ready(function () {
+        $(function () {
             $('.default').dropkick();
             theme:'black'
         });
@@ -399,10 +408,12 @@ angular.module('starter.controllers', [])
 
     })
 
-
     //发表评论
-    .controller('AddCommentCtrl', function ($scope) {
-
+    .controller('AddCommentCtrl', function ($scope, $stateParams,AddCommentService) {
+        $scope.orderno=$stateParams.orderno;
+        AddCommentService.getOrderDetail({orderno:$scope.orderno}).success(function(data){
+            $scope.commentList = data;
+        })
     })
 
     //确认订单

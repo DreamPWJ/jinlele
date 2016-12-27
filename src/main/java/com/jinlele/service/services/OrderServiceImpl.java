@@ -39,6 +39,9 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     ShopOrderGoodMapper shopOrderGoodMapper;
 
+    @Resource
+    ShopOrderMapper shopOrderMapper;
+
     /**
      * 商城订单列表
      */
@@ -48,7 +51,7 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("tableName", "  shoporder  ");
         paramMap.put("fields", "  *  ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("pageSize", 2*SysConstants.PAGESIZE);
         paramMap.put("wherecase", " deleteCode='001' and user_id="+userid);
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
@@ -93,4 +96,20 @@ public class OrderServiceImpl implements IOrderService {
         return paramMap;
     }
 
+    @Override
+    public Map<String, Object> selectOrderDetailByOrderno(String orderno) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("orderdetail",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
+        return paramMap;
+    }
+
+    @Override
+    public Map<String, Object> updateOrderStatusByOrderno(String orderno) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        ShopOrder shopOrder=new ShopOrder();
+        shopOrder.setShoporderstatuscode("008");
+        shopOrder.setOrderno(orderno);
+        paramMap.put("resultnumber",shopOrderMapper.updateByPrimaryKeySelective(shopOrder));
+        return paramMap;
+    }
 }

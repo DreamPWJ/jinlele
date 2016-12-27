@@ -24,4 +24,18 @@ public interface IOrderService {
      * @return
      */
     Map<String,Object> getOrderListDetail(Map<String,Object> map);
+
+    /**
+     * 根据订单号查询订单详情
+     * @param orderno
+     * @return
+     */
+    Map<String, Object> selectOrderDetailByOrderno(String orderno);
+
+    /**
+     *
+     * @param orderno
+     * @return
+     */
+    Map<String, Object> updateOrderStatusByOrderno(String orderno);
 }

@@ -68,8 +68,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/gooddetail.html',
                 controller: 'GoodDetailCtrl'
             })
-            .state('addcomment', {  //添加评论
-                url: '/addcomment',
+            .state('addcomment', {  //添加评价
+                url: '/addcomment/:orderno',
                 templateUrl: 'html/addcomment.html',
                 controller: 'AddCommentCtrl'
             })
