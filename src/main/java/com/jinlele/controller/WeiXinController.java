@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -217,7 +218,7 @@ public class WeiXinController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/weixin/testweixinPay/{sn}/{totalAmount}/{description}/{openId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/weixin/weixinPay/{sn}/{totalAmount}/{description}/{openId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public SortedMap<String, Object> toWeiXinPay(@PathVariable String sn, @PathVariable BigDecimal totalAmount, @PathVariable String description, @PathVariable String openId, HttpServletRequest request) {
         Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomString, request);
         SortedMap<String, Object> finalpackage = new TreeMap<String, Object>();//通过子类TreeMap实例化接口对象 可用于排序
