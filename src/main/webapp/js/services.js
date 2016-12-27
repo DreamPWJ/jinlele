@@ -283,7 +283,7 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('WeiXinService', function ($q, $http, JinLeLe) { //微信 JS SDK 接口服务定义
+    .service('WeiXinService', function ($q, $http, JinLeLe ,$sce) { //微信 JS SDK 接口服务定义
         return {
             //获取微信签名
             getWCSignature: function (params) {
@@ -346,7 +346,7 @@ angular.module('starter.services', [])
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
-                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage','openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
             },
             wxcheckJsApi: function () { //判断当前客户端版本是否支持指定微信 JS SDK接口
@@ -357,9 +357,9 @@ angular.module('starter.services', [])
                         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
                     }
                 });
-
             },
-            wxchooseImage: function () { //拍照或从手机相册中选图接口
+            wxchooseImage: function (callback) { //拍照或从手机相册中选图接口
+                alert(1);
                 WeiXinService = this;
                 wx.chooseImage({
                     count: 6, // 默认9
@@ -367,9 +367,13 @@ angular.module('starter.services', [])
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (results) {
                         var localIds = results.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        var newlocalIds = [];
                         for (var i = 0, len = localIds.length; i < len; i++) {
-                            WeiXinService.wxuploadImage(localIds[i].toString())
+                            localIds[i] =  localIds[i].toString();
+                            $sce.trustAsResourceUrl(localIds[i]);
+                            newlocalIds.push(localIds[i]);
                         }
+                        callback.call(this , newlocalIds);
                     }
                 });
             },
@@ -380,6 +384,7 @@ angular.module('starter.services', [])
                     isShowProgressTips: 1, // 默认为1，显示进度提示
                     success: function (res) {
                         var serverId = res.serverId; // 返回图片的服务器端ID
+                        alert("媒体id为:=="+serverId);
                     }
                 });
             },
@@ -465,6 +470,17 @@ angular.module('starter.services', [])
                     }
                 });
             },
+            wxopenAddress : function () {//编辑并获取收货地址
+                wx.openAddress({
+                    success: function (res) {
+                        // 用户成功拉出地址
+                        alert(JSON.stringify(res));
+                    },
+                    cancel: function () {
+                        // 用户取消拉出地址
+                    }
+                });
+            },
             wxchooseWXPay: function (data) {//微信支付请求接口
                 function onBridgeReady() {
                     WeixinJSBridge.invoke(
@@ -477,8 +493,8 @@ angular.module('starter.services', [])
                             "paySign": data.paySign //微信签名
                         },
                         function (res) {
-                            // alert(JSON.stringify(res));
-                            // alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+                           //  alert(JSON.stringify(res));
+                          //   alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
 
                         }
                     );

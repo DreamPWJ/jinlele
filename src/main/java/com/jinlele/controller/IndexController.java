@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -28,7 +29,9 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/getIndexInfo", method = RequestMethod.GET)
     public Map<String, Object> getIndexInfo() {
-        return indexService.getIndexInfo();
+        Map<String, Object> indexmap=indexService.getIndexInfo();
+        indexmap.put("openId",WeiXinController.openIds);
+        return indexmap;
     }
 
     /**

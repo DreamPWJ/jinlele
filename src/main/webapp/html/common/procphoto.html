@@ -254,15 +254,15 @@
     
     <!-- 拍照 -->
     <section class="photograph">
-        <ul>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><i class="icon">&#xe600;</i><input type="file"></li>
+        <ul >
+            <wx-img ng-repeat="per in localIds"></wx-img>
+            <li >
+                <span><img  id="img1"></span>
+                <a class="icon" href="">&#xe721;</a>
+            </li>
+            <li ng-click="wxchooseImage()"><i class="icon">&#xe600;</i></li>
         </ul>
-        <p>文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述</p>
+        <p contenteditable="true">这里请填写产品文字描述..</p>
     </section>
     
     <!-- 翻新案例 -->
