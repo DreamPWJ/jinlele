@@ -7,13 +7,14 @@
     <result column="goodchild_id" property="goodchildId" jdbcType="INTEGER" />
     <result column="good_id" property="goodId" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
-    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="comment_id" property="commentId" jdbcType="INTEGER" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, shoporder_no, goodchild_id, good_id, num, comment, deleteCode, create_time, update_time
+    id, shoporder_no, goodchild_id, good_id, num, comment_id, deleteCode, create_time, 
+    update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -21,25 +22,17 @@
     from shoporder_good
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
-    select o.orderno,o.create_time,o.shoporderstatusCode,g.id,g.title,gc.imgurl,gc.color,g.saleprice,m.num
-from shoporder_good m
-join shoporder o on m.shoporder_no=o.orderno
-join good g on g.id=m.good_id
-join goodchild gc on gc.id=m.goodchild_id
-where m.deleteCode='001' and o.orderno=#{orderno};
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shoporder_good
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.ShopOrderGood" >
     insert into shoporder_good (id, shoporder_no, goodchild_id, 
-      good_id, num, comment, 
+      good_id, num, comment_id, 
       deleteCode, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{shoporderNo,jdbcType=VARCHAR}, #{goodchildId,jdbcType=INTEGER}, 
-      #{goodId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, 
+      #{goodId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, 
       #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -61,8 +54,8 @@ where m.deleteCode='001' and o.orderno=#{orderno};
       <if test="num != null" >
         num,
       </if>
-      <if test="comment != null" >
-        comment,
+      <if test="commentId != null" >
+        comment_id,
       </if>
       <if test="deletecode != null" >
         deleteCode,
@@ -90,8 +83,8 @@ where m.deleteCode='001' and o.orderno=#{orderno};
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
       </if>
-      <if test="comment != null" >
-        #{comment,jdbcType=VARCHAR},
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
       </if>
       <if test="deletecode != null" >
         #{deletecode,jdbcType=CHAR},
@@ -119,8 +112,8 @@ where m.deleteCode='001' and o.orderno=#{orderno};
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
       </if>
-      <if test="comment != null" >
-        comment = #{comment,jdbcType=VARCHAR},
+      <if test="commentId != null" >
+        comment_id = #{commentId,jdbcType=INTEGER},
       </if>
       <if test="deletecode != null" >
         deleteCode = #{deletecode,jdbcType=CHAR},
@@ -140,10 +133,19 @@ where m.deleteCode='001' and o.orderno=#{orderno};
       goodchild_id = #{goodchildId,jdbcType=INTEGER},
       good_id = #{goodId,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
-      comment = #{comment,jdbcType=VARCHAR},
+      comment_id = #{commentId,jdbcType=INTEGER},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
+    select o.orderno,o.create_time,o.shoporderstatusCode,g.id,g.title,gc.imgurl,gc.color,g.saleprice,m.num
+    from shoporder_good m
+    join shoporder o on m.shoporder_no=o.orderno
+    join good g on g.id=m.good_id
+    join goodchild gc on gc.id=m.goodchild_id
+    where m.deleteCode='001' and o.orderno=#{orderno};
+  </select>
 </mapper>

@@ -13,7 +13,7 @@ public class ShopOrderGood {
 
     private Integer num;
 
-    private String comment;
+    private Integer commentId;
 
     private String deletecode;
 
@@ -72,12 +72,12 @@ public class ShopOrderGood {
         this.num = num;
     }
 
-    public String getComment() {
-        return comment;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public String getDeletecode() {

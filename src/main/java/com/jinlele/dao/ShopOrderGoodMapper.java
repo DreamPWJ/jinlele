@@ -12,7 +12,6 @@ public interface ShopOrderGoodMapper {
     int insertSelective(ShopOrderGood record);
 
     ShopOrderGood selectByPrimaryKey(Integer id);
-
     /**
      * 根据订单号查询订单详情
      * @param orderno
