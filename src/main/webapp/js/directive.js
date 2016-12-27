@@ -145,3 +145,17 @@ angular.module('starter.directive', [])
         }
     }
 })
+
+//微信图片src处理
+.directive('wxImg', function() {
+    return {
+        restrict:'E',
+        replace :true,
+        template:'<img src="">',
+        link: function(scope, elem, attr) {
+             scope.$watch('per',function(nowVal){
+                elem.attr('src',nowVal);
+            })
+        }
+    };
+});

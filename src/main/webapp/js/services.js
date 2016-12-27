@@ -269,7 +269,7 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('WeiXinService', function ($q, $http, JinLeLe) { //微信 JS SDK 接口服务定义
+    .service('WeiXinService', function ($q, $http, JinLeLe ,$sce) { //微信 JS SDK 接口服务定义
         return {
             //获取微信签名
             getWCSignature: function (params) {
@@ -344,7 +344,8 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxchooseImage: function () { //拍照或从手机相册中选图接口
+            wxchooseImage: function (callback) { //拍照或从手机相册中选图接口
+                alert(1);
                 WeiXinService = this;
                 wx.chooseImage({
                     count: 6, // 默认9
@@ -352,9 +353,13 @@ angular.module('starter.services', [])
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (results) {
                         var localIds = results.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        var newlocalIds = [];
                         for (var i = 0, len = localIds.length; i < len; i++) {
-                            WeiXinService.wxuploadImage(localIds[i].toString())
+                            localIds[i] =  localIds[i].toString();
+                            $sce.trustAsResourceUrl(localIds[i]);
+                            newlocalIds.push(localIds[i]);
                         }
+                        callback.call(this , newlocalIds);
                     }
                 });
             },
@@ -365,6 +370,7 @@ angular.module('starter.services', [])
                     isShowProgressTips: 1, // 默认为1，显示进度提示
                     success: function (res) {
                         var serverId = res.serverId; // 返回图片的服务器端ID
+                        alert("媒体id为:=="+serverId);
                     }
                 });
             },

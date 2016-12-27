@@ -421,20 +421,40 @@ angular.module('starter.controllers', [])
         $scope.goodsArr = JSON.parse($stateParams.checkedGoodArr);
         $scope.totalprice = $stateParams.totalprice;
         $scope.totalnum = $stateParams.totalnum;
-        // $(".check_label").checkbox();
+        //$(".check_label").checkbox();
         console.log("--" + JSON.stringify($scope.goodsArr));
         // $scope.goodArr =    $stateParams.checkedGoodArr;
         // console.log( $scope.goodArr);
 
     })
     //流程-拍照
-    .controller('ProcPhotoCtrl', function ($scope, $stateParams) {
+    .controller('ProcPhotoCtrl', function ($scope, $stateParams ,WeiXinService) {
         console.log($stateParams.name);
+        console.log(5656);
         $scope.pagetheme = $stateParams.name;
         $scope.localflag = false;
         if ($stateParams.name == "repair") {
             $scope.localflag = true;
         }
+
+
+        $scope.wxchooseImage=function () {
+            alert(11);
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxchooseImage(function (localIds) {
+                    alert(JSON.stringify(localIds)) ;
+                    $scope.localIds =localIds;
+                    $scope.$apply();
+                    alert(3) ;
+                })
+            })
+
+        }
+
+
 
     })
     //流程-提交订单
@@ -505,6 +525,20 @@ angular.module('starter.controllers', [])
         if ($stateParams.name != "refurbish") {
             $location.path("/");
         }
+
+
+
+        $scope.wxchooseImage=function () {
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxchooseImage()
+            })
+
+        }
+
+
 
     })
     //维修-定价
