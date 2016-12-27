@@ -17,10 +17,10 @@ angular.module('starter.controllers', [])
         //自动读取网页授权接口获取用户的opendId,从而得到用户的信息，得到前台用户的id，这里暂时强制设定用户的id
         localStorage.setItem("jinlele_id", 1); //1应该是从数据库中查到的
 
-
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
+            localStorage.setItem("openId", data.openId);//缓存微信用户唯一标示openId
         }).then(function () {
             //首页新品推荐分页显示
             MainService.getNewProducts({pagenow: 1}).success(function (data) {
@@ -150,7 +150,7 @@ angular.module('starter.controllers', [])
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
                 var f = $scope.checked.indexOf(data.gcid);
                 if (data && f !== -1) {
-                    $scope.totalnum +=parseInt(data.num);
+                    $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.saleprice;
                 }
             })
@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
 
     })
     //商城订单
-    .controller('OrderListCtrl',['$scope','WeiXinService','OrderListService','CancleOrderService', function ($scope, WeiXinService,OrderListService,CancleOrderService) {
+    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'CancleOrderService', function ($scope, WeiXinService, OrderListService, CancleOrderService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -281,10 +281,10 @@ angular.module('starter.controllers', [])
         OrderListService.getorderLists($scope.init).success(function (data) {
             $scope.list = data;
         });
-        $scope.cancleorder=function(orderno){
+        $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据
-            CancleOrderService.updateStatus({orderno:orderno}).success(function(data){
-                if(parseInt(data.resultnumber)>0){
+            CancleOrderService.updateStatus({orderno: orderno}).success(function (data) {
+                if (parseInt(data.resultnumber) > 0) {
                     OrderListService.getorderLists($scope.init).success(function (data) {
                         $scope.list = data;
                     });
@@ -409,9 +409,9 @@ angular.module('starter.controllers', [])
     })
 
     //发表评论
-    .controller('AddCommentCtrl', function ($scope, $stateParams,AddCommentService) {
-        $scope.orderno=$stateParams.orderno;
-        AddCommentService.getOrderDetail({orderno:$scope.orderno}).success(function(data){
+    .controller('AddCommentCtrl', function ($scope, $stateParams, AddCommentService) {
+        $scope.orderno = $stateParams.orderno;
+        AddCommentService.getOrderDetail({orderno: $scope.orderno}).success(function (data) {
             $scope.commentList = data;
         })
     })

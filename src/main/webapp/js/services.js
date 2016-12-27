@@ -332,7 +332,7 @@ angular.module('starter.services', [])
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
-                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage','openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
             },
             wxcheckJsApi: function () { //判断当前客户端版本是否支持指定微信 JS SDK接口
@@ -343,7 +343,6 @@ angular.module('starter.services', [])
                         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
                     }
                 });
-
             },
             wxchooseImage: function () { //拍照或从手机相册中选图接口
                 WeiXinService = this;
@@ -451,6 +450,17 @@ angular.module('starter.services', [])
                     }
                 });
             },
+            wxopenAddress : function () {//编辑并获取收货地址
+                wx.openAddress({
+                    success: function (res) {
+                        // 用户成功拉出地址
+                        alert(JSON.stringify(res));
+                    },
+                    cancel: function () {
+                        // 用户取消拉出地址
+                    }
+                });
+            },
             wxchooseWXPay: function (data) {//微信支付请求接口
                 function onBridgeReady() {
                     WeixinJSBridge.invoke(
@@ -463,8 +473,8 @@ angular.module('starter.services', [])
                             "paySign": data.paySign //微信签名
                         },
                         function (res) {
-                            // alert(JSON.stringify(res));
-                            // alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+                           //  alert(JSON.stringify(res));
+                          //   alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
 
                         }
                     );

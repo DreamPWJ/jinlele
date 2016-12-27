@@ -41,6 +41,7 @@ public class WeiXinController {
 
     String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
     String randomString = PayCommonUtil.getRandomString(32);
+    public static String openIds;
 
     /**
      * 微信验签
@@ -187,6 +188,7 @@ public class WeiXinController {
             System.out.println("accessToken====" + code);
             //用户标示
             String openId = weiXinOauth2Token.getOpenId();
+            openIds = openId;
             System.out.println("openid===" + openId);
             //去数据库查询有无数据，没有就去保存
             User userInfo = userService.getUserInfo(openId);
@@ -198,13 +200,22 @@ public class WeiXinController {
                 userInfo = AdvancedUtil.getUserInfo(Token, openId);
                 userService.insertSelective(userInfo);
             }
-            System.out.println(new JSONObject().fromObject(userInfo));
-            model.addAttribute("snSuserInfo", userInfo);
+
         } else {
             return null;
         }
-        return "index";
+        return "redirect:/mall";
 
+    }
+
+    /**
+     * 页面授权回调页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/mall")
+    public String toindex() {
+        return "index";
     }
 
     /**
