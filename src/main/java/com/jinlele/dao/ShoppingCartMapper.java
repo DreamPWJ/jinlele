@@ -27,4 +27,7 @@ public interface ShoppingCartMapper {
     List getShopcharInfo(ShoppingCart record);
 
     Map findCartIdAndGoodId(@Param("goodchildId") Integer goodchildId);
+
+    //根据用户id商品子id删除
+    int deleteByUserIdGcid(int userid, int gcid);
 }

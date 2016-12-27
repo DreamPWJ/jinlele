@@ -41,12 +41,12 @@
 </footer>
 
 <!-- 提示 -->
-<section class="mask" style="display:none;">
+<section class="mask" style="display:none;" ng-style="delstyle">
     <section class="layer prompt">
-        <p>确定要删除这件商品？</p>
+        <p>确定要删除选中的商品？</p>
         <section class="submit">
-            <a href="">确定</a>
-            <a href="">取消</a>
+            <a href="" ng-click="confirm()">确定</a>
+            <a href="" ng-click="cancle()">取消</a>
         </section>
     </section>
 </section>

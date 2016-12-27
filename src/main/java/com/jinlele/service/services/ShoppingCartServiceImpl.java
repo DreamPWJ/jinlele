@@ -89,5 +89,10 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         return shoppingCartMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public int deleteByUserIdGcid(int userid, int gcid) {
+        return shoppingCartMapper.deleteByUserIdGcid(userid,gcid);
+    }
+
 
 }

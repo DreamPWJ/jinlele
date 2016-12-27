@@ -52,6 +52,20 @@ public class OrderController {
        return shoppingCartService.addShoppingCart(cart);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/deleteShoppingCart/{userid}/{gcIdStr}",method = RequestMethod.GET)
+    public int deleteShoppingCart(@PathVariable int userid,@PathVariable String gcIdStr) {
+        String[] gcIds=gcIdStr.split("-");
+        int count =0;
+        for (int i=0;i<gcIds.length;i++){
+            count+=shoppingCartService.deleteByUserIdGcid(userid,Integer.valueOf(gcIds[i]));
+        }
+        if(count==gcIds.length){
+            return 1;
+        }
+        return 0;
+    }
+
     /**
      * 商城订单列表
      */

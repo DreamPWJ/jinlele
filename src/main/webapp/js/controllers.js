@@ -63,6 +63,7 @@ angular.module('starter.controllers', [])
             },
             //根据一级分类id 查询所有的二级分类
             getSecondCatogories: function (pid) {
+                $scope.catogoryid=pid;
                 CategoryService.getSecondCatogories(pid).success(function (data) {
                     $scope.secondCatogories = data;
                     if ($scope.secondCatogories != null && $scope.secondCatogories.length > 0) {
@@ -77,7 +78,7 @@ angular.module('starter.controllers', [])
         });
         //初始加载二级分类和下面的产品列表
         $scope.init.getSecondCatogories($stateParams.id);
-
+        $scope.catogoryid=$stateParams.id;
     })
 
 
@@ -91,54 +92,55 @@ angular.module('starter.controllers', [])
             userid: 1,
             pagenow: 1
         };
+        $scope.delstyle={display:'none'};
         CartService.getcartinfo($scope.init).success(function (data) {
             $scope.cartlist = data;
         });
         $scope.totalnum = 0;
         $scope.totalprice = 0;
         $scope.m = [];
-        $scope.checked = [];
+        $scope.checkedGcIds = [];
         //全选
         $scope.selectAll = function ($event) {
             var choseall = $event.target;
             if ($scope.select_all) {
                 $scope.select_one = true;
-                $scope.checked = [];
+                $scope.checkedGcIds = [];
                 angular.forEach($scope.cartlist.pagingList, function (data, index) {
-                    $scope.checked.push(data.gcid);
+                    $scope.checkedGcIds.push(data.gcid);
                     $scope.m[data.gcid] = true;
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.saleprice;
                 })
                 $('#' + choseall.gcid).siblings("label").addClass("on");
-                angular.forEach($scope.checked, function (i, index) {
+                angular.forEach($scope.checkedGcIds, function (i, index) {
                     $('#' + i).siblings("label").addClass("on");
                 })
             } else {
                 $scope.select_one = false;
-                $scope.checked = [];
+                $scope.checkedGcIds = [];
                 $scope.m = [];
                 $scope.totalnum = 0;
                 $scope.totalprice = 0;
                 $('.check_label').removeClass("on");
             }
-            console.log($scope.checked);
+            console.log($scope.checkedGcIds);
         };
         //单选
         $scope.selectOne = function ($event, select) {
             var choseone = $event.target;
             angular.forEach($scope.m, function (data, id) {
-                var index = $scope.checked.indexOf(id);
+                var index = $scope.checkedGcIds.indexOf(id);
                 if (data && index === -1) {
-                    $scope.checked.push(id);
+                    $scope.checkedGcIds.push(id);
                     $('#' + choseone.id).siblings("label").addClass("on");
                 } else if (!data && index !== -1) {
-                    $scope.checked.splice(index, 1);
+                    $scope.checkedGcIds.splice(index, 1);
                     $('#' + choseone.id).siblings("label").removeClass("on");
                 }
                 ;
             })
-            if ($scope.cartlist.pagingList.length === $scope.checked.length) {
+            if ($scope.cartlist.pagingList.length === $scope.checkedGcIds.length) {
                 $scope.select_all = true;
                 $('#all').siblings("label").addClass("on");
             } else {
@@ -148,17 +150,32 @@ angular.module('starter.controllers', [])
             $scope.totalnum = 0;//去除重复，记录最后一遍数据
             $scope.totalprice = 0;
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
-                var f = $scope.checked.indexOf(data.gcid);
+                var f = $scope.checkedGcIds.indexOf(data.gcid);
                 if (data && f !== -1) {
                     $scope.totalnum +=parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.saleprice;
                 }
             })
-            console.log($scope.checked);
+            console.log($scope.checkedGcIds);
         }
         //删除
         $scope.del = function () {
-            console.log($scope.checked);
+            if($scope.checkedGcIds.length>0) {
+                $scope.delstyle = {};
+            }
+        }
+        $scope.confirm=function(){
+            console.log($scope.checkedGcIds);
+            $scope.delstyle={display:'none'};
+            CartService.deleteCart({userid:1,gcIdStr:$scope.checkedGcIds.join('-').trim()}).success(function(data){
+                console.log(data);
+                CartService.getcartinfo($scope.init).success(function (data) {
+                    $scope.cartlist = data;
+                });
+            })
+        }
+        $scope.cancle=function(){
+            $scope.delstyle={display:'none'};
         }
         //数量更新(点击，手改)
         $scope.updateamount = function (id, count) {
@@ -173,7 +190,7 @@ angular.module('starter.controllers', [])
                         item.num = 1;
                     }
                 }
-                var f = $scope.checked.indexOf(item.gcid);
+                var f = $scope.checkedGcIds.indexOf(item.gcid);
                 if (item && f !== -1) {
                     $scope.totalnum += parseInt(item.num);
                     $scope.totalprice += parseInt(item.num) * item.saleprice;
@@ -190,7 +207,7 @@ angular.module('starter.controllers', [])
                         item.num = 1;
                     }
                 }
-                var f = $scope.checked.indexOf(item.gcid);
+                var f = $scope.checkedGcIds.indexOf(item.gcid);
                 if (item && f !== -1) {
                     $scope.totalnum += parseInt(item.num);
                     $scope.totalprice += parseInt(item.num) * item.saleprice;
@@ -198,8 +215,8 @@ angular.module('starter.controllers', [])
             }
         }
         $scope.confirmorder = function () {
-            console.log($scope.checked);
-            if ($scope.checked.length == 0) {
+            console.log($scope.checkedGcIds);
+            if ($scope.checkedGcIds.length == 0) {
                 $rootScope.commonService = CommonService;
                 CommonService.toolTip("请选择要购买的商品");
                 return;
@@ -208,9 +225,9 @@ angular.module('starter.controllers', [])
             $scope.checkedGoodChildArr = [];
             angular.forEach($scope.cartlist.pagingList, function (item) {
                 console.log(JSON.stringify(item.gcid));
-                for (var i = 0, len = $scope.checked.length; i < len; i++) {
+                for (var i = 0, len = $scope.checkedGcIds.length; i < len; i++) {
                     var obj = {};
-                    if (item.gcid == $scope.checked[i]) {
+                    if (item.gcid == $scope.checkedGcIds[i]) {
                         console.log('item.gcid ==');
                         obj.goodId = item.goodId;
                         obj.cartId = item.cartId;
@@ -306,11 +323,15 @@ angular.module('starter.controllers', [])
 
     })
     //退货
-    .controller('ReturnApplyCtrl', function ($scope) {
+    .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
         $(function () {
             $('.default').dropkick();
             theme:'black'
         });
+        $scope.returnApply={returntypeCode:"",harvestCode:"",reason:"",memo:"",orderno:$stateParams.id};
+        $scope.sub=function(){
+            console.log($scope.returnApply);
+        }
     })
     //我的钱包
     .controller('WalletCtrl', function ($scope) {

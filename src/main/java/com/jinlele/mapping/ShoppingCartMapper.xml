@@ -24,6 +24,11 @@
     delete from shoppingcart
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <!--根据用户id商品子id删除-->
+  <delete id="deleteByUserIdGcid"  >
+    delete from shoppingcart
+    where user_id = #{0} and goodchild_id=#{1}
+  </delete>
   <insert id="insert" parameterType="com.jinlele.model.ShoppingCart" >
     insert into shoppingcart (id, user_id, goodchild_id ,good_id,
       num, deleteCode, create_time, 

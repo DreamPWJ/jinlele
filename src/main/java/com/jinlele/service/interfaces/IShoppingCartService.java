@@ -35,4 +35,7 @@ public interface IShoppingCartService {
     int updateByPrimaryKeySelective(ShoppingCart record);
 
     int updateByPrimaryKey(ShoppingCart record);
+
+    //根据用户id商品子id删除
+    int deleteByUserIdGcid(int userid, int gcid);
 }

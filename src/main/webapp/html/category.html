@@ -3,7 +3,7 @@
     <!-- 分类 -->
     <section id="fenlei" class="classification" >
     	<ul ng-repeat="item in catogory">
-        	<li ng-click="init.getSecondCatogories(item.id)">
+        	<li  ng-class="{hover:item.id==catogoryid}" ng-click="init.getSecondCatogories(item.id)">
             	<span><img ng-src="{{item.bannerurl}}"></span>
             	<em>{{item.name}}</em>
             </li>
