@@ -244,10 +244,16 @@ angular.module('starter.controllers', [])
 
         }
     }])
-    //会员
-    .controller('MemberCtrl', function ($scope) {
 
-    })
+    //会员中心
+    .controller('MemberCtrl', ['$scope', 'MemberService', function ($scope, MemberService) {
+        var opendid =localStorage.getItem("openId");
+        MemberService.getUserInfo(opendid).success(function (data) {
+            $scope.user = data.userInfo;
+            //console.log(JSON.stringify(data));
+        });
+    }])
+
     //商城订单
     .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'CancleOrderService', function ($scope, WeiXinService, OrderListService, CancleOrderService) {
         var mySwiper = new Swiper('.swiper-container', {
