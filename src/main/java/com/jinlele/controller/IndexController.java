@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -31,6 +30,7 @@ public class IndexController {
     public Map<String, Object> getIndexInfo() {
         Map<String, Object> indexmap=indexService.getIndexInfo();
         indexmap.put("openId",WeiXinController.openIds);
+        indexmap.put("userId",WeiXinController.userIds);
         return indexmap;
     }
 

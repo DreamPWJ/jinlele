@@ -42,6 +42,7 @@ public class WeiXinController {
     String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
     String randomString = PayCommonUtil.getRandomString(32);
     public static String openIds;
+    public static Integer userIds;
 
     /**
      * 微信验签
@@ -183,9 +184,6 @@ public class WeiXinController {
         if (!"authdeny".equals(code)) {
             //获取网页授权access_token
             WeiXinOauth2Token weiXinOauth2Token = AdvancedUtil.getOauth2AccessToken(Parameter.corId, Parameter.appsecret, code);
-            //网页授权接口访问凭证
-            String accessToken = weiXinOauth2Token.getAccessToken();
-            System.out.println("accessToken====" + code);
             //用户标示
             String openId = weiXinOauth2Token.getOpenId();
             openIds = openId;
@@ -200,6 +198,7 @@ public class WeiXinController {
                 userInfo = AdvancedUtil.getUserInfo(Token, openId);
                 userService.insertSelective(userInfo);
             }
+            userIds =  userInfo.getId();
 
         } else {
             return null;

@@ -1,0 +1,9 @@
+@charset "utf-8";
+/*照片下方的描述文本域*/
+.desc{
+    width: 95%;
+    border:1px solid #eee;
+    margin: auto;
+    display: block;
+    padding: 0.2rem 0.5rem;
+}

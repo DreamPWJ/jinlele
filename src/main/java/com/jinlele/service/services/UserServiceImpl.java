@@ -50,7 +50,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User getUserInfo(@Param("openid")String openid) {
+    public User getUserInfo(String openid) {
         return userMapper.getUserInfo(openid);
     }
 }

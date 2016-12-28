@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.ServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.Service" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="aturalprice" property="aturalprice" jdbcType="DOUBLE" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="descrip" property="descrip" jdbcType="VARCHAR" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="sendway" property="sendway" jdbcType="CHAR" />
+    <result column="getway" property="getway" jdbcType="CHAR" />
+    <result column="serviceaddress" property="serviceaddress" jdbcType="VARCHAR" />
+    <result column="servciephone" property="servciephone" jdbcType="VARCHAR" />
+    <result column="servicelinkman" property="servicelinkman" jdbcType="VARCHAR" />
+    <result column="checkreport" property="checkreport" jdbcType="VARCHAR" />
+    <result column="buyertransno" property="buyertransno" jdbcType="VARCHAR" />
+    <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, price, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
+    servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from service
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from service
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.Service" >
+    insert into service (id, price, aturalprice, 
+      user_id, descrip, store_id, 
+      sendway, getway, serviceaddress, 
+      servciephone, servicelinkman, checkreport, 
+      buyertransno, deleteCode, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{aturalprice,jdbcType=DOUBLE}, 
+      #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
+      #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, #{serviceaddress,jdbcType=VARCHAR}, 
+      #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, #{checkreport,jdbcType=VARCHAR}, 
+      #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.Service"  useGeneratedKeys="true" keyProperty="id">
+    insert into service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="aturalprice != null" >
+        aturalprice,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="descrip != null" >
+        descrip,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="sendway != null" >
+        sendway,
+      </if>
+      <if test="getway != null" >
+        getway,
+      </if>
+      <if test="serviceaddress != null" >
+        serviceaddress,
+      </if>
+      <if test="servciephone != null" >
+        servciephone,
+      </if>
+      <if test="servicelinkman != null" >
+        servicelinkman,
+      </if>
+      <if test="checkreport != null" >
+        checkreport,
+      </if>
+      <if test="buyertransno != null" >
+        buyertransno,
+      </if>
+      <if test="deletecode != null" >
+        deleteCode,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="aturalprice != null" >
+        #{aturalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="descrip != null" >
+        #{descrip,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="sendway != null" >
+        #{sendway,jdbcType=CHAR},
+      </if>
+      <if test="getway != null" >
+        #{getway,jdbcType=CHAR},
+      </if>
+      <if test="serviceaddress != null" >
+        #{serviceaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="servciephone != null" >
+        #{servciephone,jdbcType=VARCHAR},
+      </if>
+      <if test="servicelinkman != null" >
+        #{servicelinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="checkreport != null" >
+        #{checkreport,jdbcType=VARCHAR},
+      </if>
+      <if test="buyertransno != null" >
+        #{buyertransno,jdbcType=VARCHAR},
+      </if>
+      <if test="deletecode != null" >
+        #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.Service" >
+    update service
+    <set >
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="aturalprice != null" >
+        aturalprice = #{aturalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="descrip != null" >
+        descrip = #{descrip,jdbcType=VARCHAR},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="sendway != null" >
+        sendway = #{sendway,jdbcType=CHAR},
+      </if>
+      <if test="getway != null" >
+        getway = #{getway,jdbcType=CHAR},
+      </if>
+      <if test="serviceaddress != null" >
+        serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="servciephone != null" >
+        servciephone = #{servciephone,jdbcType=VARCHAR},
+      </if>
+      <if test="servicelinkman != null" >
+        servicelinkman = #{servicelinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="checkreport != null" >
+        checkreport = #{checkreport,jdbcType=VARCHAR},
+      </if>
+      <if test="buyertransno != null" >
+        buyertransno = #{buyertransno,jdbcType=VARCHAR},
+      </if>
+      <if test="deletecode != null" >
+        deleteCode = #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.Service" >
+    update service
+    set price = #{price,jdbcType=DOUBLE},
+      aturalprice = #{aturalprice,jdbcType=DOUBLE},
+      user_id = #{userId,jdbcType=INTEGER},
+      descrip = #{descrip,jdbcType=VARCHAR},
+      store_id = #{storeId,jdbcType=INTEGER},
+      sendway = #{sendway,jdbcType=CHAR},
+      getway = #{getway,jdbcType=CHAR},
+      serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
+      servciephone = #{servciephone,jdbcType=VARCHAR},
+      servicelinkman = #{servicelinkman,jdbcType=VARCHAR},
+      checkreport = #{checkreport,jdbcType=VARCHAR},
+      buyertransno = #{buyertransno,jdbcType=VARCHAR},
+      deleteCode = #{deletecode,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

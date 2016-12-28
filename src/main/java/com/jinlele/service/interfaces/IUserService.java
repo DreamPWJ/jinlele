@@ -1,7 +1,6 @@
 package com.jinlele.service.interfaces;
 
 import com.jinlele.model.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -19,5 +18,5 @@ public interface IUserService {
      */
      Map<String,Object> getUserPaging();
 
-    User getUserInfo(@Param("openid")String openid);
+    User getUserInfo(String openid);
 }

@@ -248,7 +248,7 @@
         </dd>
         <dd>
             <em>备注：</em>
-            <span><input placeholder="备注内容..." type="text"></span>
+            <span><input placeholder="备注内容..." type="text" ></span>
         </dd>
     </dl>
     
@@ -256,13 +256,15 @@
     <section class="photograph">
         <ul >
             <wx-img ng-repeat="per in localIds"></wx-img>
-            <li >
-                <span><img  id="img1"></span>
-                <a class="icon" href="">&#xe721;</a>
-            </li>
+            <!--<li >-->
+                <!--<span><img  id="img1"></span>-->
+                <!--<a class="icon" href="">&#xe721;</a>-->
+            <!--</li>-->
             <li ng-click="wxchooseImage()"><i class="icon">&#xe600;</i></li>
         </ul>
-        <p contenteditable="true">这里请填写产品文字描述..</p>
+        <p><textarea   class="desc"  ng-model="service.descrip"  rows="5" placeholder="请描述产品..."></textarea></p>
+
+
     </section>
     
     <!-- 翻新案例 -->
@@ -279,7 +281,7 @@
             </li>
             <li>
                 <i>仅收</i>
-                <i>￥1980.00</i>
+                <i>￥{{service.price | number:2}}</i>
             </li>
         </ul>
         <ul>
@@ -293,12 +295,16 @@
             </li>
             <li>
                 <i>仅收</i>
-                <i>￥1980.00</i>
+                <i>￥{{service.price | number:2}}</i>
             </li>
         </ul>
     </section>
     
-    <section class="submit" ><a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a><a href="#/proccommitorder/{{pagetheme}}" ng-if="!localflag">下一步</a></section>
+    <section class="submit" >
+        <a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a>
+        <!--<a href="#/proccommitorder/{{pagetheme}}"  ng-if="!localflag">下一步</a>-->
+        <a  ng-click="proccommitorder(pagetheme)" ng-if="!localflag">下一步</a>
+    </section>
 </main>
 
 <script type="text/javascript">

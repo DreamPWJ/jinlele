@@ -280,6 +280,24 @@ angular.module('starter.services', [])
             }
         }
     })
+    .service('ProcPhotoService',function($q, $http, JinLeLe){
+        return {
+            saveService:function(params){
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/service/saveService",
+                    params:params
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            }
+        }
+    })
     .service('ResizeService', function ($window) {
         return {
             autoHeight: function () {
@@ -306,6 +324,8 @@ angular.module('starter.services', [])
 
     .service('WeiXinService', function ($q, $http, JinLeLe ,$sce) { //微信 JS SDK 接口服务定义
         return {
+            mediaIds:[],//上传下载媒体id数组
+            localIds:[], //选择图片后生成的图片数组
             //获取微信签名
             getWCSignature: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
@@ -380,7 +400,6 @@ angular.module('starter.services', [])
                 });
             },
             wxchooseImage: function (callback) { //拍照或从手机相册中选图接口
-                alert(1);
                 WeiXinService = this;
                 wx.chooseImage({
                     count: 6, // 默认9
@@ -391,8 +410,9 @@ angular.module('starter.services', [])
                         var newlocalIds = [];
                         for (var i = 0, len = localIds.length; i < len; i++) {
                             localIds[i] =  localIds[i].toString();
-                            $sce.trustAsResourceUrl(localIds[i]);
-                            newlocalIds.push(localIds[i]);
+                             $sce.trustAsResourceUrl(localIds[i]);
+                             newlocalIds.push(localIds[i]);
+                             WeiXinService.wxuploadImage(localIds[i]);
                         }
                         callback.call(this , newlocalIds);
                     }
@@ -405,7 +425,7 @@ angular.module('starter.services', [])
                     isShowProgressTips: 1, // 默认为1，显示进度提示
                     success: function (res) {
                         var serverId = res.serverId; // 返回图片的服务器端ID
-                        alert("媒体id为:=="+serverId);
+                        WeiXinService.mediaIds.push(serverId);
                     }
                 });
             },

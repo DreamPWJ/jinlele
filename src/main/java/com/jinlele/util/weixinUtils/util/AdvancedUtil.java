@@ -28,95 +28,6 @@ public class AdvancedUtil {
 
     private static Logger log =  LoggerFactory.getLogger(WeiXinUtil.class);
 
-//    /**
-//     *获取用户信息
-//     */
-//    public static UserInfo getUserInfo(String accessToken , String openId){
-//        UserInfo userInfo = null;
-//        //拼接请求地址
-//        String requestUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
-//        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken).replace("OPENID",openId);
-//        //获取用户信息
-//        JSONObject jsonObject = WeiXinUtil.httpsRequset(requestUrl ,"GET" ,null);
-//        if(null != jsonObject){
-//            try{
-//                userInfo = new UserInfo();
-//                // 用户的标识，对当前公众号唯一
-//                if(jsonObject.getString("openid")!=null || !"".equals(jsonObject.getString("openid"))) {
-//                    String openid = ChangeCharsetUtil.changeCharset(jsonObject.getString("openid"),"gbk","UTF-8");
-//                    userInfo.setOpenid(openid);
-//                }
-//                //用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
-//                userInfo.setSubscribe(jsonObject.getInt("subscribe"));
-//                //    nickname	用户的昵称
-//                if(jsonObject.getString("nickname")!=null || !"".equals(jsonObject.getString("nickname"))) {
-//                    String nickname = ChangeCharsetUtil.changeCharset(jsonObject.getString("nickname"),"gbk","UTF-8");
-//                    userInfo.setNickname(nickname);
-//                }
-//
-//                //    sex	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
-//                userInfo.setSex(jsonObject.getInt("sex"));
-//                //    city	用户所在城市
-//                if(jsonObject.getString("city")!=null || !"".equals(jsonObject.getString("city"))) {
-//                    String city = ChangeCharsetUtil.changeCharset(jsonObject.getString("city"),"gbk","UTF-8");
-//                    userInfo.setCity(city);
-//                }
-//                //    country	用户所在国家
-//                if(jsonObject.getString("country")!=null || !"".equals(jsonObject.getString("country"))) {
-//                    String country = ChangeCharsetUtil.changeCharset(jsonObject.getString("country"),"gbk","UTF-8");
-//                    userInfo.setCountry(country);
-//                }
-//                //    province	用户所在省份
-//                if(jsonObject.getString("province")!=null || !"".equals(jsonObject.getString("province"))) {
-//                    String province = ChangeCharsetUtil.changeCharset(jsonObject.getString("province"),"gbk","UTF-8");
-//                    userInfo.setProvince(province);
-//                }
-//                //  language	用户的语言，简体中文为zh_CN
-//                if(jsonObject.getString("language")!=null || !"".equals(jsonObject.getString("language"))) {
-//                    String language = ChangeCharsetUtil.changeCharset(jsonObject.getString("language"),"gbk","UTF-8");
-//                    userInfo.setLanguage(language);
-//                }
-//                //    headimgurl	用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
-//                userInfo.setHeadimgurl(jsonObject.getString("headimgurl"));
-//                if(jsonObject.getString("headimgurl")!=null || !"".equals(jsonObject.getString("headimgurl"))) {
-//                    String headimgurl = ChangeCharsetUtil.changeCharset(jsonObject.getString("headimgurl"),"gbk","UTF-8");
-//                    userInfo.setHeadimgurl(headimgurl);
-//                }
-//                //    subscribe_time	用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
-//                userInfo.setSubscribeTime(jsonObject.getString("subscribe_time"));
-//                if(jsonObject.getString("subscribe_time")!=null || !"".equals(jsonObject.getString("subscribe_time"))) {
-//                    String subscribe_time = ChangeCharsetUtil.changeCharset(jsonObject.getString("subscribe_time"),"gbk","UTF-8");
-//                    userInfo.setSubscribeTime(subscribe_time);
-//                }
-//                //    unionid	只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。详见：获取用户个人信息（UnionID机制）
-////                if(null!=jsonObject.getString("unionid")) {
-////                    userInfo.setUnionid(jsonObject.getString("unionid"));
-////                }
-//                //    remark	公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
-//                if(jsonObject.getString("remark")!=null || !"".equals(jsonObject.getString("remark"))) {
-//                    String remark = ChangeCharsetUtil.changeCharset(jsonObject.getString("remark"),"gbk","UTF-8");
-//                    userInfo.setRemark(remark);
-//                }
-//                //    groupid	用户所在的分组ID
-//                if(jsonObject.getString("groupid")!=null || !"".equals(jsonObject.getString("groupid"))) {
-//                    String groupid = ChangeCharsetUtil.changeCharset(jsonObject.getString("groupid"),"gbk","UTF-8");
-//                    userInfo.setGroupid(groupid);
-//                }
-//            }catch (Exception e){
-//                if(0 == userInfo.getSubscribe()){
-//                    //log.error("用户{{}已取消关注" ,userInfo.getOpenid()) ;
-//                    System.out.println("用户{{}已取消关注" +userInfo.getOpenid());
-//                }else{
-//                   int errorCode = jsonObject.getInt("errcode");
-//                   String errMsg = jsonObject.getString("errmsg");
-//                   //log.error("获取用户信息失败errorcode:{} errmsg：{}",errorCode,errMsg);
-//                    System.out.println("获取用户信息失败errorcode:{} errmsg：{}"+errorCode+"===="+errMsg);
-//                }
-//            }
-//        }
-//        return userInfo;
-//    }
-
     /**
      *获取用户信息
      */
@@ -510,7 +421,10 @@ public class AdvancedUtil {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
-
+            File file = new File(savePath);
+            if(!file.isDirectory()){
+                file.mkdirs();
+            }
             if(!savePath.endsWith("/")){
                 savePath += "/";
             }
@@ -902,24 +816,145 @@ public class AdvancedUtil {
     }
 
 
-    /*********************以下为测试代码*********************************************/
-    //测试用户列表
-//    public static void main(String[] args) {
-//        //获取接口访问凭证
-//        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
-//        System.out.println(accessToken);
-//        UserList  userList = getUserList(accessToken, "");
-//        System.out.println(new JSONObject().fromObject(userList));
+
+    //测试 上传多媒体文件
+    public static void uploadMedia(String type , String mediaurl) {
+        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
+        System.out.println(accessToken);
+        //WeiXinMedia weiXinMedia = uploadMedia(accessToken , "image","http://localhost:8080/hflBlog/image/jin.jpg");
+        //WeiXinMedia weiXinMedia = uploadMedia(accessToken , "image","http://localhost:8080/hflBlog/image/timg.jpg");
+
+        WeiXinMedia weiXinMedia = uploadMedia(accessToken , type,mediaurl);
+        System.out.println(String.format("type: %s === media: %s   createTime: ===== %d",weiXinMedia.getType(), weiXinMedia.getMediaId() , weiXinMedia.getCreatedAt()));
+    }
+
+    //重载 下载多媒体文件
+    public static String getMedia(String mediaId ,String savePath) {
+        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
+        String filePath = getMedia(accessToken, mediaId,savePath);
+        //String filePath = getMedia(accessToken, mediaId,"c:/download");
+        return  filePath;
+    }
+
+
+
+    /*********************
+     * 以下为测试代码
+     * *********************************************/
+
+//    /**
+//     *获取用户信息
+//     */
+//    public static UserInfo getUserInfo(String accessToken , String openId){
+//        UserInfo userInfo = null;
+//        //拼接请求地址
+//        String requestUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+//        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken).replace("OPENID",openId);
+//        //获取用户信息
+//        JSONObject jsonObject = WeiXinUtil.httpsRequset(requestUrl ,"GET" ,null);
+//        if(null != jsonObject){
+//            try{
+//                userInfo = new UserInfo();
+//                // 用户的标识，对当前公众号唯一
+//                if(jsonObject.getString("openid")!=null || !"".equals(jsonObject.getString("openid"))) {
+//                    String openid = ChangeCharsetUtil.changeCharset(jsonObject.getString("openid"),"gbk","UTF-8");
+//                    userInfo.setOpenid(openid);
+//                }
+//                //用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
+//                userInfo.setSubscribe(jsonObject.getInt("subscribe"));
+//                //    nickname	用户的昵称
+//                if(jsonObject.getString("nickname")!=null || !"".equals(jsonObject.getString("nickname"))) {
+//                    String nickname = ChangeCharsetUtil.changeCharset(jsonObject.getString("nickname"),"gbk","UTF-8");
+//                    userInfo.setNickname(nickname);
+//                }
+//
+//                //    sex	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+//                userInfo.setSex(jsonObject.getInt("sex"));
+//                //    city	用户所在城市
+//                if(jsonObject.getString("city")!=null || !"".equals(jsonObject.getString("city"))) {
+//                    String city = ChangeCharsetUtil.changeCharset(jsonObject.getString("city"),"gbk","UTF-8");
+//                    userInfo.setCity(city);
+//                }
+//                //    country	用户所在国家
+//                if(jsonObject.getString("country")!=null || !"".equals(jsonObject.getString("country"))) {
+//                    String country = ChangeCharsetUtil.changeCharset(jsonObject.getString("country"),"gbk","UTF-8");
+//                    userInfo.setCountry(country);
+//                }
+//                //    province	用户所在省份
+//                if(jsonObject.getString("province")!=null || !"".equals(jsonObject.getString("province"))) {
+//                    String province = ChangeCharsetUtil.changeCharset(jsonObject.getString("province"),"gbk","UTF-8");
+//                    userInfo.setProvince(province);
+//                }
+//                //  language	用户的语言，简体中文为zh_CN
+//                if(jsonObject.getString("language")!=null || !"".equals(jsonObject.getString("language"))) {
+//                    String language = ChangeCharsetUtil.changeCharset(jsonObject.getString("language"),"gbk","UTF-8");
+//                    userInfo.setLanguage(language);
+//                }
+//                //    headimgurl	用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
+//                userInfo.setHeadimgurl(jsonObject.getString("headimgurl"));
+//                if(jsonObject.getString("headimgurl")!=null || !"".equals(jsonObject.getString("headimgurl"))) {
+//                    String headimgurl = ChangeCharsetUtil.changeCharset(jsonObject.getString("headimgurl"),"gbk","UTF-8");
+//                    userInfo.setHeadimgurl(headimgurl);
+//                }
+//                //    subscribe_time	用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
+//                userInfo.setSubscribeTime(jsonObject.getString("subscribe_time"));
+//                if(jsonObject.getString("subscribe_time")!=null || !"".equals(jsonObject.getString("subscribe_time"))) {
+//                    String subscribe_time = ChangeCharsetUtil.changeCharset(jsonObject.getString("subscribe_time"),"gbk","UTF-8");
+//                    userInfo.setSubscribeTime(subscribe_time);
+//                }
+//                //    unionid	只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。详见：获取用户个人信息（UnionID机制）
+////                if(null!=jsonObject.getString("unionid")) {
+////                    userInfo.setUnionid(jsonObject.getString("unionid"));
+////                }
+//                //    remark	公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
+//                if(jsonObject.getString("remark")!=null || !"".equals(jsonObject.getString("remark"))) {
+//                    String remark = ChangeCharsetUtil.changeCharset(jsonObject.getString("remark"),"gbk","UTF-8");
+//                    userInfo.setRemark(remark);
+//                }
+//                //    groupid	用户所在的分组ID
+//                if(jsonObject.getString("groupid")!=null || !"".equals(jsonObject.getString("groupid"))) {
+//                    String groupid = ChangeCharsetUtil.changeCharset(jsonObject.getString("groupid"),"gbk","UTF-8");
+//                    userInfo.setGroupid(groupid);
+//                }
+//            }catch (Exception e){
+//                if(0 == userInfo.getSubscribe()){
+//                    //log.error("用户{{}已取消关注" ,userInfo.getOpenid()) ;
+//                    System.out.println("用户{{}已取消关注" +userInfo.getOpenid());
+//                }else{
+//                   int errorCode = jsonObject.getInt("errcode");
+//                   String errMsg = jsonObject.getString("errmsg");
+//                   //log.error("获取用户信息失败errorcode:{} errmsg：{}",errorCode,errMsg);
+//                    System.out.println("获取用户信息失败errorcode:{} errmsg：{}"+errorCode+"===="+errMsg);
+//                }
+//            }
+//        }
+//        return userInfo;
 //    }
 
-    //测试用户信息
+//    public static void main(String[] args) {
+//        //下载
+//        String filePath =  getMedia("qyejfNJg9Vzreh90SRMugGeC_xgHrKzqJdOuZJ_ARa40ZYNJtaGRjWtHsdaoCD3I" ,"c:/download");
+//        System.out.println(filePath);
+////        上传
+////         uploadMedia("image" ,"http://127.0.0.1:8080/jinlele/images/com/001.jpg");
+//    }
+    //测试用户列表
     public static void main(String[] args) {
         //获取接口访问凭证
         String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
         System.out.println(accessToken);
-        User  userInfo = getUserInfo(accessToken, "okhnkvvnLaxUQxAeH6v8SUcu9jZQ");
-        System.out.println(new JSONObject().fromObject(userInfo));
+        UserList  userList = getUserList(accessToken, "");
+        System.out.println(new JSONObject().fromObject(userList));
     }
+
+    //测试用户信息
+//    public static void main(String[] args) {
+//        //获取接口访问凭证
+//        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
+//        System.out.println(accessToken);
+//        User  userInfo = getUserInfo(accessToken, "okhnkvvnLaxUQxAeH6v8SUcu9jZQ");
+//        System.out.println(new JSONObject().fromObject(userInfo));
+//    }
 
     //测试用户列表+用户信息
 //    public static void main(String[] args) {
@@ -998,26 +1033,7 @@ public class AdvancedUtil {
 
 
 
-    //测试 上传多媒体文件
-//    public static void main(String[] args) {
-//        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
-//        System.out.println(accessToken);
-//        //WeiXinMedia weiXinMedia = uploadMedia(accessToken , "image","http://localhost:8080/hflBlog/image/jin.jpg");
-//        //WeiXinMedia weiXinMedia = uploadMedia(accessToken , "image","http://localhost:8080/hflBlog/image/timg.jpg");
-//
-//        WeiXinMedia weiXinMedia = uploadMedia(accessToken , "voice","http://localhost:8080/hflBlog/mp3/3578.mp3");
-//        System.out.println(String.format("type: %s === media: %s   createTime: ===== %d",weiXinMedia.getType(), weiXinMedia.getMediaId() , weiXinMedia.getCreatedAt()));
-//    }
 
-    //测试 下载多媒体文件
-//    public static void main(String[] args) {
-//        String accessToken  = WeiXinUtil.getToken(Parameter.corId , Parameter.appsecret).getAccessToken();
-//        System.out.println(accessToken);
-//        //String filePath = getMedia(accessToken, "7JFHw9a8ToNyRViUEBAOsvTCfVZWlOOUtS-otbKhLkYtQp5xmJJ9Zszgbz0y98qz","e:/download");
-//        //String filePath = getMedia(accessToken, "2OV0gEEydy66DuEhQYXAwMmTlpQzdKqy_NrAcy6dSBhgPdtbL_EG4OtNRS-Zrzx8","e:/download");
-//        String filePath = getMedia(accessToken, "GpYl6RUnZs2GyHabBiiaW5ZgeK3iibg24IghCfRQLyFQs9MYCNY5DNbbKf3Ic-K6","e:/download");
-//        System.out.println(filePath);
-//    }
 
     //测试 创建临时二维码
 //    public static void main(String[] args) {

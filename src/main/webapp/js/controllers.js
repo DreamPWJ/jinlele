@@ -15,12 +15,13 @@ angular.module('starter.controllers', [])
 
         //加载此页面的时候
         //自动读取网页授权接口获取用户的opendId,从而得到用户的信息，得到前台用户的id，这里暂时强制设定用户的id
-        localStorage.setItem("jinlele_id", 1); //1应该是从数据库中查到的
+        //localStorage.setItem("jinlele_userId", 1); //1应该是从数据库中查到的
 
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
             localStorage.setItem("openId", data.openId);//缓存微信用户唯一标示openId
+            localStorage.setItem("jinlele_userId", data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
             //首页新品推荐分页显示
             MainService.getNewProducts({pagenow: 1}).success(function (data) {
@@ -264,7 +265,7 @@ angular.module('starter.controllers', [])
             $scope.obj = {
                 totalprice: $scope.totalprice,
                 totalnum: $scope.totalnum,
-                userId: localStorage.getItem("jinlele_id"),
+                userId: localStorage.getItem("jinlele_userId"),
                 storeId: 1,//后续需要根据客户选择传入
                 chars: JSON.stringify($scope.checkedGoodChildArr)
             };
@@ -408,7 +409,7 @@ angular.module('starter.controllers', [])
         $scope.stocknum = 0;//库存数
 
         $scope.gooddetail = {
-            userId: localStorage.getItem("jinlele_id"),
+            userId: localStorage.getItem("jinlele_userId"),
             goodId: $stateParams.id,
             goodchildId: "",
             num: 1
@@ -470,46 +471,98 @@ angular.module('starter.controllers', [])
     })
 
     //流程-拍照
-    .controller('ProcPhotoCtrl', function ($scope, $stateParams ,WeiXinService) {
+    .controller('ProcPhotoCtrl', function ($scope, $stateParams ,WeiXinService ,$rootScope ,CommonService ,ProcPhotoService ,$state) {
+        $rootScope.commonService = CommonService;
+        WeiXinService.mediaIds = []; //置空媒体id数组
         console.log($stateParams.name);
-        console.log(5656);
         $scope.pagetheme = $stateParams.name;
         $scope.localflag = false;
+        $scope.localIds = [];// 上传图片的微信路径 数组
+        $scope.type = "";//服务类型 001翻新
+        $scope.service = {  //服务实体
+            price:1980, //价格
+            descrip:""    //描述
+        };
         if ($stateParams.name == "repair") {
             $scope.localflag = true;
         }
 
-
         $scope.wxchooseImage=function () {
-            alert(11);
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
             //通过ready接口处理成功验证
             wx.ready(function () {
                 WeiXinService.wxchooseImage(function (localIds) {
-                    alert(JSON.stringify(localIds)) ;
                     $scope.localIds =localIds;
                     $scope.$apply();
-                    alert(3) ;
                 })
+            })
+        }
+
+        //进入提交订单的页面
+        $scope.proccommitorder = function (pagetheme) {
+            //判断参数
+            var len=$scope.localIds.length;
+            if(len==0){
+                 CommonService.toolTip("请上传图片");
+                 return;
+            }
+            if($scope.service.descrip==""){
+                 CommonService.toolTip("请填写商品描述");
+                 return;
+            }
+            if(pagetheme == "refurbish"){
+                $scope.type = '001';
+            }
+            if(pagetheme == "repair"){
+                $scope.type = '002';
+            }
+            if(pagetheme == "detect"){
+                $scope.type = '003';
+            }
+            if(pagetheme == "recycle"){
+                $scope.type = '004';
+            }
+
+            //①前台去上传图片的到微信并返回媒体Id 放入集合中
+            //通过config接口注入权限验证配置
+
+            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
+             $scope.params = {
+                 userId:localStorage.getItem("jinlele_userId"),
+                 mediaIds: WeiXinService.mediaIds,
+                 price:$scope.service.price,
+                 descrip:$scope.service.descrip,
+                 storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
+                 type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
+             };
+
+            ProcPhotoService.saveService($scope.params).success(function (data) {
+                if(data && data.status == 'ok'){
+                    $state.go("proccommitorder",{name:pagetheme});
+                }
             })
 
         }
 
-
-
+        //$scope.proccommitorder = function (pagetheme) {}
     })
-    //流程-提交订单
-    .controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
-        $scope.goback = function () {
-            $window.history.back();
-        }
 
-    })
-    //流程-平台收货
+//③后台处理成功后，跳转到下单页面
+
+
+
+//流程-提交订单
+.controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window) {
+    console.log($stateParams.name);
+    $scope.pagetheme = $stateParams.name;
+    $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
+    $scope.goback = function () {
+        $window.history.back();
+    }
+
+})
+//流程-平台收货
     .controller('ProcReceiveCtrl', function ($scope, $stateParams, $window) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
