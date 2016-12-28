@@ -48,6 +48,7 @@ angular.module('starter.services', [])
 
         }
     })
+
     .service('CategoryService', function ($q, $http, JinLeLe) {
         return {
             getcatogories: function (params) { //获取首页信息
@@ -226,6 +227,25 @@ angular.module('starter.services', [])
             }
         }
     })
+    //会员页面service
+    .service('MemberService' , function ($q, $http, JinLeLe) {
+        return {
+            //得到用户信息
+            getUserInfo: function (openid) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/user/getUserInfo/" + openid
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            }
+        }
+    })
     .service('CancleOrderService',function($q, $http, JinLeLe){
         return {
             updateStatus:function(params){
@@ -283,6 +303,7 @@ angular.module('starter.services', [])
             }
         }
     })
+
     .service('WeiXinService', function ($q, $http, JinLeLe ,$sce) { //微信 JS SDK 接口服务定义
         return {
             //获取微信签名
