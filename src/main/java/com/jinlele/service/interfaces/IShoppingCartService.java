@@ -30,7 +30,7 @@ public interface IShoppingCartService {
     List getShopcharInfo(ShoppingCart record);
 
     //添加购物车
-    public int addShoppingCart(ShoppingCart cart);
+    int addShoppingCart(ShoppingCart cart);
 
     int updateByPrimaryKeySelective(ShoppingCart record);
 
