@@ -20,22 +20,16 @@ public interface IOrderService {
 
     /**
      * 自定义订单数据详情
-     * @param map
-     * @return
      */
     Map<String,Object> getOrderListDetail(Map<String,Object> map);
 
     /**
      * 根据订单号查询订单详情
-     * @param orderno
-     * @return
      */
-    Map<String, Object> selectOrderDetailByOrderno(String orderno);
+    Map<String, Object> getOrderDetailByOrderno(String orderno);
 
     /**
-     *
-     * @param orderno
-     * @return
+     *取消订单
      */
-    Map<String, Object> updateOrderStatusByOrderno(String orderno);
+    Map<String, Object> modifyOrder(String orderno);
 }

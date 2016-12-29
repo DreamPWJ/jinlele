@@ -83,16 +83,16 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/getOrderDetailInfo/{orderno}", method = RequestMethod.GET)
     public Map<String, Object> getOrderDetailInfo(@PathVariable String orderno) {
-        return orderService.selectOrderDetailByOrderno(orderno);
+        return orderService.getOrderDetailByOrderno(orderno);
     }
 
     /**
      * 更改订单状态
      */
     @ResponseBody
-    @RequestMapping(value = "/updateOrderStatus/{orderno}", method = RequestMethod.GET)
-    public Map<String, Object> updateOrderStatus(@PathVariable String orderno) {
-        return orderService.updateOrderStatusByOrderno(orderno);
+    @RequestMapping(value = "/cancleOrder/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> modifyOrder(@PathVariable String orderno) {
+        return orderService.modifyOrder(orderno);
     }
 
     /**
