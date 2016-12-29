@@ -7,10 +7,11 @@ angular.module('starter.controllers', [])
 
 
     //APP首页面
-    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', function ($scope, $rootScope, CommonService, MainService, WeiXinService) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
-            paginationClickable: true
+            paginationClickable: true,
+            autoplay: 3000
         });
 
         //加载此页面的时候
@@ -22,12 +23,6 @@ angular.module('starter.controllers', [])
             $scope.indexinfo = data;
             localStorage.setItem("openId", data.openId);//缓存微信用户唯一标示openId
             localStorage.setItem("jinlele_userId", data.userId);//缓存微信用户唯一标示 userId
-        }).then(function () {
-            //首页新品推荐分页显示
-            MainService.getNewProducts({pagenow: 1}).success(function (data) {
-                $scope.newProductsinfo = data;
-
-            })
         }).then(function () {
             //是否是微信 初次获取签名 获取微信签名
             if (WeiXinService.isWeiXin()) {
@@ -46,7 +41,23 @@ angular.module('starter.controllers', [])
                 })
             }
         })
-
+        //获取首页分页新产品
+        $scope.newProductsinfo = [];
+        $scope.page = 0;//当前页数
+        $scope.total = 1;//总页数
+        $scope.getNewProducts = function () {
+            $scope.page++;
+            //首页新品推荐分页显示
+            MainService.getNewProducts({pagenow: $scope.page}).success(function (data) {
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.newProductsinfo.push(item);
+                })
+                $scope.total = data.myPageCount;
+            }).finally(function () {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            })
+        }
+        $scope.getNewProducts();
     }])
 
     //分类tab
@@ -64,7 +75,7 @@ angular.module('starter.controllers', [])
             },
             //根据一级分类id 查询所有的二级分类
             getSecondCatogories: function (pid) {
-                $scope.catogoryid=pid;
+                $scope.catogoryid = pid;
                 CategoryService.getSecondCatogories(pid).success(function (data) {
                     $scope.secondCatogories = data;
                     if ($scope.secondCatogories != null && $scope.secondCatogories.length > 0) {
@@ -79,7 +90,7 @@ angular.module('starter.controllers', [])
         });
         //初始加载二级分类和下面的产品列表
         $scope.init.getSecondCatogories($stateParams.id);
-        $scope.catogoryid=$stateParams.id;
+        $scope.catogoryid = $stateParams.id;
     })
 
 
@@ -156,7 +167,7 @@ angular.module('starter.controllers', [])
             }
             $scope.totalnum = 0;//去除重复，记录最后一遍数据
             $scope.totalprice = 0;
-            $scope.checkedinfo=[];
+            $scope.checkedinfo = [];
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
                 var f = $scope.checkedGcIds.indexOf(data.gcid);
                 if (data && f !== -1) {
@@ -191,7 +202,7 @@ angular.module('starter.controllers', [])
         $scope.updateamount = function (id, count) {
             $scope.totalnum = 0;
             $scope.totalprice = 0;
-            $scope.checkedinfo=[];
+            $scope.checkedinfo = [];
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
                 var item = $scope.cartlist.pagingList[i];
                 if (item.gcid == id) {
@@ -213,7 +224,7 @@ angular.module('starter.controllers', [])
         $scope.changenamount = function (id) {
             $scope.totalnum = 0;
             $scope.totalprice = 0;
-            $scope.checkedinfo=[];
+            $scope.checkedinfo = [];
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
                 var item = $scope.cartlist.pagingList[i];
                 if (item.gcid == id) {
@@ -230,10 +241,10 @@ angular.module('starter.controllers', [])
             }
         }
         //结算
-        $scope.bill=function(){
-            if($scope.checkedGcIds.length>0){
-                $state.go("confirmorder",{selectinfo:JSON.stringify($scope.checkedinfo)});
-            }else{
+        $scope.bill = function () {
+            if ($scope.checkedGcIds.length > 0) {
+                $state.go("confirmorder", {selectinfo: JSON.stringify($scope.checkedinfo)});
+            } else {
                 CommonService.toolTip("您还没有选择要购买的商品哦！");
             }
         }
@@ -285,48 +296,48 @@ angular.module('starter.controllers', [])
         }
     }])
     //确认订单
-    .controller('ConfirmOrderCtrl',['$scope','$stateParams','$state','CartService', function ($scope, $stateParams,$state,CartService) {
+    .controller('ConfirmOrderCtrl', ['$scope', '$stateParams', '$state', 'CartService', function ($scope, $stateParams, $state, CartService) {
         $scope.selectinfo = JSON.parse($stateParams.selectinfo);
         $scope.totalprice = 0;
-        $scope.totalnum =0;
-        for(var i=0;i<$scope.selectinfo.length;i++) {
+        $scope.totalnum = 0;
+        for (var i = 0; i < $scope.selectinfo.length; i++) {
             $scope.totalnum += parseInt($scope.selectinfo[i].num);
             $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
         }
         //1.获取地址2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
-        $scope.submitorder=function(){
+        $scope.submitorder = function () {
             $scope.obj = {
                 totalprice: $scope.totalprice,
                 totalnum: $scope.totalnum,
-                userId: 1,//localStorage.getItem("jinlele_userId"),
+                userId: localStorage.getItem("jinlele_userId"),//用户id
                 storeId: 1,//后续需要根据客户选择传入
                 chars: $stateParams.selectinfo
             };
             //去后台生成商成订单 和 订单_商品子表的数据
             CartService.saveOrder($scope.obj).success(function (data) {
                 //调用支付
-                $state.go("orderdetail",{orderno:data.orderno});
+                $state.go("orderdetail", {orderno: data.orderno});
 
             });
         }
     }])
     //订单详情
-    .controller('OrderDetailCtrl', ['$scope','$stateParams','OrderService',function ($scope, $stateParams,OrderService) {
-        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
-            $scope.orderinfo=data.order;//订单总信息
-            $scope.orderdetail=data.orderdetail;//订单详情
+    .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
+        OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+            $scope.orderinfo = data.order;//订单总信息
+            $scope.orderdetail = data.orderdetail;//订单详情
         })
     }])
     //发表评论
-    .controller('AddCommentCtrl', ['$scope','$stateParams','OrderService',function ($scope, $stateParams,OrderService) {
-        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
-            $scope.orderinfo=data.order;//订单总信息
-            $scope.orderdetail=data.orderdetail;//订单详情
+    .controller('AddCommentCtrl', ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
+        OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+            $scope.orderinfo = data.order;//订单总信息
+            $scope.orderdetail = data.orderdetail;//订单详情
         })
     }])
     //会员
     .controller('MemberCtrl', ['$scope', 'MemberService', function ($scope, MemberService) {
-        var opendid =localStorage.getItem("openId");
+        var opendid = localStorage.getItem("openId");
         MemberService.getUserInfo(opendid).success(function (data) {
             $scope.user = data.userInfo;
             //console.log(JSON.stringify(data));
@@ -392,8 +403,8 @@ angular.module('starter.controllers', [])
             $('.default').dropkick();
             theme:'black'
         });
-        $scope.returnApply={returntypeCode:"",harvestCode:"",reason:"",memo:"",orderno:$stateParams.id};
-        $scope.sub=function(){
+        $scope.returnApply = {returntypeCode: "", harvestCode: "", reason: "", memo: "", orderno: $stateParams.id};
+        $scope.sub = function () {
             console.log($scope.returnApply);
         }
     })
@@ -433,14 +444,15 @@ angular.module('starter.controllers', [])
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
-            paginationClickable: true
+            paginationClickable: true,
+            autoplay: 3000
         });
         //初始化参数
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
 
         $scope.gooddetail = {
-            userId:1,// localStorage.getItem("jinlele_userId"),
+            userId: localStorage.getItem("jinlele_userId"),//用户id
             goodId: $stateParams.id,
             goodchildId: "",
             num: 1
@@ -494,7 +506,7 @@ angular.module('starter.controllers', [])
     })
 
     //流程-拍照
-    .controller('ProcPhotoCtrl', function ($scope, $stateParams ,WeiXinService ,$rootScope ,CommonService ,ProcPhotoService ,$state) {
+    .controller('ProcPhotoCtrl', function ($scope, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state) {
         $rootScope.commonService = CommonService;
         WeiXinService.mediaIds = []; //置空媒体id数组
         console.log($stateParams.name);
@@ -503,20 +515,20 @@ angular.module('starter.controllers', [])
         $scope.localIds = [];// 上传图片的微信路径 数组
         $scope.type = "";//服务类型 001翻新
         $scope.service = {  //服务实体
-            price:1980, //价格
-            descrip:""    //描述
+            price: 1980, //价格
+            descrip: ""    //描述
         };
         if ($stateParams.name == "repair") {
             $scope.localflag = true;
         }
 
-        $scope.wxchooseImage=function () {
+        $scope.wxchooseImage = function () {
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
             //通过ready接口处理成功验证
             wx.ready(function () {
                 WeiXinService.wxchooseImage(function (localIds) {
-                    $scope.localIds =localIds;
+                    $scope.localIds = localIds;
                     $scope.$apply();
                 })
             })
@@ -524,7 +536,7 @@ angular.module('starter.controllers', [])
 
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
-            $state.go("proccommitorder",{name:pagetheme});
+            $state.go("proccommitorder", {name: pagetheme});
 
             //判断参数
             // var len=$scope.localIds.length;
@@ -573,47 +585,46 @@ angular.module('starter.controllers', [])
         //$scope.proccommitorder = function (pagetheme) {}
     })
 
-//③后台处理成功后，跳转到下单页面
+    //③后台处理成功后，跳转到下单页面
 
 
+    //流程-提交订单
+    .controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window, ProcCommitOrderService, WeiXinService) {
 
-//流程-提交订单
-.controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window ,ProcCommitOrderService ,WeiXinService) {
+        console.log($stateParams.name);
+        $scope.pagetheme = $stateParams.name;
+        $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
+        $scope.order = {
+            storeId: "",
+            sendway: "",
+            getway: ""
+        };
+        $scope.sendwayFlag = false;//寄件方式切换
+        $scope.getwayFlag = false; //取件方式切换
+        $scope.wayValue = ['001', '002'];//寄件取件方式值
 
-    console.log($stateParams.name);
-    $scope.pagetheme = $stateParams.name;
-    $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
-    $scope.order = {
-        storeId:"",
-        sendway:"",
-        getway:""
-    };
-    $scope.sendwayFlag = false;//寄件方式切换
-    $scope.getwayFlag = false; //取件方式切换
-    $scope.wayValue=['001' ,'002'];//寄件取件方式值
+        $scope.goback = function () {
+            $window.history.back();
+        }
+        //遍历门店
+        ProcCommitOrderService.findAllStores().success(function (data) {
+            $scope.stores = data;
+            console.log(JSON.stringify(data));
+        });
+        //弹出获取地址的页面
+        $scope.wxopenAddress = function () {
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxopenAddress();
+                if (WeiXinService.address) alert(JSON.stringify(WeiXinService.address));
+                //新增收货地址
+            })
+        }
 
-    $scope.goback = function () {
-        $window.history.back();
-    }
-    //遍历门店
-    ProcCommitOrderService.findAllStores().success(function (data) {
-        $scope.stores = data;
-        console.log(JSON.stringify(data));
-    });
-    //弹出获取地址的页面
-    $scope.wxopenAddress=function () {
-        //通过config接口注入权限验证配置
-        WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-        //通过ready接口处理成功验证
-        wx.ready(function () {
-            WeiXinService.wxopenAddress();
-            if(WeiXinService.address)alert(JSON.stringify(WeiXinService.address));
-            //新增收货地址
-        })
-    }
-
-})
-//流程-平台收货
+    })
+    //流程-平台收货
     .controller('ProcReceiveCtrl', function ($scope, $stateParams, $window) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
@@ -672,7 +683,7 @@ angular.module('starter.controllers', [])
             $location.path("/");
         }
 
-        $scope.wxchooseImage=function () {
+        $scope.wxchooseImage = function () {
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
             //通过ready接口处理成功验证
@@ -680,7 +691,6 @@ angular.module('starter.controllers', [])
                 WeiXinService.wxchooseImage()
             })
         }
-
 
 
     })
