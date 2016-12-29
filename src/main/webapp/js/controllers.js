@@ -200,6 +200,9 @@ angular.module('starter.controllers', [])
                         //$scope.cartlist.pagingList.splice(i, 1);
                         item.num = 1;
                     }
+                    if(item.num>item.stocknumber){
+                        item.num=item.stocknumber;
+                    }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
                 if (item && f !== -1) {
@@ -220,6 +223,9 @@ angular.module('starter.controllers', [])
                     if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
                         item.num = 1;
                     }
+                    if(parseInt(item.num)>item.stocknumber){
+                        item.num=item.stocknumber;
+                    }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);
                 if (item && f !== -1) {
@@ -237,55 +243,9 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("您还没有选择要购买的商品哦！");
             }
         }
-        $scope.confirmorder = function () {
-            console.log($scope.checkedGcIds);
-            if ($scope.checkedGcIds.length == 0) {
-                $rootScope.commonService = CommonService;
-                CommonService.toolTip("请选择要购买的商品");
-                return;
-            }
-            $scope.checkedGoodArr = [];
-            $scope.checkedGoodChildArr = [];
-            angular.forEach($scope.cartlist.pagingList, function (item) {
-                console.log(JSON.stringify(item.gcid));
-                for (var i = 0, len = $scope.checkedGcIds.length; i < len; i++) {
-                    var obj = {};
-                    if (item.gcid == $scope.checkedGcIds[i]) {
-                        console.log('item.gcid ==');
-                        obj.goodId = item.goodId;
-                        obj.cartId = item.cartId;
-                        obj.gcid = item.gcid;
-                        obj.num = item.num;
-                        $scope.checkedGoodChildArr.push(obj);
-                        $scope.checkedGoodArr.push(item);
-                    }
-                }
-            })
-
-            $scope.obj = {
-                totalprice: $scope.totalprice,
-                totalnum: $scope.totalnum,
-                userId: localStorage.getItem("jinlele_userId"),
-                storeId: 1,//后续需要根据客户选择传入
-                chars: JSON.stringify($scope.checkedGoodChildArr)
-            };
-            //去后台生成商成订单 和 订单_商品子表的数据
-            CartService.saveOrder($scope.obj).success(function (data) {
-                console.log(JSON.stringify(data));
-                if (data && data.status == "ok") {
-                    //跳转到支付页面
-                    $state.go("confirmorder", {
-                        checkedGoodArr: JSON.stringify($scope.checkedGoodArr),
-                        totalprice: $scope.totalprice,
-                        totalnum: $scope.totalnum
-                    });
-                }
-            });
-
-        }
     }])
     //确认订单
-    .controller('ConfirmOrderCtrl', function ($scope, $stateParams) {
+    .controller('ConfirmOrderCtrl',['$scope','$stateParams','$state','CartService', function ($scope, $stateParams,$state,CartService) {
         $scope.selectinfo = JSON.parse($stateParams.selectinfo);
         $scope.totalprice = 0;
         $scope.totalnum =0;
@@ -293,13 +253,43 @@ angular.module('starter.controllers', [])
             $scope.totalnum += parseInt($scope.selectinfo[i].num);
             $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
         }
-    })
+        //1.获取地址2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
+        $scope.submitorder=function(){
+            $scope.obj = {
+                totalprice: $scope.totalprice,
+                totalnum: $scope.totalnum,
+                userId: 1,//localStorage.getItem("jinlele_userId"),
+                storeId: 1,//后续需要根据客户选择传入
+                chars: $stateParams.selectinfo
+            };
+            //去后台生成商成订单 和 订单_商品子表的数据
+            CartService.saveOrder($scope.obj).success(function (data) {
+                //调用支付
+                $state.go("orderdetail",{orderno:data.orderno});
+
+            });
+        }
+    }])
+    //订单详情
+    .controller('OrderDetailCtrl', ['$scope','$stateParams','OrderService',function ($scope, $stateParams,OrderService) {
+        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
+            $scope.orderinfo=data.order;//订单总信息
+            $scope.orderdetail=data.orderdetail;//订单详情
+        })
+    }])
+    //发表评论
+    .controller('AddCommentCtrl', ['$scope','$stateParams','OrderService',function ($scope, $stateParams,OrderService) {
+        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
+            $scope.orderinfo=data.order;//订单总信息
+            $scope.orderdetail=data.orderdetail;//订单详情
+        })
+    }])
     //会员
     .controller('MemberCtrl', function ($scope) {
 
     })
     //商城订单
-    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'CancleOrderService', function ($scope, WeiXinService, OrderListService, CancleOrderService) {
+    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService', function ($scope, WeiXinService, OrderListService, OrderService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -333,7 +323,7 @@ angular.module('starter.controllers', [])
         });
         $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据
-            CancleOrderService.updateStatus({orderno: orderno}).success(function (data) {
+            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
                 if (parseInt(data.resultnumber) > 0) {
                     OrderListService.getorderLists($scope.init).success(function (data) {
                         $scope.list = data;
@@ -351,10 +341,6 @@ angular.module('starter.controllers', [])
 
 
     }])
-    //订单详情
-    .controller('OrderDetailCtrl', function ($scope) {
-
-    })
     //退货
     .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
         $(function () {
@@ -409,7 +395,7 @@ angular.module('starter.controllers', [])
         $scope.stocknum = 0;//库存数
 
         $scope.gooddetail = {
-            userId: localStorage.getItem("jinlele_userId"),
+            userId:1,// localStorage.getItem("jinlele_userId"),
             goodId: $stateParams.id,
             goodchildId: "",
             num: 1
@@ -460,14 +446,6 @@ angular.module('starter.controllers', [])
             }
         }
 
-    })
-
-    //发表评论
-    .controller('AddCommentCtrl', function ($scope, $stateParams, AddCommentService) {
-        $scope.orderno = $stateParams.orderno;
-        AddCommentService.getOrderDetail({orderno: $scope.orderno}).success(function (data) {
-            $scope.commentList = data;
-        })
     })
 
     //流程-拍照

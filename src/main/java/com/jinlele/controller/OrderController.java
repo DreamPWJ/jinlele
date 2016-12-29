@@ -4,7 +4,6 @@ import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import net.sf.json.JSONArray;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +51,9 @@ public class OrderController {
        return shoppingCartService.addShoppingCart(cart);
     }
 
+    /**
+     * 删除购物车商品
+     */
     @ResponseBody
     @RequestMapping(value = "/deleteShoppingCart/{userid}/{gcIdStr}",method = RequestMethod.GET)
     public int deleteShoppingCart(@PathVariable int userid,@PathVariable String gcIdStr) {
@@ -76,16 +78,17 @@ public class OrderController {
     }
 
     /**
-     * 获取添加评价
-     * @param orderno
-     * @return
+     * 根据订单号查询订单及其详情
      */
     @ResponseBody
-    @RequestMapping(value = "/getAddComment/{orderno}", method = RequestMethod.GET)
-    public Map<String, Object> getAddComment(@PathVariable String orderno) {
+    @RequestMapping(value = "/getOrderDetailInfo/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getOrderDetailInfo(@PathVariable String orderno) {
         return orderService.selectOrderDetailByOrderno(orderno);
     }
 
+    /**
+     * 更改订单状态
+     */
     @ResponseBody
     @RequestMapping(value = "/updateOrderStatus/{orderno}", method = RequestMethod.GET)
     public Map<String, Object> updateOrderStatus(@PathVariable String orderno) {
@@ -98,11 +101,8 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
     public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,String chars){
-        JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","")); // 首先把字符串转成 JSONArray  对象
-        orderService.saveOrder(totalprice,totalnum,userId,storeId ,json);
-        Map<String, Object> map = new HashedMap();
-        map.put("status" , "ok");
-        return map;
+        JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONArray  对象，json 对象值使用""双引号存储
+        return orderService.saveOrder(totalprice,totalnum,userId,storeId ,json);
     }
 
 }
