@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2016-12-29.
+ * 门店Controller
  */
 @Controller
 @RequestMapping("/store")

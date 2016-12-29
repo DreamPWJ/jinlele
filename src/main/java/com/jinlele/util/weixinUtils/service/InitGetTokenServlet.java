@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 /**
  *
  */
-@WebServlet(name="InitGetTokenServlet",urlPatterns="/InitGetTokenServlet" ,loadOnStartup = 1)
+@WebServlet(name="InitGetTokenServlet",urlPatterns="/InitGetTokenServlet" ,loadOnStartup = 0)
 public class InitGetTokenServlet extends HttpServlet {
     private static  final  long serialVersionUID  = 1L;
     private static  final  String appid  = "wx7a6a63e9ee94e24d";

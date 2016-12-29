@@ -227,25 +227,30 @@
         <dd>
             <em>选择门店：</em>
             <span>
-            <select class="default">
+                <!---//TODO 样式需要优化-->
+             <select class="default"  ng-model="order.storeId">
                 <option value="">请选择</option>
                 <option value="1">金乐乐门店</option>
                 <option value="2">其他门店</option>
             </select>
+            <!--<select   ng-model="order.storeId" >-->
+                <!--<option value="">请选择</option>-->
+                <!--<option value="{{item.id}}"  ng-repeat="item in stores">{{item.name}}</option>-->
+            <!--</select>-->
             </span>
         </dd>
         <dd>
             <em>寄件方式：</em>
-            <span class="check">
-                <input id="1" type="radio"/>
-                <label for="1" class="check_label">
+            <span class="check" ng-click="sendwayFlag=!sendwayFlag">
+                <input id="1" ng-value="wayValue[0]"   type="radio" ng-model="order.sendway" name="order.sendway"/>
+                <label for="1" class="check_label " ng-class="{false:'on'}[sendwayFlag]" >
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>邮寄</u>
             </span>
-            <span class="check">
-                <input id="1" type="radio"/>
-                <label for="1" class="check_label">
+            <span class="check" ng-click="sendwayFlag=!sendwayFlag">
+                <input  id="2" ng-value="wayValue[1]" type="radio"   ng-model="order.sendway" name="order.sendway"/>
+                <label for="2" class="check_label" ng-class="{true:'on'}[sendwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>到店</u>
@@ -253,16 +258,16 @@
         </dd>
         <dd ng-if="showaddr">
             <em>取件方式：</em>
-            <span class="check">
-                <input id="1" type="radio"/>
-                <label for="1" class="check_label">
+            <span class="check" ng-click="getwayFlag=!getwayFlag">
+                <input id="3" ng-value="wayValue[0]" type="radio" ng-model="order.getway" name="order.getway"/>
+                <label for="3" class="check_label"  ng-class="{false:'on'}[getwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>邮寄</u>
             </span>
-            <span class="check">
-                <input id="1" type="radio"/>
-                <label for="1" class="check_label">
+            <span class="check" ng-click="getwayFlag=!getwayFlag">
+                <input id="4" ng-value="wayValue[0]" type="radio" ng-model="order.getway" name="order.getway"/>
+                <label for="4" class="check_label" ng-class="{true:'on'}[getwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>到店</u>
@@ -270,16 +275,20 @@
         </dd>
     </dl>
 
-    <!-- 地址 -->
+    <section class="numbers" >
+        <section id="tad" class="numbers_button">
+            <span style="width: 100%" ng-click="wxopenAddress()"><a href="javascript:">添加收货人信息 </a></span>
+        </section>
+    </section>
     <section class="address add" ng-if="showaddr">
-        <i class="icon">&#xe617;</i>
-        <i class="icon">&#xe722;</i>
+        <!--<i class="icon">&#xe617;</i>-->
+        <!--<i class="icon">&#xe722;</i>-->
         <a href="">
-    	<span class="title">
-        	<em>收货人：张三</em>
-        	<em>15872325323</em>
-        </span>
-            <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
+    	<!--<span class="title">-->
+        	<!--<em>收货人：张三</em>-->
+        	<!--<em>15872325323</em>-->
+        <!--</span>-->
+            <!--<p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>-->
         </a>
     </section>
 

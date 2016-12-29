@@ -101,7 +101,7 @@ public class CoreService {
                 //关注
                 if(evenType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)){
                     //respContent =   "谢谢您的关注";
-                    respContent = "感谢您关注【hflBlog】\n微信号:hufanglei_001\n"
+                    respContent = "感谢您关注【六唯壹】\n"
                             + "请回复序号:\n"
                             + "1 查邮政编码  2 查询电话区号:\n"
                             + " ？ 帮助菜单\n";

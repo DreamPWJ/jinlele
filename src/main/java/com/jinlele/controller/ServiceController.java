@@ -1,5 +1,7 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ReceiptAddress;
+import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,9 @@ public class ServiceController {
     @Resource
     IServiceService serviceService;
 
+    @Resource
+    IReceiptAddressService receiptAddressService;
+
    //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径
    // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
     @RequestMapping("/saveService")
@@ -29,6 +34,13 @@ public class ServiceController {
         Map<String , Object> map = new HashMap();
         map.put("status" , "ok");
         return map;
+    }
+
+
+    @RequestMapping("/saveAddress")
+    @ResponseBody
+    public void  saveAddress(ReceiptAddress receiptAddress){
+        receiptAddressService.insertSelective(receiptAddress);
     }
 
 
