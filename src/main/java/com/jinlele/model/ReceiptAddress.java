@@ -5,21 +5,23 @@ import java.util.Date;
 public class ReceiptAddress {
     private Integer id;
 
-    private String username;
+    private String errMsg;
 
-    private String postalcode;
+    private String userName;
 
-    private String provincename;
+    private String postalCode;
 
-    private String cityname;
+    private String provinceName;
 
-    private String telnumber;
+    private String cityName;
 
-    private String countryname;
+    private String telNumber;
 
-    private String nationalcode;
+    private String countryName;
 
-    private String detailinfo;
+    private String nationalCode;
+
+    private String detailInfo;
 
     private String deletecode;
 
@@ -35,68 +37,76 @@ public class ReceiptAddress {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getErrMsg() {
+        return errMsg;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setErrMsg(String errMsg) {
+        this.errMsg = errMsg == null ? null : errMsg.trim();
     }
 
-    public String getPostalcode() {
-        return postalcode;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPostalcode(String postalcode) {
-        this.postalcode = postalcode == null ? null : postalcode.trim();
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getProvincename() {
-        return provincename;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setProvincename(String provincename) {
-        this.provincename = provincename == null ? null : provincename.trim();
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode == null ? null : postalCode.trim();
     }
 
-    public String getCityname() {
-        return cityname;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setCityname(String cityname) {
-        this.cityname = cityname == null ? null : cityname.trim();
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName == null ? null : provinceName.trim();
     }
 
-    public String getTelnumber() {
-        return telnumber;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setTelnumber(String telnumber) {
-        this.telnumber = telnumber == null ? null : telnumber.trim();
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
     }
 
-    public String getCountryname() {
-        return countryname;
+    public String getTelNumber() {
+        return telNumber;
     }
 
-    public void setCountryname(String countryname) {
-        this.countryname = countryname == null ? null : countryname.trim();
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber == null ? null : telNumber.trim();
     }
 
-    public String getNationalcode() {
-        return nationalcode;
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setNationalcode(String nationalcode) {
-        this.nationalcode = nationalcode == null ? null : nationalcode.trim();
+    public void setCountryName(String countryName) {
+        this.countryName = countryName == null ? null : countryName.trim();
     }
 
-    public String getDetailinfo() {
-        return detailinfo;
+    public String getNationalCode() {
+        return nationalCode;
     }
 
-    public void setDetailinfo(String detailinfo) {
-        this.detailinfo = detailinfo == null ? null : detailinfo.trim();
+    public void setNationalCode(String nationalCode) {
+        this.nationalCode = nationalCode == null ? null : nationalCode.trim();
+    }
+
+    public String getDetailInfo() {
+        return detailInfo;
+    }
+
+    public void setDetailInfo(String detailInfo) {
+        this.detailInfo = detailInfo == null ? null : detailInfo.trim();
     }
 
     public String getDeletecode() {

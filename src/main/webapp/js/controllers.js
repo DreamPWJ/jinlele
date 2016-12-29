@@ -607,6 +607,8 @@ angular.module('starter.controllers', [])
         //通过ready接口处理成功验证
         wx.ready(function () {
             WeiXinService.wxopenAddress();
+            if(WeiXinService.address)alert(JSON.stringify(WeiXinService.address));
+            //新增收货地址
         })
     }
 
