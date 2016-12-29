@@ -501,47 +501,49 @@ angular.module('starter.controllers', [])
 
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
+            $state.go("proccommitorder",{name:pagetheme});
+
             //判断参数
-            var len=$scope.localIds.length;
-            if(len==0){
-                 CommonService.toolTip("请上传图片");
-                 return;
-            }
-            if($scope.service.descrip==""){
-                 CommonService.toolTip("请填写商品描述");
-                 return;
-            }
-            if(pagetheme == "refurbish"){
-                $scope.type = '001';
-            }
-            if(pagetheme == "repair"){
-                $scope.type = '002';
-            }
-            if(pagetheme == "detect"){
-                $scope.type = '003';
-            }
-            if(pagetheme == "recycle"){
-                $scope.type = '004';
-            }
-
-            //①前台去上传图片的到微信并返回媒体Id 放入集合中
-            //通过config接口注入权限验证配置
-
-            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
-             $scope.params = {
-                 userId:localStorage.getItem("jinlele_userId"),
-                 mediaIds: WeiXinService.mediaIds,
-                 price:$scope.service.price,
-                 descrip:$scope.service.descrip,
-                 storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
-                 type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
-             };
-
-            ProcPhotoService.saveService($scope.params).success(function (data) {
-                if(data && data.status == 'ok'){
-                    $state.go("proccommitorder",{name:pagetheme});
-                }
-            })
+            // var len=$scope.localIds.length;
+            // if(len==0){
+            //      CommonService.toolTip("请上传图片");
+            //      return;
+            // }
+            // if($scope.service.descrip==""){
+            //      CommonService.toolTip("请填写商品描述");
+            //      return;
+            // }
+            // if(pagetheme == "refurbish"){
+            //     $scope.type = '001';
+            // }
+            // if(pagetheme == "repair"){
+            //     $scope.type = '002';
+            // }
+            // if(pagetheme == "detect"){
+            //     $scope.type = '003';
+            // }
+            // if(pagetheme == "recycle"){
+            //     $scope.type = '004';
+            // }
+            //
+            // //①前台去上传图片的到微信并返回媒体Id 放入集合中
+            // //通过config接口注入权限验证配置
+            //
+            // //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
+            //  $scope.params = {
+            //      userId:localStorage.getItem("jinlele_userId"),
+            //      mediaIds: WeiXinService.mediaIds,
+            //      price:$scope.service.price,
+            //      descrip:$scope.service.descrip,
+            //      storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
+            //      type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
+            //  };
+            //
+            // ProcPhotoService.saveService($scope.params).success(function (data) {
+            //     if(data && data.status == 'ok'){
+            //         $state.go("proccommitorder",{name:pagetheme});
+            //     }
+            // })
 
         }
 
@@ -554,6 +556,7 @@ angular.module('starter.controllers', [])
 
 //流程-提交订单
 .controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window) {
+
     console.log($stateParams.name);
     $scope.pagetheme = $stateParams.name;
     $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
@@ -621,8 +624,6 @@ angular.module('starter.controllers', [])
             $location.path("/");
         }
 
-
-
         $scope.wxchooseImage=function () {
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
@@ -630,7 +631,6 @@ angular.module('starter.controllers', [])
             wx.ready(function () {
                 WeiXinService.wxchooseImage()
             })
-
         }
 
 
