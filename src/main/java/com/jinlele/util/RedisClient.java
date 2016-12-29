@@ -1,18 +1,11 @@
 package com.jinlele.util;
 
-import com.alibaba.fastjson.JSON;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-
-import java.util.ResourceBundle;
-
 /**
  * Created by pwj  on 2016/1/14 0014.
  * Redis客户端访问
  */
 public class RedisClient {
-
+/*
     public  static JedisPool jedisPool; // 池化管理jedis链接池
 
     static {
@@ -40,13 +33,13 @@ public class RedisClient {
         jedisPool = new JedisPool(config, ip, port);
     }
 
-    /**
+    *//**
      * 向缓存中设置字符串内容
      * @param key key
      * @param value value
      * @return
      * @throws Exception
-     */
+     *//*
     public static boolean  set(String key,String value) throws Exception{
         Jedis jedis = null;
         try {
@@ -59,12 +52,12 @@ public class RedisClient {
         }
     }
 
-    /**
+    *//**
      * 向缓存中设置对象
      * @param key
      * @param value
      * @return
-     */
+     *//*
     public static boolean  set(String key,Object value){
         Jedis jedis = null;
         try {
@@ -78,11 +71,11 @@ public class RedisClient {
         }
     }
 
-    /**
+    *//**
      * 删除缓存中得对象，根据key
      * @param key
      * @return
-     */
+     *//*
     public static boolean del(String key){
         Jedis jedis = null;
         try {
@@ -95,11 +88,11 @@ public class RedisClient {
         }
     }
 
-    /**
+    *//**
      * 根据key 获取内容
      * @param key
      * @return
-     */
+     *//*
     public static Object get(String key){
         Jedis jedis = null;
         try {
@@ -113,11 +106,11 @@ public class RedisClient {
     }
 
 
-    /**
+    *//**
      * 根据key 获取对象
      * @param key
      * @return
-     */
+     *//*
     public static <T> T get(String key,Class<T> clazz){
         Jedis jedis = null;
         try {
@@ -128,7 +121,7 @@ public class RedisClient {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
 
 }
