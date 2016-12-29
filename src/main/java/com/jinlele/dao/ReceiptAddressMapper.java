@@ -3,6 +3,7 @@ package com.jinlele.dao;
 import com.jinlele.model.ReceiptAddress;
 
 public interface ReceiptAddressMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(ReceiptAddress record);
