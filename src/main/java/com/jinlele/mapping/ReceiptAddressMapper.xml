@@ -3,18 +3,21 @@
 <mapper namespace="com.jinlele.dao.ReceiptAddressMapper" >
   <resultMap id="BaseResultMap" type="com.jinlele.model.ReceiptAddress" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="linkman" property="linkman" jdbcType="VARCHAR" />
-    <result column="linkphone" property="linkphone" jdbcType="VARCHAR" />
-    <result column="area" property="area" jdbcType="VARCHAR" />
-    <result column="detail" property="detail" jdbcType="VARCHAR" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="postalCode" property="postalcode" jdbcType="VARCHAR" />
+    <result column="provinceName" property="provincename" jdbcType="VARCHAR" />
+    <result column="cityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="telNumber" property="telnumber" jdbcType="VARCHAR" />
+    <result column="countryName" property="countryname" jdbcType="VARCHAR" />
+    <result column="nationalCode" property="nationalcode" jdbcType="VARCHAR" />
+    <result column="detailInfo" property="detailinfo" jdbcType="VARCHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, linkman, linkphone, area, detail, post, memo, deleteCode, create_time, update_time
+    id, userName, postalCode, provinceName, cityName, telNumber, countryName, nationalCode, 
+    detailInfo, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,14 +30,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.ReceiptAddress" >
-    insert into receipt_address (id, linkman, linkphone, 
-      area, detail, post, 
-      memo, deleteCode, create_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{linkman,jdbcType=VARCHAR}, #{linkphone,jdbcType=VARCHAR}, 
-      #{area,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, 
-      #{memo,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into receipt_address (id, userName, postalCode, 
+      provinceName, cityName, telNumber, 
+      countryName, nationalCode, detailInfo, 
+      deleteCode, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{postalcode,jdbcType=VARCHAR}, 
+      #{provincename,jdbcType=VARCHAR}, #{cityname,jdbcType=VARCHAR}, #{telnumber,jdbcType=VARCHAR}, 
+      #{countryname,jdbcType=VARCHAR}, #{nationalcode,jdbcType=VARCHAR}, #{detailinfo,jdbcType=VARCHAR}, 
+      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.ReceiptAddress" >
     insert into receipt_address
@@ -42,23 +47,29 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="linkman != null" >
-        linkman,
+      <if test="username != null" >
+        userName,
       </if>
-      <if test="linkphone != null" >
-        linkphone,
+      <if test="postalcode != null" >
+        postalCode,
       </if>
-      <if test="area != null" >
-        area,
+      <if test="provincename != null" >
+        provinceName,
       </if>
-      <if test="detail != null" >
-        detail,
+      <if test="cityname != null" >
+        cityName,
       </if>
-      <if test="post != null" >
-        post,
+      <if test="telnumber != null" >
+        telNumber,
       </if>
-      <if test="memo != null" >
-        memo,
+      <if test="countryname != null" >
+        countryName,
+      </if>
+      <if test="nationalcode != null" >
+        nationalCode,
+      </if>
+      <if test="detailinfo != null" >
+        detailInfo,
       </if>
       <if test="deletecode != null" >
         deleteCode,
@@ -74,23 +85,29 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="linkman != null" >
-        #{linkman,jdbcType=VARCHAR},
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
       </if>
-      <if test="linkphone != null" >
-        #{linkphone,jdbcType=VARCHAR},
+      <if test="postalcode != null" >
+        #{postalcode,jdbcType=VARCHAR},
       </if>
-      <if test="area != null" >
-        #{area,jdbcType=VARCHAR},
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
       </if>
-      <if test="detail != null" >
-        #{detail,jdbcType=VARCHAR},
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
-        #{post,jdbcType=VARCHAR},
+      <if test="telnumber != null" >
+        #{telnumber,jdbcType=VARCHAR},
       </if>
-      <if test="memo != null" >
-        #{memo,jdbcType=VARCHAR},
+      <if test="countryname != null" >
+        #{countryname,jdbcType=VARCHAR},
+      </if>
+      <if test="nationalcode != null" >
+        #{nationalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="detailinfo != null" >
+        #{detailinfo,jdbcType=VARCHAR},
       </if>
       <if test="deletecode != null" >
         #{deletecode,jdbcType=CHAR},
@@ -106,23 +123,29 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ReceiptAddress" >
     update receipt_address
     <set >
-      <if test="linkman != null" >
-        linkman = #{linkman,jdbcType=VARCHAR},
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
       </if>
-      <if test="linkphone != null" >
-        linkphone = #{linkphone,jdbcType=VARCHAR},
+      <if test="postalcode != null" >
+        postalCode = #{postalcode,jdbcType=VARCHAR},
       </if>
-      <if test="area != null" >
-        area = #{area,jdbcType=VARCHAR},
+      <if test="provincename != null" >
+        provinceName = #{provincename,jdbcType=VARCHAR},
       </if>
-      <if test="detail != null" >
-        detail = #{detail,jdbcType=VARCHAR},
+      <if test="cityname != null" >
+        cityName = #{cityname,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
-        post = #{post,jdbcType=VARCHAR},
+      <if test="telnumber != null" >
+        telNumber = #{telnumber,jdbcType=VARCHAR},
       </if>
-      <if test="memo != null" >
-        memo = #{memo,jdbcType=VARCHAR},
+      <if test="countryname != null" >
+        countryName = #{countryname,jdbcType=VARCHAR},
+      </if>
+      <if test="nationalcode != null" >
+        nationalCode = #{nationalcode,jdbcType=VARCHAR},
+      </if>
+      <if test="detailinfo != null" >
+        detailInfo = #{detailinfo,jdbcType=VARCHAR},
       </if>
       <if test="deletecode != null" >
         deleteCode = #{deletecode,jdbcType=CHAR},
@@ -138,12 +161,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ReceiptAddress" >
     update receipt_address
-    set linkman = #{linkman,jdbcType=VARCHAR},
-      linkphone = #{linkphone,jdbcType=VARCHAR},
-      area = #{area,jdbcType=VARCHAR},
-      detail = #{detail,jdbcType=VARCHAR},
-      post = #{post,jdbcType=VARCHAR},
-      memo = #{memo,jdbcType=VARCHAR},
+    set userName = #{username,jdbcType=VARCHAR},
+      postalCode = #{postalcode,jdbcType=VARCHAR},
+      provinceName = #{provincename,jdbcType=VARCHAR},
+      cityName = #{cityname,jdbcType=VARCHAR},
+      telNumber = #{telnumber,jdbcType=VARCHAR},
+      countryName = #{countryname,jdbcType=VARCHAR},
+      nationalCode = #{nationalcode,jdbcType=VARCHAR},
+      detailInfo = #{detailinfo,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}

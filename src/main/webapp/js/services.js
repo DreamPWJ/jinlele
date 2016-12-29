@@ -146,7 +146,7 @@ angular.module('starter.services', [])
     })
 
     //翻新等服务提交订单的页面Service
-    .service('ProcCommitOrder', function ($q, $http, JinLeLe) {
+    .service('ProcCommitOrderService', function ($q, $http, JinLeLe) {
         return {
             //添加购物车
             findAllStores: function () { //商品

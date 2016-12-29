@@ -5,17 +5,21 @@ import java.util.Date;
 public class ReceiptAddress {
     private Integer id;
 
-    private String linkman;
+    private String username;
 
-    private String linkphone;
+    private String postalcode;
 
-    private String area;
+    private String provincename;
 
-    private String detail;
+    private String cityname;
 
-    private String post;
+    private String telnumber;
 
-    private String memo;
+    private String countryname;
+
+    private String nationalcode;
+
+    private String detailinfo;
 
     private String deletecode;
 
@@ -31,52 +35,68 @@ public class ReceiptAddress {
         this.id = id;
     }
 
-    public String getLinkman() {
-        return linkman;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLinkman(String linkman) {
-        this.linkman = linkman == null ? null : linkman.trim();
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
-    public String getLinkphone() {
-        return linkphone;
+    public String getPostalcode() {
+        return postalcode;
     }
 
-    public void setLinkphone(String linkphone) {
-        this.linkphone = linkphone == null ? null : linkphone.trim();
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode == null ? null : postalcode.trim();
     }
 
-    public String getArea() {
-        return area;
+    public String getProvincename() {
+        return provincename;
     }
 
-    public void setArea(String area) {
-        this.area = area == null ? null : area.trim();
+    public void setProvincename(String provincename) {
+        this.provincename = provincename == null ? null : provincename.trim();
     }
 
-    public String getDetail() {
-        return detail;
+    public String getCityname() {
+        return cityname;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail == null ? null : detail.trim();
+    public void setCityname(String cityname) {
+        this.cityname = cityname == null ? null : cityname.trim();
     }
 
-    public String getPost() {
-        return post;
+    public String getTelnumber() {
+        return telnumber;
     }
 
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
+    public void setTelnumber(String telnumber) {
+        this.telnumber = telnumber == null ? null : telnumber.trim();
     }
 
-    public String getMemo() {
-        return memo;
+    public String getCountryname() {
+        return countryname;
     }
 
-    public void setMemo(String memo) {
-        this.memo = memo == null ? null : memo.trim();
+    public void setCountryname(String countryname) {
+        this.countryname = countryname == null ? null : countryname.trim();
+    }
+
+    public String getNationalcode() {
+        return nationalcode;
+    }
+
+    public void setNationalcode(String nationalcode) {
+        this.nationalcode = nationalcode == null ? null : nationalcode.trim();
+    }
+
+    public String getDetailinfo() {
+        return detailinfo;
+    }
+
+    public void setDetailinfo(String detailinfo) {
+        this.detailinfo = detailinfo == null ? null : detailinfo.trim();
     }
 
     public String getDeletecode() {

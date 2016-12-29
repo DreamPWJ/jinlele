@@ -200,9 +200,6 @@ angular.module('starter.controllers', [])
                         //$scope.cartlist.pagingList.splice(i, 1);
                         item.num = 1;
                     }
-                    if(item.num>item.stocknumber){
-                        item.num=item.stocknumber;
-                    }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
                 if (item && f !== -1) {
@@ -223,9 +220,6 @@ angular.module('starter.controllers', [])
                     if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
                         item.num = 1;
                     }
-                    if(parseInt(item.num)>item.stocknumber){
-                        item.num=item.stocknumber;
-                    }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);
                 if (item && f !== -1) {
@@ -242,6 +236,52 @@ angular.module('starter.controllers', [])
             }else{
                 CommonService.toolTip("您还没有选择要购买的商品哦！");
             }
+        }
+        $scope.confirmorder = function () {
+            console.log($scope.checkedGcIds);
+            if ($scope.checkedGcIds.length == 0) {
+                $rootScope.commonService = CommonService;
+                CommonService.toolTip("请选择要购买的商品");
+                return;
+            }
+            $scope.checkedGoodArr = [];
+            $scope.checkedGoodChildArr = [];
+            angular.forEach($scope.cartlist.pagingList, function (item) {
+                console.log(JSON.stringify(item.gcid));
+                for (var i = 0, len = $scope.checkedGcIds.length; i < len; i++) {
+                    var obj = {};
+                    if (item.gcid == $scope.checkedGcIds[i]) {
+                        console.log('item.gcid ==');
+                        obj.goodId = item.goodId;
+                        obj.cartId = item.cartId;
+                        obj.gcid = item.gcid;
+                        obj.num = item.num;
+                        $scope.checkedGoodChildArr.push(obj);
+                        $scope.checkedGoodArr.push(item);
+                    }
+                }
+            })
+
+            $scope.obj = {
+                totalprice: $scope.totalprice,
+                totalnum: $scope.totalnum,
+                userId: localStorage.getItem("jinlele_userId"),
+                storeId: 1,//后续需要根据客户选择传入
+                chars: JSON.stringify($scope.checkedGoodChildArr)
+            };
+            //去后台生成商成订单 和 订单_商品子表的数据
+            CartService.saveOrder($scope.obj).success(function (data) {
+                console.log(JSON.stringify(data));
+                if (data && data.status == "ok") {
+                    //跳转到支付页面
+                    $state.go("confirmorder", {
+                        checkedGoodArr: JSON.stringify($scope.checkedGoodArr),
+                        totalprice: $scope.totalprice,
+                        totalnum: $scope.totalnum
+                    });
+                }
+            });
+
         }
     }])
     //确认订单
@@ -285,9 +325,14 @@ angular.module('starter.controllers', [])
         })
     }])
     //会员
-    .controller('MemberCtrl', function ($scope) {
+    .controller('MemberCtrl', ['$scope', 'MemberService', function ($scope, MemberService) {
+        var opendid =localStorage.getItem("openId");
+        MemberService.getUserInfo(opendid).success(function (data) {
+            $scope.user = data.userInfo;
+            //console.log(JSON.stringify(data));
+        });
+    }])
 
-    })
     //商城订单
     .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService', function ($scope, WeiXinService, OrderListService, OrderService) {
         var mySwiper = new Swiper('.swiper-container', {
@@ -533,13 +578,36 @@ angular.module('starter.controllers', [])
 
 
 //流程-提交订单
-.controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window) {
+.controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window ,ProcCommitOrderService ,WeiXinService) {
 
     console.log($stateParams.name);
     $scope.pagetheme = $stateParams.name;
     $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
+    $scope.order = {
+        storeId:"",
+        sendway:"",
+        getway:""
+    };
+    $scope.sendwayFlag = false;//寄件方式切换
+    $scope.getwayFlag = false; //取件方式切换
+    $scope.wayValue=['001' ,'002'];//寄件取件方式值
+
     $scope.goback = function () {
         $window.history.back();
+    }
+    //遍历门店
+    ProcCommitOrderService.findAllStores().success(function (data) {
+        $scope.stores = data;
+        console.log(JSON.stringify(data));
+    });
+    //弹出获取地址的页面
+    $scope.wxopenAddress=function () {
+        //通过config接口注入权限验证配置
+        WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+        //通过ready接口处理成功验证
+        wx.ready(function () {
+            WeiXinService.wxopenAddress();
+        })
     }
 
 })
