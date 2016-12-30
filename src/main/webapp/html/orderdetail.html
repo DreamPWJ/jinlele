@@ -7,13 +7,14 @@
     </section>
     
     <!-- 添加地址 -->
-	<section class="address add address_tan">
+	<section class="address add">
+        <i class="icon">&#xe617;</i>
         <a href="javascript:">
     	<span class="title">
-        	<em>收货人：张三</em>
-        	<em>15872325323</em>
+        	<em>收货人：{{address.userName}}</em>
+        	<em>{{address.telNumber}}</em>
         </span>
-        <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
+        <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
         </a>
     </section>
     

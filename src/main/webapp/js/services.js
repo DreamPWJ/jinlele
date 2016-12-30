@@ -591,14 +591,15 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxopenAddress : function () {//编辑并获取收货地址
+            wxopenAddress : function ($scope) {//编辑并获取收货地址
                 WeiXinService = this;
                 WeiXinService.address = "";//清空收货地址信息
                 wx.openAddress({
                     success: function (res) {
                         // 用户成功拉出地址
                         //alert(JSON.stringify(res));
-                        WeiXinService.address = res;
+                        $scope.address = res;
+                        $scope.$apply();
                     },
                     cancel: function () {
                         // 用户取消拉出地址

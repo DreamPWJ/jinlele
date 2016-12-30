@@ -41,6 +41,9 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     GoodChildMapper goodChildMapper;
 
+    @Resource
+    ReceiptAddressMapper receiptAddressMapper;
+
     /**
      * 商城订单列表
      */
@@ -115,9 +118,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getOrderDetailByOrderno(String orderno) {
         Map<String, Object> resultMap = new HashMap<>();
+        ShopOrder shopOrder = orderMapper.selectByPrimaryKey(orderno);
         Map<String, Object> detail = new HashMap<>();
         detail.put("info",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
-        resultMap.put("order",orderMapper.selectByPrimaryKey(orderno));
+        resultMap.put("order",shopOrder);
+        resultMap.put("address",receiptAddressMapper.selectByPrimaryKey(shopOrder.getReceiptAddressId()));
         resultMap.put("orderdetail",detail);
         return resultMap;
     }

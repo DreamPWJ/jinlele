@@ -308,14 +308,12 @@ angular.module('starter.controllers', [])
             $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
         }
         //从数据库获取地址
-        AddressService.getlatestinfo({
-            userid:localStorage.getItem("jinlele_userId")
-        }).success(function(data){
+        AddressService.getlatestinfo({userid:localStorage.getItem("jinlele_userId")}).success(function(data){
             $scope.address=data;
             if(data){
                 $scope.show=true;
             }
-        })
+        });
         //微信内置添加地址，弹出获取地址的页面
         $scope.wxopenAddress=function () {
             //通过config接口注入权限验证配置
@@ -323,46 +321,44 @@ angular.module('starter.controllers', [])
             //通过ready接口处理成功验证
             wx.ready(function () {
                 WeiXinService.wxopenAddress($scope);
-                //获取地址id
-                AddressService.getReceiptAddressId({
-                    userid: localStorage.getItem("jinlele_userId"),
-                    userName: $scope.address.userName,
-                    postalCode: $scope.address.postalCode,
-                    provinceName: $scope.address.provinceName,
-                    cityName: $scope.address.cityName,
-                    countryName: $scope.address.countryName,
-                    detailInfo: $scope.address.detailInfo,
-                    nationalCode: $scope.address.nationalCode,
-                    telNumber: $scope.address.telNumber
-                }).success(function (data) {
-                    $scope.address.id = data.receiptAddressId;
-                    $scope.show = true;
-                })
             })
         }
-        //1.获取地址2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
+        //2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
         $scope.submitorder=function(){
-            if(!$scope.address.id){
-                return;
-            }
+            //获取地址id
+            AddressService.getReceiptAddressId({
+                userid: localStorage.getItem("jinlele_userId"),
+                userName: $scope.address.userName,
+                postalCode: $scope.address.postalCode,
+                provinceName: $scope.address.provinceName,
+                cityName: $scope.address.cityName,
+                countryName: $scope.address.countryName,
+                detailInfo: $scope.address.detailInfo,
+                nationalCode: $scope.address.nationalCode,
+                telNumber: $scope.address.telNumber
+            }).success(function (data) {
+                $scope.address.id = data.receiptAddressId;
+            });
+            //订单信息
             $scope.obj = {
                 totalprice: $scope.totalprice,
                 totalnum: $scope.totalnum,
-                userId: 1,//localStorage.getItem("jinlele_userId"),
+                userId: localStorage.getItem("jinlele_userId"),
                 storeId: 1,//后续需要根据客户选择传入
                 receiptAddressId:$scope.address.id,
                 chars: $stateParams.selectinfo
             };
             //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
             CartService.saveOrder($scope.obj).success(function (data) {
-                if(data.errmsg=="ok"){
+                if(data.errmsg=="ok") {
                     ////调用微信支付服务器端接口
                     //WeiXinService.getweixinPayData().success(function (data) {
                     //    WeiXinService.wxchooseWXPay(data); //调起微支付接口
                     //})
 
+
                     //调用支付后，跳转订单详情
-                    $state.go("orderdetail",{orderno:data.orderno});
+                    $state.go("orderdetail", {orderno: data.orderno});
                 }
             });
         }
@@ -371,6 +367,7 @@ angular.module('starter.controllers', [])
     .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
+            $scope.address = data.address;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
         })
     }])
