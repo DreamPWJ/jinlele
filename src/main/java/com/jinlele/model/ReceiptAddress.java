@@ -30,6 +30,8 @@ public class ReceiptAddress {
 
     private Date updateTime;
 
+    private Integer userid;
+
     public Integer getId() {
         return id;
     }
@@ -132,5 +134,13 @@ public class ReceiptAddress {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 }

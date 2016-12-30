@@ -297,28 +297,73 @@ angular.module('starter.controllers', [])
         }
     }])
     //确认订单
-    .controller('ConfirmOrderCtrl', ['$scope', '$stateParams', '$state', 'CartService', function ($scope, $stateParams, $state, CartService) {
+    .controller('ConfirmOrderCtrl',['$scope','$stateParams','$state','CartService','AddressService','WeiXinService', function ($scope, $stateParams,$state,CartService,AddressService,WeiXinService) {
         $scope.selectinfo = JSON.parse($stateParams.selectinfo);
         $scope.totalprice = 0;
-        $scope.totalnum = 0;
-        for (var i = 0; i < $scope.selectinfo.length; i++) {
+        $scope.totalnum =0;
+        $scope.address={};
+        $scope.show=false;
+        for(var i=0;i<$scope.selectinfo.length;i++) {
             $scope.totalnum += parseInt($scope.selectinfo[i].num);
             $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
         }
+        //从数据库获取地址
+        AddressService.getlatestinfo({
+            userid:localStorage.getItem("jinlele_userId")
+        }).success(function(data){
+            $scope.address=data;
+            if(data){
+                $scope.show=true;
+            }
+        })
+        //微信内置添加地址，弹出获取地址的页面
+        $scope.wxopenAddress=function () {
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxopenAddress($scope);
+                //获取地址id
+                AddressService.getReceiptAddressId({
+                    userid: localStorage.getItem("jinlele_userId"),
+                    userName: $scope.address.userName,
+                    postalCode: $scope.address.postalCode,
+                    provinceName: $scope.address.provinceName,
+                    cityName: $scope.address.cityName,
+                    countryName: $scope.address.countryName,
+                    detailInfo: $scope.address.detailInfo,
+                    nationalCode: $scope.address.nationalCode,
+                    telNumber: $scope.address.telNumber
+                }).success(function (data) {
+                    $scope.address.id = data.receiptAddressId;
+                    $scope.show = true;
+                })
+            })
+        }
         //1.获取地址2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
-        $scope.submitorder = function () {
+        $scope.submitorder=function(){
+            if(!$scope.address.id){
+                return;
+            }
             $scope.obj = {
                 totalprice: $scope.totalprice,
                 totalnum: $scope.totalnum,
-                userId: localStorage.getItem("jinlele_userId"),//用户id
+                userId: 1,//localStorage.getItem("jinlele_userId"),
                 storeId: 1,//后续需要根据客户选择传入
+                receiptAddressId:$scope.address.id,
                 chars: $stateParams.selectinfo
             };
-            //去后台生成商成订单 和 订单_商品子表的数据
+            //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
             CartService.saveOrder($scope.obj).success(function (data) {
-                //调用支付
-                $state.go("orderdetail", {orderno: data.orderno});
+                if(data.errmsg=="ok"){
+                    ////调用微信支付服务器端接口
+                    //WeiXinService.getweixinPayData().success(function (data) {
+                    //    WeiXinService.wxchooseWXPay(data); //调起微支付接口
+                    //})
 
+                    //调用支付后，跳转订单详情
+                    $state.go("orderdetail",{orderno:data.orderno});
+                }
             });
         }
     }])
@@ -453,7 +498,7 @@ angular.module('starter.controllers', [])
         $scope.stocknum = 0;//库存数
 
         $scope.gooddetail = {
-            userId: localStorage.getItem("jinlele_userId"),//用户id
+            userId:1,// localStorage.getItem("jinlele_userId"),
             goodId: $stateParams.id,
             goodchildId: "",
             num: 1
@@ -776,6 +821,7 @@ angular.module('starter.controllers', [])
                 WeiXinService.wxchooseImage()
             })
         }
+
 
 
     })

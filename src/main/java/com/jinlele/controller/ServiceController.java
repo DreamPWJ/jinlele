@@ -4,7 +4,9 @@ import com.jinlele.model.ReceiptAddress;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -36,14 +38,20 @@ public class ServiceController {
         return map;
     }
 
-
-    @RequestMapping("/saveAddress")
+    /**
+     * 获取最新用户地址
+     */
     @ResponseBody
-    public Map<String , Object>  saveAddress(ReceiptAddress receiptAddress){
-        receiptAddressService.insertSelective(receiptAddress);
-        Map<String , Object> map = new HashMap();
-        map.put("receiptAddress" , receiptAddress);
-        return map;
+    @RequestMapping(value = "/getLatestInfo/{userid}", method = RequestMethod.GET)
+    public Map<String, Object> getLatestInfo(@PathVariable Integer userid) {
+        return receiptAddressService.getLatestInfo(userid);
+    }
+
+
+    @RequestMapping("/createReceiptAddressId")
+    @ResponseBody
+    public Map<String, Object>  createReceiptAddressId(ReceiptAddress receiptAddress){
+       return receiptAddressService.createReceiptAddressId(receiptAddress);
     }
 
 

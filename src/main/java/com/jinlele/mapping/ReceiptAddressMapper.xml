@@ -1,175 +1,199 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jinlele.dao.ReceiptAddressMapper" >
-  <resultMap id="BaseResultMap" type="com.jinlele.model.ReceiptAddress" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="err_msg" property="errMsg" jdbcType="VARCHAR" />
-    <result column="user_name" property="userName" jdbcType="VARCHAR" />
-    <result column="postal_code" property="postalCode" jdbcType="VARCHAR" />
-    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
-    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
-    <result column="tel_number" property="telNumber" jdbcType="VARCHAR" />
-    <result column="country_name" property="countryName" jdbcType="VARCHAR" />
-    <result column="national_code" property="nationalCode" jdbcType="VARCHAR" />
-    <result column="detail_info" property="detailInfo" jdbcType="VARCHAR" />
-    <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, err_msg, user_name, postal_code, province_name, city_name, tel_number, country_name, 
-    national_code, detail_info, deleteCode, create_time, update_time
+<mapper namespace="com.jinlele.dao.ReceiptAddressMapper">
+    <resultMap id="BaseResultMap" type="com.jinlele.model.ReceiptAddress">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="err_msg" property="errMsg" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="postal_code" property="postalCode" jdbcType="VARCHAR"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+        <result column="tel_number" property="telNumber" jdbcType="VARCHAR"/>
+        <result column="country_name" property="countryName" jdbcType="VARCHAR"/>
+        <result column="national_code" property="nationalCode" jdbcType="VARCHAR"/>
+        <result column="detail_info" property="detailInfo" jdbcType="VARCHAR"/>
+        <result column="deleteCode" property="deletecode" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="userid" property="userid" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, err_msg as errMsg, user_name as userName, postal_code as postalCode, province_name as provinceName, city_name as cityName, tel_number as telNumber, country_name as countryName,national_code as nationalCode, detail_info as detailInfo, deleteCode, create_time, update_time, userid
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from receipt_address
-    where id = #{id,jdbcType=INTEGER}
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from receipt_address
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getLatestInfo" parameterType="java.lang.Integer" resultType="Map">
+        select
+        <include refid="Base_Column_List"/>
+        from receipt_address
+        where userid=#{0}
+        order by create_time desc
+        limit 1
+    </select>
+    <select id="selectByUniqueKey" parameterType="com.jinlele.model.ReceiptAddress" resultMap="BaseResultMap">
+  select * from receipt_address
+  where  user_name=#{userName,jdbcType=VARCHAR} and postal_code=#{postalCode,jdbcType=VARCHAR} and province_name= #{provinceName,jdbcType=VARCHAR} and city_name=#{cityName,jdbcType=VARCHAR} and tel_number=#{telNumber,jdbcType=VARCHAR} and country_name=#{countryName,jdbcType=VARCHAR} and national_code= #{nationalCode,jdbcType=VARCHAR} and detail_info=#{detailInfo,jdbcType=VARCHAR} and  userid=#{userid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from receipt_address
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jinlele.model.ReceiptAddress" >
+    <insert id="insert" parameterType="com.jinlele.model.ReceiptAddress">
     insert into receipt_address (id, err_msg, user_name, 
       postal_code, province_name, city_name, 
       tel_number, country_name, national_code, 
       detail_info, deleteCode, create_time, 
-      update_time)
+      update_time, userid)
     values (#{id,jdbcType=INTEGER}, #{errMsg,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{postalCode,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, 
       #{telNumber,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, #{nationalCode,jdbcType=VARCHAR}, 
       #{detailInfo,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP}, #{userid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.jinlele.model.ReceiptAddress" useGeneratedKeys="true" keyProperty="id">
-    insert into receipt_address
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="errMsg != null" >
-        err_msg,
-      </if>
-      <if test="userName != null" >
-        user_name,
-      </if>
-      <if test="postalCode != null" >
-        postal_code,
-      </if>
-      <if test="provinceName != null" >
-        province_name,
-      </if>
-      <if test="cityName != null" >
-        city_name,
-      </if>
-      <if test="telNumber != null" >
-        tel_number,
-      </if>
-      <if test="countryName != null" >
-        country_name,
-      </if>
-      <if test="nationalCode != null" >
-        national_code,
-      </if>
-      <if test="detailInfo != null" >
-        detail_info,
-      </if>
-      <if test="deletecode != null" >
-        deleteCode,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="errMsg != null" >
-        #{errMsg,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="postalCode != null" >
-        #{postalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceName != null" >
-        #{provinceName,jdbcType=VARCHAR},
-      </if>
-      <if test="cityName != null" >
-        #{cityName,jdbcType=VARCHAR},
-      </if>
-      <if test="telNumber != null" >
-        #{telNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="countryName != null" >
-        #{countryName,jdbcType=VARCHAR},
-      </if>
-      <if test="nationalCode != null" >
-        #{nationalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="detailInfo != null" >
-        #{detailInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="deletecode != null" >
-        #{deletecode,jdbcType=CHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ReceiptAddress" >
-    update receipt_address
-    <set >
-      <if test="errMsg != null" >
-        err_msg = #{errMsg,jdbcType=VARCHAR},
-      </if>
-      <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
-      </if>
-      <if test="postalCode != null" >
-        postal_code = #{postalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceName != null" >
-        province_name = #{provinceName,jdbcType=VARCHAR},
-      </if>
-      <if test="cityName != null" >
-        city_name = #{cityName,jdbcType=VARCHAR},
-      </if>
-      <if test="telNumber != null" >
-        tel_number = #{telNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="countryName != null" >
-        country_name = #{countryName,jdbcType=VARCHAR},
-      </if>
-      <if test="nationalCode != null" >
-        national_code = #{nationalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="detailInfo != null" >
-        detail_info = #{detailInfo,jdbcType=VARCHAR},
-      </if>
-      <if test="deletecode != null" >
-        deleteCode = #{deletecode,jdbcType=CHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ReceiptAddress" >
+    <insert id="insertSelective" parameterType="com.jinlele.model.ReceiptAddress">
+        insert into receipt_address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="errMsg != null">
+                err_msg,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="postalCode != null">
+                postal_code,
+            </if>
+            <if test="provinceName != null">
+                province_name,
+            </if>
+            <if test="cityName != null">
+                city_name,
+            </if>
+            <if test="telNumber != null">
+                tel_number,
+            </if>
+            <if test="countryName != null">
+                country_name,
+            </if>
+            <if test="nationalCode != null">
+                national_code,
+            </if>
+            <if test="detailInfo != null">
+                detail_info,
+            </if>
+            <if test="deletecode != null">
+                deleteCode,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="userid != null">
+                userid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="errMsg != null">
+                #{errMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null">
+                #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="telNumber != null">
+                #{telNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="countryName != null">
+                #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="nationalCode != null">
+                #{nationalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="detailInfo != null">
+                #{detailInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="deletecode != null">
+                #{deletecode,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=INTEGER},
+            </if>
+        </trim>
+        <selectKey keyProperty="id" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as id
+        </selectKey>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ReceiptAddress">
+        update receipt_address
+        <set>
+            <if test="errMsg != null">
+                err_msg = #{errMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null">
+                postal_code = #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceName != null">
+                province_name = #{provinceName,jdbcType=VARCHAR},
+            </if>
+            <if test="cityName != null">
+                city_name = #{cityName,jdbcType=VARCHAR},
+            </if>
+            <if test="telNumber != null">
+                tel_number = #{telNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="countryName != null">
+                country_name = #{countryName,jdbcType=VARCHAR},
+            </if>
+            <if test="nationalCode != null">
+                national_code = #{nationalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="detailInfo != null">
+                detail_info = #{detailInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="deletecode != null">
+                deleteCode = #{deletecode,jdbcType=CHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null">
+                userid = #{userid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ReceiptAddress">
     update receipt_address
     set err_msg = #{errMsg,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
@@ -182,7 +206,8 @@
       detail_info = #{detailInfo,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      userid = #{userid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

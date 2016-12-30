@@ -16,7 +16,7 @@ public interface IOrderService {
     /**
      *生成订单
      */
-    Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId ,JSONArray json);
+    Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId,JSONArray json);
 
     /**
      * 自定义订单数据详情

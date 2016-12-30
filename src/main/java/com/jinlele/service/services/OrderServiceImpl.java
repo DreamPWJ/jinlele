@@ -60,32 +60,41 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId ,JSONArray json){
+    public Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId,JSONArray json){
         Map<String, Object> map = new HashedMap();
         //订单号生成
         String orderno = StringHelper.getOrderNum();
-        ShopOrder order = new ShopOrder(orderno ,totalprice ,totalnum ,userId ,storeId ,1,"001");
-        order.setShoporderstatuscode("001");//设置订单状态 未付款
-        //生成订单
-        orderMapper.insertSelective(order);
-        //订单_商品中间表数据添加
-        for (int i = 0; i < json.size(); i++) {
-            JSONObject jo = (JSONObject) json.get(i);
-            Integer goodId=Integer.valueOf(jo.get("goodId").toString());
-            Integer cartId = Integer.valueOf( jo.get("cartId").toString());
-            Integer goodchildId = Integer.valueOf( jo.get("gcid").toString());
-            Integer num = Integer.valueOf(jo.get("num").toString());
-            ShopOrderGood ordergood = new ShopOrderGood(orderno ,goodchildId ,goodId ,num,"001");
-            //订单_商品中间表保存数据
-            shopOrderGoodMapper.insertSelective(ordergood);
-            //删除购物车中下单的数据
-            cartMapper.deleteByPrimaryKey(cartId);
-            //减少库存数量
-            GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
-            goodChild.setStocknumber(goodChild.getStocknumber()-num);
-            goodChildMapper.updateByPrimaryKeySelective(goodChild);
+        String descrip="";
+        try {
+            ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, receiptAddressId, "001");
+            order.setShoporderstatuscode("001");//设置订单状态 未付款
+            //生成订单
+            orderMapper.insertSelective(order);
+            //订单_商品中间表数据添加
+            for (int i = 0; i < json.size(); i++) {
+                JSONObject jo = (JSONObject) json.get(i);
+                Integer goodId = Integer.valueOf(jo.get("goodId").toString());
+                Integer cartId = Integer.valueOf(jo.get("cartId").toString());
+                Integer goodchildId = Integer.valueOf(jo.get("gcid").toString());
+                Integer num = Integer.valueOf(jo.get("num").toString());
+                descrip  = descrip +"&" + jo.get("title").toString();
+                ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId, num, "001");
+                //订单_商品中间表保存数据
+                shopOrderGoodMapper.insertSelective(ordergood);
+                //删除购物车中下单的数据
+                cartMapper.deleteByPrimaryKey(cartId);
+                //减少库存数量
+                GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
+                goodChild.setStocknumber(goodChild.getStocknumber() - num);
+                goodChildMapper.updateByPrimaryKeySelective(goodChild);
+            }
+            map.put("errmsg","ok");
+        }catch (Exception e){
+            map.put("errmsg","error");
         }
         map.put("orderno",orderno);
+        map.put("totalprice",totalprice);
+        map.put("descrip",descrip);
         return map;
     }
 

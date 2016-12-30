@@ -2,8 +2,9 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ReceiptAddress;
 
-public interface ReceiptAddressMapper {
+import java.util.Map;
 
+public interface ReceiptAddressMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(ReceiptAddress record);
@@ -15,4 +16,13 @@ public interface ReceiptAddressMapper {
     int updateByPrimaryKeySelective(ReceiptAddress record);
 
     int updateByPrimaryKey(ReceiptAddress record);
+
+    /**
+     * 根据明细查id
+     */
+    ReceiptAddress selectByUniqueKey(ReceiptAddress receiptAddress);
+    /**
+     * 获取最新地址记录
+     */
+    Map<String,Object> getLatestInfo(Integer userid);
 }

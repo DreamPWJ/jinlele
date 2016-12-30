@@ -100,9 +100,9 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
-    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,String chars){
+    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId, String chars){
         JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONArray  对象，json 对象值使用""双引号存储
-        return orderService.saveOrder(totalprice,totalnum,userId,storeId ,json);
+        return orderService.saveOrder(totalprice,totalnum,userId,storeId,receiptAddressId,json);
     }
 
 }
