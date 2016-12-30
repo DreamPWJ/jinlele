@@ -161,4 +161,16 @@
         where
         pid is not null and pid = #{pid}  LIMIT 0,6
     </select>
+
+    <!--根据一级分类 查询该分类下的二级分类 不分页-->
+    <select id="getSecondCatogByPid" resultType="map" parameterType="Integer">
+        select
+        id,
+        name,
+        bannerurl,
+        pid
+        from goodcatogory
+        where
+        pid is not null and pid = #{pid}
+    </select>
 </mapper>

@@ -19,6 +19,6 @@ public class ReceiptAddressServiceImpl  implements IReceiptAddressService{
 
     @Override
     public int insertSelective(ReceiptAddress record) {
-        return receiptAddressMapper.insertSelective(record);
+        return  receiptAddressMapper.insertSelective(record);
     }
 }

@@ -34,4 +34,15 @@ public interface GoodCatogoryMapper {
      * @return  二级分类集合
      */
     List getSecondCatogaryByPid(@Param("pid")Integer pid);
+
+    /**
+     * 不分页的
+     * 获取一级分类下的二级分类
+     * @param pid 一级分类id
+     * @return  二级分类集合
+     */
+    List getSecondCatogByPid(@Param("pid")Integer pid);
+
+
+
 }

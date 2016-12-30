@@ -8,5 +8,5 @@ import java.io.IOException;
 public interface IServiceService {
 
 
-    void saveService(Integer userId , Double price , String descrip ,String type ,Integer storeId,String[] mediaIds) throws IOException;
+    Integer saveService(Integer userId , Double aturalprice , String descrip ,String type ,Integer storeId,String[] mediaIds) throws IOException;
 }

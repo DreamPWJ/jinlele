@@ -2,10 +2,6 @@ package com.jinlele.model;
 
 import java.util.Date;
 
-/**
- * 5大服务 实体类
- */
-
 public class Service {
     private Integer id;
 
@@ -22,6 +18,8 @@ public class Service {
     private String sendway;
 
     private String getway;
+
+    private String orderNo;
 
     private String serviceaddress;
 
@@ -42,11 +40,19 @@ public class Service {
     public Service() {
     }
 
-    public Service(Double price, Integer userId, String descrip, Integer storeId) {
-        this.price = price;
+    public Service(Double aturalprice, Integer userId, String descrip, Integer storeId) {
+        this.aturalprice = aturalprice;
         this.userId = userId;
         this.descrip = descrip;
         this.storeId = storeId;
+    }
+
+    public Service(Integer id, Integer storeId, String orderNo,String sendway, String getway) {
+        this.id = id;
+        this.orderNo = orderNo;
+        this.storeId = storeId;
+        this.sendway = sendway;
+        this.getway = getway;
     }
 
     public Integer getId() {
@@ -111,6 +117,14 @@ public class Service {
 
     public void setGetway(String getway) {
         this.getway = getway == null ? null : getway.trim();
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
     public String getServiceaddress() {

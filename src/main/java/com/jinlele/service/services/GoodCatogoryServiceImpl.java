@@ -59,7 +59,7 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
      * @param pid 一级分类id
      * @return  二级分类集合
      */
-    public List getSecondCatogaryByPid(@Param("pid") Integer pid){
+    public List getSecondCatogaryByPid( Integer pid){
         return  goodCatogoryMapper.getSecondCatogaryByPid(pid);
     }
 
@@ -81,6 +81,16 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
         return CommonUtil.removePaingMap(paramMap) ;
+    }
+
+    /**
+     * 不分页
+     * 获取一级分类下的二级分类
+     * @param pid 一级分类id
+     * @return  二级分类集合
+     */
+    public List getSecondCatogByPid(Integer pid){
+        return  goodCatogoryMapper.getSecondCatogByPid(pid);
     }
 
 }

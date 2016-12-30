@@ -42,7 +42,7 @@
       #{detailInfo,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jinlele.model.ReceiptAddress" >
+  <insert id="insertSelective" parameterType="com.jinlele.model.ReceiptAddress" useGeneratedKeys="true" keyProperty="id">
     insert into receipt_address
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

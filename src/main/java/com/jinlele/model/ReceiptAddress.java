@@ -3,6 +3,7 @@ package com.jinlele.model;
 import java.util.Date;
 
 public class ReceiptAddress {
+
     private Integer id;
 
     private String errMsg;

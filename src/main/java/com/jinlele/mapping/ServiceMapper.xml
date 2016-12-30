@@ -10,6 +10,7 @@
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="sendway" property="sendway" jdbcType="CHAR" />
     <result column="getway" property="getway" jdbcType="CHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
     <result column="serviceaddress" property="serviceaddress" jdbcType="VARCHAR" />
     <result column="servciephone" property="servciephone" jdbcType="VARCHAR" />
     <result column="servicelinkman" property="servicelinkman" jdbcType="VARCHAR" />
@@ -20,7 +21,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, price, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
+    id, price, aturalprice, user_id, descrip, store_id, sendway, getway, order_no, serviceaddress, 
     servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time, 
     update_time
   </sql>
@@ -37,18 +38,18 @@
   <insert id="insert" parameterType="com.jinlele.model.Service" >
     insert into service (id, price, aturalprice, 
       user_id, descrip, store_id, 
-      sendway, getway, serviceaddress, 
-      servciephone, servicelinkman, checkreport, 
-      buyertransno, deleteCode, create_time, 
-      update_time)
+      sendway, getway, order_no, 
+      serviceaddress, servciephone, servicelinkman, 
+      checkreport, buyertransno, deleteCode, 
+      create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{aturalprice,jdbcType=DOUBLE}, 
       #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
-      #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, #{serviceaddress,jdbcType=VARCHAR}, 
-      #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, #{checkreport,jdbcType=VARCHAR}, 
-      #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{serviceaddress,jdbcType=VARCHAR}, #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, 
+      #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jinlele.model.Service"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.jinlele.model.Service" >
     insert into service
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -74,6 +75,9 @@
       </if>
       <if test="getway != null" >
         getway,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
       </if>
       <if test="serviceaddress != null" >
         serviceaddress,
@@ -125,6 +129,9 @@
       <if test="getway != null" >
         #{getway,jdbcType=CHAR},
       </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
       <if test="serviceaddress != null" >
         #{serviceaddress,jdbcType=VARCHAR},
       </if>
@@ -175,6 +182,9 @@
       <if test="getway != null" >
         getway = #{getway,jdbcType=CHAR},
       </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
       <if test="serviceaddress != null" >
         serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
       </if>
@@ -211,6 +221,7 @@
       store_id = #{storeId,jdbcType=INTEGER},
       sendway = #{sendway,jdbcType=CHAR},
       getway = #{getway,jdbcType=CHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
       serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
       servciephone = #{servciephone,jdbcType=VARCHAR},
       servicelinkman = #{servicelinkman,jdbcType=VARCHAR},

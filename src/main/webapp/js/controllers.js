@@ -537,92 +537,176 @@ angular.module('starter.controllers', [])
 
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
-            $state.go("proccommitorder", {name: pagetheme});
+            //暂时模拟
+           // $state.go("proccommitorder", {name: pagetheme ,serviceId:2,aturalprice:$scope.service.price});
 
             //判断参数
-            // var len=$scope.localIds.length;
-            // if(len==0){
-            //      CommonService.toolTip("请上传图片");
-            //      return;
-            // }
-            // if($scope.service.descrip==""){
-            //      CommonService.toolTip("请填写商品描述");
-            //      return;
-            // }
-            // if(pagetheme == "refurbish"){
-            //     $scope.type = '001';
-            // }
-            // if(pagetheme == "repair"){
-            //     $scope.type = '002';
-            // }
-            // if(pagetheme == "detect"){
-            //     $scope.type = '003';
-            // }
-            // if(pagetheme == "recycle"){
-            //     $scope.type = '004';
-            // }
-            //
-            // //①前台去上传图片的到微信并返回媒体Id 放入集合中
-            // //通过config接口注入权限验证配置
-            //
-            // //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
-            //  $scope.params = {
-            //      userId:localStorage.getItem("jinlele_userId"),
-            //      mediaIds: WeiXinService.mediaIds,
-            //      price:$scope.service.price,
-            //      descrip:$scope.service.descrip,
-            //      storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
-            //      type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
-            //  };
-            //
-            // ProcPhotoService.saveService($scope.params).success(function (data) {
-            //     if(data && data.status == 'ok'){
-            //         $state.go("proccommitorder",{name:pagetheme});
-            //     }
-            // })
+            var len=$scope.localIds.length;
+            if(len==0){
+                 CommonService.toolTip("请上传图片");
+                 return;
+            }
+            if($scope.service.descrip==""){
+                 CommonService.toolTip("请填写商品描述");
+                 return;
+            }
+            if(pagetheme == "refurbish"){
+                $scope.type = '001';
+            }
+            if(pagetheme == "repair"){
+                $scope.type = '002';
+            }
+            if(pagetheme == "detect"){
+                $scope.type = '003';
+            }
+            if(pagetheme == "recycle"){
+                $scope.type = '004';
+            }
+
+            //①前台去上传图片的到微信并返回媒体Id 放入集合中
+            //通过config接口注入权限验证配置
+
+            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
+             $scope.params = {
+                 userId:localStorage.getItem("jinlele_userId"),
+                 mediaIds: WeiXinService.mediaIds,
+                 aturalprice:$scope.service.aturalprice,
+                 descrip:$scope.service.descrip,
+                 storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
+                 type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
+             };
+
+            ProcPhotoService.saveService($scope.params).success(function (data) {
+                if(data && data.serviceId == 'ok'){
+                   var serviceId = data.serviceId;
+                    //③后台处理成功后，跳转到下单页面
+                    $state.go("proccommitorder",{name:pagetheme , serviceId:data.serviceId , aturalprice:$scope.service.price});
+                }
+            })
 
         }
 
         //$scope.proccommitorder = function (pagetheme) {}
     })
 
-    //③后台处理成功后，跳转到下单页面
 
 
-    //流程-提交订单
-    .controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window, ProcCommitOrderService, WeiXinService) {
 
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
-        $scope.order = {
-            storeId: "",
-            sendway: "",
-            getway: ""
-        };
-        $scope.sendwayFlag = false;//寄件方式切换
-        $scope.getwayFlag = false; //取件方式切换
-        $scope.wayValue = ['001', '002'];//寄件取件方式值
 
-        $scope.goback = function () {
-            $window.history.back();
-        }
-        //遍历门店
-        ProcCommitOrderService.findAllStores().success(function (data) {
-            $scope.stores = data;
-            console.log(JSON.stringify(data));
+//流程-提交订单并付款
+.controller('ProcCommitOrderCtrl', function ($scope, $stateParams, $window ,ProcCommitOrderService ,WeiXinService ,CategoryService) {
+    $scope.pagetheme = $stateParams.name;
+    console.log("$stateParams==" + JSON.stringify($stateParams));
+    $scope.showaddr = $stateParams.name == 'recycle' ? false : true;
+
+
+    $scope.order = {
+        storeId:"",
+        sendway:"",
+        getway:"",
+        addressId:"",
+        totalprice:""
+    };
+    $scope.productArr = [];
+    $scope.product = {
+        firstCatogoryId:[],//一级分类id
+        secondCatogoryId:[], //二级分类id
+        num:[],
+        memo:[]
+    };
+    $scope.address="";
+    $scope.sendwayFlag = false;//寄件方式切换
+    $scope.getwayFlag = false; //取件方式切换
+    $scope.sendwayValue=['001' ,'002'];//寄件取件方式值
+    $scope.getwayValue=['001' ,'002'];//寄件取件方式值
+    $scope.addsendway =  function(val){
+        $scope.sendwayFlag = !$scope.sendwayFlag;
+        $scope.order.sendway = val;
+    }
+    $scope.addgetway = function (val) {
+         $scope.getwayFlag = !$scope.getwayFlag;
+        $scope.order.getway = val;
+    }
+    $scope.goback = function () {
+        $window.history.back();
+    }
+    //遍历门店
+    ProcCommitOrderService.findAllStores().success(function (data) {
+        $scope.stores = data;
+        console.log(JSON.stringify(data));
+    });
+    //弹出获取地址的页面
+    $scope.wxopenAddress=function () {
+        //通过config接口注入权限验证配置
+        WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+        //通过ready接口处理成功验证
+        wx.ready(function () {
+            WeiXinService.wxopenAddress();
+            if(WeiXinService.address){
+                alert(JSON.stringify(WeiXinService.address));
+                ProcCommitOrderService.saveAddress(WeiXinService.address).success(function (data) {
+                    $scope.address =  data.receiptAddress;
+                });
+            }
+            //新增收货地址
+        })
+    }
+    //遍历一级分类
+    CategoryService.getcatogories().success(function (data) {
+        $scope.firstCatogories = data.firstList;
+        console.log(JSON.stringify($scope.firstCatogories))
+    });
+    //根据一级分类遍历二级分类
+    $scope.getSecondCatogories = function (firstId) {
+        CategoryService.getSecondCatogByPid(firstId).success(function (data) {
+            $scope.secondcatagories = data;
+            console.log(JSON.stringify(data))
         });
-        //弹出获取地址的页面
-        $scope.wxopenAddress = function () {
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
-                WeiXinService.wxopenAddress();
-                if (WeiXinService.address) alert(JSON.stringify(WeiXinService.address));
-                //新增收货地址
-            })
+    }
+    //添加产品
+    var i=0;
+    $scope.addProduct = function () {
+        $scope.productArr.push(i++);
+    }
+    //计算总数量和总价格
+    $scope.numblur = function () {
+        //遍历
+        $scope.totalnum = 0;
+        if($scope.product.num.length>0){
+           for(var i=0,len=$scope.product.num.length;i<len;i++){
+               $scope.totalnum += $scope.product.num[i] * 1;
+           }
         }
+        var price =  $stateParams.aturalprice ;
+
+        $scope.totalprice =  $scope.totalnum * price;
+        console.log(" $scope.totalprice ==" + $scope.totalprice );
+    }
+    //生成订单并付款
+    $scope.procreceive = function () {
+        $scope.params = {
+            userId:1,   //localStorage.getItem("jinlele_userId"),
+            serviceId: $stateParams.serviceId,
+            type:'001',    //001代表翻新
+            storeId:1,     //暂时默认是1
+            sendWay:$scope.order.sendway,     //送货方式
+            getWay:$scope.order.getway,      //取货方式
+            totalprice:$scope.totalprice,   //总价格
+            buyeraddresId:1,//收货地址id外键
+            products:JSON.stringify($scope.product)
+        };
+        alert(JSON.stringify($scope.params));
+        return;
+        //保存订单 并去支付订单
+        ProcCommitOrderService.saveServiceOrder($scope.params).success(function (data) {
+            alert(JSON.stringify(data));
+            if(data!=null){
+                //调用支付接口
+            }
+
+        });
+    }
+
 
     })
     //流程-平台收货

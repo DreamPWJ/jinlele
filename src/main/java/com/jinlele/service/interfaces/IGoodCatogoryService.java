@@ -1,7 +1,5 @@
 package com.jinlele.service.interfaces;
 
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ public interface IGoodCatogoryService {
      * @param pid 一级分类id
      * @return  二级分类集合
      */
-    List getSecondCatogaryByPid(@Param("pid")Integer pid);
+    List getSecondCatogaryByPid(Integer pid);
 
 
     /**
@@ -36,4 +34,14 @@ public interface IGoodCatogoryService {
      * @return
      */
     Map<String, Object> getGoodsByCidPaging(int pagenow, int catogoryId);
+
+
+    /**
+     * 不分页的
+     * 获取一级分类下的二级分类
+     * @param pid 一级分类id
+     * @return  二级分类集合
+     */
+    List getSecondCatogByPid(Integer pid);
+
 }

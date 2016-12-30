@@ -85,4 +85,17 @@ public class GoodController {
     public  Map<String, Object>  getGoodsByCidPaging(@PathVariable("pagenow") int pagenow ,@PathVariable("catogoryId") int catogoryId){
         return goodCatogoryService.getGoodsByCidPaging(pagenow ,catogoryId);
     }
+
+
+    /**
+     * 根据一节分类 遍历二级分类 不分页
+     * @param pid
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getSecondCatogByPid/{pid}")
+    public List getSecondCatogByPid(@PathVariable("pid") int pid){
+        return goodCatogoryService.getSecondCatogByPid(pid);
+    }
+
 }

@@ -40,7 +40,7 @@ public class ServiceServiceImpl implements IServiceService {
 
 
     @Override
-    public void saveService(Integer userId, Double price, String descrip,String type ,Integer storeId, String[] mediaIds) throws IOException {
+    public Integer saveService(Integer userId, Double aturalprice, String descrip,String type ,Integer storeId, String[] mediaIds) throws IOException {
         //循环下载媒体文件 上传到七牛 并返回 七牛的连接
         String filePath = null;
         String key = null;
@@ -58,12 +58,14 @@ public class ServiceServiceImpl implements IServiceService {
             picture = new Picture(imgurl , userId);
             pictureMapper.insertSelective(picture);
             //保存服务表
-            service = new Service(price , userId , descrip , storeId); //暂时设定门店为1，以后会动态获取
+            service = new Service(aturalprice , userId , descrip , storeId); //暂时设定门店为1，以后会动态获取
             serviceMapper.insertSelective(service);
             //插入中间表
             servicePicture = new ServicePicture(service.getId(), picture.getId() , type);
             servicePictureMapper.insertSelective(servicePicture);
+            //删除服务器上的该文件 //TODO
         }
+        return  service.getId();
     }
 
 

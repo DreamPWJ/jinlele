@@ -13,11 +13,15 @@ public class ShopOrder {
 
     private Double actualpayprice;
 
+    private String userlogisticsno;
+
     private String logisticsno;
 
     private Integer userId;
 
     private Integer storeId;
+
+    private String type;
 
     private String shoporderstatuscode;
 
@@ -31,7 +35,6 @@ public class ShopOrder {
 
     private Date updateTime;
 
-
     public ShopOrder() {
     }
 
@@ -43,6 +46,18 @@ public class ShopOrder {
         this.storeId = storeId;
         this.receiptAddressId = receiptAddressId;
         this.deletecode = deletecode;
+    }
+
+
+    public ShopOrder(String orderno,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId) {
+        this.orderno = orderno;
+        this.totalprice = totalprice;
+        this.actualpayprice = actualpayprice;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.receiptAddressId = receiptAddressId;
     }
 
     public String getOrderno() {
@@ -85,6 +100,14 @@ public class ShopOrder {
         this.actualpayprice = actualpayprice;
     }
 
+    public String getUserlogisticsno() {
+        return userlogisticsno;
+    }
+
+    public void setUserlogisticsno(String userlogisticsno) {
+        this.userlogisticsno = userlogisticsno == null ? null : userlogisticsno.trim();
+    }
+
     public String getLogisticsno() {
         return logisticsno;
     }
@@ -107,6 +130,14 @@ public class ShopOrder {
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getShoporderstatuscode() {

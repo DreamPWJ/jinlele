@@ -222,6 +222,7 @@
         </ul>
     </section>
 
+    <form>
     <!-- 产品信息 -->
     <dl class="add_product">
         <dd>
@@ -241,15 +242,15 @@
         </dd>
         <dd>
             <em>寄件方式：</em>
-            <span class="check" ng-click="sendwayFlag=!sendwayFlag">
-                <input id="1" ng-value="wayValue[0]"   type="radio" ng-model="order.sendway" name="order.sendway"/>
+            <span class="check" ng-click="addsendway('001')">
+                <input id="1" value="sendwayValue[0]"   type="radio" ng-model="sendway" name="sendway"/>
                 <label for="1" class="check_label " ng-class="{false:'on'}[sendwayFlag]" >
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>邮寄</u>
             </span>
-            <span class="check" ng-click="sendwayFlag=!sendwayFlag">
-                <input  id="2" ng-value="wayValue[1]" type="radio"   ng-model="order.sendway" name="order.sendway"/>
+            <span class="check" ng-click="addsendway('002')">
+                <input  id="2" value="sendwayValue[1]" type="radio"   ng-model="sendway" name="sendway"/>
                 <label for="2" class="check_label" ng-class="{true:'on'}[sendwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
@@ -258,15 +259,15 @@
         </dd>
         <dd ng-if="showaddr">
             <em>取件方式：</em>
-            <span class="check" ng-click="getwayFlag=!getwayFlag">
-                <input id="3" ng-value="wayValue[0]" type="radio" ng-model="order.getway" name="order.getway"/>
+            <span class="check" ng-click="addgetway('001')">
+                <input id="3"  value="getwayValue[0]" type="radio" ng-model="getway" name="getway"/>
                 <label for="3" class="check_label"  ng-class="{false:'on'}[getwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
            		<u>邮寄</u>
             </span>
-            <span class="check" ng-click="getwayFlag=!getwayFlag">
-                <input id="4" ng-value="wayValue[0]" type="radio" ng-model="order.getway" name="order.getway"/>
+            <span class="check" ng-click="addgetway('002')">
+                <input id="4" value="getwayValue[1]" type="radio" ng-model="getway" name="getway"/>
                 <label for="4" class="check_label" ng-class="{true:'on'}[getwayFlag]">
                     <i class="checkbox_icon"></i>
                 </label>
@@ -283,46 +284,51 @@
     <section class="address add" ng-if="showaddr">
         <!--<i class="icon">&#xe617;</i>-->
         <!--<i class="icon">&#xe722;</i>-->
-        <a href="">
-    	<!--<span class="title">-->
-        	<!--<em>收货人：张三</em>-->
-        	<!--<em>15872325323</em>-->
-        <!--</span>-->
-            <!--<p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>-->
+        {{address}}
+        <a href="" ng-if="address">
+            <span class="title" >
+                <em>收货人：{{address.userName}}</em>
+                <em>{{address.telNumber}}</em>
+            </span>
+            <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
         </a>
     </section>
 
     <!-- 产品信息 -->
+    <div  ng-repeat="index in productArr">
     <dl class="add_product">
+        <dd>
+            <em>产品材质：</em>
+            <span>
+            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories(product.firstCatogoryId[$index])">
+                <option value="">请选择</option>
+                <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
+            </select>
+            </span>
+        </dd>
         <dd>
             <em>产品类别：</em>
             <span>
-            <select class="default">
+            <select class="" ng-model="product.secondCatogoryId[$index]" >
                 <option value="">请选择</option>
-                <option value="1">戒指</option>
+                <option value="{{item.id}}" ng-repeat="item in secondcatagories">{{item.name}}</option>
             </select>
             </span>
         </dd>
         <dd>
             <em>数量：</em>
-            <span><input placeholder="备注内容..." type="text"></span>
-        </dd>
-        <dd>
-            <em>材质：</em>
-            <span>
-            <select class="default">
-                <option value="">请选择</option>
-                <option value="1">黄金</option>
-            </select>
-            </span>
+            <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()"></span>
         </dd>
         <dd>
             <em>备注：</em>
-            <span><input placeholder="备注内容..." type="text"></span>
+            <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]"></span>
         </dd>
     </dl>
+    </div>
 
-    <section class="addto"><a href=""><i class="icon">&#xe600;</i><em>添加产品信息</em></a></section>
+    </form>
+    <section class="addto" ng-click="addProduct()"><a href=""><i class="icon">&#xe600;</i><em>添加产品信息</em></a></section>
+
     <section class="prompt_tisi">
         <p>以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
 
@@ -332,10 +338,11 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-    <span class="total">合计：420000.00</span>
+    <span class="total">合计 {{totalprice | number:2}}</span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
-        <a href="#/procreceive/{{pagetheme}}">立即下单</a>
+        <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
+        <a ng-click="procreceive()">立即下单</a>
     </span>
 </footer>
 
