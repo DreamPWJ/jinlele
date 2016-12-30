@@ -53,6 +53,7 @@ angular.module('starter.controllers', [])
                     $scope.newProductsinfo.push(item);
                 })
                 $scope.total = data.myPageCount;
+                $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
             }).finally(function () {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             })
