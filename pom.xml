@@ -130,11 +130,11 @@
         </dependency>
 
         <!-- JSTL标签类 -->
-        <dependency>
+<!--        <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
-        </dependency>
+        </dependency>-->
         <!-- 日志文件管理包 -->
         <!-- log start -->
         <dependency>
@@ -214,11 +214,11 @@
         </dependency>
 
         <!-- 导入dbcp的jar包，用来在spring-mybatis.xml中配置数据库   已更换切换为数据源druid(阿里巴巴的框架）-->
-        <dependency>
+<!--        <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
             <version>1.2.2</version>
-        </dependency>
+        </dependency>-->
 
 
         <!-- AspectJ是一个面向切面AOP的框架jar包-->
@@ -263,11 +263,13 @@
         </dependency>
 
         <!--   Redis缓存系统  Java-Jedis操作Redis-->
+<!--
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>2.7.3</version>
         </dependency>
+-->
 
         <!-- Lucene是apache一个开放源代码的全文和整个数据库精确模糊检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎-->
         <!--        <dependency>
@@ -293,24 +295,24 @@
                 </dependency>-->
 
         <!-- jsoup作为Java世界最好的HTML解析库 ，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API-->
-        <dependency>
+  <!--      <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.8.3</version>
-        </dependency>
+        </dependency>-->
 
         <!--        Apache POI是Apache软件基金会的开放源码函式库，POI提供API给Java程序对Microsoft Office格式档案读和写的功能-->
-        <dependency>
+   <!--     <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-scratchpad</artifactId>
             <version>3.13</version>
-        </dependency>
+        </dependency>-->
         <!--     Java发送email邮件的jar包-->
-        <dependency>
+<!--        <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
-        </dependency>
+        </dependency>-->
 
         <!--微信相关-->
         <!--<dependency>-->
@@ -460,7 +462,7 @@
 
                     <!--  以下目录和文件不会被压缩 排除本来就压缩的js文件，比如jquery.min.js  xxx-min.js之类的文件  -->
                     <excludes>
-                        <exclude>**/jweixin-1.0.0.js</exclude>
+                        <exclude>**/jweixin-1.1.0.js</exclude>
                         <exclude>**/*.min.js</exclude>
                         <exclude>**/*-min.js</exclude>
                         <exclude>**/*.min.css</exclude>

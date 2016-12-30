@@ -39,9 +39,6 @@ public class OrderServiceImpl implements IOrderService {
     ShopOrderGoodMapper shopOrderGoodMapper;
 
     @Resource
-    ShopOrderMapper shopOrderMapper;
-
-    @Resource
     GoodChildMapper goodChildMapper;
 
     /**
@@ -70,7 +67,7 @@ public class OrderServiceImpl implements IOrderService {
         ShopOrder order = new ShopOrder(orderno ,totalprice ,totalnum ,userId ,storeId ,1,"001");
         order.setShoporderstatuscode("001");//设置订单状态 未付款
         //生成订单
-        //orderMapper.insertSelective(order);
+        orderMapper.insertSelective(order);
         //订单_商品中间表数据添加
         for (int i = 0; i < json.size(); i++) {
             JSONObject jo = (JSONObject) json.get(i);
@@ -80,13 +77,13 @@ public class OrderServiceImpl implements IOrderService {
             Integer num = Integer.valueOf(jo.get("num").toString());
             ShopOrderGood ordergood = new ShopOrderGood(orderno ,goodchildId ,goodId ,num,"001");
             //订单_商品中间表保存数据
-            //shopOrderGoodMapper.insertSelective(ordergood);
+            shopOrderGoodMapper.insertSelective(ordergood);
             //删除购物车中下单的数据
-            //cartMapper.deleteByPrimaryKey(cartId);
+            cartMapper.deleteByPrimaryKey(cartId);
             //减少库存数量
-            //GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
-            //goodChild.setStocknumber(goodChild.getStocknumber()-num);
-            //goodChildMapper.updateByPrimaryKeySelective(goodChild);
+            GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
+            goodChild.setStocknumber(goodChild.getStocknumber()-num);
+            goodChildMapper.updateByPrimaryKeySelective(goodChild);
         }
         map.put("orderno",orderno);
         return map;
@@ -107,7 +104,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> selectOrderDetailByOrderno(String orderno) {
+    public Map<String, Object> getOrderDetailByOrderno(String orderno) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> detail = new HashMap<>();
         detail.put("info",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
@@ -117,12 +114,22 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> updateOrderStatusByOrderno(String orderno) {
-        Map<String, Object> paramMap = new HashMap<String, Object>();
+    public Map<String, Object> modifyOrder(String orderno) {
+        Map<String, Object> paramMap = new HashMap<>();
+        //增加订单明细中商品原有库存数量
+        List<Map<String,Object>> detaillists = shopOrderGoodMapper.selectOrderDetailByOrderno(orderno);
+        for (int i=0;i<detaillists.size();i++){
+            Integer goodchildId = Integer.valueOf(detaillists.get(i).get("gcid").toString());
+            Integer buynum = Integer.valueOf(detaillists.get(i).get("buynum").toString());
+            GoodChild goodChild=goodChildMapper.selectByPrimaryKey(goodchildId);
+            goodChild.setStocknumber(goodChild.getStocknumber()+buynum);
+            goodChildMapper.updateByPrimaryKeySelective(goodChild);
+        }
+        //更改订单状态--取消
         ShopOrder shopOrder=new ShopOrder();
         shopOrder.setShoporderstatuscode("008");
         shopOrder.setOrderno(orderno);
-        paramMap.put("resultnumber",shopOrderMapper.updateByPrimaryKeySelective(shopOrder));
+        paramMap.put("resultnumber",orderMapper.updateByPrimaryKeySelective(shopOrder));
         return paramMap;
     }
 }

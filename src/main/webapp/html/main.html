@@ -1,87 +1,91 @@
-<!-- BANNER -->
-<main class="banner">
-    <ul class="swiper-wrapper">
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-        <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
-    </ul>
-    <section class="spot"></section>
-</main><!-- BANNER END -->
+<ion-view>
+    <!-- BANNER -->
+    <ion-content overflow-scroll="false"  has-bouncing="true">
+        <main class="banner">
+            <ul class="swiper-wrapper">
+                <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+                <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+                <li class="swiper-slide"><a href=""><img src="images/com/001.jpg"></a></li>
+            </ul>
+            <section class="spot"></section>
+        </main><!-- BANNER END -->
 
-<!-- 搜索 -->
-<section class="search">
-    <span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
-    <a class="icon" href="">&#xe60a;</a>
-</section>
+        <!-- 搜索 -->
+        <section class="search">
+            <span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
+            <a class="icon" href="">&#xe60a;</a>
+        </section>
 
-<!-- 主功能 -->
-<section class="column">
-    <a href="#/procphoto/refurbish"><i><img src="images/column@_01.png"></i><em>翻新</em></a>
-    <a href="#/procphoto/repair"><i><img src="images/column@_02.png"></i><em>维修</em></a>
-    <a href="#/procphoto/detect"><i><img src="images/column@_03.png"></i><em>检测</em></a>
-    <a href="#/recycle"><i><img src="images/column@_04.png"></i><em>回收</em></a>
-    <a href="#/exchange"><i><img src="images/column@_05.png"></i><em>换款</em></a>
-</section>
+        <!-- 主功能 -->
+        <section class="column">
+            <a href="#/procphoto/refurbish"><i><img src="images/column@_01.png"></i><em>翻新</em></a>
+            <a href="#/procphoto/repair"><i><img src="images/column@_02.png"></i><em>维修</em></a>
+            <a href="#/procphoto/detect"><i><img src="images/column@_03.png"></i><em>检测</em></a>
+            <a href="#/recycle"><i><img src="images/column@_04.png"></i><em>回收</em></a>
+            <a href="#/exchange"><i><img src="images/column@_05.png"></i><em>换款</em></a>
+        </section>
 
-<!-- 材质 -->
-<section class="nav">
-    <a ng-repeat="item in indexinfo.firstCatogory"  ng-href="#/category/{{item.id}}">
-        <i ng-bind="item.name"></i>
-        <em><img ng-src="{{item.bannerurl}}"></em>
-    </a>
-</section>
-
-<!-- 栏目类型 -->
-<section class="assortment">
-    <ul>
-        <li ng-repeat="item in indexinfo.secondCatogory"><a href="#/goodlist/{{item.name}}">{{item.name}}</a></li>
-    </ul>
-</section>
-
-<!-- 新品推荐 -->
-<section class="recommend">
-    <span class="title"><i>新品推荐</i></span>
-    <ul>
-        <li ng-repeat="item in indexinfo.newProducts">
-            <a ng-href="#/gooddetail/{{item.id}}">
-                <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
-                <span class="text">{{item.title}}</span>
-                <em>{{item.saleprice | currency:'￥'}}</em>
-                <i class="icon">&#xe68d;</i>
+        <!-- 材质 -->
+        <section class="nav">
+            <a ng-repeat="item in indexinfo.firstCatogory" ng-href="#/category/{{item.id}}">
+                <i ng-bind="item.name"></i>
+                <em><img ng-src="{{item.bannerurl}}"></em>
             </a>
-        </li>
+        </section>
 
-    </ul>
-</section>
+        <!-- 栏目类型 -->
+        <section class="assortment">
+            <ul>
+                <li ng-repeat="item in indexinfo.secondCatogory"><a href="#/goodlist/{{item.name}}">{{item.name}}</a>
+                </li>
+            </ul>
+        </section>
 
-<!-- 产品列表 -->
-<main class="list">
-    <section class="list_main" ng-repeat="item in newProductsinfo.pagingList">
-        <a ng-href="#/gooddetail/{{item.id}}">
-            <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
-            <span class="text">{{item.title}}</span>
-            <p>{{item.description}}</p>
-            <span class="price">
+        <!-- 新品推荐 -->
+        <section class="recommend">
+            <span class="title"><i>新品推荐</i></span>
+            <ul>
+                <li ng-repeat="item in indexinfo.newProducts">
+                    <a ng-href="#/gooddetail/{{item.id}}">
+                        <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
+                        <span class="text">{{item.title}}</span>
+                        <em>{{item.saleprice | currency:'￥'}}</em>
+                        <i class="icon">&#xe68d;</i>
+                    </a>
+                </li>
+
+            </ul>
+        </section>
+
+        <!-- 产品列表 -->
+        <main class="list">
+            <section class="list_main" ng-repeat="item in newProductsinfo">
+                <a ng-href="#/gooddetail/{{item.id}}">
+                    <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
+                    <span class="text">{{item.title}}</span>
+                    <p>{{item.description}}</p>
+                    <span class="price">
             <em>现价：{{item.saleprice}}</em>
             <em>原价：{{item.discprice}}</em>
             <i class="icon">&#xe68d;</i>
     	</span>
-        </a>
-    </section>
+                </a>
+            </section>
 
-</main>
+        </main>
+        <ion-infinite-scroll  on-infinite="getNewProducts()"  ng-if="total > page"  immediate-check="false">   </ion-infinite-scroll>
+    </ion-content>
+    <footer class="bottom">
+        <a class="hover" href=""><i class="icon">&#xe653;</i><em>首页</em></a>
+        <a href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
+        <a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em></a>
+        <a href="#/member"><i class="icon">&#xe625;</i><em>会员</em></a>
+    </footer>
 
-<footer class="bottom">
-    <a class="hover" href=""><i class="icon">&#xe653;</i><em>首页</em></a>
-    <a href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
-    <a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em></a>
-    <a href="#/member"><i class="icon">&#xe625;</i><em>会员</em></a>
-</footer>
-
-<!-- 菜单栏 -->
-<section class="menu_bg show_menu"><!-- menu_bg 起始状态  show_menu 显示  hide_menu 隐藏 -->
-    <a class="icon menu_tion" href="">&#xe600;</a>
-    <span class="menu_nav">
+    <!-- 菜单栏 -->
+    <section class="menu_bg show_menu"><!-- menu_bg 起始状态  show_menu 显示  hide_menu 隐藏 -->
+        <a class="icon menu_tion" href="">&#xe600;</a>
+        <span class="menu_nav">
     	<a href=""><img src="images/column@_07.png"></a>
         <a href="#/shoppingcart"><img src="images/column@_06.png"></a>
         <a href="#/procphoto/refurbish"><img src="images/column@_01.png"></a>
@@ -90,9 +94,9 @@
         <a href="#/recycle"><img src="images/column@_04.png"></a>
         <a href="#/exchange"><img src="images/column@_05.png"></a>
     </span>
-</section>
+    </section>
 
-
+</ion-view>
 
 
 
