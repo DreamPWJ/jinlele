@@ -207,10 +207,13 @@ angular.module('starter.controllers', [])
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
                 var item = $scope.cartlist.pagingList[i];
                 if (item.gcid == id) {
-                    item.num = item.num + count;//这里可以增加上下限制
+                    item.num = parseInt(item.num) + count;//这里可以增加上下限制
                     if (item.num < 1) {
                         //$scope.cartlist.pagingList.splice(i, 1);
                         item.num = 1;
+                    }
+                    if(parseInt(item.num)>item.stocknumber){
+                        item.num=item.stocknumber;
                     }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
@@ -231,6 +234,9 @@ angular.module('starter.controllers', [])
                 if (item.gcid == id) {
                     if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
                         item.num = 1;
+                    }
+                    if(parseInt(item.num)>item.stocknumber){
+                        item.num=item.stocknumber;
                     }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);
