@@ -34,8 +34,8 @@ public class ServiceOrderController {
      */
     @RequestMapping("/saveServiceOrder")
     @ResponseBody
-    public Map<String , Object> saveServiceOrder(Integer serviceId , String type , Integer userId , Integer storeId, String sendWay , String getWay, Double totalprice , Integer buyeraddresId , String products){
-         return  serviceOrderService.saveServiceOrder(serviceId , type , userId , storeId , sendWay , getWay , totalprice , buyeraddresId , products);
+    public Map<String , Object> saveServiceOrder(Integer serviceId ,Integer totalnum, String type , Integer userId , Integer storeId, String sendWay , String getWay, Double totalprice , Integer buyeraddresId , String products){
+         return  serviceOrderService.saveServiceOrder(serviceId ,totalnum , type , userId , storeId , sendWay , getWay , totalprice , buyeraddresId , products);
     }
 
 

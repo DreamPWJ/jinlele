@@ -33,10 +33,10 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
 
     //生成服务类订单
     @Override
-    public Map<String , Object> saveServiceOrder(Integer serviceId, String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products) {
+    public Map<String , Object> saveServiceOrder(Integer serviceId, Integer totalnum,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products) {
         //生成服务订单表
         String orderno = StringHelper.getOrderNum();  //生成订单号
-        ShopOrder order  = new ShopOrder(orderno , totalprice, totalprice, userId,  storeId,  type, "001", buyeraddresId);
+        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, "001001", buyeraddresId);
         shopOrderMapper.insertSelective(order);
         //更新服务表
         Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
@@ -58,6 +58,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         }
         Map<String ,Object> map = new HashMap();
         map.put("orderNo" , orderno);
+        map.put("totalprice" , totalprice);
         return map;
     }
 }

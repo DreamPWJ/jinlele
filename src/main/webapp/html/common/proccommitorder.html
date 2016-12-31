@@ -295,18 +295,18 @@
     </section>
 
     <!-- 产品信息 -->
-    <div  ng-repeat="index in productArr">
+    <div  ng-repeat="items in productArr">
     <dl class="add_product">
         <dd>
             <em>产品材质：</em>
             <span>
-            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories(product.firstCatogoryId[$index])">
+            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)">
                 <option value="">请选择</option>
                 <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
             </select>
             </span>
         </dd>
-        <dd>
+        <dd >
             <em>产品类别：</em>
             <span>
             <select class="" ng-model="product.secondCatogoryId[$index]" >

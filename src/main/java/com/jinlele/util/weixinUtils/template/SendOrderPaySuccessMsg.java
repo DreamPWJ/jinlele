@@ -31,7 +31,7 @@ public class SendOrderPaySuccessMsg {
         temp.setUrl("http://www.6weiyi.com");
         temp.setTouser(openId);
         temp.setTopcolor("#000000");
-//        temp.setTemplate_id("ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY");
+//      temp.setTemplate_id("ngqIpbwh8bUfcSsECmogfXcV14J0tQlEpBO27izEYtY");
         temp.setTemplate_id("UokFDiTmQ3j1vpfUQdrcsrDxRMTHr7iSMwF0zA8Z7sE");
         Map<String, TemplateData> m = new HashMap<String, TemplateData>();
         TemplateData first = new TemplateData();
@@ -75,6 +75,6 @@ public class SendOrderPaySuccessMsg {
     public static void main(String[] args) {
         SendOrderPaySuccessMsg sendOrderPaySuccessMsg = new SendOrderPaySuccessMsg();
         sendOrderPaySuccessMsg.sendTemplateMessage(Parameter.corId, Parameter.appsecret, "okhnkvnWbEdBcu6Oh7j334yqyB0E");
-        //   sendOrderPaySuccessMsg.sendTemplateMessage(Parameter.corId, Parameter.appsecret, "okhnkvvnLaxUQxAeH6v8SUcu9jZQ");
+        //sendOrderPaySuccessMsg.sendTemplateMessage(Parameter.corId, Parameter.appsecret, "okhnkvvnLaxUQxAeH6v8SUcu9jZQ");
     }
 }

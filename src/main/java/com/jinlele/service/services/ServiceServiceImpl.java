@@ -8,12 +8,15 @@ import com.jinlele.model.Picture;
 import com.jinlele.model.Service;
 import com.jinlele.model.ServicePicture;
 import com.jinlele.service.interfaces.IServiceService;
+import com.jinlele.util.StringHelper;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
+import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 5大服务业务类Service
@@ -40,13 +43,16 @@ public class ServiceServiceImpl implements IServiceService {
 
 
     @Override
-    public Integer saveService(Integer userId, Double aturalprice, String descrip,String type ,Integer storeId, String[] mediaIds) throws IOException {
+    public Map<String , Object> saveService(Integer userId, Double aturalprice, String descrip, String type , Integer storeId, String[] mediaIds) throws IOException {
         //循环下载媒体文件 上传到七牛 并返回 七牛的连接
         String filePath = null;
         String key = null;
         String imgurl = null;
         Picture picture = null;
-        Service service = null;
+        //保存服务表
+        Service service = new Service(aturalprice , userId , descrip , storeId); //暂时设定门店为1，以后会动态获取
+        serviceMapper.insertSelective(service);
+        Map<String , Object> map = new HashedMap();
         ServicePicture servicePicture = null;
         for(int i=0,len=mediaIds.length;i<len;i++){
             filePath = AdvancedUtil.getMedia(mediaIds[i] , savePath);
@@ -57,15 +63,14 @@ public class ServiceServiceImpl implements IServiceService {
             //保存图片表
             picture = new Picture(imgurl , userId);
             pictureMapper.insertSelective(picture);
-            //保存服务表
-            service = new Service(aturalprice , userId , descrip , storeId); //暂时设定门店为1，以后会动态获取
-            serviceMapper.insertSelective(service);
             //插入中间表
             servicePicture = new ServicePicture(service.getId(), picture.getId() , type);
             servicePictureMapper.insertSelective(servicePicture);
-            //删除服务器上的该文件 //TODO
+            //删除服务器上的该文件
+            StringHelper.deleteFile(filePath);
         }
-        return  service.getId();
+        map.put("serviceId" , service.getId());
+        return map;
     }
 
 

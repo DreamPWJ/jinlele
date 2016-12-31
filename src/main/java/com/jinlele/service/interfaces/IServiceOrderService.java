@@ -7,6 +7,6 @@ import java.util.Map;
  */
 public interface IServiceOrderService {
 
-    public Map<String , Object> saveServiceOrder(Integer serviceId , String type , Integer userId, Integer storeId, String sendWay , String getWay, Double totalprice , Integer buyeraddresId , String products);
+    public Map<String , Object> saveServiceOrder(Integer serviceId ,Integer totalnum, String type , Integer userId, Integer storeId, String sendWay , String getWay, Double totalprice , Integer buyeraddresId , String products);
 
 }

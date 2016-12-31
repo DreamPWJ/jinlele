@@ -1,5 +1,6 @@
 package com.jinlele.service.interfaces;
 
+import com.jinlele.model.ShopOrder;
 import net.sf.json.JSONArray;
 
 import java.util.Map;
@@ -32,4 +33,10 @@ public interface IOrderService {
      *取消订单
      */
     Map<String, Object> modifyOrder(String orderno);
+
+    /**
+     *更新订单
+     */
+    int updateByPrimaryKeySelective(ShopOrder record);
+
 }

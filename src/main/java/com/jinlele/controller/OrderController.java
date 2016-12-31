@@ -1,9 +1,11 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import net.sf.json.JSONArray;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -103,6 +105,31 @@ public class OrderController {
     public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId, String chars){
         JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONArray  对象，json 对象值使用""双引号存储
         return orderService.saveOrder(totalprice,totalnum,userId,storeId,receiptAddressId,json);
+    }
+
+    /**
+     * 修改订单状态 为已付款
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateOrder" ,method = RequestMethod.GET)
+    public  Map<String, Object> updateOrder(ShopOrder order){
+        order.setShoporderstatuscode("001003");    //001代表 翻新   001003翻新已付款
+        int n =  orderService.updateByPrimaryKeySelective(order);
+        Map<String ,Object> map = new HashedMap();
+        map.put("n" ,n);
+        return map;
+    }
+    /**
+     * 修改订单状态 为未付款
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateOrder2" ,method = RequestMethod.GET)
+    public  Map<String, Object> updateOrder2(ShopOrder order){
+        order.setShoporderstatuscode("001002");    //001代表 翻新   001003翻新已付款
+        int n =  orderService.updateByPrimaryKeySelective(order);
+        Map<String ,Object> map = new HashedMap();
+        map.put("n" ,n);
+        return map;
     }
 
 }

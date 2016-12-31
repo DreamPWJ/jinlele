@@ -49,7 +49,7 @@
       #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.jinlele.model.Service" >
+  <insert id="insertSelective" parameterType="com.jinlele.model.Service"  useGeneratedKeys="true" keyProperty="id">
     insert into service
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

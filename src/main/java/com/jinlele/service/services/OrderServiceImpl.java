@@ -146,4 +146,9 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("resultnumber",orderMapper.updateByPrimaryKeySelective(shopOrder));
         return paramMap;
     }
+
+    @Override
+    public int updateByPrimaryKeySelective(ShopOrder record) {
+        return orderMapper.updateByPrimaryKeySelective(record);
+    }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,10 +31,7 @@ public class ServiceController {
     @RequestMapping("/saveService")
     @ResponseBody
     public Map<String , Object> saveService(Integer userId , Double aturalprice , String descrip , String type , Integer storeId , String[] mediaIds) throws IOException {
-        int serviceId = serviceService.saveService(userId ,aturalprice ,descrip , type,storeId,mediaIds);
-        Map<String , Object> map = new HashMap();
-        map.put("serviceId" , serviceId);
-        return map;
+        return  serviceService.saveService(userId ,aturalprice ,descrip , type,storeId,mediaIds);
     }
 
     /**
