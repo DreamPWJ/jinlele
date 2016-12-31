@@ -599,6 +599,7 @@ angular.module('starter.services', [])
                         // 用户成功拉出地址
                         //alert(JSON.stringify(res));
                         $scope.address = res;
+                        $scope.show=true;
                         $scope.$apply();
                     },
                     cancel: function () {

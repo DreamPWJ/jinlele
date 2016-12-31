@@ -102,7 +102,7 @@ angular.module('starter.controllers', [])
     //购物车
     .controller('ShoppingCartCtrl', ['$scope', 'CartService', 'CommonService', '$state', '$rootScope', function ($scope, CartService, CommonService, $state, $rootScope) {
         $scope.init = {
-            userid: 1,
+            userid: localStorage.getItem("jinlele_userId"),
             pagenow: 1
         };
         $scope.delstyle = {display: 'none'};
@@ -382,7 +382,10 @@ angular.module('starter.controllers', [])
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
-        })
+        });
+        $scope.submitcomment=function(){
+
+        }
     }])
     //会员
     .controller('MemberCtrl', ['$scope', 'MemberService', function ($scope, MemberService) {
@@ -501,7 +504,7 @@ angular.module('starter.controllers', [])
         $scope.stocknum = 0;//库存数
 
         $scope.gooddetail = {
-            userId:1,// localStorage.getItem("jinlele_userId"),
+            userId:localStorage.getItem("jinlele_userId"),
             goodId: $stateParams.id,
             goodchildId: "",
             num: 1
