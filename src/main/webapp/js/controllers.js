@@ -378,13 +378,30 @@ angular.module('starter.controllers', [])
         })
     }])
     //发表评论
-    .controller('AddCommentCtrl', ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
+    .controller('AddCommentCtrl', ['$scope', '$stateParams', 'WeiXinService','OrderService', function ($scope, $stateParams, WeiXinService,OrderService) {
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
         });
+        WeiXinService.mediaIds = []; //置空媒体id数组
+        $scope.localIds = [];// 上传图片的微信路径 数组
+        $scope.wxchooseImage = function (goodid) {
+            alert(goodid);
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxchooseImage(function (localIds) {
+                    $scope.localIds[goodid] = localIds;
+                    $scope.$apply();
+                })
+            })
+        }
         $scope.submitcomment=function(){
-
+            //1.添加图片
+            //2.添加评论
+            //3.添加评论图片中间表
+            //4.修改订单，添加评论id
         }
     }])
     //会员

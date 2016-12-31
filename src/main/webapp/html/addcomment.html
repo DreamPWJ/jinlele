@@ -2,11 +2,10 @@
     <section class="comment">
         <div ng-repeat="item in orderdetail.info">
     	<span class="comment_pic"><img ng-src="{{item.imgurl}}"></span>
-    	<span class="comment_text"><textarea id="{{item.gooid}}" placeholder="评价内容..."></textarea></span>
+    	<span class="comment_text"><textarea id="{{item.goodid}}" placeholder="评价内容..."></textarea></span>
         <dl class="photo">
-        	<!--<dd><a class="icon" href="">&#xe721;</a><img src="http://img1qn.moko.cc/2016-11-02/55ee21a7-95d7-4920-a58e-a1b13e1ad34a.jpg"></dd>-->
-            <!--<dd><a class="icon" href="">&#xe721;</a><img src="images/com/03.jpg"></dd>-->
-            <dt><i class="icon">&#xe62c;</i><input type="file"></dt>
+            <dd ng-model="localIds[item.goodid]" ng-repeat="per in localIds[item.goodid]"><wx-img></wx-img></dd>
+            <dt ng-click="wxchooseImage(item.goodid)"><i class="icon">&#xe62c;</i></dt>
         </dl>
         </div>
         <section class="depict">
