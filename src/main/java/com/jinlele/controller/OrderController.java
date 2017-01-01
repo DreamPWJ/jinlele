@@ -108,12 +108,12 @@ public class OrderController {
     }
 
     /**
-     * 修改订单状态 为已付款
+     * 修改服务订单状态 为已付款
      */
     @ResponseBody
     @RequestMapping(value = "/updateOrder" ,method = RequestMethod.GET)
     public  Map<String, Object> updateOrder(ShopOrder order){
-        order.setShoporderstatuscode("001003");    //001代表 翻新   001003翻新已付款
+        order.setShoporderstatuscode(order.getType()+"003");    //001代表 翻新   001003翻新已付款
         int n =  orderService.updateByPrimaryKeySelective(order);
         Map<String ,Object> map = new HashedMap();
         map.put("n" ,n);
@@ -125,7 +125,7 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/updateOrder2" ,method = RequestMethod.GET)
     public  Map<String, Object> updateOrder2(ShopOrder order){
-        order.setShoporderstatuscode("001002");    //001代表 翻新   001003翻新已付款
+        order.setShoporderstatuscode(order.getType()+"002");    //001代表 翻新   001003翻新已付款
         int n =  orderService.updateByPrimaryKeySelective(order);
         Map<String ,Object> map = new HashedMap();
         map.put("n" ,n);

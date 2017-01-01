@@ -457,10 +457,30 @@ angular.module('starter.controllers', [])
             });
         }
         //微信支付调用
-        $scope.weixinPay = function () {
+        $scope.weixinPay = function (ordeno ,totalprice) {
+            $scope.param = {
+                totalprice:0.01, //totalprice
+                orderNo: ordeno,
+                descrip:'你的订单已付款成功！',
+                openid:localStorage.getItem("openId")
+            }
             //调用微信支付服务器端接口
-            WeiXinService.getweixinPayData().success(function (data) {
-                WeiXinService.wxchooseWXPay(data); //调起微支付接口
+            WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                .then(function (msg) {
+                    if(msg == "get_brand_wcpay_request:ok"){
+                        alert("支付成功");
+                        // //修改订单状态  006代表的是商城订单
+                        OrderService.updateOrder({orderno:orderno,type:'006'}).success(function (data) {
+                            //成功后，跳转到下一个页面
+                            if(data && data.n == 1){
+                                $state.go('orderlist');
+                            }
+                        });
+                    } else{
+                        console.log("支付未成功");
+                    }
+                });
             })
         }
 
@@ -807,7 +827,7 @@ angular.module('starter.controllers', [])
                         if(msg == "get_brand_wcpay_request:ok"){
                             console.log("支付成功");
                             // //修改订单状态
-                             OrderService.updateOrder({orderno:orderno}).success(function (data) {
+                             OrderService.updateOrder({orderno:orderno,type:'001'}).success(function (data) {
                                 //成功后，跳转到下一个页面
                                 if(data && data.n == 1){
                                      $state.go('procreceive',{name:$scope.pagetheme,orderNo:orderno ,orderTime:orderTime});
