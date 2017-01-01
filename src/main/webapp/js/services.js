@@ -435,7 +435,6 @@ angular.module('starter.services', [])
         return {
             mediaIds:[],//上传下载媒体id数组
             localIds:[], //选择图片后生成的图片数组
-            address:"",  //收货地址对象
             //获取微信签名
             getWCSignature: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
@@ -458,7 +457,7 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                    //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
-                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/0.01/"+params.descrip+"/"+params.openid,
+                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/"+params.totalprice+"/"+params.descrip+"/"+params.openid,
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -624,11 +623,9 @@ angular.module('starter.services', [])
             },
             wxopenAddress : function ($scope) {//编辑并获取收货地址
                 WeiXinService = this;
-                WeiXinService.address = "";//清空收货地址信息
                 wx.openAddress({
                     success: function (res) {
                         // 用户成功拉出地址
-                        //alert(JSON.stringify(res));
                         $scope.address = res;
                         $scope.show=true;
                         $scope.$apply();
@@ -638,7 +635,8 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxchooseWXPay: function (data ,$scope) {//微信支付请求接口
+            wxchooseWXPay: function (data) {//微信支付请求接口
+                var defered=$q.defer();
                 function onBridgeReady() {
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest', {
@@ -650,11 +648,9 @@ angular.module('starter.services', [])
                             "paySign": data.paySign //微信签名
                         },
                         function (res) {
-                             alert(JSON.stringify(res));
-                             alert(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
-                            $scope.err_msg = res.err_msg;
-                            $scope.$apply();
-
+                            // alert(JSON.stringify(res));
+                            console.log(res.err_msg);  // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返
+                            defered.resolve(res.err_msg); // 声明执行成功，即http请求数据成功，可以返回数据了
                         }
                     );
                 }
@@ -686,6 +682,8 @@ angular.module('starter.services', [])
                  wx.error(function (res) {
                  alert(res.errMsg);
                  });*/
+
+                return defered.promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
         }
     })

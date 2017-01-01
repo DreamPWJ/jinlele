@@ -49,7 +49,7 @@ public class ShopOrder {
     }
 
 
-    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId) {
+    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId ,Date createTime) {
         this.orderno = orderno;
         this.totalnum = totalnum;
         this.totalprice = totalprice;
@@ -59,6 +59,7 @@ public class ShopOrder {
         this.type = type;
         this.shoporderstatuscode = shoporderstatuscode;
         this.receiptAddressId = receiptAddressId;
+        this.createTime = createTime;
     }
 
     public String getOrderno() {

@@ -79,12 +79,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcPhotoCtrl'
             })
             .state('proccommitorder', {  //流程-提交订单
-                url: '/proccommitorder/:name',
+                url: '/proccommitorder',
                 templateUrl: 'html/common/proccommitorder.html',
                 controller: 'ProcCommitOrderCtrl'
             })
             .state('procreceive', {  //流程-平台收货
-                url: '/procreceive/:name',
+                url: '/procreceive/:name/:orderNo/:orderTime',
                 templateUrl: 'html/common/procreceive.html',
                 controller: 'ProcReceiveCtrl'
             })

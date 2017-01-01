@@ -221,17 +221,17 @@
             </li>
         </ul>
     </section>
-    <a href="#/proctest/{{pagetheme}}">{{pagetheme}}</a>
+    <!--<a href="#/proctest/{{pagetheme}}">{{pagetheme}}</a>-->
     <!-- 单号 TAB -->
 	<section class="numbers">
     	<section class="numbers_list">
             <span>
                 <i>单号：</i>
-                <em>24012545488879887</em>
+                <em>{{orderNo}}</em>
             </span>
             <span>
                 <i>下单时间：</i>
-                <em>2014.05.25 16:20</em>
+                <em>{{orderTime}} {{orderTime | date:'yyyy-MM-dd HH:mm'}}</em>
             </span>
         </section>
         <section id="tad" class="numbers_button">

@@ -643,9 +643,9 @@ angular.module('starter.controllers', [])
                  storeId:1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
                  type:$scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
              };
-            alert(JSON.stringify($scope.params));
+            console.log(JSON.stringify($scope.params));
             ProcPhotoService.saveService($scope.params).success(function (data) {
-                alert(data.serviceId);
+                console.log(data.serviceId);
                 if(data){
                    var serviceId = data.serviceId;
                     //③后台处理成功后，跳转到下单页面
@@ -665,20 +665,20 @@ angular.module('starter.controllers', [])
 
 
 //流程-翻新服务 提交订单并付款
-.controller('ProcCommitOrderCtrl', function ($scope,$state, OrderService ,$stateParams, $window ,ProcCommitOrderService ,WeiXinService ,CategoryService) {
+.controller('ProcCommitOrderCtrl', function ($scope,$state,AddressService, OrderService ,$stateParams, $window ,ProcCommitOrderService ,WeiXinService ,CategoryService) {
     $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
     $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
     $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
 
     console.log("$stateParams==" + JSON.stringify($stateParams));
     $scope.showaddr =  $scope.pagetheme == 'recycle' ? false : true;
-
+    $scope.address={};
+    $scope.show=false; //用户控制地址显示
 
     $scope.order = {
         storeId:"",
         sendway:"001",
         getway:"001",
-        addressId:"",
         totalprice:""
     };
     $scope.productArr = [];
@@ -688,7 +688,6 @@ angular.module('starter.controllers', [])
         num:[],
         memo:[]
     };
-    $scope.address="";
     $scope.sendwayFlag = false;//寄件方式切换
     $scope.getwayFlag = false; //取件方式切换
     $scope.sendwayValue=['001' ,'002'];//寄件取件方式值
@@ -704,27 +703,29 @@ angular.module('starter.controllers', [])
     $scope.goback = function () {
         $window.history.back();
     }
-    //遍历门店
-    ProcCommitOrderService.findAllStores().success(function (data) {
-        $scope.stores = data;
-        console.log(JSON.stringify(data));
+
+    //从数据库获取地址
+    AddressService.getlatestinfo({userid:localStorage.getItem("jinlele_userId")}).success(function(data){
+        $scope.address=data;
+        if(data){
+            $scope.show=true;
+        }
     });
-    //弹出获取地址的页面
+    //微信内置添加地址，弹出获取地址的页面
     $scope.wxopenAddress=function () {
         //通过config接口注入权限验证配置
         WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
         //通过ready接口处理成功验证
         wx.ready(function () {
-            WeiXinService.wxopenAddress();
-            if(WeiXinService.address){
-                alert(JSON.stringify(WeiXinService.address));
-                ProcCommitOrderService.saveAddress(WeiXinService.address).success(function (data) {
-                    $scope.address =  data.receiptAddress;
-                });
-            }
-            //新增收货地址
+            WeiXinService.wxopenAddress($scope);
         })
     }
+    //遍历门店
+    ProcCommitOrderService.findAllStores().success(function (data) {
+        $scope.stores = data;
+        console.log(JSON.stringify(data));
+    });
+
     //遍历一级分类
     CategoryService.getcatogories().success(function (data) {
         $scope.firstCatogories = data.firstList;
@@ -758,6 +759,20 @@ angular.module('starter.controllers', [])
     }
     //生成订单并付款
     $scope.procreceive = function () {
+        //获取地址id
+        AddressService.getReceiptAddressId({
+            userid: localStorage.getItem("jinlele_userId"),
+            userName: $scope.address.userName,
+            postalCode: $scope.address.postalCode,
+            provinceName: $scope.address.provinceName,
+            cityName: $scope.address.cityName,
+            countryName: $scope.address.countryName,
+            detailInfo: $scope.address.detailInfo,
+            nationalCode: $scope.address.nationalCode,
+            telNumber: $scope.address.telNumber
+        }).success(function (data) {
+            $scope.address.id = data.receiptAddressId;
+        });
         $scope.params = {
             userId:localStorage.getItem("jinlele_userId"),
             serviceId: $scope.serviceId,
@@ -767,49 +782,62 @@ angular.module('starter.controllers', [])
             sendWay:$scope.order.sendway,     //送货方式
             getWay:$scope.order.getway,      //取货方式
             totalprice:$scope.totalprice,   //总价格
-            buyeraddresId:1,//收货地址id外键
+            buyeraddresId:$scope.address.id,//收货地址id外键
             products:JSON.stringify($scope.product)
         };
-        alert(JSON.stringify($scope.params));
+        console.log(JSON.stringify($scope.params));
         //保存订单 并去支付订单
         ProcCommitOrderService.saveServiceOrder($scope.params).success(function (data) {
             if(data){
                 //调用支付接口
                 var orderno = data.orderNo;
-                alert(data.totalprice);
+                var orderTime = data.orderTime;
                 $scope.param = {
+                    totalprice:0.01, //data.totalprice
                     orderNo: data.orderNo,
                     descrip:'你的翻新订单已付款成功，请尽快邮寄宝贝！',
                     openid:localStorage.getItem("openId")
                 }
                 //调用支付接口
-                alert(JSON.stringify($scope.param));
+                console.log(JSON.stringify($scope.param));
                 //微信支付调用
                 WeiXinService.getweixinPayData($scope.param).success(function (data) {
-                    WeiXinService.wxchooseWXPay(data ,$scope);
-                    if($scope.err_msg == "get_brand_wcpay_request：ok"){
-                       //修改订单状态
-                        OrderService.updateOrder({orderno:orderno}).success(function (data) {
-                            //成功后，跳转到下一个页面
-                            if(data && data.n == 1){
-                                $state.go('procreceive',{name:$scope.pagetheme});
-                            }
-                        });
-                    } else{
-                        OrderService.updateOrder2({orderno:orderno}).success(function (data) {
-                            alert("支付未成功");
-                        });
-                    }
+                    WeiXinService.wxchooseWXPay(data)
+                    .then(function (msg) {
+                        if(msg == "get_brand_wcpay_request:ok"){
+                            console.log("支付成功");
+                            // //修改订单状态
+                             OrderService.updateOrder({orderno:orderno}).success(function (data) {
+                                //成功后，跳转到下一个页面
+                                if(data && data.n == 1){
+                                     $state.go('procreceive',{name:$scope.pagetheme,orderNo:orderno ,orderTime:orderTime});
+                               }
+                             });
+                        } else{
+                            console.log("支付未成功");
+                            // OrderService.updateOrder2({orderno:orderno}).success(function (data) {
+                            //     alert("支付未成功");
+                            // });
+                        }
+                    });
+
                 });
+
+              
             }
 
         });
     }
 
+
 })
     //流程-平台收货
     .controller('ProcReceiveCtrl', function ($scope, $stateParams, $window) {
         console.log($stateParams.name);
+        console.log($stateParams.orderNo);
+        //alert($stateParams.orderTime);
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
         $scope.pagetheme = $stateParams.name;
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
 

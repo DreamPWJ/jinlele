@@ -10,6 +10,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +37,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     public Map<String , Object> saveServiceOrder(Integer serviceId, Integer totalnum,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products) {
         //生成服务订单表
         String orderno = StringHelper.getOrderNum();  //生成订单号
-        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, "001001", buyeraddresId);
+        Date orderTime = new Date();
+        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, "001001", buyeraddresId , orderTime);
         shopOrderMapper.insertSelective(order);
         //更新服务表
         Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
@@ -59,6 +61,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         Map<String ,Object> map = new HashMap();
         map.put("orderNo" , orderno);
         map.put("totalprice" , totalprice);
+        map.put("orderTime" , orderTime);
         return map;
     }
 }
