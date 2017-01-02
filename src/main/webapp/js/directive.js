@@ -26,14 +26,14 @@ angular.module('starter.directive', [])
   .directive('toolTip', [function () { //提示框tooltip
 
     return {
-      restrict: 'EA',
+      restrict: 'E',
       templateUrl: 'html/tooltip.html',
       scope: {
         message: "=",
         type: "="
       },
       link: function (scope, element, attrs) {
-
+          console.log(element);
       }
     };
   }])

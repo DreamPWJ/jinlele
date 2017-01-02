@@ -21,10 +21,8 @@ angular.module('starter.controllers', [])
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
-            if (localStorage.getItem("openId")) {
-                localStorage.setItem("openId", data.openId);//缓存微信用户唯一标示openId
-                localStorage.setItem("jinlele_userId", data.userId);//缓存微信用户唯一标示 userId
-            }
+                localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
+                localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
             //是否是微信 初次获取签名 获取微信签名
             if (WeiXinService.isWeiXin()) {
@@ -69,6 +67,7 @@ angular.module('starter.controllers', [])
                 $scope.total = data.myPageCount;
                 $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
             }).finally(function () {
+                $scope.$broadcast('scroll.refreshComplete');
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             })
         }
@@ -116,12 +115,18 @@ angular.module('starter.controllers', [])
     })
     //购物车
     .controller('ShoppingCartCtrl', ['$scope', 'CartService', 'CommonService', '$state', '$rootScope', function ($scope, CartService, CommonService, $state, $rootScope) {
+        $rootScope.commonService=CommonService;
         $scope.init = {
             userid: localStorage.getItem("jinlele_userId"),
             pagenow: 1
         };
         $scope.delstyle = {display: 'none'};
         CartService.getcartinfo($scope.init).success(function (data) {
+            $scope.isNotData = false;
+            if (data.pagingList.length == 0) {
+                $scope.isNotData = true;
+                return
+            }
             $scope.cartlist = data;
         });
         //初始化数据
@@ -267,14 +272,13 @@ angular.module('starter.controllers', [])
             if ($scope.checkedGcIds.length > 0) {
                 $state.go("confirmorder", {selectinfo: JSON.stringify($scope.checkedinfo)});
             } else {
-                CommonService.toolTip("您还没有选择要购买的商品哦！");
+                CommonService.toolTip("您还没有选择要购买的商品哦！","tool-tip-message-success");
             }
         }
         $scope.confirmorder = function () {
             console.log($scope.checkedGcIds);
             if ($scope.checkedGcIds.length == 0) {
-                $rootScope.commonService = CommonService;
-                CommonService.toolTip("请选择要购买的商品");
+                CommonService.toolTip("请选择要购买的商品","tool-tip-message-success");
                 return;
             }
             $scope.checkedGoodArr = [];
