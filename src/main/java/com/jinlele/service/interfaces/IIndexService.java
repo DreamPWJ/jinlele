@@ -15,5 +15,5 @@ public interface IIndexService {
     /**
      * 首页新品推荐分页显示
      */
-    Map<String, Object> getNewProductsPaging(int pagenow) ;
+    Map<String, Object> getNewProductsPaging(int pagenow,String searchcontent) ;
 }

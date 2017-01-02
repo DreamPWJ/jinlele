@@ -41,14 +41,26 @@ angular.module('starter.controllers', [])
                 })
             }
         })
+        //主页搜索
+        $scope.search = '';//搜索内容
+        $scope.searchquery = function (searchcontent) {
+            $scope.search=searchcontent;
+            $scope.getNewProducts();
+        }
+
         //获取首页分页新产品
         $scope.newProductsinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
         $scope.getNewProducts = function () {
+            if ((arguments != [] && arguments[0] == 0) || $scope.search != '') {
+                $scope.page = 0;
+                $scope.newProductsinfo = [];
+            }
             $scope.page++;
             //首页新品推荐分页显示
-            MainService.getNewProducts({pagenow: $scope.page}).success(function (data) {
+            MainService.getNewProducts({pagenow: $scope.page,searchcontent:$scope.search}).success(function (data) {
+                $scope.search = '';//清空搜索条件
                 angular.forEach(data.pagingList, function (item) {
                     $scope.newProductsinfo.push(item);
                 })
@@ -59,6 +71,7 @@ angular.module('starter.controllers', [])
             })
         }
         $scope.getNewProducts();
+
     }])
 
     //分类tab

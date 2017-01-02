@@ -6,6 +6,7 @@ import com.jinlele.dao.GoodMapper;
 import com.jinlele.service.interfaces.IIndexService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,13 +50,17 @@ public class IndexServiceImpl implements IIndexService {
      */
 
     @Override
-    public Map<String, Object> getNewProductsPaging(int pagenow) {
+    public Map<String, Object> getNewProductsPaging(int pagenow, String searchcontent) {
+        StringBuilder wherecase = new StringBuilder("ishotCode ='001' and deleteCode = '001'");
+        if (!("".equals(searchcontent)||searchcontent==null)) {
+            wherecase.append(" and title like'%" + searchcontent + "%'");
+        }
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " good ");
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " ishotCode ='001' and deleteCode = '001' ");
+        paramMap.put("wherecase", wherecase.toString());
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);

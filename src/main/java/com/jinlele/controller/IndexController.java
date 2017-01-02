@@ -2,10 +2,7 @@ package com.jinlele.controller;
 
 import com.jinlele.service.interfaces.IIndexService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -43,7 +40,7 @@ public class IndexController {
 
     @ResponseBody
     @RequestMapping(value = "/getNewProducts/{pagenow}", method = RequestMethod.GET)
-    public Map<String, Object> getNewProducts(@PathVariable int pagenow) {
-        return indexService.getNewProductsPaging(pagenow);
+    public Map<String, Object> getNewProducts(@PathVariable int pagenow,@RequestParam(value = "searchcontent",required = false) String searchcontent) {
+        return indexService.getNewProductsPaging(pagenow,searchcontent);
     }
 }

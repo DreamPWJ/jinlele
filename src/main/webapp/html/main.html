@@ -12,8 +12,8 @@
 
         <!-- 搜索 -->
         <section class="search">
-            <span class="search_main"><input placeholder="您要搜索的内容..." type="text"></span>
-            <a class="icon" href="">&#xe60a;</a>
+            <span class="search_main"><input placeholder="您要搜索的内容..." ng-model="search" type="text"></span>
+            <a class="icon" ng-click="searchquery(search)">&#xe60a;</a>
         </section>
 
         <!-- 主功能 -->
