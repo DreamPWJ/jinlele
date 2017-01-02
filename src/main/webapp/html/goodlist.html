@@ -25,7 +25,7 @@
         <!-- 最新 -->
         <section class="swiper-slide">
             <section class="product_list">
-                <section class="product" ng-repeat="item in goodList.pagingList">
+                <section class="product" ng-repeat="item in goodList.pagingList" >
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                     <section class="text">
                         <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
@@ -41,7 +41,7 @@
         <!-- 价格 -->
         <section class="swiper-slide">
             <section class="product_list">
-                <section class="product" ng-repeat="item in goodList.pagingList">
+                <section class="product" ng-repeat="item in goodList.pagingList | orderBy : 'saleprice'">
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                     <section class="text">
                         <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
