@@ -5281,7 +5281,7 @@ section.dingdan_list section.product section.price_1 i{ width:100%; height:20px;
 */
 
 .tool-tip {
-    position: absolute;
+    position: fixed;
     z-index: 10000;
     top: 20px;
     width: 100%;

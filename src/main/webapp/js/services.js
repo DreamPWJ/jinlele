@@ -114,7 +114,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise;
                 promise = $http({
                     method: "GET",
-                    url: encodeURI(JinLeLe.api + '/good/getGoodList/' + params.pagenow + '/' + params.categoryname + '/' + params.querytype)
+                    url: encodeURI(JinLeLe.api + '/good/getGoodList/' + params.pagenow + '/' + params.categoryname + '/' + params.querytype + '/' + params.flag)
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

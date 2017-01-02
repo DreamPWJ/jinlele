@@ -531,36 +531,36 @@ angular.module('starter.controllers', [])
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
 
-        //获取产品列表
-        GoodService.getGoodList({pagenow: 1, categoryname: $stateParams.name, querytype: 0}).success(function (data) {
-            $scope.goodList = data;
-            console.log(data);
+        $scope.saleFlag = 1; //综合(销售)排序方式 正序还是倒序
+        $scope.timeFlag = 1; //时间
+        $scope.priceFlag = 1; //价格
 
-        })
 
-        $('a.button').click(function() {
-            if (
-                $('.content').hasClass('square')) {
-                $('.content').removeClass('square');
-            }else{
-                $('.content').addClass('square');
+        function  getData(querytype , flag) {
+            //获取产品列表
+            GoodService.getGoodList({pagenow: 1, categoryname: $stateParams.name, querytype:querytype , flag:flag}).success(function (data) {
+                $scope.goodList = data;
+                console.log(data);
+            })
+        }
+
+         $scope.test = function (index){
+             if(index == 0){
+                 $scope.saleFlag = $scope.saleFlag == 1 ? 0 : 1;
+                 getData(index ,  $scope.saleFlag);    //暂时先按照时间吧  以后需要 用销量来分
+             }
+            if(index == 1){
+                $scope.timeFlag = $scope.timeFlag == 1 ? 0 : 1;
+                getData(index ,  $scope.timeFlag);
             }
-        });
-
-        var mySwiper = new Swiper('.content',{
-            pagination: '.ranking span',
-            paginationClickable: true,
-            //autoHeight: true,
-            paginationBulletRender: function (index, className) {
-                switch (index) {
-                    case 0: name='综合';break;
-                    case 1: name='最新';break;
-                    case 2: name='价格';break;
-                    default: name='';
-                }
-                return '<a href="javascript:" class="' + className + '">' + name + '</a>';
+            if(index == 2){
+                $scope.priceFlag = $scope.priceFlag == 1 ? 0 : 1;
+                console.log("==="+$scope.priceFlag);
+                getData(index , $scope.priceFlag);
             }
-        });
+         }
+         //页面初始加载
+        getData(1 , 1);//默认按照 时间倒序
 
 
     })
@@ -666,11 +666,11 @@ angular.module('starter.controllers', [])
             //判断参数
             var len = $scope.localIds.length;
             if (len == 0) {
-                CommonService.toolTip("请上传图片");
+                CommonService.toolTip("请上传图片" ,"");
                 return;
             }
             if ($scope.service.descrip == "") {
-                CommonService.toolTip("请填写商品描述");
+                CommonService.toolTip("请填写商品描述" ,"");
                 return;
             }
             if (pagetheme == "refurbish") {
@@ -789,7 +789,7 @@ angular.module('starter.controllers', [])
         //根据一级分类遍历二级分类
         $scope.getSecondCatogories = function (index) {
             CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                $scope.secondcatagories = data;
+                $scope["secondcatagories" +index] = data;
                 console.log(JSON.stringify(data))
             });
         }

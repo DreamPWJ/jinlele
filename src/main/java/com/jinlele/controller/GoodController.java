@@ -44,9 +44,9 @@ public class GoodController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getGoodList/{pagenow}/{categoryname}/{querytype}", method = RequestMethod.GET)
-    public Map<String, Object> getGoodList(@PathVariable int pagenow, @PathVariable String categoryname, @PathVariable int querytype) {
-        return goodCatogoryService.getGoodListPaging(pagenow, categoryname, querytype);
+    @RequestMapping(value = "/getGoodList/{pagenow}/{categoryname}/{querytype}/{flag}", method = RequestMethod.GET)
+    public Map<String, Object> getGoodList(@PathVariable int pagenow, @PathVariable String categoryname, @PathVariable int querytype , @PathVariable int flag) {
+        return goodCatogoryService.getGoodListPaging(pagenow, categoryname, querytype ,flag);
     }
 
     /**

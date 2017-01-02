@@ -17,7 +17,7 @@ public interface IGoodCatogoryService {
      * @param categoryname 二级分类名称
      * @param querytype  查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
      */
-    Map<String, Object> getGoodListPaging(int pagenow,String categoryname,int  querytype);
+    Map<String, Object> getGoodListPaging(int pagenow,String categoryname,int querytype ,int flag);
 
     /**
      * 获取一级分类下的二级分类

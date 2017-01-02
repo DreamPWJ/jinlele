@@ -8,6 +8,9 @@
     <i ng-switch-when="exchange">产品换款</i>
 </section>
 
+
+<form name="submitForm">
+
 <main class="content bottom" ng-switch on="pagetheme">
 
     <!-- 翻新流程 -->
@@ -222,7 +225,6 @@
         </ul>
     </section>
 
-    <form>
     <!-- 产品信息 -->
     <dl class="add_product">
         <dd>
@@ -301,7 +303,7 @@
         <dd>
             <em>产品材质：</em>
             <span>
-            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)">
+            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required >
                 <option value="">请选择</option>
                 <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
             </select>
@@ -310,24 +312,23 @@
         <dd >
             <em>产品类别：</em>
             <span>
-            <select class="" ng-model="product.secondCatogoryId[$index]" >
+            <select class="" ng-model="product.secondCatogoryId[$index]" required>
                 <option value="">请选择</option>
-                <option value="{{item.id}}" ng-repeat="item in secondcatagories">{{item.name}}</option>
+                <option value="{{item.id}}" ng-repeat="item in secondcatagories[$index]">{{item.name}}</option>
             </select>
             </span>
         </dd>
         <dd>
             <em>数量：</em>
-            <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()"></span>
+            <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')"   required></span>
         </dd>
         <dd>
             <em>备注：</em>
-            <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]"></span>
+            <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]" required></span>
         </dd>
     </dl>
     </div>
 
-    </form>
     <section class="addto" ng-click="addProduct()"><a href=""><i class="icon">&#xe600;</i><em>添加产品信息</em></a></section>
 
     <section class="prompt_tisi">
@@ -339,13 +340,16 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-    <span class="total">合计 {{totalprice | number:2}}</span>
+    <span class="total">合计 {{totalprice | number:2}} {{!(submitForm.$valid&&verify)}}</span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
         <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
-        <a ng-click="procreceive()">立即下单</a>
+        <a ng-disabled="!(submitForm.$valid&&verify)" ng-click="procreceive()">立即下单</a>
     </span>
 </footer>
+
+</form>
+
 
 <!--<script type="text/javascript" src="../../js/checkbox.js"></script>-->
 <script type="text/javascript">

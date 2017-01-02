@@ -7,7 +7,7 @@
 
     <section class="swiper-wrapper">
         <!-- 综合 -->
-        <section class="swiper-slide">
+        <section class="swiper-slide" >
             <section class="product_list ">
                 <section class="product" ng-repeat="item in goodList.pagingList">
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
@@ -23,7 +23,7 @@
         </section>
 
         <!-- 最新 -->
-        <section class="swiper-slide">
+        <section class="swiper-slide"  >
             <section class="product_list">
                 <section class="product" ng-repeat="item in goodList.pagingList" >
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
@@ -56,3 +56,30 @@
     </section>
 
 </main>
+
+<script>
+
+    $('a.button').click(function() {
+        if (
+            $('.content').hasClass('square')) {
+            $('.content').removeClass('square');
+        }else{
+            $('.content').addClass('square');
+        }
+    });
+
+    var mySwiper = new Swiper('.content',{
+        pagination: '.ranking span',
+        paginationClickable: true,
+        //autoHeight: true,
+        paginationBulletRender: function (index, className) {
+            switch (index) {
+                case 0: name='综合';break;
+                case 1: name='最新';break;
+                case 2: name='价格';break;
+                default: name='';
+            }
+            return '<a  ng-click="test('+index+')" href="javascript:" class="' + className + '">' + name + '</a>';
+        }
+    });
+</script>

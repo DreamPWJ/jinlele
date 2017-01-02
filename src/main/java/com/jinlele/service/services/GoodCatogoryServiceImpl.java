@@ -37,22 +37,32 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
      * 获取产品列表
      *
      * @param categoryname 二级分类名称
-     * @param querytype    查询条件 综合 0  最新 1 价格从高到低 2 价格从低到高 3
+     * @param querytype    查询条件 综合 0  最新 1  价格2
+     *                     flag  : 1 降序 0：升序
      */
     @Override
-    public Map<String, Object> getGoodListPaging(int pagenow, String categoryname, int querytype) {
+    public Map<String, Object> getGoodListPaging(int pagenow, String categoryname, int querytype , int flag) {
+        String orderKey = "";
+        if(querytype == 2){
+            orderKey = " saleprice ";
+        }else {
+            orderKey = " create_time ";
+        }
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " good ");
         paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
         paramMap.put("wherecase", " category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
-        paramMap.put("orderField", " create_time ");
-        paramMap.put("orderFlag", 1);
+        paramMap.put("orderField",  orderKey );
+        paramMap.put("orderFlag", flag);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
         return CommonUtil.removePaingMap(paramMap) ;
     }
+
+
+
 
     /**
      * 获取一级分类下的二级分类
