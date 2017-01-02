@@ -59,7 +59,7 @@ public class PayCommonUtil {
         parameterMap.put("total_fee", df.format(total));// 支付金额
 
         parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
-        parameterMap.put("notify_url", "http://6weiyi.com");// 接收微信支付异步通知回调地址
+        parameterMap.put("notify_url", "http://www.6weiyi.com/jinlele/weixin/paymentNotice");// 接收微信支付异步通知回调地址
         parameterMap.put("trade_type", "JSAPI");// 交易类型 JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参可参考这里MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
         //trade_type为JSAPI是 openid为必填项
         parameterMap.put("openid", openid);// 用户标识
@@ -68,11 +68,11 @@ public class PayCommonUtil {
 
         parameterMap.put("sign", sign);// 签名
         String requestXML = PayCommonUtil.getRequestXml(parameterMap);
-        System.out.println("requestXML===============" + requestXML);
+       // System.out.println("requestXML===============" + requestXML);
         String result = PayCommonUtil.httpsRequest(
                 "https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",
                 requestXML);
-        System.out.println("result===============" + result);
+       // System.out.println("result===============" + result);
         Map<String, String> map = null;
         try {
             map = PayCommonUtil.doXMLParse(result);
@@ -133,7 +133,7 @@ public class PayCommonUtil {
             }
         }
         sb.append("key=" + API_KEY);
-        System.out.println("createSign===============" + sb.toString());
+      //  System.out.println("createSign===============" + sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;
     }

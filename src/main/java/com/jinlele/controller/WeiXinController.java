@@ -14,13 +14,11 @@ import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
+import org.jdom.JDOMException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -198,7 +196,7 @@ public class WeiXinController {
                 userInfo = AdvancedUtil.getUserInfo(Token, openId);
                 userService.insertSelective(userInfo);
             }
-            userIds =  userInfo.getId();
+            userIds = userInfo.getId();
 
         } else {
             return null;
@@ -241,5 +239,20 @@ public class WeiXinController {
         return finalpackage;
     }
 
-
+    /**
+     * 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答
+     *
+     * @param returncode 返回状态码
+     * @param returnmsg  返回信息xml格式
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/weixin/paymentNotice", method = RequestMethod.GET)
+    public Map paymentNotice(@RequestParam(value = "return_code") String returncode, @RequestParam(value = "return_msg") String returnmsg) throws JDOMException, IOException {
+        System.out.println("支付完成后，微信会把相关支付结果和用户信息发送给商户=========" + returnmsg);
+        return PayCommonUtil.doXMLParse("<xml>\n" +
+                "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
+                "  <return_msg><![CDATA[OK]]></return_msg>\n" +
+                "</xml>");
+    }
 }
