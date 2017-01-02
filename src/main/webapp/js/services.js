@@ -37,8 +37,8 @@ angular.module('starter.services', [])
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/index/getNewProducts/"+ params.pagenow,
-                    params:{searchcontent:params.searchcontent}
+                    url: JinLeLe.api + "/index/getNewProducts/" + params.pagenow,
+                    params: {searchcontent: params.searchcontent}
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -163,12 +163,12 @@ angular.module('starter.services', [])
     .service('AddressService', function ($q, $http, JinLeLe) {
         return {
             //最新地址信息
-            getlatestinfo:function(params){
+            getlatestinfo: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/service/getLatestInfo/"+params.userid
+                    url: JinLeLe.api + "/service/getLatestInfo/" + params.userid
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -183,7 +183,7 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/createReceiptAddressId",
-                    params:datas
+                    params: datas
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -211,13 +211,13 @@ angular.module('starter.services', [])
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
             //新增服务订单
-            saveServiceOrder:function (datas) {
+            saveServiceOrder: function (datas) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/serviceOrder/saveServiceOrder",
-                    params:datas
+                    params: datas
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -264,7 +264,7 @@ angular.module('starter.services', [])
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
             //删除购物车数据
-            deleteCart:function(params){//商品
+            deleteCart: function (params) {//商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
@@ -312,7 +312,7 @@ angular.module('starter.services', [])
         }
     })
     //会员页面service
-    .service('MemberService' , function ($q, $http, JinLeLe) {
+    .service('MemberService', function ($q, $http, JinLeLe) {
         return {
             //得到用户信息
             getUserInfo: function (openid) {
@@ -330,9 +330,9 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('OrderService',function($q, $http, JinLeLe){
+    .service('OrderService', function ($q, $http, JinLeLe) {
         return {
-            getOrderDetailInfo:function(params){
+            getOrderDetailInfo: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
@@ -345,7 +345,7 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            cancleOrder:function(params){
+            cancleOrder: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
@@ -359,13 +359,13 @@ angular.module('starter.services', [])
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
             //修改订单状态 为成功
-            updateOrder:function (data) {
+            updateOrder: function (data) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/updateOrder",
-                    params:data
+                    params: data
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -374,13 +374,27 @@ angular.module('starter.services', [])
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
             //修改订单状态 为未付款
-            updateOrder2:function (data) {
+            updateOrder2: function (data) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/updateOrder2",
-                    params:data
+                    params: data
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            AddComment: function (params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'POST',
+                    url: JinLeLe.api + "/order/createComment",
+                    data: params
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -390,15 +404,15 @@ angular.module('starter.services', [])
             }
         }
     })
-    .service('ProcPhotoService',function($q, $http, JinLeLe){
+    .service('ProcPhotoService', function ($q, $http, JinLeLe) {
         return {
-            saveService:function(params){
+            saveService: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/saveService",
-                    params:params
+                    params: params
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -432,10 +446,10 @@ angular.module('starter.services', [])
         }
     })
 
-    .service('WeiXinService', function ($q, $http, JinLeLe ,$sce) { //微信 JS SDK 接口服务定义
+    .service('WeiXinService', function ($q, $http, JinLeLe, $sce) { //微信 JS SDK 接口服务定义
         return {
-            mediaIds:[],//上传下载媒体id数组
-            localIds:[], //选择图片后生成的图片数组
+            mediaIds: [],//上传下载媒体id数组
+            localIds: [], //选择图片后生成的图片数组
             //获取微信签名
             getWCSignature: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
@@ -457,8 +471,8 @@ angular.module('starter.services', [])
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                   //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
-                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/"+params.totalprice+"/"+params.descrip+"/"+params.openid
+                    //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
+                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/" + params.totalprice + "/" + params.descrip + "/" + params.openid
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -498,7 +512,7 @@ angular.module('starter.services', [])
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
-                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage','openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
             },
             wxcheckJsApi: function () { //判断当前客户端版本是否支持指定微信 JS SDK接口
@@ -520,12 +534,12 @@ angular.module('starter.services', [])
                         var localIds = results.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                         var newlocalIds = [];
                         for (var i = 0, len = localIds.length; i < len; i++) {
-                            localIds[i] =  localIds[i].toString();
-                             $sce.trustAsResourceUrl(localIds[i]);
-                             newlocalIds.push(localIds[i]);
-                             WeiXinService.wxuploadImage(localIds[i]);
+                            localIds[i] = localIds[i].toString();
+                            $sce.trustAsResourceUrl(localIds[i]);
+                            newlocalIds.push(localIds[i]);
+                            WeiXinService.wxuploadImage(localIds[i]);
                         }
-                        callback.call(this , newlocalIds);
+                        callback.call(this, newlocalIds);
                     }
                 });
             },
@@ -622,13 +636,13 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxopenAddress : function ($scope) {//编辑并获取收货地址
+            wxopenAddress: function ($scope) {//编辑并获取收货地址
                 WeiXinService = this;
                 wx.openAddress({
                     success: function (res) {
                         // 用户成功拉出地址
                         $scope.address = res;
-                        $scope.show=true;
+                        $scope.show = true;
                         $scope.$apply();
                     },
                     cancel: function () {
@@ -637,7 +651,8 @@ angular.module('starter.services', [])
                 });
             },
             wxchooseWXPay: function (data) {//微信支付请求接口
-                var defered=$q.defer();
+                var defered = $q.defer();
+
                 function onBridgeReady() {
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest', {

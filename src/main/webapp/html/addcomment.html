@@ -2,10 +2,10 @@
     <section class="comment">
         <div ng-repeat="item in orderdetail.info">
     	<span class="comment_pic"><img ng-src="{{item.imgurl}}"></span>
-    	<span class="comment_text"><textarea id="{{item.goodid}}" placeholder="评价内容..."></textarea></span>
+    	<span class="comment_text"><textarea id="{{item.gcid}}" placeholder="评价内容..." ng-model="contents[item.gcid]"></textarea></span>
         <dl class="photo">
-            <dd ng-model="localIds[item.goodid]" ng-repeat="per in localIds[item.goodid]"><wx-img></wx-img></dd>
-            <dt ng-click="wxchooseImage(item.goodid)"><i class="icon">&#xe62c;</i></dt>
+            <dd ng-model="localIds[item.gcid]" ng-repeat="per in localIds[item.gcid]"><wx-img></wx-img></dd>
+            <dt ng-click="wxchooseImage(item.gcid)"><i class="icon">&#xe62c;</i></dt>
         </dl>
         </div>
         <section class="depict">
@@ -19,5 +19,5 @@
             </span>
         </section>
     </section>
-    <section class="submit"><a href="">提交</a></section>
+    <section class="submit"><a href="" ng-click="submitcomment()">提交</a></section>
 </main>

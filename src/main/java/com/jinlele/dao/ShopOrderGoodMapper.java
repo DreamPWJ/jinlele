@@ -22,4 +22,6 @@ public interface ShopOrderGoodMapper {
     int updateByPrimaryKeySelective(ShopOrderGood record);
 
     int updateByPrimaryKey(ShopOrderGood record);
+    //根据订单与gcid修改评论id
+    int updateByOrderNoGcid(ShopOrderGood record);
 }

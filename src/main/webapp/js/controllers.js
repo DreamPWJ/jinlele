@@ -275,51 +275,6 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("您还没有选择要购买的商品哦！","tool-tip-message-success");
             }
         }
-        $scope.confirmorder = function () {
-            console.log($scope.checkedGcIds);
-            if ($scope.checkedGcIds.length == 0) {
-                CommonService.toolTip("请选择要购买的商品","tool-tip-message-success");
-                return;
-            }
-            $scope.checkedGoodArr = [];
-            $scope.checkedGoodChildArr = [];
-            angular.forEach($scope.cartlist.pagingList, function (item) {
-                console.log(JSON.stringify(item.gcid));
-                for (var i = 0, len = $scope.checkedGcIds.length; i < len; i++) {
-                    var obj = {};
-                    if (item.gcid == $scope.checkedGcIds[i]) {
-                        console.log('item.gcid ==');
-                        obj.goodId = item.goodId;
-                        obj.cartId = item.cartId;
-                        obj.gcid = item.gcid;
-                        obj.num = item.num;
-                        $scope.checkedGoodChildArr.push(obj);
-                        $scope.checkedGoodArr.push(item);
-                    }
-                }
-            })
-
-            $scope.obj = {
-                totalprice: $scope.totalprice,
-                totalnum: $scope.totalnum,
-                userId: localStorage.getItem("jinlele_userId"),
-                storeId: 1,//后续需要根据客户选择传入
-                chars: JSON.stringify($scope.checkedGoodChildArr)
-            };
-            //去后台生成商成订单 和 订单_商品子表的数据
-            CartService.saveOrder($scope.obj).success(function (data) {
-                console.log(JSON.stringify(data));
-                if (data && data.status == "ok") {
-                    //跳转到支付页面
-                    $state.go("confirmorder", {
-                        checkedGoodArr: JSON.stringify($scope.checkedGoodArr),
-                        totalprice: $scope.totalprice,
-                        totalnum: $scope.totalnum
-                    });
-                }
-            });
-
-        }
     }])
     //确认订单
     .controller('ConfirmOrderCtrl', ['$scope', '$stateParams', '$state', 'CartService', 'AddressService', 'WeiXinService', function ($scope, $stateParams, $state, CartService, AddressService, WeiXinService) {
@@ -397,30 +352,44 @@ angular.module('starter.controllers', [])
         })
     }])
     //发表评论
-    .controller('AddCommentCtrl', ['$scope', '$stateParams', 'WeiXinService', 'OrderService', function ($scope, $stateParams, WeiXinService, OrderService) {
+    .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state', 'WeiXinService', 'OrderService', function ($scope, $stateParams, $state, WeiXinService, OrderService) {
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
         });
-        WeiXinService.mediaIds = []; //置空媒体id数组
         $scope.localIds = [];// 上传图片的微信路径 数组
-        $scope.wxchooseImage = function (goodid) {
-            alert(goodid);
+        $scope.contents = [];// 评论内容数组
+        $scope.mediaIds = [];// 评论图片数组
+        WeiXinService.mediaIds = []; //置空媒体id数组
+        $scope.wxchooseImage = function (gcid) {
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
             //通过ready接口处理成功验证
             wx.ready(function () {
                 WeiXinService.wxchooseImage(function (localIds) {
-                    $scope.localIds[goodid] = localIds;
+                    $scope.localIds[gcid] = localIds;
+                    $scope.mediaIds[gcid]=WeiXinService.mediaIds;
                     $scope.$apply();
                 })
+                WeiXinService.mediaIds = []; //置空媒体id数组
             })
         }
         $scope.submitcomment = function () {
-            //1.添加图片
-            //2.添加评论
-            //3.添加评论图片中间表
-            //4.修改订单，添加评论id
+            $scope.commentinfo = [];
+            angular.forEach($scope.orderdetail.info, function (item, index) {
+                var commentinfoitem = {};
+                commentinfoitem.gcid = item.gcid;
+                commentinfoitem.orderno = $stateParams.orderno;
+                commentinfoitem.userId = localStorage.getItem("jinlele_userId");
+                commentinfoitem.content = $scope.contents[item.gcid];
+                commentinfoitem.mediaIds = $scope.mediaIds[item.gcid];
+                $scope.commentinfo.push(commentinfoitem);
+            })
+            OrderService.AddComment($scope.commentinfo).success(function (data) {
+                if(parseInt(data.row)>0){
+                    $state.go("orderlist");
+                }
+            });
         }
     }])
     //会员
@@ -459,11 +428,12 @@ angular.module('starter.controllers', [])
             }
         });
         $scope.init = {
-            userid: 1,
+            userid: localStorage.getItem("jinlele_userId"),
             pagenow: 1
         };
         OrderListService.getorderLists($scope.init).success(function (data) {
             $scope.list = data;
+            console.log(data);
         });
         $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据

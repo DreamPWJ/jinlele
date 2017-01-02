@@ -79,6 +79,9 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
+    <selectKey keyProperty="id" resultType="java.lang.Integer">
+      select LAST_INSERT_ID() as id
+    </selectKey>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.Picture" >
     update picture

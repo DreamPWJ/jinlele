@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.jinlele.model.Comment" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
@@ -13,7 +12,7 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, url, deleteCode, create_time, update_time
+    id, user_id, deleteCode, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -31,12 +30,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Comment" >
-    insert into comment (id, user_id, url, 
-      deleteCode, create_time, update_time, 
-      content)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
-      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR})
+    insert into comment (id, user_id, deleteCode, 
+      create_time, update_time, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Comment" >
     insert into comment
@@ -46,9 +45,6 @@
       </if>
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="url != null" >
-        url,
       </if>
       <if test="deletecode != null" >
         deleteCode,
@@ -70,9 +66,6 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="url != null" >
-        #{url,jdbcType=VARCHAR},
-      </if>
       <if test="deletecode != null" >
         #{deletecode,jdbcType=CHAR},
       </if>
@@ -86,15 +79,15 @@
         #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
+    <selectKey keyProperty="id" resultType="java.lang.Integer">
+      select LAST_INSERT_ID() as id
+    </selectKey>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.Comment" >
     update comment
     <set >
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="url != null" >
-        url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="deletecode != null" >
         deleteCode = #{deletecode,jdbcType=CHAR},
@@ -114,7 +107,6 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jinlele.model.Comment" >
     update comment
     set user_id = #{userId,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -124,7 +116,6 @@
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.Comment" >
     update comment
     set user_id = #{userId,jdbcType=INTEGER},
-      url = #{url,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}

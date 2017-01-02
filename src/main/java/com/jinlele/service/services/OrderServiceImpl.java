@@ -54,7 +54,7 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("fields", "  *  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 2*SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " deleteCode='001' and user_id="+userid);
+        paramMap.put("wherecase", " deleteCode='001' and shoporderstatusCode in ('001','002','005','007') and user_id="+userid);
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -122,7 +122,7 @@ public class OrderServiceImpl implements IOrderService {
         Map<String, Object> detail = new HashMap<>();
         detail.put("info",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
         resultMap.put("order",shopOrder);
-        resultMap.put("address",receiptAddressMapper.selectByPrimaryKey(shopOrder.getReceiptAddressId()));
+        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(shopOrder.getReceiptAddressId()));
         resultMap.put("orderdetail",detail);
         return resultMap;
     }

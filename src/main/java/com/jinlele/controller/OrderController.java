@@ -2,17 +2,17 @@ package com.jinlele.controller;
 
 import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShoppingCart;
+import com.jinlele.service.interfaces.ICommentService;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +26,9 @@ public class OrderController {
     IShoppingCartService shoppingCartService;
     @Resource
     IOrderService orderService;
+
+    @Resource
+    ICommentService commentService;
 
     /**
      * 分页获取购物车数据
@@ -129,6 +132,14 @@ public class OrderController {
         int n =  orderService.updateByPrimaryKeySelective(order);
         Map<String ,Object> map = new HashedMap();
         map.put("n" ,n);
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/createComment" ,method = RequestMethod.POST)
+    public  Map<String,Object> createComment(@RequestBody List<Map<String,Object>> list) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("row", commentService.createComment(list));
         return map;
     }
 

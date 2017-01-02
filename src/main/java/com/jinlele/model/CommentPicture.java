@@ -2,10 +2,12 @@ package com.jinlele.model;
 
 import java.util.Date;
 
-public class Comment {
+public class CommentPicture {
     private Integer id;
 
-    private Integer userId;
+    private Integer commentId;
+
+    private Integer pictureId;
 
     private String deletecode;
 
@@ -13,12 +15,10 @@ public class Comment {
 
     private Date updateTime;
 
-    private String content;
-
-    public  Comment(){}
-    public Comment(Integer userid,String content){
-        this.userId=userid;
-        this.content=content;
+    public  CommentPicture(){}
+    public CommentPicture(Integer cmtid,Integer picid){
+        this.commentId=cmtid;
+        this.pictureId=picid;
     }
 
     public Integer getId() {
@@ -29,12 +29,20 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
+
+    public Integer getPictureId() {
+        return pictureId;
+    }
+
+    public void setPictureId(Integer pictureId) {
+        this.pictureId = pictureId;
     }
 
     public String getDeletecode() {
@@ -59,13 +67,5 @@ public class Comment {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 }

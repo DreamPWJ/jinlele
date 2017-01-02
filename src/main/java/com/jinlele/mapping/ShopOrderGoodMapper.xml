@@ -139,6 +139,11 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByOrderNoGcid" parameterType="com.jinlele.model.ShopOrderGood">
+    update shoporder_good
+    set comment_id = #{commentId,jdbcType=INTEGER}
+    where shoporder_no = #{shoporderNo,jdbcType=VARCHAR} and goodchild_id = #{goodchildId,jdbcType=INTEGER}
+  </update>
 
   <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
     select g.id as goodid,gc.id as gcid,g.title,gc.imgurl,gc.color,g.saleprice,m.num as buynum
