@@ -538,11 +538,27 @@ angular.module('starter.controllers', [])
 
         })
 
-        $('a.button').click(function () {
-            if ($('.content').hasClass('square')) {
+        $('a.button').click(function() {
+            if (
+                $('.content').hasClass('square')) {
                 $('.content').removeClass('square');
-            } else {
+            }else{
                 $('.content').addClass('square');
+            }
+        });
+
+        var mySwiper = new Swiper('.content',{
+            pagination: '.ranking span',
+            paginationClickable: true,
+            //autoHeight: true,
+            paginationBulletRender: function (index, className) {
+                switch (index) {
+                    case 0: name='综合';break;
+                    case 1: name='最新';break;
+                    case 2: name='价格';break;
+                    default: name='';
+                }
+                return '<a href="javascript:" class="' + className + '">' + name + '</a>';
             }
         });
 

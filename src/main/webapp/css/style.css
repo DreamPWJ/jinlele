@@ -266,6 +266,12 @@ body.white {
     white-space: normal !important;
 }
 
+section.ranking a.swiper-pagination-bullet-active {
+    color: #F5D000;
+    font-weight: bold;
+    border-bottom: 1px solid #F5D000;
+}
+
 /*  ios没有导航bar状态栏兼容处理*/
 .platform-ios.platform-cordova .no-nav-header {
     margin-top: 20px;
