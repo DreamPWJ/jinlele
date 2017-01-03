@@ -54,7 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'OrderDetailCtrl'
             })
             .state('confirmorder', {  //确认订单
-                url: '/confirmorder/:selectinfo',
+                url: '/confirmorder',
                 templateUrl: 'html/confirmorder.html',
                 controller: 'ConfirmOrderCtrl'
             })

@@ -22,8 +22,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno, 
-    user_id, store_id, type, shoporderstatusCode, receipt_address_id, comment, deleteCode, 
-    create_time, update_time, descriplevel
+    user_id, store_id, type, case shoporderstatusCode when '001' then '已下单'  when '002' then '待付款' when '003' then '已付款' when '004' then '已发货' when '005' then '已收货' when '006' then '已签收' when '007' then '已评价' when '008' then '已退单' when '009' then '已取消' end as shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

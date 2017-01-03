@@ -54,7 +54,7 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("fields", "  *  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 2*SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " deleteCode='001' and shoporderstatusCode in ('001','002','005','007') and user_id="+userid);
+        paramMap.put("wherecase", " deleteCode='001' and shoporderstatusCode in ('002','003','006','008') and user_id="+userid);
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -71,6 +71,7 @@ public class OrderServiceImpl implements IOrderService {
         try {
             ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, receiptAddressId, "001");
             order.setShoporderstatuscode("001");//设置订单状态 未付款
+            order.setFreightprice(Double.valueOf(0));//运费
             //生成订单
             orderMapper.insertSelective(order);
             //订单_商品中间表数据添加
@@ -82,6 +83,7 @@ public class OrderServiceImpl implements IOrderService {
                 Integer num = Integer.valueOf(jo.get("num").toString());
                 descrip  = descrip +"&" + jo.get("title").toString();
                 ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId, num, "001");
+                order.setType("006");
                 //订单_商品中间表保存数据
                 shopOrderGoodMapper.insertSelective(ordergood);
                 //删除购物车中下单的数据
@@ -141,7 +143,7 @@ public class OrderServiceImpl implements IOrderService {
         }
         //更改订单状态--取消
         ShopOrder shopOrder=new ShopOrder();
-        shopOrder.setShoporderstatuscode("008");
+        shopOrder.setShoporderstatuscode("009");
         shopOrder.setOrderno(orderno);
         paramMap.put("resultnumber",orderMapper.updateByPrimaryKeySelective(shopOrder));
         return paramMap;

@@ -276,15 +276,16 @@ angular.module('starter.controllers', [])
         //结算
         $scope.bill = function () {
             if ($scope.checkedGcIds.length > 0) {
-                $state.go("confirmorder", {selectinfo: JSON.stringify($scope.checkedinfo)});
+                $state.go("confirmorder");
+                localStorage.setItem(localStorage.getItem("openId"), JSON.stringify($scope.checkedinfo));
             } else {
                 CommonService.toolTip("您还没有选择要购买的商品哦！","tool-tip-message-success");
             }
         }
     }])
     //确认订单
-    .controller('ConfirmOrderCtrl', ['$scope', '$stateParams', '$state', 'CartService', 'AddressService', 'WeiXinService', function ($scope, $stateParams, $state, CartService, AddressService, WeiXinService) {
-        $scope.selectinfo = JSON.parse($stateParams.selectinfo);
+    .controller('ConfirmOrderCtrl', ['$scope', '$state', 'CartService', 'AddressService', 'OrderService', 'WeiXinService', function ($scope, $state, CartService, AddressService, OrderService, WeiXinService) {
+        $scope.selectinfo = JSON.parse(localStorage.getItem(localStorage.getItem("openId")));
         $scope.totalprice = 0;
         $scope.totalnum = 0;
         $scope.address = {};
@@ -332,39 +333,73 @@ angular.module('starter.controllers', [])
                 userId: localStorage.getItem("jinlele_userId"),
                 storeId: 1,//后续需要根据客户选择传入
                 receiptAddressId: $scope.address.id,
-                chars: $stateParams.selectinfo
+                chars: localStorage.getItem(localStorage.getItem("openId"))
             };
             //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
             CartService.saveOrder($scope.obj).success(function (data) {
                 if (data.errmsg == "ok") {
-                    ////调用微信支付服务器端接口
-                    //WeiXinService.getweixinPayData().success(function (data) {
-                    //    WeiXinService.wxchooseWXPay(data); //调起微支付接口
-                    //})
-
-
-                    //调用支付后，跳转订单详情
-                    $state.go("orderdetail", {orderno: data.orderno});
+                    //调用微信支付服务器端接口
+                    $scope.param = {
+                        totalprice: 0.01, //$scope.totalprice,
+                        orderNo: data.orderno,
+                        descrip: '你的订单已付款成功！',
+                        openid: localStorage.getItem("openId")
+                    }
+                    OrderService=this;
+                    //调用微信支付服务器端接口
+                    WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                        WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                            .then(function (msg) {
+                                switch (msg){
+                                    case "get_brand_wcpay_request:ok":
+                                        alert(msg);
+                                        // //修改订单状态  006代表的是商城订单
+                                        OrderService.updateOrder({orderno: orderno, type: 006}).success(function (d) {
+                                            //成功后，跳转到下一个页面
+                                            if (d && d.n == 1) {
+                                                //调用支付后，跳转订单详情
+                                                $state.go("orderdetail", {orderno: d.orderno});
+                                            }
+                                        });
+                                        break;
+                                    default :
+                                        alert(msg);
+                                        OrderService.updateOrder2({orderno: orderno, type: 006}).success(function (d) {
+                                            alert(d.n);
+                                            if (d && d.n == 1) {
+                                                //未支付，跳转订单列表
+                                                $state.go("orderlist");
+                                            }
+                                        });
+                                        break;
+                                }
+                            });
+                    })
                 }
             });
         }
     }])
     //订单详情
-    .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
+    .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', 'CommonService', function ($scope, $stateParams, OrderService,CommonService) {
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.address = data.address;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
         })
+        $scope.cancleorder=function(orderno){
+            //修改后，重新请求数据
+            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
+                if (parseInt(data.resultnumber) > 0) {
+                    CommonService.toolTip("订单取消成功！", "tool-tip-message-success");
+                    $state.go("category", {id: 1});
+                }
+            });
+        }
     }])
     //发表评论
     .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state', 'WeiXinService', 'OrderService', function ($scope, $stateParams, $state, WeiXinService, OrderService) {
         $scope.currentId=5;
         $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
-        $scope.jsstr = '[{"id":"1"},{"id":"2"},{"id":"3"},{"id":"4"},{"id":"5"}]';
-        angular.forEach(JSON.parse($scope.jsstr), function(data,index,array) {
-                console.log(data.id);
-        });
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
@@ -415,7 +450,7 @@ angular.module('starter.controllers', [])
         $scope.paint=function(id) {
             $scope.currentId = id + 1;
         }
-        //提交订单
+        //提交评论
         $scope.submitcomment = function () {
             $scope.comment = [];//评论整体信息
             $scope.comment.itemsinfo = [];//评论实体信息
@@ -432,10 +467,9 @@ angular.module('starter.controllers', [])
                 $scope.comment.itemsinfo.push(iteminfo);
             })
             OrderService.AddComment($scope.commentinfo).success(function (data) {
-                alert(JSON.stringify(data));
-                //if (parseInt(data.row) > 0) {
-                //    $state.go("orderlist");
-                //}
+                if (parseInt(data.row) > 0) {
+                    $state.go("orderlist");
+                }
             });
         }
     }])

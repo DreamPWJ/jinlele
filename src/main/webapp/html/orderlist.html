@@ -4,11 +4,11 @@
     <section class="swiper-wrapper">
         <!-- 未支付 -->
         <section class="swiper-slide">
-            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='001'">
+            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='002'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
-                    <em>等待买家支付</em>
+                    <em>待付款</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child">
                     <section class="product">
@@ -41,7 +41,7 @@
 
         <!-- 已支付 -->
         <section class="swiper-slide">
-            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='002'">
+            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='003'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
@@ -76,7 +76,7 @@
         
         <!-- 已签收 -->
         <section class="swiper-slide">
-            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='005'">
+            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='006'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
@@ -112,7 +112,7 @@
         
         <!-- 退单 -->
         <section class="swiper-slide">
-            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='007'">
+            <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='008'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->

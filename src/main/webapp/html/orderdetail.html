@@ -44,8 +44,8 @@
     <section class="order_xq">
         <ul>
         	<li><em>商品总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-        	<li><em>+运费：</em><i>{{orderinfo.freightprice}}</i></li>
-        	<li><em>实际付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
+        	<li><em>+运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
+        	<li ng-show="orderinfo.actualpayprice!=null"><em>实际付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
         	<li><u>下单时间：{{orderinfo.createTime|date:'yyyy-MM-dd HH:mm'}}</u></li>
         </ul>
     </section>
@@ -56,20 +56,20 @@
     	<ul>
         	<li class="hover"> 
             	<i></i>
-            	<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
+            	<em>您的订单正在处理</em>
             </li>
-        	<li>
-            	<i></i>
-            	<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-            </li>
-        	<li>
-            	<i></i>
-            	<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-            </li>
-        	<li>
-            	<i></i>
-            	<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-            </li>
+        	<!--<li>-->
+            	<!--<i></i>-->
+            	<!--<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>-->
+            <!--</li>-->
+        	<!--<li>-->
+            	<!--<i></i>-->
+            	<!--<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>-->
+            <!--</li>-->
+        	<!--<li>-->
+            	<!--<i></i>-->
+            	<!--<em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>-->
+            <!--</li>-->
         </ul>
     </section>
     
@@ -88,6 +88,6 @@
 </main>
 
 <section class="button">
-	<span><a href="">再次下单</a></span>
-	<span><a href="">取消订单</a></span>
+	<span><a href="#/category/1">再次下单</a></span>
+	<span><a href="" ng-click="cancleorder(orderinfo.orderno)">取消订单</a></span>
 </section>
