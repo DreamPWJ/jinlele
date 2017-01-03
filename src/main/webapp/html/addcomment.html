@@ -11,11 +11,7 @@
         <section class="depict">
         	<u>描述相符</u>
         	<span>
-            	<a class="pick" href=""></a>
-            	<a class="pick" href=""></a>
-            	<a class="pick" href=""></a>
-            	<a class="pick" href=""></a>
-            	<a class="pick" href=""></a>
+            	<a  href="" ng-class="{pick: currentId >= color.id}" ng-repeat="color in colors" ng-click="paint($index)"></a>
             </span>
         </section>
     </section>
