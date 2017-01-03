@@ -547,8 +547,8 @@ angular.module('starter.controllers', [])
         $scope.rmFlag = false;
         $scope.rmFid = "";
         $scope.rmIndex = 0;
-         $scope.FavArr = [];
-         $scope.page = 0;//当前页数
+        $scope.FavArr = [];
+        $scope.page = 0;//当前页数
         $scope.getFavs = function () {
             $scope.page++;
             GoodService.getFavs({pagenow:$scope.page, userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
