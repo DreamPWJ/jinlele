@@ -14,4 +14,13 @@ public interface IFavouriteService {
 
     List<Map<String , Object>> selectByuserIdAndGoodId(Favourite favourite);
 
+    /**
+     * 根据用户查询收藏列表 分页显示
+     * @param pagenow
+     * @param userId
+     * @return
+     */
+    Map<String, Object> getFavsByUidPaging(int pagenow, int userId);
+
+
 }
