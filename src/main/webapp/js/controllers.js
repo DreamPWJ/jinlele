@@ -541,8 +541,43 @@ angular.module('starter.controllers', [])
     .controller('CashdetailCtrl', function ($scope) {
 
     })
+
     //我的收藏
-    .controller('FavorCtrl', function ($scope) {
+    .controller('FavouriteCtrl', function ($scope ,GoodService) {
+        $scope.rmFlag = false;
+        $scope.rmFid = "";
+        $scope.rmIndex = 0;
+         $scope.FavArr = [];
+         $scope.page = 0;//当前页数
+        $scope.getFavs = function () {
+            $scope.page++;
+            GoodService.getFavs({pagenow:$scope.page, userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.FavArr.push(item);
+                })
+                console.log(JSON.stringify($scope.FavArr));
+            })
+        }
+        $scope.getFavs();
+        $scope.del = function (fid,index) {
+           $scope.rmFlag = true;
+            $scope.rmFid = fid;
+            $scope.rmIndex = index;
+            console.log(fid);
+            console.log("$scope.rmIndex==" +$scope.rmIndex);
+        }
+
+        $scope.cancelRemove = function () {
+           $scope.rmFlag = false;
+        }
+        $scope.confirmRemove = function () {
+            GoodService.delFavourite({fid : $scope.rmFid}).success(function (data) {
+                if(data && data.n == 1){
+                    $scope.FavArr.splice($scope.rmIndex ,1);
+                    $scope.rmFlag = false;
+                }
+            });
+        }
 
     })
     //商品列表

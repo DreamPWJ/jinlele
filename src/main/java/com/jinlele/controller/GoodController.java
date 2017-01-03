@@ -120,6 +120,11 @@ public class GoodController {
 
     }
 
+    /**
+     * 根据id删除收藏
+     * @param fid
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/delFavourite/{fid}")
     public  Map<String, Object> saveFavourite(@PathVariable("fid") int fid){
@@ -129,5 +134,14 @@ public class GoodController {
         return map;
     }
 
+    /**
+     * 根据用户id查询收藏列表
+     */
+    @ResponseBody
+    @RequestMapping("/getFavs/{pagenow}/{userId}")
+    public  Map<String, Object> getFavs(@PathVariable("pagenow") int pagenow , @PathVariable("userId") int userId){
+        Map<String, Object> favs =  favouriteService.getFavsByUidPaging(pagenow , userId);  //n代表影响的行数 n如果等于1 则删除成功
+        return favs;
+    }
 
 }
