@@ -384,20 +384,18 @@ angular.module('starter.controllers', [])
         }
     }])
     //发表评论
-    .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state', 'WeiXinService', 'OrderService', function ($scope, $stateParams, $state, WeiXinService, OrderService) {
+    .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state','$rootScope', 'WeiXinService', 'OrderService','CommonService', function ($scope, $stateParams, $state, $rootScope,WeiXinService, OrderService,CommonService) {
+        $rootScope.commonService=CommonService;
         $scope.currentId=5;
         $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.orderdetail = data.orderdetail;//订单详情
         });
-        $scope.imgstr=[];
-        $scope.jsonimgstr="";
-        $scope.mediastr=[];
-        $scope.jsonmediastr="";
+        $scope.jsonimg=[];
+        $scope.jsonmedia=[];
         $scope.localIds = [];// 上传图片的微信路径 数组
         $scope.contents = [];// 评论内容数组
-        $scope.mediaIds = [];// 评论图片数组
         WeiXinService.mediaIds = []; //置空媒体id数组
         $scope.wxchooseImage = function (gcid) {
             //通过config接口注入权限验证配置
@@ -406,28 +404,16 @@ angular.module('starter.controllers', [])
             wx.ready(function () {
                 WeiXinService.wxchooseImage(function (localIds) {
                     $scope.images = [];//展示的图片总数
-                    for (var i = 0; i < localIds.length; i++) {
-                        $scope.imgstr.push('{"gcid":"' + gcid + '","localId":"' + localIds[i] + '"}');
-                    }
-                    $scope.jsonimgstr = '[' + $scope.imgstr.join(",") + ']';//组成json数据记录所有信息，根据gcid过滤json中相关数据
-                    angular.forEach(JSON.parse($scope.jsonimgstr), function (data) {
-                        if (parseInt(data.gcid) == gcid) {
-                            alert(data.localId);
-                            $scope.images.push(data.localId);
+                    $scope.jsonimg.push({"gcid":  gcid ,"localId":  localIds });
+                    angular.forEach($scope.jsonimg, function (item,index) {
+                        if (item.gcid == gcid) {
+                            for(var i=0;i<item.localId.length;i++) {
+                                $scope.images.push(item.localId[i]);
+                            }
                         }
                     });
                     $scope.localIds[gcid] = $scope.images;
-                    $scope.medias = [];//媒体图片位置
-                    for (var i = 0; i < WeiXinService.mediaIds.length; i++) {
-                        $scope.mediastr.push('{"gcid":"' + gcid + '","mediaId":"' + WeiXinService.mediaIds[i] + '"}');
-                    }
-                    $scope.jsonmediastr = '[' + $scope.mediastr.join(",") + ']';//组成json数据记录所有信息，根据gcid过滤json中相关数据
-                    angular.forEach(JSON.parse($scope.jsonmediastr), function (data) {
-                        if (parseInt(data.gcid) == gcid) {
-                            $scope.medias.push(data.mediaId);
-                        }
-                    });
-                    $scope.mediaIds[gcid] = medias;
+                    $scope.jsonmedia.push({"gcid":  gcid ,"media": WeiXinService.mediaIds });
                     $scope.$apply();
                 })
                 WeiXinService.mediaIds = []; //置空媒体id数组
@@ -450,11 +436,21 @@ angular.module('starter.controllers', [])
                 var iteminfo = {};
                 iteminfo.gcid = item.gcid;
                 iteminfo.content = $scope.contents[item.gcid];
-                iteminfo.mediaIds = $scope.mediaIds[item.gcid];
+                $scope.mediaIds = [];// 评论图片数组
+                angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
+                    for (var i = 0; i < mediaitem.media.length; i++) {
+                        if(item.gcid==mediaitem.gcid){
+                            $scope.mediaIds.push(mediaitem.media[i]);
+                        }
+                    }
+                })
+                iteminfo.mediaIds = $scope.mediaIds;
                 $scope.comment.itemsinfo.push(iteminfo);
             })
             OrderService.AddComment($scope.commentinfo).success(function (data) {
+                alert(data);
                 if (parseInt(data.row) > 0) {
+                    CommonService.toolTip("评论成功！","tool-tip-message-success");
                     $state.go("orderlist");
                 }
             });
@@ -501,7 +497,6 @@ angular.module('starter.controllers', [])
         };
         OrderListService.getorderLists($scope.init).success(function (data) {
             $scope.list = data;
-            console.log(data);
         });
         $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据
