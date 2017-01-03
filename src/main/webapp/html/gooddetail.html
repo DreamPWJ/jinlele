@@ -70,7 +70,8 @@
 <footer class="add_submit">
 	<span class="check">
         <a class="hover" href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
-        <a href="#/exchange"><i class="icon">&#xe602;</i><em>换款</em></a>
+         <a href="" ng-click="fav()"   ng-class="{favcolor:favcontent=='已收藏'}"> <i class="iconfont icon-wodeshoucang"></i><em >{{favcontent}}</em></a>
+        <a href="#/exchange" ><i class="icon">&#xe602;</i><em>换款</em></a>
         <a href="#/shoppingcart">
         	<i class="icon">&#xe68d;</i><em>购物车</em>
         	<u>{{totalnum}}</u>
