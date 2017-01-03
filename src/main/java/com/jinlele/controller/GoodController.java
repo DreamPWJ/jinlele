@@ -1,5 +1,7 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.Favourite;
+import com.jinlele.service.interfaces.IFavouriteService;
 import com.jinlele.service.interfaces.IGoodCatogoryService;
 import com.jinlele.service.interfaces.IGoodService;
 import com.jinlele.service.interfaces.IShoppingCartService;
@@ -27,6 +29,8 @@ public class GoodController {
     IGoodCatogoryService goodCatogoryService;
     @Resource
     IShoppingCartService shoppingCartService;
+    @Resource
+    IFavouriteService favouriteService;
 
     /**
      * 获取一级分类
@@ -62,9 +66,12 @@ public class GoodController {
         Map<String, Object> goodmap = goodService.getGoodDetail(goodId);   //获得商品详情信息
         int totalnum = shoppingCartService.getShopcharTotalNum(userId);  //初始页面时，获得该用户加入购车商品总数量
         List<Map<String, Object>>  goodchilds = goodService.getGoodChildsByGoodId(goodId);
+        Favourite favourite = new Favourite(userId , goodId);
+        List<Map<String, Object>> favourites = favouriteService.selectByuserIdAndGoodId(favourite); //查询是否收藏
         newMap.put("good" , goodmap);
         newMap.put("goodchilds" , goodchilds);
         newMap.put("totalnum" , totalnum);
+        newMap.put("favourites" , favourites);
         return newMap;
     }
 
@@ -97,5 +104,30 @@ public class GoodController {
     public List getSecondCatogByPid(@PathVariable("pid") int pid){
         return goodCatogoryService.getSecondCatogByPid(pid);
     }
+
+    /**
+     * 将商品加入收藏
+     * @param favourite
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/saveFavourite")
+    public Map<String, Object>  saveFavourite(Favourite favourite){
+         favouriteService.insertSelective(favourite);  //n代表插入影响的行数 n如果等于1 则插入成功
+        Map<String, Object> map = new HashedMap();
+        map.put("favouriteId" , favourite.getId());
+        return map;
+
+    }
+
+    @ResponseBody
+    @RequestMapping("/delFavourite/{fid}")
+    public  Map<String, Object> saveFavourite(@PathVariable("fid") int fid){
+        int n =  favouriteService.deleteByPrimaryKey(fid);  //n代表影响的行数 n如果等于1 则删除成功
+        Map<String, Object> map = new HashedMap();
+        map.put("n" , n);
+        return map;
+    }
+
 
 }
