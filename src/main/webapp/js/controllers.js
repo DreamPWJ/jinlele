@@ -564,7 +564,7 @@ angular.module('starter.controllers', [])
     })
 
     //我的收藏
-    .controller('FavouriteCtrl', function ($scope ,GoodService) {
+    .controller('FavouriteCtrl', function ($scope ,GoodService , $state) {
         $scope.rmFlag = false;
         $scope.rmFid = "";
         $scope.rmIndex = 0;
@@ -598,6 +598,10 @@ angular.module('starter.controllers', [])
                     $scope.rmFlag = false;
                 }
             });
+        }
+        $scope.detail = function (gid) {
+            console.log(gid);
+            $state.go("gooddetail" , {id:gid});
         }
 
     })

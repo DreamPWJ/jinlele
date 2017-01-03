@@ -7,7 +7,7 @@
         <!-- 内容 -->
         <main class="content">
             <ul class="collection" >
-                <li ng-repeat="item in FavArr" >
+                <li ng-repeat="item in FavArr" ng-click="detail(item.gid)">
                     <section class="collection_main" >
                         <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                         <section class="text">
