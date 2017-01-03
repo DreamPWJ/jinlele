@@ -7,13 +7,15 @@ public class Good {
 
     private String title;
 
-    private Double price;
+    private Double saleprice;
 
     private String bannerurl;
 
     private Integer categoryId;
 
     private Integer salesvol;
+
+    private String shortinfo;
 
     private Double weight;
 
@@ -29,9 +31,9 @@ public class Good {
 
     private Double discprice;
 
-    private Double saleprice;
-
     private Integer comments;
+
+    private Double price;
 
     private String colorcode;
 
@@ -63,12 +65,12 @@ public class Good {
         this.title = title == null ? null : title.trim();
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getSaleprice() {
+        return saleprice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setSaleprice(Double saleprice) {
+        this.saleprice = saleprice;
     }
 
     public String getBannerurl() {
@@ -93,6 +95,14 @@ public class Good {
 
     public void setSalesvol(Integer salesvol) {
         this.salesvol = salesvol;
+    }
+
+    public String getShortinfo() {
+        return shortinfo;
+    }
+
+    public void setShortinfo(String shortinfo) {
+        this.shortinfo = shortinfo == null ? null : shortinfo.trim();
     }
 
     public Double getWeight() {
@@ -151,20 +161,20 @@ public class Good {
         this.discprice = discprice;
     }
 
-    public Double getSaleprice() {
-        return saleprice;
-    }
-
-    public void setSaleprice(Double saleprice) {
-        this.saleprice = saleprice;
-    }
-
     public Integer getComments() {
         return comments;
     }
 
     public void setComments(Integer comments) {
         this.comments = comments;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getColorcode() {

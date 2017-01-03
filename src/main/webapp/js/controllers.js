@@ -566,6 +566,8 @@ angular.module('starter.controllers', [])
     })
     //商品详情
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
+        $rootScope.commonService = CommonService;
+
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true,
@@ -600,7 +602,6 @@ angular.module('starter.controllers', [])
 
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
-                $rootScope.commonService = CommonService;
                 CommonService.toolTip("请选择颜色分类", "tool-tip-message");
                 return;
             }
@@ -608,7 +609,6 @@ angular.module('starter.controllers', [])
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function (data) {
                     console.log('data===' + data);
-                    $rootScope.commonService = CommonService;
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
             )
