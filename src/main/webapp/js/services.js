@@ -697,7 +697,7 @@ angular.module('starter.services', [])
                 function onBridgeReady() {
                     WeixinJSBridge.invoke(
                         'getBrandWCPayRequest', {
-                            "appId": "wx7a6a63e9ee94e24d",     //公众号名称，由商户传入
+                            "appId": data.appId,     //公众号名称，由商户传入
                             "timeStamp": data.timeStamp,         //时间戳，自1970年以来的秒数
                             "nonceStr": data.nonceStr, //随机串
                             "package": data.package,
