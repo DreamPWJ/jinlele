@@ -584,11 +584,10 @@ angular.module('starter.controllers', [])
             num: 1
         };
         GoodService.getGoodDetail({goodId: $stateParams.id, userId: $scope.gooddetail.userId}).success(function (data) {
-            console.log(JSON.stringify(data));
+            console.log("getGoodDetail=="+JSON.stringify(data));
             $scope.goodDetail = data.good;
             $scope.goodChilds = data.goodchilds;
             $scope.totalnum = data.totalnum;
-            $scope.initNum = data.totalnum;
             $scope.bannerurl = $scope.goodChilds[0].imgurl;
             $scope.stocknum = $scope.goodChilds[0].stocknumber;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
@@ -614,16 +613,18 @@ angular.module('starter.controllers', [])
             )
         }
         $scope.changeNum = function () {
-            $scope.totalnum = $scope.initNum + parseInt($scope.gooddetail.num || 0);
+            $scope.totalnum =  $scope.totalnum + parseInt($scope.gooddetail.num || 0);
         }
         $scope.addNum = function () {
-            $scope.gooddetail.num++;
-            $scope.totalnum = $scope.totalnum + 1;
+            if($scope.gooddetail.num<$scope.stocknum){
+                $scope.gooddetail.num++;
+            }
+            //$scope.totalnum = $scope.totalnum + 1;
         }
         $scope.minusNum = function () {
             if ($scope.gooddetail.num > 1) {
                 $scope.gooddetail.num--;
-                $scope.totalnum = $scope.totalnum - 1;
+                //$scope.totalnum = $scope.totalnum - 1;
             }
         }
 

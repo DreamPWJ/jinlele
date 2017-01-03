@@ -17,7 +17,7 @@
     	<em>{{goodDetail.saleprice | currency:'￥'}}</em>
     	<em>{{goodDetail.discprice | currency:'￥'}}</em>
         <span>
-        	<i>评价442</i>
+        	<!--<i>评价442</i>-->
         	<i>库存{{stocknum}}</i>
         </span>
     </section>
@@ -25,7 +25,7 @@
     	<li >
         	<em>颜色：</em>
         	<span class="colour"  >
-                <toggle-color e-obj="goodChilds" stock-num="stocknum"  banner-url="bannerurl" goodchild-id="gooddetail.goodchildId">
+                <toggle-color e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" banner-url="bannerurl" goodchild-id="gooddetail.goodchildId">
             	<a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}</a>
                 </toggle-color>
             	<!--<a href="">白色</a>-->
