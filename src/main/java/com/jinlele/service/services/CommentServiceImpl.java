@@ -31,38 +31,54 @@ public class CommentServiceImpl implements ICommentService {
     @Resource
     ShopOrderGoodMapper shopOrderGoodMapper;
 
+    @Resource
+    ShopOrderMapper shopOrderMapper;
+
     @Override
     public int createComment(List<Map<String,Object>> list) {
         try {
+            //读取整体信息，一条总记录
             for (int i = 0; i < list.size(); i++) {
-                Map<String, Object> map = list.get(i);
-                Integer gcid = Integer.valueOf(map.get("gcid").toString());
-                String orderno = map.get("orderno").toString();
-                Integer userId = Integer.valueOf(map.get("userId").toString());
-                String content = map.get("content").toString();
-                List mediaIds = (List) map.get("mediaIds");
-                String[] strings = new String[mediaIds.size()];
-                for (int j = 0; j < mediaIds.size(); j++) {
-                    strings[j] = mediaIds.get(i).toString();
+                Map<String, Object> allCommentInfo = list.get(i);
+                String orderno = allCommentInfo.get("orderno").toString();
+                Integer userId = Integer.valueOf(allCommentInfo.get("userId").toString());
+                Integer descriplevel = Integer.valueOf(allCommentInfo.get("descriplevel").toString());
+                //读取评论内容信息，多条
+                List itemsinfo= (List) allCommentInfo.get("itemsinfo");
+                for(int j=0;j<itemsinfo.size();j++){
+                    Map<String, Object> itemsinfoMap = list.get(i);
+                    Integer gcid =Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
+                    String content = itemsinfoMap.get("content").toString();//真对商品子id的评论内容
+                    List mediaIds = (List) itemsinfoMap.get("mediaIds");//真对商品子id的图片集合
+                    //添加评论
+                    Comment comment = new Comment(userId, content);
+                    commentMapper.insertSelective(comment);
+                    //转换media数组，上传图片
+                    String[] strings = new String[mediaIds.size()];
+                    for (int k = 0; k < mediaIds.size(); k++) {
+                        strings[j] = mediaIds.get(k).toString();
+                    }
+                    List<String> urls = pictureService.saveURL(strings);
+                    for (int m = 0; m < urls.size(); m++) {
+                        //添加图片
+                        Picture pic = new Picture(urls.get(i), userId);
+                        pictureMapper.insertSelective(pic);
+                        //添加评论图片中间表
+                        CommentPicture cp = new CommentPicture(comment.getId(), pic.getId());
+                        commentPictureMapper.insertSelective(cp);
+                    }
+                    //修改订单商品中间表，添加评论id
+                    ShopOrderGood shopOrderGood = new ShopOrderGood();
+                    shopOrderGood.setCommentId(comment.getId());
+                    shopOrderGood.setGoodchildId(gcid);
+                    shopOrderGood.setShoporderNo(orderno);
+                    shopOrderGoodMapper.updateByPrimaryKeySelective(shopOrderGood);
+                    //修改订单，增加描述等级
+                    ShopOrder shopOrder = new ShopOrder();
+                    shopOrder.setDescriplevel(descriplevel);
+                    shopOrder.setOrderno(orderno);
+                    shopOrderMapper.updateByPrimaryKeySelective(shopOrder);
                 }
-                List<String> urls = pictureService.saveURL(strings);
-                //添加评论
-                Comment comment = new Comment(userId, content);
-                commentMapper.insertSelective(comment);
-                for (int m = 0; m < urls.size(); m++) {
-                    //添加图片
-                    Picture pic = new Picture(urls.get(i), userId);
-                    pictureMapper.insertSelective(pic);
-                    //添加评论图片中间表
-                    CommentPicture cp = new CommentPicture(comment.getId(), pic.getId());
-                    commentPictureMapper.insertSelective(cp);
-                }
-                //修改订单，添加评论id
-                ShopOrderGood shopOrderGood = new ShopOrderGood();
-                shopOrderGood.setCommentId(comment.getId());
-                shopOrderGood.setGoodchildId(gcid);
-                shopOrderGood.setShoporderNo(orderno);
-                shopOrderGoodMapper.updateByPrimaryKeySelective(shopOrderGood);
             }
         } catch (Exception e) {
             return 0;
