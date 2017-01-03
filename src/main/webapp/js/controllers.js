@@ -135,6 +135,7 @@ angular.module('starter.controllers', [])
         $scope.m = [];
         $scope.checkedGcIds = [];
         $scope.checkedinfo = [];
+        $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
         //全选
         $scope.selectAll = function ($event) {
             //去除重复，记录最后一遍数据
@@ -143,6 +144,7 @@ angular.module('starter.controllers', [])
             $scope.checkedinfo = [];
             var choseall = $event.target;
             if ($scope.select_all) {
+                $scope.delFlag = true;
                 $scope.select_one = true;
                 $scope.checkedGcIds = [];
                 angular.forEach($scope.cartlist.pagingList, function (data, index) {
@@ -157,6 +159,7 @@ angular.module('starter.controllers', [])
                     $('#' + i).siblings("label").addClass("on");
                 })
             } else {
+                $scope.delFlag = false;
                 $scope.select_one = false;
                 $scope.checkedGcIds = [];
                 $scope.checkedinfo = [];
@@ -197,6 +200,9 @@ angular.module('starter.controllers', [])
                     $scope.totalprice += parseInt(data.num) * data.saleprice;
                 }
             })
+            $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
+
+
         }
         //删除
         $scope.del = function () {
