@@ -10,3 +10,9 @@
 .favcolor em , .favcolor i{
     color:#ffc900;
 }
+
+.txt-ellipsis {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}

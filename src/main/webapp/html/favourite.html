@@ -11,9 +11,9 @@
                     <section class="collection_main" >
                         <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                         <section class="text">
-                            <h2><a href="">{{item.title}}</a></h2>
+                            <h2 class="txt-ellipsis"><a href="" >{{item.title}}</a></h2>
                             <span class="price">
-                                <em>￥{{item.saleprice | number : 2}} {{rmFlag}} {{$index}} </em>
+                                <em>￥{{item.saleprice | number : 2}} </em>
                                 <a class="icon" href="" ng-click="del(item.fid,$index)">&#xe721;</a>
                             </span>
                         </section>
