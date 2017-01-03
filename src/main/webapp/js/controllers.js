@@ -336,12 +336,12 @@ angular.module('starter.controllers', [])
                 chars: localStorage.getItem(localStorage.getItem("openId"))
             };
             //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
-            CartService.saveOrder($scope.obj).success(function (data) {
-                if (data.errmsg == "ok") {
+            CartService.saveOrder($scope.obj).success(function (d) {
+                if (d.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
                         totalprice: 0.01, //$scope.totalprice,
-                        orderNo: data.orderno,
+                        orderNo: d.orderno,
                         descrip: '你的订单已付款成功！',
                         openid: localStorage.getItem("openId")
                     }
@@ -352,25 +352,12 @@ angular.module('starter.controllers', [])
                             .then(function (msg) {
                                 switch (msg){
                                     case "get_brand_wcpay_request:ok":
-                                        alert(msg);
-                                        // //修改订单状态  006代表的是商城订单
-                                        OrderService.updateOrder({orderno: orderno, type: 006}).success(function (d) {
-                                            //成功后，跳转到下一个页面
-                                            if (d && d.n == 1) {
-                                                //调用支付后，跳转订单详情
-                                                $state.go("orderdetail", {orderno: d.orderno});
-                                            }
-                                        });
+                                        //调用支付后，跳转订单详情
+                                        $state.go("orderdetail", {orderno: d.orderno});
                                         break;
                                     default :
-                                        alert(msg);
-                                        OrderService.updateOrder2({orderno: orderno, type: 006}).success(function (d) {
-                                            alert(d.n);
-                                            if (d && d.n == 1) {
-                                                //未支付，跳转订单列表
-                                                $state.go("orderlist");
-                                            }
-                                        });
+                                        //未支付，跳转订单列表
+                                        $state.go("orderlist");
                                         break;
                                 }
                             });
@@ -509,7 +496,7 @@ angular.module('starter.controllers', [])
             }
         });
         $scope.init = {
-            userid: 1,//localStorage.getItem("jinlele_userId"),
+            userid: localStorage.getItem("jinlele_userId"),
             pagenow: 1
         };
         OrderListService.getorderLists($scope.init).success(function (data) {
