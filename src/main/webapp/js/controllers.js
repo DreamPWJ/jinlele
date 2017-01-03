@@ -135,6 +135,7 @@ angular.module('starter.controllers', [])
         $scope.m = [];
         $scope.checkedGcIds = [];
         $scope.checkedinfo = [];
+        $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
         //全选
         $scope.selectAll = function ($event) {
             //去除重复，记录最后一遍数据
@@ -143,6 +144,7 @@ angular.module('starter.controllers', [])
             $scope.checkedinfo = [];
             var choseall = $event.target;
             if ($scope.select_all) {
+                $scope.delFlag = true;
                 $scope.select_one = true;
                 $scope.checkedGcIds = [];
                 angular.forEach($scope.cartlist.pagingList, function (data, index) {
@@ -157,6 +159,7 @@ angular.module('starter.controllers', [])
                     $('#' + i).siblings("label").addClass("on");
                 })
             } else {
+                $scope.delFlag = false;
                 $scope.select_one = false;
                 $scope.checkedGcIds = [];
                 $scope.checkedinfo = [];
@@ -197,6 +200,9 @@ angular.module('starter.controllers', [])
                     $scope.totalprice += parseInt(data.num) * data.saleprice;
                 }
             })
+            $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
+
+
         }
         //删除
         $scope.del = function () {
@@ -536,6 +542,8 @@ angular.module('starter.controllers', [])
     })
     //商品详情
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
+        $rootScope.commonService = CommonService;
+
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true,
@@ -552,11 +560,10 @@ angular.module('starter.controllers', [])
             num: 1
         };
         GoodService.getGoodDetail({goodId: $stateParams.id, userId: $scope.gooddetail.userId}).success(function (data) {
-            console.log(JSON.stringify(data));
+            console.log("getGoodDetail=="+JSON.stringify(data));
             $scope.goodDetail = data.good;
             $scope.goodChilds = data.goodchilds;
             $scope.totalnum = data.totalnum;
-            $scope.initNum = data.totalnum;
             $scope.bannerurl = $scope.goodChilds[0].imgurl;
             $scope.stocknum = $scope.goodChilds[0].stocknumber;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
@@ -570,7 +577,6 @@ angular.module('starter.controllers', [])
 
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
-                $rootScope.commonService = CommonService;
                 CommonService.toolTip("请选择颜色分类", "tool-tip-message");
                 return;
             }
@@ -578,22 +584,23 @@ angular.module('starter.controllers', [])
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function (data) {
                     console.log('data===' + data);
-                    $rootScope.commonService = CommonService;
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
             )
         }
         $scope.changeNum = function () {
-            $scope.totalnum = $scope.initNum + parseInt($scope.gooddetail.num || 0);
+            $scope.totalnum =  $scope.totalnum + parseInt($scope.gooddetail.num || 0);
         }
         $scope.addNum = function () {
-            $scope.gooddetail.num++;
-            $scope.totalnum = $scope.totalnum + 1;
+            if($scope.gooddetail.num<$scope.stocknum){
+                $scope.gooddetail.num++;
+            }
+            //$scope.totalnum = $scope.totalnum + 1;
         }
         $scope.minusNum = function () {
             if ($scope.gooddetail.num > 1) {
                 $scope.gooddetail.num--;
-                $scope.totalnum = $scope.totalnum - 1;
+                //$scope.totalnum = $scope.totalnum - 1;
             }
         }
 

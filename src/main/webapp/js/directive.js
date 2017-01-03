@@ -119,7 +119,8 @@ angular.module('starter.directive', [])
             eObj:'=',
             stockNum:'=',
             bannerUrl:'=',
-            goodchildId:'='
+            goodchildId:'=',
+            gooddetailNum:'='
         },
         link:function(scope,elem,attrs){
             angular.element(elem).on('click', function(event) {
@@ -134,6 +135,7 @@ angular.module('starter.directive', [])
                         scope.stockNum = scope.eObj[index].stocknumber;
                         scope.bannerUrl = scope.eObj[index].imgurl;
                         scope.goodchildId = scope.eObj[index].id;
+                        scope.gooddetailNum = 1;
                         console.log(scope.goodchildId);
                         scope.$apply();
                         return;

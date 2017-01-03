@@ -7,7 +7,7 @@
             <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='001'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <i>回收</i>
+                    <!--<i>回收</i>-->
                     <em>等待买家支付</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child">
@@ -44,7 +44,7 @@
             <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='002'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <i>回收</i>
+                    <!--<i>回收</i>-->
                     <em>等待卖家发货</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child">
@@ -79,7 +79,7 @@
             <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='005'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <i>回收</i>
+                    <!--<i>回收</i>-->
                     <em>交易完成</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child">
@@ -115,7 +115,7 @@
             <section class="check" ng-repeat="item in list.orderdetails" ng-if="item.shoporderstatusCode=='007'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <i>回收</i>
+                    <!--<i>回收</i>-->
                     <em>退单中</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child">
