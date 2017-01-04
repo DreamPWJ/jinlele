@@ -7,11 +7,11 @@
         <!-- 内容 -->
         <main class="content">
             <ul class="collection" >
-                <li ng-repeat="item in FavArr" ng-click="detail(item.gid)">
+                <li ng-repeat="item in FavArr" >
                     <section class="collection_main" >
-                        <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+                        <span class="pic" ng-click="detail(item.gid)"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                         <section class="text">
-                            <h2 class="txt-ellipsis"><a href="" >{{item.title}}</a></h2>
+                            <h2 class="txt-ellipsis"  ng-click="detail(item.gid)"><a href="" >{{item.title}}</a></h2>
                             <span class="price">
                                 <em>￥{{item.saleprice | number : 2}} </em>
                                 <a class="icon" href="" ng-click="del(item.fid,$index)">&#xe721;</a>
