@@ -249,7 +249,7 @@ public class WeiXinController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/weixin/paymentNotice", method = RequestMethod.GET, produces = "application/xml")
+    @RequestMapping(value = "/weixin/paymentNotice", produces = "application/xml")
     public void paymentNotice(HttpServletRequest request, PrintWriter out) throws JDOMException, IOException {
         System.out.println("支付完成后，微信会把相关支付结果和用户信息发送给商户=========" + request.getParameter("return_msg"));
         out.print(PayCommonUtil.doXMLParse("<xml>\n" +
