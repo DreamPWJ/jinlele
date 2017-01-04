@@ -14,6 +14,7 @@ import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.jdom.JDOMException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -241,18 +242,20 @@ public class WeiXinController {
 
     /**
      * 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答
+     * <p>
+     * returncode 返回状态码
+     * returnmsg  返回信息xml格式
      *
-     * @param returncode 返回状态码
-     * @param returnmsg  返回信息xml格式
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/weixin/paymentNotice", method = RequestMethod.GET)
-    public Map paymentNotice(@RequestParam(value = "return_code") String returncode, @RequestParam(value = "return_msg") String returnmsg) throws JDOMException, IOException {
-        System.out.println("支付完成后，微信会把相关支付结果和用户信息发送给商户=========" + returnmsg);
-        return PayCommonUtil.doXMLParse("<xml>\n" +
+    @RequestMapping(value = "/weixin/paymentNotice", method = RequestMethod.GET, produces = "application/xml")
+    public void paymentNotice(HttpServletRequest request, PrintWriter out) throws JDOMException, IOException {
+        System.out.println("支付完成后，微信会把相关支付结果和用户信息发送给商户=========" + request.getParameter("return_msg"));
+        out.print(PayCommonUtil.doXMLParse("<xml>\n" +
                 "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
                 "  <return_msg><![CDATA[OK]]></return_msg>\n" +
-                "</xml>");
+                "</xml>"));
+        out.close();
     }
 }
