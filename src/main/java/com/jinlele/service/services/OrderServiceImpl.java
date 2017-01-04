@@ -51,9 +51,9 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getShopListPaging(int pagenow, int userid) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", "  shoporder  ");
-        paramMap.put("fields", "  *  ");
+        paramMap.put("fields", "  * ,case type when '001' then '翻新' when '002' then '维修' when '003' then '检测' when '004' then '回收' when '005' then '换款' when '006' then '' end as ordertype ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", 2*SysConstants.PAGESIZE);
+        paramMap.put("pageSize", SysConstants.PAGESIZE);
         paramMap.put("wherecase", " deleteCode='001' and shoporderstatusCode in ('002','003','006','008') and user_id="+userid);
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
@@ -113,8 +113,8 @@ public class OrderServiceImpl implements IOrderService {
             orders.get(i).put("child", orderDetailLists);
             orderLists.add(orders.get(i));
         }
-        paramMap.put("orderdetails", orderLists);
-        return paramMap;
+        map.put("pagingList", orderLists);
+        return map;
     }
 
     @Override

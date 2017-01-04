@@ -65,6 +65,7 @@ angular.module('starter.controllers', [])
                     $scope.newProductsinfo.push(item);
                 })
                 $scope.total = data.myPageCount;
+                console.log(data);
                 $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
             }).finally(function () {
                 $scope.$broadcast('scroll.refreshComplete');
@@ -479,7 +480,7 @@ angular.module('starter.controllers', [])
     }])
 
     //商城订单
-    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', function ($scope, WeiXinService, OrderListService, OrderService,CommonService) {
+    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($scope, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -504,13 +505,30 @@ angular.module('starter.controllers', [])
                 return '<span class="' + className + '">' + name + '</span>';
             }
         });
-        $scope.init = {
-            userid: localStorage.getItem("jinlele_userId"),
-            pagenow: 1
-        };
-        OrderListService.getorderLists($scope.init).success(function (data) {
-            $scope.list = data;
-        });
+        $scope.orderlistsinfo = [];
+        $scope.page = 0;//当前页数
+        $scope.total = 1;//总页数
+        $scope.getOrderLists = function () {
+            if ((arguments != [] && arguments[0] == 0) ) {
+                $scope.page = 0;
+                $scope.orderlistsinfo = [];
+            }
+            $scope.page++;
+            //分页显示
+            OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page}).success(function (data) {
+                console.log(data);
+                $scope.list = data;
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.orderlistsinfo.push(item);
+                })
+                $scope.total = data.myPageCount;
+                $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
+            }).finally(function () {
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            })
+        }
+        $scope.getOrderLists();
         $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据
             OrderService.cancleOrder({orderno: orderno}).success(function (data) {

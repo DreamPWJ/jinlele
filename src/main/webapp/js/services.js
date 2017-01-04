@@ -135,7 +135,6 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            //获取评论总数
             getGoodCommentCount: function (params) { //获取产品详情
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
@@ -149,7 +148,6 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            //获取评论内容
             getGoodComments: function (params) { //获取产品详情
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
