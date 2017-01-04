@@ -1,6 +1,8 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ShopOrder;
 import com.jinlele.model.User;
+import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import com.jinlele.util.weixinUtils.service.CoreService;
@@ -34,6 +36,9 @@ public class WeiXinController {
 
     @Resource
     IUserService userService;
+
+    @Resource
+    IOrderService orderService;
 
     String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
     String randomString = PayCommonUtil.getRandomString(32);
@@ -262,12 +267,23 @@ public class WeiXinController {
         System.out.println("----支付完成后，微信会把相关支付结果和用户信息发送给商户接收到的数据如下：---" + xmlString);
         Map<String, String> map = new HashMap<String, String>();
         map = PayCommonUtil.doXMLParse(xmlString);
+        //订单号 支付结果 支付完成时间
         String result_code = map.get("result_code");
-        String out_trade_no = map.get("out_trade_no");
+        String orderno = map.get("out_trade_no");
         String return_code = map.get("return_code");
+        String finishtime=map.get("time_end");
 
         if (true) {//验证回调签名
             //业务逻辑处理
+            ShopOrder order=new ShopOrder();
+            order.setOrderno(orderno);
+            if("SUCCESS".equals(result_code)){
+                order.setShoporderstatuscode("003");//支付成功
+                order.setUpdateTime(new Date(finishtime));
+            }else{
+                order.setShoporderstatuscode("002");//未支付，支付失败
+            }
+            orderService.updateByPrimaryKeySelective(order);
             return "<xml><return_code><![CDATA["
                     + return_code
                     + "]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
