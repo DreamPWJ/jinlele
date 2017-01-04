@@ -23,6 +23,10 @@ public class ShopOrder {
 
     private String type;
 
+    private String qrcodeUrl;
+
+    private Integer descriplevel;
+
     private String shoporderstatuscode;
 
     private Integer receiptAddressId;
@@ -34,8 +38,32 @@ public class ShopOrder {
     private Date createTime;
 
     private Date updateTime;
+    public ShopOrder() {
+    }
 
-    private Integer descriplevel;
+    public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
+        this.orderno = orderno;
+        this.totalprice = totalprice;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.receiptAddressId = receiptAddressId;
+        this.deletecode = deletecode;
+    }
+
+
+    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId ,Date createTime) {
+        this.orderno = orderno;
+        this.totalnum = totalnum;
+        this.totalprice = totalprice;
+        this.actualpayprice = actualpayprice;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.receiptAddressId = receiptAddressId;
+        this.createTime = createTime;
+    }
 
     public String getOrderno() {
         return orderno;
@@ -117,6 +145,22 @@ public class ShopOrder {
         this.type = type == null ? null : type.trim();
     }
 
+    public String getQrcodeUrl() {
+        return qrcodeUrl;
+    }
+
+    public void setQrcodeUrl(String qrcodeUrl) {
+        this.qrcodeUrl = qrcodeUrl == null ? null : qrcodeUrl.trim();
+    }
+
+    public Integer getDescriplevel() {
+        return descriplevel;
+    }
+
+    public void setDescriplevel(Integer descriplevel) {
+        this.descriplevel = descriplevel;
+    }
+
     public String getShoporderstatuscode() {
         return shoporderstatuscode;
     }
@@ -163,40 +207,5 @@ public class ShopOrder {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Integer getDescriplevel() {
-        return descriplevel;
-    }
-
-    public void setDescriplevel(Integer descriplevel) {
-        this.descriplevel = descriplevel;
-    }
-
-    public ShopOrder() {
-    }
-
-    public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
-        this.orderno = orderno;
-        this.totalprice = totalprice;
-        this.totalnum = totalnum;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.receiptAddressId = receiptAddressId;
-        this.deletecode = deletecode;
-    }
-
-
-    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId ,Date createTime) {
-        this.orderno = orderno;
-        this.totalnum = totalnum;
-        this.totalprice = totalprice;
-        this.actualpayprice = actualpayprice;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.type = type;
-        this.shoporderstatuscode = shoporderstatuscode;
-        this.receiptAddressId = receiptAddressId;
-        this.createTime = createTime;
     }
 }

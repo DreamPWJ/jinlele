@@ -4,6 +4,8 @@ import com.jinlele.dao.*;
 import com.jinlele.model.*;
 import com.jinlele.service.interfaces.ICommentService;
 import com.jinlele.service.interfaces.IPictureService;
+import com.jinlele.util.CommonUtil;
+import com.jinlele.util.SysConstants;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +18,9 @@ import java.util.Map;
  */
 @Service
 public class CommentServiceImpl implements ICommentService {
+
+    @Resource
+    BaseMapper baseMapper;
 
     @Resource
     IPictureService pictureService;
@@ -39,35 +44,30 @@ public class CommentServiceImpl implements ICommentService {
     public int createComment(List<Map<String,Object>> list) {
         try {
             //读取整体信息，一条总记录
-            for (int i = 0; i < list.size(); i++) {
-                Map<String, Object> allCommentInfo = list.get(i);
+            for (Map<String, Object> allCommentInfo : list) {
                 String orderno = allCommentInfo.get("orderno").toString();
                 Integer userId = Integer.valueOf(allCommentInfo.get("userId").toString());
                 Integer descriplevel = Integer.valueOf(allCommentInfo.get("descriplevel").toString());
                 //读取评论内容信息，多条
-                List itemsinfo= (List) allCommentInfo.get("itemsinfo");
-                for(int j=0;j<itemsinfo.size();j++){
-                    Map<String, Object> itemsinfoMap =(HashMap) itemsinfo.get(i);
-                    Integer gcid =Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
+                List<Map<String, Object>> itemsinfo = (List) allCommentInfo.get("itemsinfo");
+                for (Map<String, Object> itemsinfoMap : itemsinfo) {
+                    Integer gcid = Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
                     String content = itemsinfoMap.get("content").toString();//针对商品子id的评论内容
                     List mediaIds = (List) itemsinfoMap.get("mediaIds");//针对商品子id的媒体文件集合
-                    if(content.length()==0){
-                        return 0;
-                    }
                     //添加评论
                     Comment comment = new Comment(userId, content);
                     commentMapper.insertSelective(comment);
                     //转换media数组
                     String[] strings = new String[mediaIds.size()];
-                    for (int k = 0; k < mediaIds.size(); k++) {
-                        strings[k] = mediaIds.get(k).toString();
+                    for (int i = 0; i < mediaIds.size(); i++) {
+                        strings[i] = mediaIds.get(i).toString();
                     }
-                    if(strings.length!=0) {
-                       // 上传媒体文件
+                    if (strings.length != 0) {
+                        // 上传媒体文件
                         List<String> urls = pictureService.saveURL(strings);
-                        for (int m = 0; m < urls.size(); m++) {
+                        for (int j = 0; j < urls.size(); j++) {
                             //添加图片
-                            Picture pic = new Picture(urls.get(i), userId);
+                            Picture pic = new Picture(urls.get(j), userId);
                             pictureMapper.insertSelective(pic);
                             //添加评论图片中间表
                             CommentPicture cp = new CommentPicture(comment.getId(), pic.getId());
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements ICommentService {
                     shopOrderGood.setCommentId(comment.getId());
                     shopOrderGood.setGoodchildId(gcid);
                     shopOrderGood.setShoporderNo(orderno);
-                    shopOrderGoodMapper.updateByPrimaryKeySelective(shopOrderGood);
+                    shopOrderGoodMapper.updateByOrderNoGcid(shopOrderGood);
                     //修改订单，增加描述等级
                     ShopOrder shopOrder = new ShopOrder();
                     shopOrder.setDescriplevel(descriplevel);
@@ -92,5 +92,27 @@ public class CommentServiceImpl implements ICommentService {
             return 0;
         }
         return 1;
+    }
+
+    @Override
+    public Map<String, Object> getCommentsPaging(int pagenow, int goodid) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("tableName", "  comment c\n" +
+                "join shoporder_good og on og.comment_id=c.id\n" +
+                "join user u on u.id=c.user_id  ");
+        paramMap.put("fields", "  c.id,c.content,c.create_time,u.nickname,u.headimgurl  ");
+        paramMap.put("pageNow", pagenow);
+        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("wherecase", " c.deleteCode='001' and og.good_id="+goodid);
+        paramMap.put("orderField", "  c.create_time ");
+        paramMap.put("orderFlag", 1);
+        this.baseMapper.getPaging(paramMap);
+        paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
+        return CommonUtil.removePaingMap(paramMap);
+    }
+
+    @Override
+    public int getTotalNumber(Integer goodid) {
+        return commentMapper.getTotalNumber(goodid).size();
     }
 }
