@@ -24,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -243,19 +240,41 @@ public class WeiXinController {
     /**
      * 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答
      * <p>
-     * returncode 返回状态码
-     * returnmsg  返回信息xml格式
+     * returncode 返回状态码 SUCCESS/FAIL此字段是通信标识，非交易标识，交易是否成功需要查看result_code来判断
+     * returnmsg  返回信息xml格式 返回信息，如非空，为错误原因 签名失败 参数格式校验错误
      *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/weixin/paymentNotice", produces = "application/xml")
-    public void paymentNotice(HttpServletRequest request, PrintWriter out) throws JDOMException, IOException {
-        System.out.println("支付完成后，微信会把相关支付结果和用户信息发送给商户=========" + request.getParameter("return_msg"));
-        out.print(PayCommonUtil.doXMLParse("<xml>\n" +
-                "  <return_code><![CDATA[SUCCESS]]></return_code>\n" +
-                "  <return_msg><![CDATA[OK]]></return_msg>\n" +
-                "</xml>"));
-        out.close();
+    @RequestMapping(value = "/weixin/paymentNotice", produces = "application/json;charset=UTF-8")
+    public String paymentNotice(HttpServletRequest request, HttpServletResponse response) throws JDOMException, IOException {
+
+        BufferedReader reader = null;
+        reader = request.getReader();
+        String line = "";
+        String xmlString = null;
+        StringBuffer inputString = new StringBuffer();
+        while ((line = reader.readLine()) != null) {
+            inputString.append(line);
+        }
+        xmlString = inputString.toString();
+        request.getReader().close();
+        System.out.println("----支付完成后，微信会把相关支付结果和用户信息发送给商户接收到的数据如下：---" + xmlString);
+        Map<String, String> map = new HashMap<String, String>();
+        map = PayCommonUtil.doXMLParse(xmlString);
+        String result_code = map.get("result_code");
+        String out_trade_no = map.get("out_trade_no");
+        String return_code = map.get("return_code");
+
+        if (true) {//验证回调签名
+            //业务逻辑处理
+            return "<xml><return_code><![CDATA["
+                    + return_code
+                    + "]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+        } else {
+            return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+        }
     }
+
+
 }
