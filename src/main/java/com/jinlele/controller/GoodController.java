@@ -1,10 +1,7 @@
 package com.jinlele.controller;
 
 import com.jinlele.model.Favourite;
-import com.jinlele.service.interfaces.IFavouriteService;
-import com.jinlele.service.interfaces.IGoodCatogoryService;
-import com.jinlele.service.interfaces.IGoodService;
-import com.jinlele.service.interfaces.IShoppingCartService;
+import com.jinlele.service.interfaces.*;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +28,8 @@ public class GoodController {
     IShoppingCartService shoppingCartService;
     @Resource
     IFavouriteService favouriteService;
+    @Resource
+    ICommentService commentService;
 
     /**
      * 获取一级分类
@@ -144,4 +143,25 @@ public class GoodController {
         return favs;
     }
 
+    /**
+     * 获取产品id查询评论总数
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getTotalNumber/{goodId}", method = RequestMethod.GET)
+    public Map<String, Object> getTotalNumber(@PathVariable int goodId) {
+        Map<String, Object> map = new HashedMap();
+        map.put("total",commentService.getTotalNumber(Integer.valueOf(goodId)));
+        return map;
+    }
+
+    /**
+     * 获取产品id查询评论
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getGoodComments/{goodId}/{pagenow}", method = RequestMethod.GET)
+    public Map<String, Object> getGoodComments(@PathVariable int goodId,@PathVariable int pagenow) {
+        Map<String, Object> map = new HashedMap();
+        map.put("comments",commentService.getCommentsPaging(pagenow,goodId));
+        return map;
+    }
 }

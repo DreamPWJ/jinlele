@@ -342,11 +342,10 @@ angular.module('starter.controllers', [])
                     //调用微信支付服务器端接口
                     $scope.param = {
                         totalprice: 0.01, //$scope.totalprice,
-                        orderNo: d.orderno,
-                        descrip: '你的订单已付款成功！',
+                        orderNo: r.orderno,
+                        descrip: '六唯壹珠宝',
                         openid: localStorage.getItem("openId")
                     }
-                    OrderService = this;
                     //调用微信支付服务器端接口
                     WeiXinService.getweixinPayData($scope.param).success(function (data) {
                         WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -432,6 +431,7 @@ angular.module('starter.controllers', [])
             $scope.comment = [];//评论整体信息
             $scope.itemsinfo = [];//评论实体信息
             var commentinfo = {};
+            var flag=true;;
             commentinfo.orderno = $stateParams.orderno;
             commentinfo.userId = localStorage.getItem("jinlele_userId");
             commentinfo.descriplevel = $scope.currentId;
@@ -439,8 +439,7 @@ angular.module('starter.controllers', [])
                 var iteminfo = {};
                 iteminfo.gcid = item.gcid;
                 if($scope.contents[item.gcid].length==0){
-                    CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
-                    return;
+                    flag=false;
                 }
                 iteminfo.content = $scope.contents[item.gcid];
                 $scope.mediaIds = [];// 评论图片数组
@@ -456,14 +455,18 @@ angular.module('starter.controllers', [])
             })
             commentinfo.itemsinfo=$scope.itemsinfo;
             $scope.comment.push(commentinfo);
-            OrderService.AddComment($scope.comment).success(function (data) {
-                if (parseInt(data.row) > 0) {
-                    CommonService.toolTip("评论成功！","tool-tip-message-success");
-                    $state.go("orderlist");
-                }else{
-                    CommonService.toolTip("评论失败！","tool-tip-message-success");
-                }
-            });
+            if(flag) {
+                OrderService.AddComment($scope.comment).success(function (data) {
+                    if (parseInt(data.row) > 0) {
+                        CommonService.toolTip("评论成功！", "tool-tip-message-success");
+                        $state.go("orderlist");
+                    } else {
+                        CommonService.toolTip("评论失败！", "tool-tip-message-success");
+                    }
+                });
+            }else{
+                CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
+            }
         }
     }])
     //会员
@@ -476,7 +479,7 @@ angular.module('starter.controllers', [])
     }])
 
     //商城订单
-    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService', function ($scope, WeiXinService, OrderListService, OrderService) {
+    .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', function ($scope, WeiXinService, OrderListService, OrderService,CommonService) {
         var mySwiper = new Swiper('.swiper-container', {
             pagination: '.tab',
             paginationClickable: true,
@@ -531,7 +534,7 @@ angular.module('starter.controllers', [])
                 WeiXinService.wxchooseWXPay(data) //调起微支付接口
                     .then(function (msg) {
                         if (msg == "get_brand_wcpay_request:ok") {
-                            alert("支付成功");
+                            CommonService.toolTip("支付成功","tool-tip-message-success");
                             // //修改订单状态  006代表的是商城订单
                             OrderService.updateOrder({orderno: orderno, type: '006'}).success(function (data) {
                                 //成功后，跳转到下一个页面
@@ -686,7 +689,12 @@ angular.module('starter.controllers', [])
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
 
         });
-
+        GoodService.getGoodCommentCount({goodId: $stateParams.id}).success(function(data){
+            $scope.goodcommentcount=data.total;
+        });
+        GoodService.getGoodComments({goodId: $stateParams.id, pagenow: 1}).success(function(data){
+            $scope.goodcomments=data.comments;
+        });
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择颜色分类", "tool-tip-message");

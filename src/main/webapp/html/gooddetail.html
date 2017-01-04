@@ -17,8 +17,8 @@
     	<em>{{goodDetail.saleprice | currency:'￥'}}</em>
     	<em>{{goodDetail.discprice | currency:'￥'}}</em>
         <span>
-        	<!--<i>评价442</i>-->
-        	<i>库存{{stocknum}}</i>
+        	<i>评价({{goodcommentcount}})</i>
+        	<i>库存({{stocknum}})</i>
         </span>
     </section>
     <ul>
@@ -49,15 +49,16 @@
     	<em>商品评价</em>
     	<i class="icon">&#xe722;</i>
     </a>
-    <section class="comment_list_main">
+    <section class="comment_list_main" ng-repeat="item in goodcomments.pagingList">
     	<span class="title">
-        	<img src="images/com/00001.jpg">
-        	<em>张三丰</em>
-            <i>2016.02.25</i>
+        	<img ng-src="{{item.headimgurl}}"/>
+        	<em>{{item.nickname}}</em>
+            <i>{{item.create_time|date:'yyyy.MM.dd'}}</i>
         </span>
-        <p>曝光于网友11日发布的一段1分多钟的短视频。该视频显示，事发时一名年轻警员同一名坐在警车驾驶室内的警员疑似因查车开罚单事件引发言语争执。</p>
+        <p>{{item.content}}</p>
     </section>
-    <a class="more" href="">查看全部18条评价<i class="icon">&#xe722;</i></a>
+    <a class="more" href="" ng-if="goodcomments.pagingList.length==0">暂无评价</a>
+	<a class="more" href="" ng-if="goodcomments.pagingList.length>0">查看全部评价<i class="icon">&#xe722;</i></a>
 </section>
 
 <!-- 商品详情 -->
