@@ -284,7 +284,8 @@ angular.module('starter.controllers', [])
         }
     }])
     //确认订单
-    .controller('ConfirmOrderCtrl', ['$scope', '$state', 'CartService', 'AddressService', 'OrderService', 'WeiXinService', function ($scope, $state, CartService, AddressService, OrderService, WeiXinService) {
+    .controller('ConfirmOrderCtrl', ['$rootScope','$scope', '$state', 'CartService', 'AddressService', 'OrderService', 'WeiXinService', 'CommonService',function ($rootScope,$scope, $state, CartService, AddressService, OrderService, WeiXinService,CommonService) {
+        $rootScope.commonService=CommonService;
         $scope.selectinfo = JSON.parse(localStorage.getItem(localStorage.getItem("openId")));
         $scope.totalprice = 0;
         $scope.totalnum = 0;
@@ -336,8 +337,8 @@ angular.module('starter.controllers', [])
                 chars: localStorage.getItem(localStorage.getItem("openId"))
             };
             //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
-            CartService.saveOrder($scope.obj).success(function (d) {
-                if (d.errmsg == "ok") {
+            CartService.saveOrder($scope.obj).success(function (r) {
+                if (r.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
                         totalprice: 0.01, //$scope.totalprice,
@@ -345,15 +346,15 @@ angular.module('starter.controllers', [])
                         descrip: '你的订单已付款成功！',
                         openid: localStorage.getItem("openId")
                     }
-                    OrderService=this;
+                    OrderService = this;
                     //调用微信支付服务器端接口
                     WeiXinService.getweixinPayData($scope.param).success(function (data) {
                         WeiXinService.wxchooseWXPay(data) //调起微支付接口
                             .then(function (msg) {
-                                switch (msg){
+                                switch (msg) {
                                     case "get_brand_wcpay_request:ok":
                                         //调用支付后，跳转订单详情
-                                        $state.go("orderdetail", {orderno: d.orderno});
+                                        $state.go("orderdetail", {orderno: r.orderno});
                                         break;
                                     default :
                                         //未支付，跳转订单列表
@@ -362,6 +363,9 @@ angular.module('starter.controllers', [])
                                 }
                             });
                     })
+                }else{
+                    CommonService.toolTip("下单失败，请稍后重试！","tool-tip-message-success");
+                    $state.go("shoppingcart");
                 }
             });
         }
@@ -426,15 +430,18 @@ angular.module('starter.controllers', [])
         //提交评论
         $scope.submitcomment = function () {
             $scope.comment = [];//评论整体信息
-            $scope.comment.itemsinfo = [];//评论实体信息
+            $scope.itemsinfo = [];//评论实体信息
             var commentinfo = {};
             commentinfo.orderno = $stateParams.orderno;
             commentinfo.userId = localStorage.getItem("jinlele_userId");
             commentinfo.descriplevel = $scope.currentId;
-            $scope.comment.push(commentinfo);
             angular.forEach($scope.orderdetail.info, function (item, index) {
                 var iteminfo = {};
                 iteminfo.gcid = item.gcid;
+                if($scope.contents[item.gcid].length==0){
+                    CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
+                    return;
+                }
                 iteminfo.content = $scope.contents[item.gcid];
                 $scope.mediaIds = [];// 评论图片数组
                 angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
@@ -445,13 +452,16 @@ angular.module('starter.controllers', [])
                     }
                 })
                 iteminfo.mediaIds = $scope.mediaIds;
-                $scope.comment.itemsinfo.push(iteminfo);
+                $scope.itemsinfo.push(iteminfo);
             })
-            OrderService.AddComment($scope.commentinfo).success(function (data) {
-                alert(data);
+            commentinfo.itemsinfo=$scope.itemsinfo;
+            $scope.comment.push(commentinfo);
+            OrderService.AddComment($scope.comment).success(function (data) {
                 if (parseInt(data.row) > 0) {
                     CommonService.toolTip("评论成功！","tool-tip-message-success");
                     $state.go("orderlist");
+                }else{
+                    CommonService.toolTip("评论失败！","tool-tip-message-success");
                 }
             });
         }
