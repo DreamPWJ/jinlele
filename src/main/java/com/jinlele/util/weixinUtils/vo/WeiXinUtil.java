@@ -71,7 +71,7 @@ public class WeiXinUtil {
 
             //从输入流读取返回内容
             InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream ,"UTF-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             String str = null;
@@ -90,10 +90,10 @@ public class WeiXinUtil {
 
         } catch (ConnectException e) {
            //log.error("连接超时: {}" , e);
-           System.out.println("连接超时: {}" + e);
+           System.out.println("连接超时1111111: {}" + e);
         } catch (Exception e) {
             //log.error("请求异常: {}" , e);
-            System.out.println("连接超时: {}" + e);
+            System.out.println("连接超时2222222: {}" + e);
         }
         return  jsonObject;
     }

@@ -2,7 +2,6 @@ package com.jinlele.util.weixinUtils.util;
 
 
 import com.jinlele.model.User;
-import com.jinlele.util.ChangeCharsetUtil;
 import com.jinlele.util.weixinUtils.message.resp.Article;
 import com.jinlele.util.weixinUtils.message.resp.Music;
 import com.jinlele.util.weixinUtils.vo.*;
@@ -42,66 +41,33 @@ public class AdvancedUtil {
             try{
                 userInfo = new User();
                 // 用户的标识，对当前公众号唯一
-                if(jsonObject.getString("openid")!=null || !"".equals(jsonObject.getString("openid"))) {
-                    String openid = ChangeCharsetUtil.changeCharset(jsonObject.getString("openid"),"gbk","UTF-8");
-                    userInfo.setOpenid(openid);
-                }
+                userInfo.setOpenid(jsonObject.getString("openid"));
                 //用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
                 userInfo.setSubscribe(jsonObject.getInt("subscribe"));
                 //    nickname	用户的昵称
-                if(jsonObject.getString("nickname")!=null || !"".equals(jsonObject.getString("nickname"))) {
-                    String nickname = ChangeCharsetUtil.changeCharset(jsonObject.getString("nickname"),"gbk","UTF-8");
-                    userInfo.setNickname(nickname);
-                }
-
+                userInfo.setNickname(jsonObject.getString("nickname"));
                 //    sex	用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
                 userInfo.setSex(jsonObject.getInt("sex"));
                 //    city	用户所在城市
-                if(jsonObject.getString("city")!=null || !"".equals(jsonObject.getString("city"))) {
-                    String city = ChangeCharsetUtil.changeCharset(jsonObject.getString("city"),"gbk","UTF-8");
-                    userInfo.setCity(city);
-                }
+                userInfo.setCity(jsonObject.getString("city"));
                 //    country	用户所在国家
-                if(jsonObject.getString("country")!=null || !"".equals(jsonObject.getString("country"))) {
-                    String country = ChangeCharsetUtil.changeCharset(jsonObject.getString("country"),"gbk","UTF-8");
-                    userInfo.setCountry(country);
-                }
+                userInfo.setCountry(jsonObject.getString("country"));
                 //    province	用户所在省份
-                if(jsonObject.getString("province")!=null || !"".equals(jsonObject.getString("province"))) {
-                    String province = ChangeCharsetUtil.changeCharset(jsonObject.getString("province"),"gbk","UTF-8");
-                    userInfo.setProvince(province);
-                }
+                userInfo.setProvince(jsonObject.getString("province"));
                 //  language	用户的语言，简体中文为zh_CN
-                if(jsonObject.getString("language")!=null || !"".equals(jsonObject.getString("language"))) {
-                    String language = ChangeCharsetUtil.changeCharset(jsonObject.getString("language"),"gbk","UTF-8");
-                    userInfo.setLanguage(language);
-                }
+                userInfo.setLanguage(jsonObject.getString("language"));
                 //    headimgurl	用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
                 userInfo.setHeadimgurl(jsonObject.getString("headimgurl"));
-                if(jsonObject.getString("headimgurl")!=null || !"".equals(jsonObject.getString("headimgurl"))) {
-                    String headimgurl = ChangeCharsetUtil.changeCharset(jsonObject.getString("headimgurl"),"gbk","UTF-8");
-                    userInfo.setHeadimgurl(headimgurl);
-                }
-                //    subscribe_time	用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间userInfo.setSubscribetime(jsonObject.getString("subscribe_time"));
-//
-                if(jsonObject.getString("subscribe_time")!=null || !"".equals(jsonObject.getString("subscribe_time"))) {
-                    String subscribe_time = ChangeCharsetUtil.changeCharset(jsonObject.getString("subscribe_time"),"gbk","UTF-8");
-                    userInfo.setSubscribetime(subscribe_time);
-                }
+                //    subscribe_time	用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
+                userInfo.setSubscribetime(jsonObject.getString("subscribe_time"));
                 //    unionid	只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。详见：获取用户个人信息（UnionID机制）
 //                if(null!=jsonObject.getString("unionid")) {
 //                    userInfo.setUnionid(jsonObject.getString("unionid"));
 //                }
                 //    remark	公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
-                if(jsonObject.getString("remark")!=null || !"".equals(jsonObject.getString("remark"))) {
-                    String remark = ChangeCharsetUtil.changeCharset(jsonObject.getString("remark"),"gbk","UTF-8");
-                    userInfo.setRemark(remark);
-                }
+                userInfo.setRemark(jsonObject.getString("remark"));
                 //    groupid	用户所在的分组ID
-                if(jsonObject.getString("groupid")!=null || !"".equals(jsonObject.getString("groupid"))) {
-                    String groupid = ChangeCharsetUtil.changeCharset(jsonObject.getString("groupid"),"gbk","UTF-8");
-                    userInfo.setGroupid(groupid);
-                }
+                userInfo.setGroupid(jsonObject.getString("groupid"));
             }catch (Exception e){
                 if(0 == userInfo.getSubscribe()){
                     //log.error("用户{{}已取消关注" ,userInfo.getOpenid()) ;
