@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             .state('favourite', {  //我的收藏
                 url: '/favourite',
                 templateUrl: 'html/favourite.html',
-                controller: 'FavorCtrl'
+                controller: 'FavouriteCtrl'
             })
             .state('orderlist', {  // 商城订单
                 url: '/orderlist',
