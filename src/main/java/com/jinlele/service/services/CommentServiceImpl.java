@@ -44,11 +44,10 @@ public class CommentServiceImpl implements ICommentService {
                 Integer userId = Integer.valueOf(allCommentInfo.get("userId").toString());
                 Integer descriplevel = Integer.valueOf(allCommentInfo.get("descriplevel").toString());
                 //读取评论内容信息，多条
-                List itemsinfo= (List) allCommentInfo.get("itemsinfo");
-                for(int j=0;j<itemsinfo.size();j++){
-                    Map<String, Object> itemsinfoMap = list.get(i);
+                List<Map<String,Object>> itemsinfo= (List) allCommentInfo.get("itemsinfo");
+                for(Map<String,Object> itemsinfoMap :itemsinfo){
                     Integer gcid =Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
-                    String content = itemsinfoMap.get("content").toString();//真对商品子id的评论内容
+                    String content = (String) itemsinfoMap.get("content");//真对商品子id的评论内容
                     List mediaIds = (List) itemsinfoMap.get("mediaIds");//真对商品子id的图片集合
                     //添加评论
                     Comment comment = new Comment(userId, content);
@@ -56,7 +55,7 @@ public class CommentServiceImpl implements ICommentService {
                     //转换media数组，上传图片
                     String[] strings = new String[mediaIds.size()];
                     for (int k = 0; k < mediaIds.size(); k++) {
-                        strings[j] = mediaIds.get(k).toString();
+                        strings[k] = mediaIds.get(k).toString();
                     }
                     List<String> urls = pictureService.saveURL(strings);
                     for (int m = 0; m < urls.size(); m++) {
