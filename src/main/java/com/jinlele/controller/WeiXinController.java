@@ -273,7 +273,7 @@ public class WeiXinController {
         String return_code = map.get("return_code");
         String finishtime=map.get("time_end");
 
-        if (true) {//验证回调签名
+        if (PayCommonUtil.isTenpaySign(map,"UTF-8")) {//验证回调签名
             //业务逻辑处理
             ShopOrder order=new ShopOrder();
             order.setOrderno(orderno);

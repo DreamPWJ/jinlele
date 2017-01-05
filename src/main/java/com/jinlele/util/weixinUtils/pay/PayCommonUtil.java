@@ -68,11 +68,11 @@ public class PayCommonUtil {
 
         parameterMap.put("sign", sign);// 签名
         String requestXML = PayCommonUtil.getRequestXml(parameterMap);
-       // System.out.println("requestXML===============" + requestXML);
+        // System.out.println("requestXML===============" + requestXML);
         String result = PayCommonUtil.httpsRequest(
                 "https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",
                 requestXML);
-       // System.out.println("result===============" + result);
+        // System.out.println("result===============" + result);
         Map<String, String> map = null;
         try {
             map = PayCommonUtil.doXMLParse(result);
@@ -133,7 +133,7 @@ public class PayCommonUtil {
             }
         }
         sb.append("key=" + API_KEY);
-      //  System.out.println("createSign===============" + sb.toString());
+        //  System.out.println("createSign===============" + sb.toString());
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;
     }
@@ -142,11 +142,10 @@ public class PayCommonUtil {
      * 验证回调签名
      *
      * @param packageParams
-     * @param key
      * @param charset
      * @return
      */
-    public static boolean isTenpaySign(SortedMap<Object, Object> packageParams, String key, String charset, String characterEncoding) {
+    public static boolean isTenpaySign(Map<String, String> packageParams, String charset) {
         StringBuffer sb = new StringBuffer();
         Set es = packageParams.entrySet();
         Iterator it = es.iterator();
@@ -158,16 +157,12 @@ public class PayCommonUtil {
                 sb.append(k + "=" + v + "&");
             }
         }
-        sb.append("key=" + key);
+        sb.append("key=" + API_KEY);
 
         //算出摘要
         String resultSign = "";
         String tobesign = sb.toString();
-        if (null == charset || "".equals(charset)) {
-            resultSign = MD5Util.MD5Encode(tobesign, characterEncoding).toUpperCase();
-        } else {
-            resultSign = MD5Util.MD5Encode(tobesign, characterEncoding).toUpperCase();
-        }
+        resultSign = MD5Util.MD5Encode(tobesign, charset).toUpperCase();
         String tenpaySign = ((String) packageParams.get("sign")).toUpperCase();
         return tenpaySign.equals(resultSign);
     }
