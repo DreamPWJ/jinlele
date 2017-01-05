@@ -32,6 +32,20 @@ public class ReceiptAddress {
 
     private Integer userid;
 
+    public ReceiptAddress(){}
+
+    public ReceiptAddress(String userName,String postalCode,String provinceName,String cityName,String countryName,String detailInfo,String nationalCode,String telNumber,Integer userid){
+        this.userName=userName;
+        this.postalCode=postalCode;
+        this.provinceName=provinceName;
+        this.cityName=cityName;
+        this.countryName=countryName;
+        this.detailInfo=detailInfo;
+        this.nationalCode=nationalCode;
+        this.telNumber=telNumber;
+        this.userid=userid;
+    }
+
     public Integer getId() {
         return id;
     }

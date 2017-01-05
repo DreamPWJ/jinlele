@@ -3,6 +3,7 @@ package com.jinlele.service.interfaces;
 import com.jinlele.model.ShopOrder;
 import net.sf.json.JSONArray;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,11 +15,11 @@ public interface IOrderService {
      *商城订单列表
      */
     Map<String, Object> getShopListPaging(int pagenow, int userid , String type);
-    /**
-     *生成订单
-     */
-    Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId,JSONArray json);
 
+    /**
+     * 创建订单
+     */
+    Map<String, Object> createOrder(List<Map<String,Object>> list);
     /**
      * 自定义订单数据详情
      */

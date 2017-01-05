@@ -101,16 +101,6 @@ public class OrderController {
     }
 
     /**
-     * 生成订单
-     */
-    @ResponseBody
-    @RequestMapping(value = "/saveOrder" ,method = RequestMethod.GET)
-    public  Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId, String chars){
-        JSONArray json = new JSONArray().fromObject(chars.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONArray  对象，json 对象值使用""双引号存储
-        return orderService.saveOrder(totalprice,totalnum,userId,storeId,receiptAddressId,json);
-    }
-
-    /**
      * 修改服务订单状态 为已付款
      */
     @ResponseBody
@@ -135,6 +125,18 @@ public class OrderController {
         return map;
     }
 
+    /**
+     * 创建订单
+     */
+    @ResponseBody
+    @RequestMapping(value = "/createOrder" ,method = RequestMethod.POST)
+    public  Map<String,Object> createOrder(@RequestBody List<Map<String,Object>> list) {
+        return orderService.createOrder(list);
+    }
+
+    /**
+     * 创建评论
+     */
     @ResponseBody
     @RequestMapping(value = "/createComment" ,method = RequestMethod.POST)
     public  Map<String,Object> createComment(@RequestBody List<Map<String,Object>> list) {

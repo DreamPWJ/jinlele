@@ -296,7 +296,7 @@ angular.module('starter.controllers', [])
             $scope.totalnum += parseInt($scope.selectinfo[i].num);
             $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
         }
-        //从数据库获取地址
+        //从数据库获取最新地址展示
         AddressService.getlatestinfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.address = data;
             if (data) {
@@ -312,33 +312,31 @@ angular.module('starter.controllers', [])
                 WeiXinService.wxopenAddress($scope);
             })
         }
-        //2.保存订单，返回订单号（保存到shoporder，shoporder_good，删除购物车相应数据）  3.支付(付与未付)->订单详情页
-        $scope.submitorder = function () {
-            //获取地址id
-            AddressService.getReceiptAddressId({
-                userid: localStorage.getItem("jinlele_userId"),
-                userName: $scope.address.userName,
-                postalCode: $scope.address.postalCode,
-                provinceName: $scope.address.provinceName,
-                cityName: $scope.address.cityName,
-                countryName: $scope.address.countryName,
-                detailInfo: $scope.address.detailInfo,
-                nationalCode: $scope.address.nationalCode,
-                telNumber: $scope.address.telNumber
-            }).success(function (data) {
-                $scope.address.id = data.receiptAddressId;
-            });
-            //订单信息
-            $scope.obj = {
-                totalprice: $scope.totalprice,
-                totalnum: $scope.totalnum,
-                userId: localStorage.getItem("jinlele_userId"),
-                storeId: 1,//后续需要根据客户选择传入
-                receiptAddressId: $scope.address.id,
-                chars: localStorage.getItem(localStorage.getItem("openId"))
-            };
+        $scope.submitorder=function() {
+            //确认信息
+            $scope.confirminfo = [];
+            //地址信息
+            $scope.addressinfo = [];
+            var address = {};
+            address.userName = $scope.address.userName;
+            address.postalCode = $scope.address.postalCode;
+            address.provinceName = $scope.address.provinceName;
+            address.cityName = $scope.address.cityName;
+            address.countryName = $scope.address.countryName;
+            address.detailInfo = $scope.address.detailInfo;
+            address.nationalCode = $scope.address.nationalCode;
+            address.telNumber = $scope.address.telNumber;
+            $scope.addressinfo.push(address);
+            var obj = {};
+            obj.userId = localStorage.getItem("jinlele_userId");
+            obj.totalnum = $scope.totalnum;
+            obj.totalprice = $scope.totalprice;
+            obj.storeId = 1;//后续需要根据客户选择传入
+            obj.addressinfo = $scope.addressinfo;
+            obj.detailinfo = JSON.parse(localStorage.getItem(localStorage.getItem("openId")));
+            $scope.confirminfo.push(obj);
             //去后台生成商成订单 和 订单_商品子表的数据，返回订单信息
-            CartService.saveOrder($scope.obj).success(function (r) {
+            CartService.saveOrder($scope.confirminfo).success(function (r) {
                 if (r.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
@@ -363,8 +361,8 @@ angular.module('starter.controllers', [])
                                 }
                             });
                     })
-                }else{
-                    CommonService.toolTip("下单失败，请稍后重试！","tool-tip-message-success");
+                } else {
+                    CommonService.toolTip("下单失败，请稍后重试！", "tool-tip-message-success");
                     $state.go("shoppingcart");
                 }
             });
@@ -481,6 +479,7 @@ angular.module('starter.controllers', [])
 
     //商城订单
     .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($scope, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
+
         $(function () {
             $('.default').dropkick();
             theme:'black'

@@ -2,9 +2,11 @@ package com.jinlele.service.services;
 
 import com.jinlele.dao.*;
 import com.jinlele.model.GoodChild;
+import com.jinlele.model.ReceiptAddress;
 import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShopOrderGood;
 import com.jinlele.service.interfaces.IOrderService;
+import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
@@ -44,6 +46,9 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     ReceiptAddressMapper receiptAddressMapper;
 
+    @Resource
+    IReceiptAddressService receiptAddressService;
+
     /**
      * 商城订单列表
      */
@@ -63,44 +68,60 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> saveOrder(Double totalprice,Integer totalnum ,Integer userId,Integer storeId,Integer receiptAddressId,JSONArray json){
-        Map<String, Object> map = new HashedMap();
+    public Map<String, Object> createOrder(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
         //订单号生成
         String orderno = StringHelper.getOrderNum();
-        String descrip="";
-        try {
-            ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, receiptAddressId, "001");
-            order.setShoporderstatuscode("001");//设置订单状态 未付款
-            order.setFreightprice(Double.valueOf(0));//运费
-            //生成订单
-            orderMapper.insertSelective(order);
-            //订单_商品中间表数据添加
-            for (int i = 0; i < json.size(); i++) {
-                JSONObject jo = (JSONObject) json.get(i);
-                Integer goodId = Integer.valueOf(jo.get("goodId").toString());
-                Integer cartId = Integer.valueOf(jo.get("cartId").toString());
-                Integer goodchildId = Integer.valueOf(jo.get("gcid").toString());
-                Integer num = Integer.valueOf(jo.get("num").toString());
-                descrip  = descrip +"&" + jo.get("title").toString();
-                ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId, num, "001");
-                order.setType("006");
-                //订单_商品中间表保存数据
-                shopOrderGoodMapper.insertSelective(ordergood);
-                //删除购物车中下单的数据
-                cartMapper.deleteByPrimaryKey(cartId);
-                //减少库存数量
-                GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
-                goodChild.setStocknumber(goodChild.getStocknumber() - num);
-                goodChildMapper.updateByPrimaryKeySelective(goodChild);
+        //一条总数据
+        for (Map<String, Object> confirmInfo : list) {
+            Integer userId = Integer.valueOf(confirmInfo.get("userId").toString());//用户id
+            Integer storeId = Integer.valueOf(confirmInfo.get("storeId").toString());//门店id
+            Integer totalnum = Integer.valueOf(confirmInfo.get("totalnum").toString());//总数量
+            Double totalprice = Double.valueOf(confirmInfo.get("totalprice").toString());//总金额
+            List<Map<String, Object>> addressinfo = (List) confirmInfo.get("addressinfo");//地址信息
+            //获取地址id
+            ReceiptAddress address = null;
+            for (Map<String, Object> item : addressinfo) {
+                address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
             }
-            map.put("errmsg","ok");
-        }catch (Exception e){
-            map.put("errmsg","error");
+            Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
+            String descrip = "";//订单描述
+            try {
+                //保存订单
+                ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, Integer.valueOf(result.get("receiptAddressId").toString()), "001");
+                order.setType("006");//订单类型
+                order.setShoporderstatuscode("002");//设置订单状态 未付款
+                order.setFreightprice(Double.valueOf(0));//运费
+                //生成订单
+                orderMapper.insertSelective(order);
+                //添加订单_商品中间表，记录订单明细
+                List<Map<String, Object>> details = (List) confirmInfo.get("detailinfo");//订单详情
+                for (Map<String, Object> detailInfo : details) {
+                    Integer goodId = Integer.valueOf(detailInfo.get("goodId").toString());
+                    Integer cartId = Integer.valueOf(detailInfo.get("cartId").toString());
+                    Integer goodchildId = Integer.valueOf(detailInfo.get("gcid").toString());
+                    Integer num = Integer.valueOf(detailInfo.get("num").toString());
+                    descrip = descrip + "&" + detailInfo.get("title").toString();
+                    ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId, num, "001");
+                    //订单_商品中间表保存数据
+                    shopOrderGoodMapper.insertSelective(ordergood);
+                    //删除购物车中下单的数据
+                    cartMapper.deleteByPrimaryKey(cartId);
+                    //减少库存数量
+                    GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
+                    goodChild.setStocknumber(goodChild.getStocknumber() - num);
+                    goodChildMapper.updateByPrimaryKeySelective(goodChild);
+                }
+                resultMap.put("errmsg", "ok");
+
+            } catch (Exception e) {
+                resultMap.put("errmsg", "error");
+            }
+            resultMap.put("orderno", orderno);
+            resultMap.put("totalprice", totalprice);
+            resultMap.put("descrip", descrip);
         }
-        map.put("orderno",orderno);
-        map.put("totalprice",totalprice);
-        map.put("descrip",descrip);
-        return map;
+        return resultMap;
     }
 
     @Override
