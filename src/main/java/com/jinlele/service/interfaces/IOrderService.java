@@ -13,7 +13,7 @@ public interface IOrderService {
     /**
      *商城订单列表
      */
-    Map<String, Object> getShopListPaging(int pagenow, int userid);
+    Map<String, Object> getShopListPaging(int pagenow, int userid , String type);
     /**
      *生成订单
      */
@@ -22,12 +22,14 @@ public interface IOrderService {
     /**
      * 自定义订单数据详情
      */
-    Map<String,Object> getOrderListDetail(Map<String,Object> map);
+    Map<String,Object> getOrderListDetail(Map<String,Object> map , String type);
 
     /**
      * 根据订单号查询订单详情
      */
     Map<String, Object> getOrderDetailByOrderno(String orderno);
+
+
 
     /**
      *取消订单
@@ -38,5 +40,6 @@ public interface IOrderService {
      *更新订单
      */
     int updateByPrimaryKeySelective(ShopOrder record);
+
 
 }

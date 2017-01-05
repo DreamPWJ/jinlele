@@ -481,54 +481,43 @@ angular.module('starter.controllers', [])
 
     //商城订单
     .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($scope, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
-        var mySwiper = new Swiper('.swiper-container', {
-            pagination: '.tab',
-            paginationClickable: true,
-            //autoHeight: true,
-            paginationBulletRender: function (index, className) {
-                switch (index) {
-                    case 0:
-                        name = '待付款';
-                        break;
-                    case 1:
-                        name = '已支付';
-                        break;
-                    case 2:
-                        name = '已签收';
-                        break;
-                    case 3:
-                        name = '退单';
-                        break;
-                    default:
-                        name = '';
-                }
-                return '<span class="' + className + '">' + name + '</span>';
-            }
+        $(function () {
+            $('.default').dropkick();
+            theme:'black'
         });
+        $scope.type = '006';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
+        $scope.moreFlag = false; //是否显示加载更多
+        $scope.noDataFlag = false;  //没有数据显示
         $scope.getOrderLists = function () {
             if ((arguments != [] && arguments[0] == 0) ) {
                 $scope.page = 0;
                 $scope.orderlistsinfo = [];
             }
             $scope.page++;
+            $scope.moreFlag = false;
+            $scope.noDataFlag = false;
             //分页显示
-            OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page}).success(function (data) {
-                console.log(data);
-                $scope.list = data;
+            OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+                console.log("DATA=="+ JSON.stringify(data));
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
-                $scope.total = data.myPageCount;
-                $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
-            }).finally(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.$broadcast('scroll.infiniteScrollComplete');
+                console.log(" $scope.orderlistsinfo=="+ JSON.stringify(data));
+                 if(data.myrows == 0) $scope.noDataFlag = true;
+                console.log( "length=="+ $scope.orderlistsinfo.length);
+                console.log( "data.myPageCount=="+ data.myrows);
+                $scope.total = data.myrows;
+                if($scope.total > $scope.orderlistsinfo.length){
+                    $scope.moreFlag = true;
+                    console.log("moreFlag ==" + $scope.moreFlag );
+                }
             })
         }
         $scope.getOrderLists();
+
         $scope.cancleorder = function (orderno) {
             //修改后，重新请求数据
             OrderService.cancleOrder({orderno: orderno}).success(function (data) {
@@ -539,6 +528,8 @@ angular.module('starter.controllers', [])
                 }
             });
         }
+
+
         //微信支付调用
         $scope.weixinPay = function (ordeno, totalprice) {
             $scope.param = {
@@ -880,6 +871,18 @@ angular.module('starter.controllers', [])
             num: [],
             memo: []
         };
+        $scope.$watch("product.num",function () {
+            //遍历
+            $scope.totalnum = 0;
+            if ($scope.product.num.length > 0) {
+                for (var i = 0, len = $scope.product.num.length; i < len; i++) {
+                    $scope.totalnum += $scope.product.num[i] * 1;
+                }
+            }
+            $scope.totalprice = $scope.totalnum * $scope.aturalprice;
+            console.log(" $scope.totalprice ==" + $scope.totalprice);
+        },true) ;
+
         $scope.sendwayFlag = false;//寄件方式切换
         $scope.getwayFlag = false; //取件方式切换
         $scope.sendwayValue = ['001', '002'];//寄件取件方式值
@@ -936,19 +939,19 @@ angular.module('starter.controllers', [])
             $scope.productArr.push(i++);
         }
         //计算总数量和总价格
-        $scope.numblur = function () {
-            //遍历
-            $scope.totalnum = 0;
-            if ($scope.product.num.length > 0) {
-                for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-                    $scope.totalnum += $scope.product.num[i] * 1;
-                }
-            }
-            var price = $scope.aturalprice;
-
-            $scope.totalprice = $scope.totalnum * price;
-            console.log(" $scope.totalprice ==" + $scope.totalprice);
-        }
+        // $scope.numblur = function () {
+        //     //遍历
+        //     $scope.totalnum = 0;
+        //     if ($scope.product.num.length > 0) {
+        //         for (var i = 0, len = $scope.product.num.length; i < len; i++) {
+        //             $scope.totalnum += $scope.product.num[i] * 1;
+        //         }
+        //     }
+        //     var price = $scope.aturalprice;
+        //
+        //     $scope.totalprice = $scope.totalnum * price;
+        //     console.log(" $scope.totalprice ==" + $scope.totalprice);
+        // }
         //生成订单并付款
         $scope.procreceive = function () {
             //获取地址id

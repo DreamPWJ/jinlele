@@ -48,13 +48,13 @@ public class OrderServiceImpl implements IOrderService {
      * 商城订单列表
      */
     @Override
-    public Map<String, Object> getShopListPaging(int pagenow, int userid) {
+    public Map<String, Object> getShopListPaging(int pagenow, int userid ,String type) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", "  shoporder  ");
-        paramMap.put("fields", "  * ,case type when '001' then '翻新' when '002' then '维修' when '003' then '检测' when '004' then '回收' when '005' then '换款' when '006' then '' end as ordertype ");
+        paramMap.put("fields", "  * ,case type when '001' then '翻新' when '002' then '维修' when '003' then '检测' when '004' then '回收' when '005' then '换款' when '006' then '商城' end as ordertype ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " deleteCode='001' and shoporderstatusCode in ('002','003','006','008') and user_id="+userid);
+        paramMap.put("wherecase", " deleteCode='001' and  type = " + type + " and user_id="+userid);
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -104,15 +104,23 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> getOrderListDetail(Map map) {
-        Map<String, Object> paramMap = new HashMap<>();
+    public Map<String, Object> getOrderListDetail(Map map , String type) {
         List<Map<String, Object>> orderLists = new ArrayList<>();
         List<Map<String, Object>> orders = (ArrayList) map.get("pagingList");
+        //商城的情况
         for (int i = 0; i < orders.size(); i++) {
-            List<Map<String, Object>> orderDetailLists = shopOrderGoodMapper.selectOrderDetailByOrderno(orders.get(i).get("orderno").toString());
-            orders.get(i).put("child", orderDetailLists);
+            //根据订单得到订单详情  商城
+            if("006".equals(type) ) {
+                List<Map<String, Object>> orderDetailLists = shopOrderGoodMapper.selectOrderDetailByOrderno(orders.get(i).get("orderno").toString());
+                orders.get(i).put("child", orderDetailLists);
+            }else{
+                //根据订单得到订单详情  服务类订单
+                Map<String, Object> orderDetailLists = shopOrderGoodMapper.selectServiceOrderDetailByOrderno(orders.get(i).get("orderno").toString());
+                orders.get(i).put("child", orderDetailLists);
+            }
             orderLists.add(orders.get(i));
         }
+        //服务类的情况
         map.put("pagingList", orderLists);
         return map;
     }

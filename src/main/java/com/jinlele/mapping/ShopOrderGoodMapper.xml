@@ -152,4 +152,17 @@
     join goodchild gc on gc.id=m.goodchild_id
     where m.deleteCode='001' and m.shoporder_no=#{orderno};
   </select>
+
+  <!--根据订单号查询服务类订单的详情 如:翻新订单等-->
+  <select id="selectServiceOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
+     SELECT s.price ,s.aturalprice ,s.descrip ,p.url from service  s
+        RIGHT JOIN shoporder o on o.orderno = s.order_no
+        left join service_picture sp on sp.service_id = s.id
+        INNER JOIN picture p on  p.id = sp.picture_id
+        where o.orderno = #{orderno}
+        order by p.create_time
+        limit 1
+  </select>
+
+
 </mapper>

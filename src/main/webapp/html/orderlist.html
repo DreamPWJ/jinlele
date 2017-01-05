@@ -1,14 +1,31 @@
-<ion-view>
-    <!-- BANNER -->
-    <ion-content overflow-scroll="false" has-bouncing="true">
-        <ion-refresher on-refresh="getOrderLists(0)" pulling-text="下拉更新"></ion-refresher>
-        <!-- 内容 -->
-        <main class="content swiper-container">
+<link rel="stylesheet" href="css/select.css">
+
+
+        <dl class="add_product">
+            <dd>
+                <em>订单类型：</em>
+                <span>
+                <!---//TODO 样式需要优化-->
+                     <select class=""  ng-model="type" ng-change="getOrderLists(0)">
+                        <!--<option value="" >全部订单</option>-->
+                        <option value="006">商城订单</option>
+                        <option value="001">翻新订单</option>
+                        <option value="002">维修订单</option>
+                        <option value="003">检测订单</option>
+                        <option value="004">回收订单</option>
+                        <option value="005">换款订单</option>
+                    </select>
+                </span>
+            </dd>
+        </dl>
+
+        <!-- 商城订单 -->
+        <main class="content swiper-container" ng-if="type=='006'">
             <section class="tab"></section>
             <section class="swiper-wrapper">
                 <!-- 未支付 -->
                 <section class="swiper-slide">
-                    <section class="check" ng-repeat="item in list.pagingList" ng-if="item.shoporderstatusCode=='002'">
+                    <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='002'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <i>{{item.ordertype}}</i>
@@ -44,7 +61,7 @@
 
                 <!-- 已支付 -->
                 <section class="swiper-slide">
-                    <section class="check" ng-repeat="item in list.pagingList" ng-if="item.shoporderstatusCode=='003'">
+                    <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='003'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
@@ -78,7 +95,7 @@
 
                 <!-- 已签收 -->
                 <section class="swiper-slide">
-                    <section class="check" ng-repeat="item in list.pagingList" ng-if="item.shoporderstatusCode=='006'">
+                    <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='006'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
@@ -113,7 +130,7 @@
 
                 <!-- 退单 -->
                 <section class="swiper-slide">
-                    <section class="check" ng-repeat="item in list.pagingList" ng-if="item.shoporderstatusCode=='008'">
+                    <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='008'">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <!--<i>回收</i>-->
@@ -145,8 +162,59 @@
                 </section>
             </section>
 
+
+            <section class="collection_load" ng-click="getOrderLists()" ng-if="moreFlag"><a href="">加载更多</a></section>
+
         </main>
-        <ion-infinite-scroll on-infinite="getOrderLists()" ng-if="total > page"
-                             immediate-check="false"></ion-infinite-scroll>
-    </ion-content>
-</ion-view>
+
+        <!--服务类订单-->
+        <main class="content swiper-container" ng-if="type!='006'">
+
+            <div ng-if="noDataFlag" class="isNotDataHint">
+                <i class="iconfont icon-cry1"></i>
+                <p>咱无数据</p>
+            </div>
+                <!-- 未支付 -->
+            <section class="swiper-slide">
+                <section class="check" ng-repeat="item in orderlistsinfo" >
+                    <span class="check_title">
+                        <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
+                        <i>{{item.ordertype}}</i>
+                        <em>待付款</em>
+                    </span>
+                    <section class="product_list" >
+                        <section class="product">
+                            <span class="pic"><a href=""><img ng-src="{{item.child.url}}"></a></span>
+                            <section class="text">
+                                <p><a href="#/gooddetail/{{subitem.goodid}}">{{item.child.descrip}}</a></p>
+
+                            </section>
+                            <section class="price_1">
+                                <em>{{item.child.aturalprice | currency:'￥'}}</em>
+                                <i>X {{item.totalnum}}</i>
+                            </section>
+                        </section>
+                    </section>
+                    <section class="check_button">
+                        <span>
+                            <em>共{{item.totalnum}}件商品</em>
+                            <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
+                        </span>
+                        <span>
+                            <a href="">联系卖家</a>
+                            <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
+                            <a ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
+                            <!-- <a href="#/confirmorder/{{item.orderno}}">付款</a>-->
+                        </span>
+                    </section>
+                </section>
+            </section>
+
+        </section>
+
+
+        <section class="collection_load" ng-click="getOrderLists()" ng-if="moreFlag"><a href="">加载更多</a></section>
+
+    </main>
+
+

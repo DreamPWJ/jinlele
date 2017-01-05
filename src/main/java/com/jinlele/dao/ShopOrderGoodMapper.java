@@ -3,6 +3,7 @@ package com.jinlele.dao;
 import com.jinlele.model.ShopOrderGood;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ShopOrderGoodMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,6 +19,14 @@ public interface ShopOrderGoodMapper {
      * @return
      */
     List selectOrderDetailByOrderno(String orderno);
+
+
+    /**
+     * 根据订单号 查询服务类订单详情
+     * @param orderno
+     * @return
+     */
+    Map<String ,Object> selectServiceOrderDetailByOrderno(String orderno);
 
     int updateByPrimaryKeySelective(ShopOrderGood record);
 

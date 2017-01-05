@@ -53,7 +53,7 @@ public class OrderController {
     public int AddShoppingCart(ShoppingCart cart) {
         //处理业务逻辑 ，有记录就更新数量，没有就插入
         //查询是否有该用户和商品的 购物车(001)数据
-       return shoppingCartService.addShoppingCart(cart);
+        return shoppingCartService.addShoppingCart(cart);
     }
 
     /**
@@ -77,9 +77,9 @@ public class OrderController {
      * 商城订单列表
      */
     @ResponseBody
-    @RequestMapping(value = "/getOrderListDetail/{pagenow}/{userid}", method = RequestMethod.GET)
-    public Map<String, Object> getOrderListDetail(@PathVariable int pagenow, @PathVariable int userid) {
-        return orderService.getOrderListDetail(orderService.getShopListPaging(pagenow, userid));
+    @RequestMapping(value = "/getOrderListDetail/{pagenow}/{userid}/{type}", method = RequestMethod.GET)
+    public Map<String, Object> getOrderListDetail(@PathVariable int pagenow, @PathVariable int userid , @PathVariable String type) {
+        return orderService.getOrderListDetail(orderService.getShopListPaging(pagenow, userid , type) , type);
     }
 
     /**
