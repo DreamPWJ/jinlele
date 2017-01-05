@@ -287,12 +287,10 @@ public class WeiXinController {
             //业务逻辑处理
             int i=100 ;
             System.out.println("----受影响行数：---" + i);
-            return "<xml><return_code><![CDATA["
-                    + return_code
-                    + "]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+            return "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
         } else {
             System.out.println("----执行：---------------签名失败");
-            return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+            return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
         }
     }
 
