@@ -271,23 +271,27 @@ public class WeiXinController {
         String result_code = map.get("result_code");
         String orderno = map.get("out_trade_no");
         String return_code = map.get("return_code");
-        String finishtime=map.get("time_end");
+        String finishtime = map.get("time_end");
 
-        if (PayCommonUtil.isTenpaySign(map,"UTF-8")) {//验证回调签名
+        System.out.println("----数据如下：---" + result_code + "--------" + orderno + "--------" + return_code + "--------" + finishtime + "--------");
+        //业务逻辑处理
+        if ("SUCCESS".equals(result_code)) {
+            orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "003"));
+        } else {
+            orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "002"));//支付失败
+        }
+        System.out.println("----签名结果：---" +PayCommonUtil.isTenpaySign(map, "UTF-8"));
+
+        if (PayCommonUtil.isTenpaySign(map, "UTF-8")) {//验证回调签名
+            System.out.println("----执行：---------------签名成功");
             //业务逻辑处理
-            ShopOrder order=new ShopOrder();
-            order.setOrderno(orderno);
-            if("SUCCESS".equals(result_code)){
-                order.setShoporderstatuscode("003");//支付成功
-                order.setUpdateTime(new Date(finishtime));
-            }else{
-                order.setShoporderstatuscode("002");//未支付，支付失败
-            }
-            orderService.updateByPrimaryKeySelective(order);
+            int i=100 ;
+            System.out.println("----受影响行数：---" + i);
             return "<xml><return_code><![CDATA["
                     + return_code
                     + "]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         } else {
+            System.out.println("----执行：---------------签名失败");
             return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         }
     }

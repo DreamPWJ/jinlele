@@ -40,6 +40,10 @@ public class ShopOrder {
     private Date updateTime;
     public ShopOrder() {
     }
+    public ShopOrder(String orderno,String orderstatus) {
+        this.orderno = orderno;
+        this.shoporderstatuscode = orderstatus;
+    }
 
     public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
         this.orderno = orderno;
