@@ -94,7 +94,7 @@ public class OrderServiceImpl implements IOrderService {
                 //保存订单
                 ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, Integer.valueOf(result.get("receiptAddressId").toString()), "001");
                 order.setType("006");//订单类型
-                order.setShoporderstatuscode("002");//设置订单状态 未付款
+                order.setShoporderstatuscode("006002");//设置订单状态 未付款
                 order.setFreightprice(Double.valueOf(0));//运费
                 //生成订单
                 orderMapper.insertSelective(order);
