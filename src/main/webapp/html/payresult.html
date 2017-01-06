@@ -1,0 +1,51 @@
+<main class="content bottom">
+    <!-- 收货地址 -->
+    <section class="address add address_tan">
+        <a href="javascript:">
+    	<span class="title">
+        	<em>收货人：张三</em>
+        	<em>15872325323</em>
+        </span>
+            <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
+        </a>
+    </section>
+
+    <section class="order_xq">
+        <ul>
+            <li><em>总金额：</em><i style="font-size: 120%;">￥918.00</i></li>
+        </ul>
+    </section>
+    <!-- 支付进度 -->
+    <section class="logistics">
+        <span class="title">支付进度</span>
+        <ul>
+            <li class="hover">
+                <i></i>
+                <em>等待买家付款</em>
+            </li>
+            <li>
+            <i></i>
+            <em>买家已付款</em>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 订单状态 -->
+    <section class="order">
+    	<span class="title">
+        	<i>订单状态</i>
+        	<em>待付款</em>
+        </span>
+        <ul>
+            <li><em>客户电话：</em><em>0724-4010123</em></li>
+            <li><em>订单编号：</em><em>{{orderno}}</em></li>
+            <li><em>创建时间：</em><em>2015-05-25 16:30:10</em></li>
+            <!--<li><em>付款时间：</em><em>2015-05-25 16:30:10</em></li>-->
+        </ul>
+    </section>
+</main>
+
+<section class="button">
+    <span><a ng-href="#/orderdetail/{{orderno}}">查看订单</a></span>
+    <span><a href="">我要换款</a></span>
+</section>

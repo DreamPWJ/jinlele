@@ -53,6 +53,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderDetailCtrl'
             })
+            .state('payresult', {  //支付进度
+                url: '/payresult/:orderno',
+                templateUrl: 'html/payresult.html',
+                controller: 'PayResultCtrl'
+            })
             .state('confirmorder', {  //确认订单
                 url: '/confirmorder',
                 templateUrl: 'html/confirmorder.html',

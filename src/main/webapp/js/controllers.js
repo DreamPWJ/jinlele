@@ -368,6 +368,10 @@ angular.module('starter.controllers', [])
             });
         }
     }])
+    //支付进度
+    .controller('PayResultCtrl',  ['$scope', '$stateParams', function ($scope, $stateParams) {
+        $scope.orderno=$stateParams.orderno;
+    }])
     //订单详情
     .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', 'CommonService', function ($scope, $stateParams, OrderService,CommonService) {
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {

@@ -2,7 +2,7 @@
 <main class="content bottom">
 
 	<section class="oddnumbers">
-    	<em>订单号：{{orderinfo.orderno}}</em>
+    	<em>订单编号：{{orderinfo.orderno}}</em>
     	<i>{{orderinfo.shoporderstatuscode}}</i>
     </section>
     
@@ -44,7 +44,8 @@
     <section class="order_xq">
         <ul>
         	<li><em>商品总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-        	<li><em>+运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
+        	<li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li><em>订单总额：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
         	<li ng-show="orderinfo.actualpayprice!=null"><em>实际付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
         	<li><u>下单时间：{{orderinfo.createTime|date:'yyyy-MM-dd HH:mm'}}</u></li>
         </ul>

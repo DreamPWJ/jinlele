@@ -2588,21 +2588,34 @@ section.order_xq ul li:nth-child(2) em, section.order_xq ul li:nth-child(2) i {
 }
 
 section.order_xq ul li:nth-child(3) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+section.order_xq ul li:nth-child(3) em, section.order_xq ul li:nth-child(3) i {
+    height: 20px;
+    line-height: 20px;
+    padding: 0;
+    font-size: 76%;
+    color: #666;
+    padding: 0 0 5px 0;
+}
+
+section.order_xq ul li:nth-child(4) {
     width: auto;
     float: right;
 }
 
-section.order_xq ul li:nth-child(3) em {
+section.order_xq ul li:nth-child(4) em {
     float: left;
     font-size: 76%;
 }
 
-section.order_xq ul li:nth-child(3) i {
+section.order_xq ul li:nth-child(4) i {
     float: left;
     font-size: 120%;
 }
 
-section.order_xq ul li:nth-child(4) u {
+section.order_xq ul li:nth-child(5) u {
     float: right;
     text-decoration: none;
     font-size: 76%;
