@@ -55,8 +55,8 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getShopListPaging(int pagenow, int userid ,String type) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", "  shoporder  ");
-        paramMap.put("fields", "  * ,case type when '001' then '翻新' when '002' then '维修' when '003' then '检测' when '004' then '回收' when '005' then '换款' when '006' then '商城' end as ordertype ");
+        paramMap.put("tableName", "  shoporder as o  ");
+        paramMap.put("fields", "  * ,(select dictname from vw_dictdetail where eng='ordertype' and codevalue=o.type) as ordertype,(select dictname from vw_dictdetail where eng='orderstatus' and codevalue=o.shoporderstatusCode) as orderstatus ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
         if("ALL".equals(type)) {
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements IOrderService {
                 //保存订单
                 ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, Integer.valueOf(result.get("receiptAddressId").toString()), "001");
                 order.setType("006");//订单类型
-                order.setShoporderstatuscode("006002");//设置订单状态 未付款
+                order.setShoporderstatuscode("002");//设置订单状态 未付款
                 order.setFreightprice(Double.valueOf(0));//运费
                 //生成订单
                 orderMapper.insertSelective(order);

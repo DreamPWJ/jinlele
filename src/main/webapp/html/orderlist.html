@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/select.css">
+<!--<link rel="stylesheet" href="css/select.css">-->
 
 
 <dl class="add_product">
@@ -37,7 +37,7 @@
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <i>{{item.ordertype}}</i>
-                    <em>待付款</em>
+                    <em>{{item.orderstatus}}</em>
                 </span>
                 <section class="product_list" ng-repeat="subitem in item.child" ng-if="item.type == '006'">  <!--商城订单-->
                     <section class="product">
@@ -76,108 +76,6 @@
                                     <a ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
                         <!-- <a href="#/confirmorder/{{item.orderno}}">付款</a>-->
                                 </span>
-                </section>
-            </section>
-        </section>
-
-        <!-- 已支付 -->
-        <section class="swiper-slide">
-            <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='006003'">
-                <span class="check_title">
-                    <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <!--<i>回收</i>-->
-                    <em>等待卖家发货</em>
-                </span>
-                <section class="product_list" ng-repeat="subitem in item.child">
-                    <section class="product">
-                        <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
-                        <section class="text">
-                            <p><a href="#/gooddetail/{{subitem.id}}">{{subitem.title}}</a></p>
-                            <span>颜色分类：{{subitem.color}}</span>
-                        </section>
-                        <section class="price_1">
-                            <em>{{subitem.saleprice | currency:'￥'}}</em>
-                            <i>X {{subitem.num}}</i>
-                        </section>
-                    </section>
-                </section>
-                <section class="check_button">
-                            <span>
-                                <em>共{{item.totalnum}}件商品</em>
-                                <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
-                            </span>
-                    <span>
-                                <a href="">联系卖家</a>
-                                <a href="#/returnapply/{{item.orderno}}">申请退款</a>
-                            </span>
-                </section>
-            </section>
-        </section>
-
-        <!-- 已签收 -->
-        <section class="swiper-slide">
-            <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='006006'">
-                <span class="check_title">
-                    <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <!--<i>回收</i>-->
-                    <em>交易完成</em>
-                </span>
-                <section class="product_list" ng-repeat="subitem in item.child">
-                    <section class="product">
-                        <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
-                        <section class="text">
-                            <p><a href="#/gooddetail/{{subitem.id}}">{{subitem.title}}</a></p>
-                            <span>颜色分类：{{subitem.color}}</span>
-                        </section>
-                        <section class="price_1">
-                            <em>{{subitem.saleprice | currency:'￥'}}</em>
-                            <i>X {{subitem.num}}</i>
-                        </section>
-                    </section>
-                </section>
-                <section class="check_button">
-                    <span>
-                        <em>共{{item.totalnum}}件商品</em>
-                        <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
-                    </span>
-                    <span>
-                        <a href="">联系卖家</a>
-                        <a href="#/returnapply/{{item.orderno}}">申请退货</a>
-                        <a href="#/addcomment/{{item.orderno}}">评价</a>
-                    </span>
-                </section>
-            </section>
-        </section>
-
-        <!-- 退单 -->
-        <section class="swiper-slide">
-            <section class="check" ng-repeat="item in orderlistsinfo" ng-if="item.shoporderstatusCode=='006008'">
-                <span class="check_title">
-                    <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
-                    <!--<i>回收</i>-->
-                    <em>退单中</em>
-                </span>
-                <section class="product_list" ng-repeat="subitem in item.child">
-                    <section class="product">
-                        <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
-                        <section class="text">
-                            <p><a href="#/gooddetail/{{subitem.id}}">{{subitem.title}}</a></p>
-                            <span>颜色分类：{{subitem.color}}</span>
-                        </section>
-                        <section class="price_1">
-                            <em>{{subitem.saleprice | currency:'￥'}}</em>
-                            <i>X {{subitem.num}}</i>
-                        </section>
-                    </section>
-                </section>
-                <section class="check_button">
-                    <span>
-                        <em>共{{item.totalnum}}件商品</em>
-                        <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
-                    </span>
-                    <span>
-                        <a href="">联系卖家</a>
-                    </span>
                 </section>
             </section>
         </section>
