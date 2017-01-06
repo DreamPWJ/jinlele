@@ -46,7 +46,7 @@ public class FavouriteServiceImpl implements IFavouriteService{
         paramMap.put("tableName", " favourite f left join good g on g.id = f.good_id  ");
         paramMap.put("fields", " f.id as fid , g.id as gid, g.title ,g.saleprice,g.discprice ,g.bannerurl ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("pageSize", 6);   //SysConstants.PAGESIZE
         paramMap.put("wherecase",  "user_id = " + userId + " and f.deleteCode = '001' ");
         paramMap.put("orderField", " f.create_time ");
         paramMap.put("orderFlag", 1);

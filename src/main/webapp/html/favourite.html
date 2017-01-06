@@ -1,42 +1,39 @@
 
-<!--<ion-view>-->
-    <!--&lt;!&ndash; BANNER &ndash;&gt;-->
-     <!--<ion-content overflow-scroll="false"  has-bouncing="true">-->
-     <!--<ion-refresher on-refresh="getNewFavs(0)" pulling-text="下拉更新"></ion-refresher>-->
+   <!-- 内容 -->
+    <main class="content">
+        <ul class="collection">
 
-        <!-- 内容 -->
-        <main class="content">
-            <ul class="collection" >
-                <li ng-repeat="item in FavArr" >
-                    <section class="collection_main" >
-                        <span class="pic" ng-click="detail(item.gid)"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
-                        <section class="text">
-                            <h2 class="txt-ellipsis"  ng-click="detail(item.gid)"><a href="" >{{item.title}}</a></h2>
-                            <span class="price">
-                                <em>￥{{item.saleprice | number : 2}} </em>
-                                <a class="icon" href="" ng-click="del(item.fid,$index)">&#xe721;</a>
-                            </span>
-                        </section>
+            <div ng-if="noDataFlag" class="isNotDataHint">
+                <i class="iconfont icon-cry1"></i>
+                <p>咱无数据</p>
+            </div>
+
+
+            <li ng-repeat="item in FavArr">
+                <section class="collection_main">
+                    <span class="pic" ng-click="detail(item.gid)"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+                    <section class="text">
+                        <h2 class="txt-ellipsis" ng-click="detail(item.gid)"><a href="">{{item.title}}</a></h2>
+                        <span class="price">
+                                    <em>￥{{item.saleprice | number : 2}} </em>
+                                    <a class="icon" href="" ng-click="del(item.fid,$index)">&#xe721;</a>
+                                </span>
                     </section>
-                </li>
-            </ul>
-
-            <section class="collection_load" ng-click="getFavs()"><a href="">加载更多</a></section>
-        </main>
-
-        <!-- 提示 -->
-        <section class="mask" ng-if="rmFlag">
-            <section class="layer prompt">
-                <p>确定要删除收藏的商品？</p>
-                <section class="submit">
-                    <a href="" ng-click="confirmRemove()">确定</a>
-                    <a href="" ng-click="cancelRemove()">取消</a>
                 </section>
+            </li>
+        </ul>
+        <section class="collection_load" ng-click="getFavs()" ng-if="moreDataFlag"><a href="">加载更多</a></section>
+    </main>
+
+
+    <!-- 提示 -->
+    <section class="mask" ng-if="rmFlag">
+        <section class="layer prompt">
+            <p>确定要删除收藏的商品？</p>
+            <section class="submit">
+                <a href="" ng-click="confirmRemove()">确定</a>
+                <a href="" ng-click="cancelRemove()">取消</a>
             </section>
         </section>
+    </section>
 
-        <!--<ion-infinite-scroll  on-infinite="getNewFavs()"  ng-if="total > page"  immediate-check="false">   </ion-infinite-scroll>-->
-
-    <!--</ion-content>-->
-
-<!--</ion-view>-->

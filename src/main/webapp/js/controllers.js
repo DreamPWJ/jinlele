@@ -582,17 +582,24 @@ angular.module('starter.controllers', [])
     //我的收藏
     .controller('FavouriteCtrl', function ($scope ,GoodService , $state) {
         $scope.rmFlag = false;
+        $scope.noDataFlag = false;  //暂无数据标示
         $scope.rmFid = "";
         $scope.rmIndex = 0;
         $scope.FavArr = [];
         $scope.page = 0;//当前页数
+        $scope.moreDataFlag = false; //是否显示 加载更多的点击按钮
         $scope.getFavs = function () {
+            $scope.noDataFlag = false;
             $scope.page++;
             GoodService.getFavs({pagenow:$scope.page, userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
+                 if(data.myrows == 0) {
+                     $scope.noDataFlag = true;
+                     return;
+                 }
                 angular.forEach(data.pagingList, function (item) {
                     $scope.FavArr.push(item);
                 })
-                console.log(JSON.stringify($scope.FavArr));
+                $scope.moreDataFlag = (data.myrows > $scope.FavArr.length) ?  true : false;
             })
         }
         $scope.getFavs();
@@ -600,8 +607,6 @@ angular.module('starter.controllers', [])
            $scope.rmFlag = true;
             $scope.rmFid = fid;
             $scope.rmIndex = index;
-            console.log(fid);
-            console.log("$scope.rmIndex==" +$scope.rmIndex);
         }
 
         $scope.cancelRemove = function () {
