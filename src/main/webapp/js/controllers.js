@@ -618,6 +618,10 @@ angular.module('starter.controllers', [])
                     $scope.FavArr.splice($scope.rmIndex ,1);
                     $scope.rmFlag = false;
                 }
+                if($scope.FavArr.length == 0) {
+                    $scope.moreDataFlag = false;
+                    $scope.noDataFlag = true;
+                }
             });
         }
         $scope.detail = function (gid) {
