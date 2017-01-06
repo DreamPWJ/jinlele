@@ -59,7 +59,11 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("fields", "  * ,case type when '001' then '翻新' when '002' then '维修' when '003' then '检测' when '004' then '回收' when '005' then '换款' when '006' then '商城' end as ordertype ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " deleteCode='001' and  type = " + type + " and user_id="+userid);
+        if("ALL".equals(type)) {
+            paramMap.put("wherecase", " deleteCode='001'  and user_id=" + userid);
+        }else{
+            paramMap.put("wherecase", " deleteCode='001' and  type = " + type + " and user_id="+userid);
+        }
         paramMap.put("orderField", "  create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
@@ -128,10 +132,12 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getOrderListDetail(Map map , String type) {
         List<Map<String, Object>> orderLists = new ArrayList<>();
         List<Map<String, Object>> orders = (ArrayList) map.get("pagingList");
+        String ordernowType = null;
         //商城的情况
         for (int i = 0; i < orders.size(); i++) {
+            ordernowType = (String) orders.get(i).get("type");
             //根据订单得到订单详情  商城
-            if("006".equals(type) ) {
+            if("006".equals(ordernowType) ) {
                 List<Map<String, Object>> orderDetailLists = shopOrderGoodMapper.selectOrderDetailByOrderno(orders.get(i).get("orderno").toString());
                 orders.get(i).put("child", orderDetailLists);
             }else{
