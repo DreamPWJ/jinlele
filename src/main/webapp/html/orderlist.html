@@ -19,9 +19,15 @@
     </dd>
 </dl>
 
+<div ng-if="noDataFlag" class="isNotDataHint">
+    <i class="iconfont icon-cry1"></i>
+    <p>咱无数据</p>
+</div>
+
+
+
 <!-- 商城订单 -->
 <main class="content swiper-container">
-    <section class="tab"></section>
     <section class="swiper-wrapper">
         <!-- 未支付 -->
         <section class="swiper-slide">
