@@ -7,7 +7,9 @@
     <result column="totalnum" property="totalnum" jdbcType="INTEGER" />
     <result column="freightprice" property="freightprice" jdbcType="DOUBLE" />
     <result column="actualpayprice" property="actualpayprice" jdbcType="DOUBLE" />
+    <result column="userlogisticsnoComp" property="userlogisticsnocomp" jdbcType="VARCHAR" />
     <result column="userlogisticsno" property="userlogisticsno" jdbcType="VARCHAR" />
+    <result column="logisticsnoComp" property="logisticsnocomp" jdbcType="VARCHAR" />
     <result column="logisticsno" property="logisticsno" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
@@ -20,9 +22,10 @@
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="pay_result" property="payResult" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno, 
+    orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
     user_id, store_id, type, case shoporderstatusCode when '001' then '已下单'  when '002' then '待付款' when '003' then '已付款' when '004' then '已发货' when '005' then '已收货' when '006' then '已签收' when '007' then '已评价' when '008' then '已退单' when '009' then '已取消' end as shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -37,19 +40,21 @@
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.ShopOrder" >
     insert into shoporder (orderno, totalprice, totalnum, 
-      freightprice, actualpayprice, userlogisticsno, 
-      logisticsno, user_id, store_id, 
-      type, qrcode_url, descriplevel, 
-      shoporderstatusCode, receipt_address_id, 
-      comment, deleteCode, create_time, 
-      update_time)
+      freightprice, actualpayprice, userlogisticsnoComp, 
+      userlogisticsno, logisticsnoComp, logisticsno, 
+      user_id, store_id, type, 
+      qrcode_url, descriplevel, shoporderstatusCode, 
+      receipt_address_id, comment, deleteCode, 
+      create_time, update_time, pay_result
+      )
     values (#{orderno,jdbcType=VARCHAR}, #{totalprice,jdbcType=DOUBLE}, #{totalnum,jdbcType=INTEGER}, 
-      #{freightprice,jdbcType=DOUBLE}, #{actualpayprice,jdbcType=DOUBLE}, #{userlogisticsno,jdbcType=VARCHAR}, 
-      #{logisticsno,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, 
-      #{type,jdbcType=VARCHAR}, #{qrcodeUrl,jdbcType=VARCHAR}, #{descriplevel,jdbcType=INTEGER}, 
-      #{shoporderstatuscode,jdbcType=VARCHAR}, #{receiptAddressId,jdbcType=INTEGER}, 
-      #{comment,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{freightprice,jdbcType=DOUBLE}, #{actualpayprice,jdbcType=DOUBLE}, #{userlogisticsnocomp,jdbcType=VARCHAR}, 
+      #{userlogisticsno,jdbcType=VARCHAR}, #{logisticsnocomp,jdbcType=VARCHAR}, #{logisticsno,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
+      #{qrcodeUrl,jdbcType=VARCHAR}, #{descriplevel,jdbcType=INTEGER}, #{shoporderstatuscode,jdbcType=VARCHAR}, 
+      #{receiptAddressId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payResult,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.ShopOrder" >
     insert into shoporder
@@ -69,8 +74,14 @@
       <if test="actualpayprice != null" >
         actualpayprice,
       </if>
+      <if test="userlogisticsnocomp != null" >
+        userlogisticsnoComp,
+      </if>
       <if test="userlogisticsno != null" >
         userlogisticsno,
+      </if>
+      <if test="logisticsnocomp != null" >
+        logisticsnoComp,
       </if>
       <if test="logisticsno != null" >
         logisticsno,
@@ -108,6 +119,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="payResult != null" >
+        pay_result,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderno != null" >
@@ -125,8 +139,14 @@
       <if test="actualpayprice != null" >
         #{actualpayprice,jdbcType=DOUBLE},
       </if>
+      <if test="userlogisticsnocomp != null" >
+        #{userlogisticsnocomp,jdbcType=VARCHAR},
+      </if>
       <if test="userlogisticsno != null" >
         #{userlogisticsno,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsnocomp != null" >
+        #{logisticsnocomp,jdbcType=VARCHAR},
       </if>
       <if test="logisticsno != null" >
         #{logisticsno,jdbcType=VARCHAR},
@@ -164,6 +184,9 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="payResult != null" >
+        #{payResult,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ShopOrder" >
@@ -181,8 +204,14 @@
       <if test="actualpayprice != null" >
         actualpayprice = #{actualpayprice,jdbcType=DOUBLE},
       </if>
+      <if test="userlogisticsnocomp != null" >
+        userlogisticsnoComp = #{userlogisticsnocomp,jdbcType=VARCHAR},
+      </if>
       <if test="userlogisticsno != null" >
         userlogisticsno = #{userlogisticsno,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsnocomp != null" >
+        logisticsnoComp = #{logisticsnocomp,jdbcType=VARCHAR},
       </if>
       <if test="logisticsno != null" >
         logisticsno = #{logisticsno,jdbcType=VARCHAR},
@@ -220,6 +249,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="payResult != null" >
+        pay_result = #{payResult,jdbcType=VARCHAR},
+      </if>
     </set>
     where orderno = #{orderno,jdbcType=VARCHAR}
   </update>
@@ -229,7 +261,9 @@
       totalnum = #{totalnum,jdbcType=INTEGER},
       freightprice = #{freightprice,jdbcType=DOUBLE},
       actualpayprice = #{actualpayprice,jdbcType=DOUBLE},
+      userlogisticsnoComp = #{userlogisticsnocomp,jdbcType=VARCHAR},
       userlogisticsno = #{userlogisticsno,jdbcType=VARCHAR},
+      logisticsnoComp = #{logisticsnocomp,jdbcType=VARCHAR},
       logisticsno = #{logisticsno,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
@@ -241,7 +275,24 @@
       comment = #{comment,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      pay_result = #{payResult,jdbcType=VARCHAR}
     where orderno = #{orderno,jdbcType=VARCHAR}
   </update>
+
+
+  <!--服务翻新详情页面 根据订单号查询买买方物流单号 买卖方收货地址信息-->
+  <select id="findReceiptServiceByOrderno" parameterType="java.lang.String" resultType="Map">
+    select o.orderno , o.create_time , o.receipt_address_id ,
+    o.userlogisticsno , o.logisticsno ,a.user_name , a.tel_number ,
+    a.province_name ,a.city_name ,a.detail_info
+    from shoporder o
+    LEFT JOIN receipt_address a on a.id = o.receipt_address_id
+    where  o.orderno = #{orderno}
+  </select>
+
+  <!--查询所有的快递公司-->
+  <select id="findAllexpressCompanies" resultType="Map">
+    select number , company from express_company
+  </select>
 </mapper>

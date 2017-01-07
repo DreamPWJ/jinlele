@@ -504,14 +504,14 @@ angular.module('starter.controllers', [])
             $scope.noDataFlag = false;
             //分页显示
             OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                console.log("DATA=="+ JSON.stringify(data));
+                //console.log("DATA=="+ JSON.stringify(data));
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
-                console.log(" $scope.orderlistsinfo=="+ JSON.stringify(data));
+                //console.log(" $scope.orderlistsinfo=="+ JSON.stringify(data));
                  if(data.myrows == 0) $scope.noDataFlag = true;
-                console.log( "length=="+ $scope.orderlistsinfo.length);
-                console.log( "data.myPageCount=="+ data.myrows);
+               // console.log( "length=="+ $scope.orderlistsinfo.length);
+               // console.log( "data.myPageCount=="+ data.myrows);
                 $scope.total = data.myrows;
                 if($scope.total > $scope.orderlistsinfo.length){
                     $scope.moreFlag = true;
@@ -1039,20 +1039,26 @@ angular.module('starter.controllers', [])
 
             });
         }
-
-
     })
+
     //流程-平台收货
-    .controller('ProcReceiveCtrl', function ($scope, $stateParams, $window) {
-        console.log($stateParams.name);
-        console.log($stateParams.orderNo);
-        //alert($stateParams.orderTime);
+    .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService) {
+        $scope.pagetheme = $stateParams.name;
+        if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
+
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
-        $scope.pagetheme = $stateParams.name;
+
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
+        //去后台查询请求数据
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+              console.log('data==' + JSON.stringify(data));
+              $scope.data = data.order;
+              $scope.expressArr = data.order;
+        });
 
     })
+
     //流程-检测
     .controller('ProcTestCtrl', function ($scope, $stateParams) {
         console.log($stateParams.name);

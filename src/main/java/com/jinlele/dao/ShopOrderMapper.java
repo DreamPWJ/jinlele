@@ -1,6 +1,10 @@
 package com.jinlele.dao;
 
 import com.jinlele.model.ShopOrder;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ShopOrderMapper {
     int deleteByPrimaryKey(String orderno);
@@ -14,4 +18,8 @@ public interface ShopOrderMapper {
     int updateByPrimaryKeySelective(ShopOrder record);
 
     int updateByPrimaryKey(ShopOrder record);
+
+    Map<String , Object> findReceiptServiceByOrderno(@Param("orderno")String orderno);
+
+    List findAllexpressCompanies();
 }

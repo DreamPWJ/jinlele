@@ -13,7 +13,11 @@ public class ShopOrder {
 
     private Double actualpayprice;
 
+    private String userlogisticsnocomp;
+
     private String userlogisticsno;
+
+    private String logisticsnocomp;
 
     private String logisticsno;
 
@@ -38,6 +42,9 @@ public class ShopOrder {
     private Date createTime;
 
     private Date updateTime;
+
+    private String payResult;
+
     public ShopOrder() {
     }
     public ShopOrder(String orderno,String orderstatus) {
@@ -68,6 +75,7 @@ public class ShopOrder {
         this.receiptAddressId = receiptAddressId;
         this.createTime = createTime;
     }
+
 
     public String getOrderno() {
         return orderno;
@@ -109,12 +117,28 @@ public class ShopOrder {
         this.actualpayprice = actualpayprice;
     }
 
+    public String getUserlogisticsnocomp() {
+        return userlogisticsnocomp;
+    }
+
+    public void setUserlogisticsnocomp(String userlogisticsnocomp) {
+        this.userlogisticsnocomp = userlogisticsnocomp == null ? null : userlogisticsnocomp.trim();
+    }
+
     public String getUserlogisticsno() {
         return userlogisticsno;
     }
 
     public void setUserlogisticsno(String userlogisticsno) {
         this.userlogisticsno = userlogisticsno == null ? null : userlogisticsno.trim();
+    }
+
+    public String getLogisticsnocomp() {
+        return logisticsnocomp;
+    }
+
+    public void setLogisticsnocomp(String logisticsnocomp) {
+        this.logisticsnocomp = logisticsnocomp == null ? null : logisticsnocomp.trim();
     }
 
     public String getLogisticsno() {
@@ -211,5 +235,13 @@ public class ShopOrder {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getPayResult() {
+        return payResult;
+    }
+
+    public void setPayResult(String payResult) {
+        this.payResult = payResult == null ? null : payResult.trim();
     }
 }

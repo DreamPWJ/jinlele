@@ -231,7 +231,7 @@
             </span>
             <span>
                 <i>下单时间：</i>
-                <em>{{orderTime}} {{orderTime | date:'yyyy-MM-dd HH:mm'}}</em>
+                <em>{{orderTime | date:'yyyy-MM-dd HH:mm'}}</em>
             </span>
         </section>
         <section id="tad" class="numbers_button">
@@ -250,7 +250,7 @@
                 <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
             </a>
         </section>
-        <section class="logistics">
+        <section class="logistics" ng-if="">
             <span class="title">物流信息</span>
             <ul>
                 <li class="hover">
@@ -277,13 +277,13 @@
         <section class="address">
             <a href="javascript:">
                 <span class="title">
-                    <em>张三</em>
-                    <em>15872325323</em>
+                    <em>{{data.user_name}}</em>
+                    <em>{{data.tel_number}}</em>
                 </span>
-                <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
+                <p>收货地址：{{data.province_name}} {{data.city_name}} {{data.detail_info}}</p>
             </a>
         </section>
-        <section class="logistics">
+        <section class="logistics" ng-if="data.userlogisticsno != null">
             <span class="title">物流信息</span>
             <ul>
                 <li class="hover">
@@ -301,6 +301,24 @@
                 <li>
                     <i></i>
                     <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
+                </li>
+            </ul>
+        </section>
+        <section class="express" ng-if="data.userlogisticsno == null">
+            <span class="title">请把产品送到店做下一步检测为您尽快完成提交</span>
+            <ul>
+                <li>
+                    <u>快递公司：</u>
+                    <span><input type="text"  list="fruits" ng-model="logisticsnoComp"/></span>
+                    <datalist id="fruits">
+                        <option value="{{item.number}}" ng-repeat="item  in expressArr">{{item.company}}</option>
+
+                    </datalist>
+                </li>
+                <li>
+                    <u>快递单号：</u>
+                    <span><input placeholder="请填写快递单号" type="text"></span>
+                    <a href="">提交</a>
                 </li>
             </ul>
         </section>
