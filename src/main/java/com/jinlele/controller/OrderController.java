@@ -5,7 +5,6 @@ import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.ICommentService;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
-import net.sf.json.JSONArray;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -144,5 +143,18 @@ public class OrderController {
         map.put("row", commentService.createComment(list));
         return map;
     }
+
+
+    @ResponseBody
+    @RequestMapping("/findReceiptServiceByOrderno/{orderno}")
+    public Map<String, Object> findReceiptServiceByOrderno(@PathVariable("orderno") String orderno) {
+        Map<String , Object> map = new HashedMap();
+        List<Map<String, Object>> express = orderService.findAllexpressCompanies();
+        Map<String , Object> order  = orderService.findReceiptServiceByOrderno(orderno);
+        map.put("express" ,express);
+        map.put("order" ,order);
+        return map;
+    }
+
 
 }

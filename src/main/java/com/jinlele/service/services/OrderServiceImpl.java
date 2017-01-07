@@ -10,8 +10,6 @@ import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
@@ -188,4 +186,15 @@ public class OrderServiceImpl implements IOrderService {
     public int updateByPrimaryKeySelective(ShopOrder record) {
         return orderMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public Map<String, Object> findReceiptServiceByOrderno(String orderno) {
+        return orderMapper.findReceiptServiceByOrderno(orderno);
+    }
+
+    @Override
+    public  List<Map<String , Object>> findAllexpressCompanies(){
+        return  orderMapper.findAllexpressCompanies();
+    }
+
 }

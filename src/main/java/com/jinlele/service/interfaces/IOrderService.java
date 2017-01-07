@@ -1,7 +1,6 @@
 package com.jinlele.service.interfaces;
 
 import com.jinlele.model.ShopOrder;
-import net.sf.json.JSONArray;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +40,12 @@ public interface IOrderService {
      *更新订单
      */
     int updateByPrimaryKeySelective(ShopOrder record);
+
+    //服务翻新详情页面 根据订单号查询买买方物流单号 买卖方收货地址信息
+    Map<String , Object> findReceiptServiceByOrderno(String orderno);
+
+    //查询所有的快递
+    List<Map<String , Object>> findAllexpressCompanies();
 
 
 }
