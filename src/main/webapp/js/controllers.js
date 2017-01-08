@@ -431,11 +431,13 @@ angular.module('starter.controllers', [])
             });
         }
         //微信支付调用
-        $scope.weixinPay = function (ordeno, totalprice) {
+        $scope.weixinPay = function (orderno, totalprice) {
+            alert(orderno+"--------"+totalprice);
+            //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: 0.01, //totalprice
-                orderNo: ordeno,
-                descrip: '你的订单已付款成功！',
+                totalprice: 0.01, //$scope.totalprice,
+                orderNo: orderno,
+                descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId")
             }
             //调用微信支付服务器端接口
@@ -450,13 +452,11 @@ angular.module('starter.controllers', [])
                                 $state.go("orderdetail", {orderno: r.orderno});
                                 break;
                             default :
-                                //未支付，跳转订单列表
-                                sessionStorage.setItem( r.orderno+"pay","");
-                                $state.go("payresult", {orderno: r.orderno});
+                                //取消或失败，停留此页面
                                 break;
                         }
                     });
-            })
+            });
         }
         $scope.cancleorder=function(orderno){
             //修改后，重新请求数据
