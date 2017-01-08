@@ -47,6 +47,11 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     IReceiptAddressService receiptAddressService;
 
+    @Override
+    public ShopOrder selectByPrimaryKey(String orderno) {
+        return orderMapper.selectByPrimaryKey(orderno);
+    }
+
     /**
      * 商城订单列表
      */
@@ -92,7 +97,7 @@ public class OrderServiceImpl implements IOrderService {
                 //保存订单
                 ShopOrder order = new ShopOrder(orderno, totalprice, totalnum, userId, storeId, Integer.valueOf(result.get("receiptAddressId").toString()), "001");
                 order.setType("006");//订单类型
-                order.setShoporderstatuscode("002");//设置订单状态 未付款
+                order.setShoporderstatuscode("001");//设置订单状态 待付款
                 order.setFreightprice(Double.valueOf(0));//运费
                 //生成订单
                 orderMapper.insertSelective(order);
@@ -153,11 +158,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getOrderDetailByOrderno(String orderno) {
         Map<String, Object> resultMap = new HashMap<>();
-        ShopOrder shopOrder = orderMapper.selectByPrimaryKey(orderno);
+        Map<String, Object> orderinfo = orderMapper.selectOrderInfoByOrderno(orderno);
         Map<String, Object> detail = new HashMap<>();
         detail.put("info",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
-        resultMap.put("order",shopOrder);
-        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(shopOrder.getReceiptAddressId()));
+        resultMap.put("order",orderinfo);
+        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
         resultMap.put("orderdetail",detail);
         return resultMap;
     }

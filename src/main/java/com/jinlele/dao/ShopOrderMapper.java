@@ -19,6 +19,8 @@ public interface ShopOrderMapper {
 
     int updateByPrimaryKey(ShopOrder record);
 
+    Map<String , Object> selectOrderInfoByOrderno(String orderno);
+
     Map<String , Object> findReceiptServiceByOrderno(@Param("orderno")String orderno);
 
     List findAllexpressCompanies();

@@ -351,12 +351,15 @@ angular.module('starter.controllers', [])
                             .then(function (msg) {
                                 switch (msg) {
                                     case "get_brand_wcpay_request:ok":
+                                        CommonService.toolTip("支付成功","tool-tip-message-success");
                                         //调用支付后，跳转订单详情
+                                        sessionStorage.setItem( r.orderno+"pay","ok");
                                         $state.go("orderdetail", {orderno: r.orderno});
                                         break;
                                     default :
                                         //未支付，跳转订单列表
-                                        $state.go("orderlist");
+                                        sessionStorage.setItem( r.orderno+"pay","");
+                                        $state.go("payresult", {orderno: r.orderno});
                                         break;
                                 }
                             });
@@ -369,16 +372,92 @@ angular.module('starter.controllers', [])
         }
     }])
     //支付进度
-    .controller('PayResultCtrl',  ['$scope', '$stateParams', function ($scope, $stateParams) {
+    .controller('PayResultCtrl',  ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
         $scope.orderno=$stateParams.orderno;
+        if (sessionStorage.getItem($scope.orderno + "pay") == "ok") {
+            OrderService.updateOrder2({orderno: $scope.orderno, type: '006'}).success(function (r) {
+                if(r.n>0) {
+                    OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+                        $scope.orderinfo = data.order;//订单总信息
+                        $scope.address = data.address;//地址信息
+                        switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                            case "001":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "002":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
+                    });
+                }else{
+                    //更新失败，检查网络
+                }
+            });
+        }else {
+            OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+                $scope.orderinfo = data.order;//订单总信息
+                $scope.address = data.address;//地址信息
+                switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                    case "001":
+                        $scope.process = [{value: "等待买家付款", len: 1}];
+                        break;
+                    case "002":
+                        $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                        break;
+                }
+            });
+        }
     }])
     //订单详情
-    .controller('OrderDetailCtrl', ['$scope', '$stateParams', 'OrderService', 'CommonService', function ($scope, $stateParams, OrderService,CommonService) {
-        OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
-            $scope.orderinfo = data.order;//订单总信息
-            $scope.address = data.address;//订单总信息
-            $scope.orderdetail = data.orderdetail;//订单详情
-        })
+    .controller('OrderDetailCtrl', ['$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
+        $scope.orderno = $stateParams.orderno;
+        if (sessionStorage.getItem($scope.orderno + "pay") == "ok") {
+            OrderService.updateOrder2({orderno: $scope.orderno, type: '006'}).success(function (r) {
+                if(r.n>0){
+                    OrderService.getOrderDetailInfo({orderno: $scope.orderno}).success(function (data) {
+                        $scope.orderinfo = data.order;//订单总信息
+                        $scope.address = data.address;//订单总信息
+                        $scope.orderdetail = data.orderdetail;//订单详情
+                    });
+                }else{
+                    //更新失败，检查网络
+                }
+            });
+        }else {
+            OrderService.getOrderDetailInfo({orderno: $scope.orderno}).success(function (data) {
+                $scope.orderinfo = data.order;//订单总信息
+                $scope.address = data.address;//订单总信息
+                $scope.orderdetail = data.orderdetail;//订单详情
+            });
+        }
+        //微信支付调用
+        $scope.weixinPay = function (ordeno, totalprice) {
+            $scope.param = {
+                totalprice: 0.01, //totalprice
+                orderNo: ordeno,
+                descrip: '你的订单已付款成功！',
+                openid: localStorage.getItem("openId")
+            }
+            //调用微信支付服务器端接口
+            WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                    .then(function (msg) {
+                        switch (msg) {
+                            case "get_brand_wcpay_request:ok":
+                                CommonService.toolTip("支付成功","tool-tip-message-success");
+                                //调用支付后，跳转订单详情
+                                sessionStorage.setItem( r.orderno+"pay","ok");
+                                $state.go("orderdetail", {orderno: r.orderno});
+                                break;
+                            default :
+                                //未支付，跳转订单列表
+                                sessionStorage.setItem( r.orderno+"pay","");
+                                $state.go("payresult", {orderno: r.orderno});
+                                break;
+                        }
+                    });
+            })
+        }
         $scope.cancleorder=function(orderno){
             //修改后，重新请求数据
             OrderService.cancleOrder({orderno: orderno}).success(function (data) {

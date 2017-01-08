@@ -10,6 +10,8 @@ import java.util.Map;
  * 订单相关的服务类
  */
 public interface IOrderService {
+
+    ShopOrder selectByPrimaryKey(String orderno);
     /**
      *商城订单列表
      */

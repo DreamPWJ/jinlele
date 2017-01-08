@@ -274,24 +274,39 @@ public class WeiXinController {
         String finishtime = map.get("time_end");
 
         System.out.println("----数据如下：---" + result_code + "--------" + orderno + "--------" + return_code + "--------" + finishtime + "--------");
+        String signResult = "";
         //业务逻辑处理
-        if ("SUCCESS".equals(result_code)) {
-            orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "003"));
-        } else {
-            orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "002"));//支付失败
+        //查微信支付通知是否被处理
+        ShopOrder shopOrder = orderService.selectByPrimaryKey(orderno);
+        switch (shopOrder.getPayResult()) {
+            case "003"://已处理且支付成功，不再处理微信推送支付结果
+                signResult = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
+                break;
+            default://未处理或已处理且支付失败，继续处理微信支付结果通知
+                if ("SUCCESS".equals(result_code)) {
+                    //支付成功：修改订单状态 已付款，支付结果通知  已处理且支付成功
+                    orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "002", "003"));
+                    signResult = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
+                } else {
+                    //支付失败：维持订单状态 未付款，支付结果通知  已处理且支付失败
+                    orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "001", "002"));
+                    signResult = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
+                }
+                break;
         }
-        System.out.println("----签名结果：---" +PayCommonUtil.isTenpaySign(map, "UTF-8"));
+        System.out.println("----签名结果：---" + PayCommonUtil.isTenpaySign(map, "UTF-8"));
 
-        if (PayCommonUtil.isTenpaySign(map, "UTF-8")) {//验证回调签名
-            System.out.println("----执行：---------------签名成功");
-            //业务逻辑处理
-            int i=100 ;
-            System.out.println("----受影响行数：---" + i);
-            return "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
-        } else {
-            System.out.println("----执行：---------------签名失败");
-            return "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
-        }
+//                if (PayCommonUtil.isTenpaySign(map, "UTF-8")) {//验证回调签名
+//                    System.out.println("----执行：---------------签名成功");
+//                    //业务逻辑处理
+//                    int i=100 ;
+//                    System.out.println("----受影响行数：---" + i);
+//                    signResult =  "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
+//                } else {
+//                    System.out.println("----执行：---------------签名失败");
+//                    signResult = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
+//                }
+        return  signResult;
     }
 
 
