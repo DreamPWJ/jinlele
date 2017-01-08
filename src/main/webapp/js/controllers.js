@@ -390,7 +390,7 @@ angular.module('starter.controllers', [])
                         }
                     });
                 }else{
-                    //更新失败，检查网络
+                    //更新失败，检查网络，跳转404
                 }
             });
         }else {
@@ -432,7 +432,6 @@ angular.module('starter.controllers', [])
         }
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice) {
-            alert(orderno+"--------"+totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
                 totalprice: 0.01, //$scope.totalprice,
@@ -441,7 +440,7 @@ angular.module('starter.controllers', [])
                 openid: localStorage.getItem("openId")
             }
             //调用微信支付服务器端接口
-            WeiXinService.getweixinPayData($scope.param).success(function (data) {
+            WeiXinService.getweixinPayData($scope.param).success(function (r) {
                 WeiXinService.wxchooseWXPay(data) //调起微支付接口
                     .then(function (msg) {
                         switch (msg) {

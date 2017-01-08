@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ReturnApplyCtrl'
             })
             .state('orderdetail', {  //订单详情
-                url: '/orderdetail/:orderno',
+                url: '/orderdetail{orderno}',
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderDetailCtrl'
             })
