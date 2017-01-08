@@ -1,6 +1,3 @@
-<!--<link rel="stylesheet" href="css/select.css">-->
-
-
 <dl class="add_product">
     <dd>
         <em>订单类型：</em>
@@ -18,8 +15,6 @@
                 </span>
     </dd>
 </dl>
-
-
 
 <div ng-if="noDataFlag" class="isNotDataHint">
     <i class="iconfont icon-cry1"></i>
@@ -57,7 +52,6 @@
                         <span class="pic"><a href=""><img ng-src="{{item.child.url}}"></a></span>
                         <section class="text">
                             <p><a href="#/gooddetail/{{subitem.goodid}}">{{item.child.descrip}}</a></p>
-
                         </section>
                         <section class="price_1">
                             <em>{{item.child.aturalprice | currency:'￥'}}</em>
@@ -70,7 +64,7 @@
                                     <em>共{{item.totalnum}}件商品</em>
                                     <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
                                 </span>
-                    <span>
+                             <span>
                                     <a href="" ng-if="item.type=='006'">订单详情</a>
                                     <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}" ng-if="item.type!='006'">订单详情</a>
                                     <a href="">联系卖家</a>

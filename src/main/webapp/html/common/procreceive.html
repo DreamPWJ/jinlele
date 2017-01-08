@@ -309,11 +309,10 @@
             <ul>
                 <li>
                     <u>快递公司：</u>
-                    <span><input type="text"  list="fruits" ng-model="logisticsnoComp"/></span>
-                    <datalist id="fruits">
-                        <option value="{{item.number}}" ng-repeat="item  in expressArr">{{item.company}}</option>
-
-                    </datalist>
+                     <span>
+                         <select name="" id="">
+                             <option value="{{item.number}}" ng-repeat="item  in expressArr">{{item.company}}</option>
+                        </select> </span>
                 </li>
                 <li>
                     <u>快递单号：</u>

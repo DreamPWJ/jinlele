@@ -562,11 +562,6 @@ angular.module('starter.controllers', [])
 
     //商城订单
     .controller('OrderListCtrl', ['$scope', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($scope, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
-
-        $(function () {
-            $('.default').dropkick();
-            theme:'black'
-        });
         $scope.type = '006';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
@@ -583,14 +578,10 @@ angular.module('starter.controllers', [])
             $scope.noDataFlag = false;
             //分页显示
             OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                //console.log("DATA=="+ JSON.stringify(data));
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
-                //console.log(" $scope.orderlistsinfo=="+ JSON.stringify(data));
                  if(data.myrows == 0) $scope.noDataFlag = true;
-               // console.log( "length=="+ $scope.orderlistsinfo.length);
-               // console.log( "data.myPageCount=="+ data.myrows);
                 $scope.total = data.myrows;
                 if($scope.total > $scope.orderlistsinfo.length){
                     $scope.moreFlag = true;
@@ -1131,9 +1122,10 @@ angular.module('starter.controllers', [])
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-              console.log('data==' + JSON.stringify(data));
+              //console.log('data==' + JSON.stringify(data));
               $scope.data = data.order;
-              $scope.expressArr = data.order;
+              $scope.expressArr = data.express;
+              console.log(JSON.stringify($scope.expressArr));
         });
 
     })
