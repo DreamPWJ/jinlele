@@ -277,13 +277,13 @@
         <section class="address">
             <a href="javascript:">
                 <span class="title">
-                    <em>{{data.user_name}}</em>
-                    <em>{{data.tel_number}}</em>
+                    <em>{{initData.user_name}}</em>
+                    <em>{{initData.tel_number}}</em>
                 </span>
-                <p>收货地址：{{data.province_name}} {{data.city_name}} {{data.detail_info}}</p>
+                <p>收货地址：{{initData.province_name}} {{initData.city_name}} {{initData.detail_info}}</p>
             </a>
         </section>
-        <section class="logistics" ng-if="data.userlogisticsno != null">
+        <section class="logistics" ng-if="initData.userlogisticsno != null">
             <span class="title">物流信息</span>
             <ul>
                 <li class="hover">
@@ -304,20 +304,20 @@
                 </li>
             </ul>
         </section>
-        <section class="express" ng-if="data.userlogisticsno == null">
+        <section class="express" ng-if="initData.userlogisticsno == null">
             <span class="title">请把产品送到店做下一步检测为您尽快完成提交</span>
             <ul>
                 <li>
                     <u>快递公司：</u>
                      <span>
-                         <select name="" id="">
+                         <select name="" id="" ng-model="order.userlogisticsnoComp">
                              <option value="{{item.number}}" ng-repeat="item  in expressArr">{{item.company}}</option>
                         </select> </span>
                 </li>
                 <li>
                     <u>快递单号：</u>
-                    <span><input placeholder="请填写快递单号" type="text"></span>
-                    <a href="">提交</a>
+                    <span><input placeholder="请填写快递单号" type="number" ng-model="order.userlogisticsno"></span>
+                    <a href="" ng-click="saveExpress()">提交</a>
                 </li>
             </ul>
         </section>

@@ -144,7 +144,11 @@ public class OrderController {
         return map;
     }
 
-
+    /**
+     * 服务类收货地址页面数据加载
+     * @param orderno
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/findReceiptServiceByOrderno/{orderno}")
     public Map<String, Object> findReceiptServiceByOrderno(@PathVariable("orderno") String orderno) {
@@ -155,6 +159,20 @@ public class OrderController {
         map.put("order" ,order);
         return map;
     }
+
+    /**
+     * 更新订单 如 买家发货信息等
+     */
+    @ResponseBody
+    @RequestMapping("/update")
+    public Map<String, Object> update(ShopOrder order) {
+        Map<String , Object> map = new HashedMap();
+        int n = orderService.updateByPrimaryKeySelective(order);
+       map.put("n" ,n);
+        return map;
+    }
+
+
 
 
 }

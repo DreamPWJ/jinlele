@@ -1,9 +1,5 @@
 package  com.jinlele.util;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -21,19 +17,19 @@ import java.util.Map;
  * ID和Key请到官网申请：http://www.kdniao.com/ServiceApply.aspx
  */
 
+/*
+//{
+    "EBusinessID": "1273602",
+			"ShipperCode": "YTO",
+			"Success": true,
+			"Reason": "此单无物流信息",
+			"LogisticCode": "905072103939",
+			"Traces": [ ]
+}*/
+
+
 public class KdniaoTrackQueryAPI {
-	
-	//DEMO
-	public static void main(String[] args) {
-		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
-		try {
-			String result = api.getOrderTracesByJson("ZTO", "424126851666");
-			System.out.print(result);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	//电商ID
 	private String EBusinessID="1273602";
@@ -41,6 +37,22 @@ public class KdniaoTrackQueryAPI {
 	private String AppKey="c1c86de0-ee77-4be1-b0af-3ca327041a52";
 	//接口地址请求url
 	private String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
+
+
+	//DEMO
+	public static void main(String[] args) {
+		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
+		try {
+			//String result = api.getOrderTracesByJson("YTO", "905072103939");
+			String result = api.getOrderTracesByJson("DBL", "5363767194");
+			//JSONObject jsonObject =  JSONObject.fromObject(result.toString());
+			//System.out.println(jsonObject.get("Traces"));
+			System.out.print(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
  
 	/**
      * Json方式 查询订单物流轨迹

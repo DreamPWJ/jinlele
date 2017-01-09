@@ -1111,21 +1111,42 @@ angular.module('starter.controllers', [])
     })
 
     //流程-平台收货
-    .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService) {
+    .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService ,CommonService ,$rootScope) {
+        $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
 
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
 
+        //参数
+        $scope.order = {
+            userlogisticsnoComp:"",//买方发货快递公司编码
+            userlogisticsno:"" //买方发货单号
+        };
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
               //console.log('data==' + JSON.stringify(data));
-              $scope.data = data.order;
+              $scope.initData = data.order;
               $scope.expressArr = data.express;
               console.log(JSON.stringify($scope.expressArr));
         });
+        //客户填写物流单号保存
+        $scope.saveExpress = function () {
+            if(!$scope.order.userlogisticsno){
+                CommonService.toolTip("请填写物流单号", "");
+                return
+            }
+            OrderService.update({orderno:$scope.orderNo,userlogisticsnocomp:$scope.order.userlogisticsnoComp,userlogisticsno: $scope.order.userlogisticsno})
+                .success(function (data) {
+                    console.log("data=="+JSON.stringify(data));
+                    if(data.n==1){
+                        $scope.initData.userlogisticsno = $scope.order.userlogisticsno;
+                    }
+            });
+        }
+
 
     })
 
