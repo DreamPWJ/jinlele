@@ -1,7 +1,9 @@
 package com.jinlele.controller;
 
 import com.jinlele.model.User;
+import com.jinlele.model.Wish;
 import com.jinlele.service.interfaces.IUserService;
+import com.jinlele.service.interfaces.IWishService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,9 @@ import java.util.Map;
 public class UserController {
     @Resource
     IUserService userService;
+
+    @Resource
+    IWishService wishService;
     /**
      * 获取用户的分页方法
      * @return
@@ -60,6 +65,18 @@ public class UserController {
         map.put("userInfo" , userInfo);
         return map;
 
+    }
+
+    /**
+     * 提交用户建议反馈
+     */
+    @ResponseBody
+    @RequestMapping(value = "/saveWish/{suggest}/{userId}" ,method = RequestMethod.GET)
+    public Map<String, Object> saveWish(@PathVariable String suggest, @PathVariable int userId) {
+        Map<String , Object> map = new HashedMap();
+        int n = wishService.insertSelective(new Wish(suggest,userId));
+        map.put("n" ,n);
+        return map;
     }
 
 }

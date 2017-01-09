@@ -703,9 +703,29 @@ angular.module('starter.controllers', [])
     })
 
     //帮助反馈
-    .controller('WishCtrl',function($scope){
+    .controller('WishCtrl',['$rootScope','$scope','$state','MemberService','CommonService',function($rootScope,$scope,$state,MemberService,CommonService){
+        $rootScope.commonService=CommonService;
+        $scope.content="";
+        $scope.subSuggest=function(){
+            if($scope.content.length==0){
+                CommonService.toolTip("请填写您的建议","tool-tip-message-success");
+                return;
+            }
+            if($scope.content.length>200){
+                CommonService.toolTip("您的建议内容过长","tool-tip-message-success");
+                return;
+            }
+            MemberService.saveWish({suggest:$scope.content,userId:localStorage.getItem("jinlele_userId")}).success(function(data){
+                if(data.n>0){
+                    CommonService.toolTip("您的建议已成功提交","tool-tip-message-success");
+                    $state.go("member");
+                }else{
+                    CommonService.toolTip("提交失败，请检查您的网络","tool-tip-message-success");
+                }
+            });
+        }
 
-    })
+    }])
 
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
