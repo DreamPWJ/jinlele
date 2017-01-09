@@ -157,7 +157,7 @@ public class OrderController {
         Map<String , Object> map = new HashedMap();
         List<Map<String, Object>> express = orderService.findAllexpressCompanies();
         Map<String , Object> order  = orderService.findReceiptServiceByOrderno(orderno);
-        if(!"".equals(order.get("userlogisticsno")) && !"".equals(order.get("userlogisticsnoComp"))){
+        if(order.get("userlogisticsno")!=null && order.get("userlogisticsnoComp")!=null){
             JSONObject result = KdniaoTrackQueryAPI.getOrderTracesByJson((String)order.get("userlogisticsnoComp") , (String)order.get("userlogisticsno"));
             map.put("userLogistc" , result);
         }

@@ -79,7 +79,7 @@
                             <em>共{{item.totalnum}}件商品</em>
                             <em>合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
                         </span>
-                        <span ng-if="item.shoporderstatusCode=='001'">
+                        <span >
                             <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}" ng-if="item.type!='006'">订单详情</a>
                             <!--<a href="">联系卖家</a>-->
                             <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>

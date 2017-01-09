@@ -1133,7 +1133,9 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
               $scope.initData = data.order;
               $scope.expressArr = data.express;
-              $scope.userLogistc = data.userLogistc.Traces;
+             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+
+             //
 
         });
         //客户填写物流单号保存
@@ -1142,7 +1144,9 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("请填写物流单号", "");
                 return
             }
-            OrderService.update({orderno:$scope.orderNo,userlogisticsnocomp:$scope.order.userlogisticsnoComp,userlogisticsno: $scope.order.userlogisticsno})
+            //'003'代表的订单状态:已发货
+            OrderService.update({orderno:$scope.orderNo,userlogisticsnocomp:$scope.order.userlogisticsnoComp,
+                userlogisticsno: $scope.order.userlogisticsno , shoporderstatuscode:'003'})
                 .success(function (data) {
                     console.log("data=="+JSON.stringify(data));
                     if(data.n==1){
