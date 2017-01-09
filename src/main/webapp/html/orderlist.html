@@ -4,14 +4,14 @@
         <span>
                 <!---//TODO 样式需要优化-->
                      <select class="" ng-model="type" ng-change="getOrderLists(0)">
-                        <option value="ALL">全部订单</option>
-                        <option value="006">商城订单</option>
-                        <option value="001">翻新订单</option>
-                        <option value="002">维修订单</option>
-                        <option value="003">检测订单</option>
-                        <option value="004">回收订单</option>
-                        <option value="005">换款订单</option>
-                    </select>
+                         <option value="ALL">全部订单</option>
+                         <option value="006">商城订单</option>
+                         <option value="001">翻新订单</option>
+                         <option value="002">维修订单</option>
+                         <option value="003">检测订单</option>
+                         <option value="004">回收订单</option>
+                         <option value="005">换款订单</option>
+                     </select>
                 </span>
     </dd>
 </dl>
@@ -28,7 +28,7 @@
         <!-- 未支付 -->
         <section class="swiper-slide">
 
-            <section class="check" ng-repeat="item in orderlistsinfo" >
+            <section class="check" ng-repeat="item in orderlistsinfo">
                 <span class="check_title">
                     <i>{{item.create_time|date:'yyyy-MM-dd HH:mm'}}</i>
                     <i>{{item.ordertype}}</i>
@@ -60,25 +60,25 @@
                     </section>
                 </section>
                 <section class="check_button">
-                                <span>
-                                    <em>共{{item.totalnum}}件商品</em>
-                                    <em>合计：<i>{{item.totalprice | currency:'￥'}}</i></em>
-                                </span>
-                             <span>
-                                    <a href="" ng-if="item.type=='006'">订单详情</a>
-                                    <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}" ng-if="item.type!='006'">订单详情</a>
-                                    <a href="">联系卖家</a>
-                                    <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
-                                    <a ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
-                        <!-- <a href="#/confirmorder/{{item.orderno}}">付款</a>-->
-                                </span>
+                        <span>
+                            <em>共{{item.totalnum}}件商品</em>
+                            <em>合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
+                        </span>
+                        <span ng-if="item.shoporderstatusCode=='001'">
+                            <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}" ng-if="item.type!='006'">订单详情</a>
+                            <!--<a href="">联系卖家</a>-->
+                            <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
+                            <a ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
+                        </span>
+                        <span ng-if="item.shoporderstatusCode=='003'">
+                            <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>
+                            <a ng-href="#/returnapply/{{item.orderno}}">申请退款</a>
+                        </span>
                 </section>
             </section>
         </section>
     </section>
-
     <section class="collection_load" ng-click="getOrderLists()" ng-if="moreFlag"><a href="">加载更多</a></section>
-
 </main>
 
 
