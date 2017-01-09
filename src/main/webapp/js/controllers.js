@@ -1127,10 +1127,10 @@ angular.module('starter.controllers', [])
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-              //console.log('data==' + JSON.stringify(data));
               $scope.initData = data.order;
               $scope.expressArr = data.express;
-              console.log(JSON.stringify($scope.expressArr));
+              $scope.userLogistc = data.userLogistc.Traces;
+
         });
         //客户填写物流单号保存
         $scope.saveExpress = function () {

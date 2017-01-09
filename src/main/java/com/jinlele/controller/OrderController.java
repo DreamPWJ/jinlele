@@ -5,6 +5,8 @@ import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.ICommentService;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IShoppingCartService;
+import com.jinlele.util.KdniaoTrackQueryAPI;
+import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -151,10 +153,14 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping("/findReceiptServiceByOrderno/{orderno}")
-    public Map<String, Object> findReceiptServiceByOrderno(@PathVariable("orderno") String orderno) {
+    public Map<String, Object> findReceiptServiceByOrderno(@PathVariable("orderno") String orderno) throws Exception {
         Map<String , Object> map = new HashedMap();
         List<Map<String, Object>> express = orderService.findAllexpressCompanies();
         Map<String , Object> order  = orderService.findReceiptServiceByOrderno(orderno);
+        if(!"".equals(order.get("userlogisticsno")) && !"".equals(order.get("userlogisticsnoComp"))){
+            JSONObject result = KdniaoTrackQueryAPI.getOrderTracesByJson((String)order.get("userlogisticsnoComp") , (String)order.get("userlogisticsno"));
+            map.put("userLogistc" , result);
+        }
         map.put("express" ,express);
         map.put("order" ,order);
         return map;
@@ -172,6 +178,17 @@ public class OrderController {
         return map;
     }
 
+//    /**
+//     *  查询物流信息
+//     */
+//    @ResponseBody
+//    @RequestMapping("/getOrderTracesByJson/{}")
+//    public Map<String, Object> getOrderTracesByJson(ShopOrder order) {
+//        Map<String , Object> map = new HashedMap();
+//        int n = KdniaoTrackQueryAPI.getOrderTracesByJson(order);
+//        map.put("n" ,n);
+//        return map;
+//    }
 
 
 
