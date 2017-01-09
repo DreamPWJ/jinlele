@@ -594,9 +594,7 @@ angular.module('starter.controllers', [])
             //修改后，重新请求数据
             OrderService.cancleOrder({orderno: orderno}).success(function (data) {
                 if (parseInt(data.resultnumber) > 0) {
-                    OrderListService.getorderLists($scope.init).success(function (data) {
-                        $scope.list = data;
-                    });
+                    $scope.getOrderLists();
                 }
             });
         }
@@ -703,6 +701,12 @@ angular.module('starter.controllers', [])
         }
 
     })
+
+    //帮助反馈
+    .controller('WishCtrl',function($scope){
+
+    })
+
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
 

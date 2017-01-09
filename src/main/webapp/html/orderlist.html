@@ -51,7 +51,7 @@
                     <section class="product">
                         <span class="pic"><a href=""><img ng-src="{{item.child.url}}"></a></span>
                         <section class="text">
-                            <p><a href="#/gooddetail/{{subitem.goodid}}">{{item.child.descrip}}</a></p>
+                            <p><a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">{{item.child.descrip}}</a></p>
                         </section>
                         <section class="price_1">
                             <em>{{item.child.aturalprice | currency:'￥'}}</em>
@@ -59,7 +59,22 @@
                         </section>
                     </section>
                 </section>
-                <section class="check_button">
+                <section class="check_button" ng-if="item.type=='006'">
+                        <span>
+                            <em>共{{item.totalnum}}件商品</em>
+                            <em>合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
+                        </span>
+                        <span ng-if="item.shoporderstatusCode=='001'">
+                            <!--<a href="">联系卖家</a>-->
+                            <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
+                            <a ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
+                        </span>
+                        <span ng-if="item.shoporderstatusCode=='003'">
+                            <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>
+                            <a ng-href="#/returnapply/{{item.orderno}}">退款</a>
+                        </span>
+                </section>
+                <section class="check_button" ng-if="item.type!='006'">
                         <span>
                             <em>共{{item.totalnum}}件商品</em>
                             <em>合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
@@ -72,7 +87,7 @@
                         </span>
                         <span ng-if="item.shoporderstatusCode=='003'">
                             <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>
-                            <a ng-href="#/returnapply/{{item.orderno}}">申请退款</a>
+                            <a ng-href="#/returnapply/{{item.orderno}}">退款</a>
                         </span>
                 </section>
             </section>

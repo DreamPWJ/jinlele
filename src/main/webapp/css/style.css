@@ -33,7 +33,9 @@ body {
 body.white {
     background: #FFF;
 }
-
+textarea{
+    resize: none;
+}
 /* Empty. Add your own CSS if you like */
 
 /* 网格布局row水平方向居中*/

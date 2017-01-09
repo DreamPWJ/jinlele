@@ -181,7 +181,7 @@ public class OrderServiceImpl implements IOrderService {
         }
         //更改订单状态--取消
         ShopOrder shopOrder=new ShopOrder();
-        shopOrder.setShoporderstatuscode("009");
+        shopOrder.setShoporderstatuscode("006");
         shopOrder.setOrderno(orderno);
         paramMap.put("resultnumber",orderMapper.updateByPrimaryKeySelective(shopOrder));
         return paramMap;

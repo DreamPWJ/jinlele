@@ -36,8 +36,6 @@
         </section>
         <section class="check_main">
         	<a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>
-        	<!--<em>共3件商品</em>
-        	<em>合计：<i>1800.00</i></em>-->
         </section>
     </section>
     
@@ -45,7 +43,7 @@
         <ul>
         	<li><em>商品总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
         	<li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li><em>订单总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li><em>订单总额：</em><i>{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
         	<li ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
         	<li><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>

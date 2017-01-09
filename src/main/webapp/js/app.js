@@ -38,6 +38,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/favourite.html',
                 controller: 'FavouriteCtrl'
             })
+            .state('wish', {  //帮助反馈
+                url: '/wish',
+                templateUrl: 'html/wish.html',
+                controller: 'WishCtrl'
+            })
             .state('orderlist', {  // 商城订单
                 url: '/orderlist',
                 templateUrl: 'html/orderlist.html',
