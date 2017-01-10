@@ -962,10 +962,11 @@ angular.module('starter.controllers', [])
 
 
     //流程-翻新服务 提交订单并付款
-    .controller('ProcCommitOrderCtrl', function ($scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService) {
+    .controller('ProcCommitOrderCtrl', function ( $rootScope,$scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService ,CommonService) {
         $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
+        $rootScope.commonService = CommonService;
 
         console.log("$stateParams==" + JSON.stringify($stateParams));
         $scope.showaddr = $scope.pagetheme == 'recycle' ? false : true;
@@ -985,17 +986,18 @@ angular.module('starter.controllers', [])
             num: [],
             memo: []
         };
-        $scope.$watch("product.num",function () {
-            //遍历
-            $scope.totalnum = 0;
-            if ($scope.product.num.length > 0) {
-                for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-                    $scope.totalnum += $scope.product.num[i] * 1;
-                }
-            }
-            $scope.totalprice = $scope.totalnum * $scope.aturalprice;
-            console.log(" $scope.totalprice ==" + $scope.totalprice);
-        },true) ;
+        $scope.secondcatagories = [];
+        // $scope.$watch("product.num",function () {
+        //     //遍历
+        //     $scope.totalnum = 0;
+        //     if ($scope.product.num.length > 0) {
+        //         for (var i = 0, len = $scope.product.num.length; i < len; i++) {
+        //             $scope.totalnum += $scope.product.num[i] * 1;
+        //         }
+        //     }
+        //     $scope.totalprice = $scope.totalnum * $scope.aturalprice;
+        //     console.log(" $scope.totalprice ==" + $scope.totalprice);
+        // },true) ;
 
         $scope.sendwayFlag = false;//寄件方式切换
         $scope.getwayFlag = false; //取件方式切换
@@ -1042,9 +1044,11 @@ angular.module('starter.controllers', [])
         });
         //根据一级分类遍历二级分类
         $scope.getSecondCatogories = function (index) {
+            console.log("index==" + index);
             CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                $scope["secondcatagories" +index] = data;
-                console.log(JSON.stringify(data))
+                $scope.secondcatagories["s"+index]= data;
+
+
             });
         }
         //添加产品
@@ -1053,21 +1057,26 @@ angular.module('starter.controllers', [])
             $scope.productArr.push(i++);
         }
         //计算总数量和总价格
-        // $scope.numblur = function () {
-        //     //遍历
-        //     $scope.totalnum = 0;
-        //     if ($scope.product.num.length > 0) {
-        //         for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-        //             $scope.totalnum += $scope.product.num[i] * 1;
-        //         }
-        //     }
-        //     var price = $scope.aturalprice;
-        //
-        //     $scope.totalprice = $scope.totalnum * price;
-        //     console.log(" $scope.totalprice ==" + $scope.totalprice);
-        // }
+        $scope.numblur = function () {
+            //遍历
+            $scope.totalnum = 0;
+            if ($scope.product.num.length > 0) {
+                for (var i = 0, len = $scope.product.num.length; i < len; i++) {
+                    $scope.totalnum += $scope.product.num[i] * 1;
+                }
+            }
+            var price = $scope.aturalprice;
+
+            $scope.totalprice = $scope.totalnum * price;
+            console.log(" $scope.totalprice ==" + $scope.totalprice);
+        }
         //生成订单并付款
-        $scope.procreceive = function () {
+        $scope.procreceive = function (flag) {
+            alert(flag);
+            if(!flag){
+                CommonService.toolTip("还有未填写的信息", "");
+                return;
+            }
             //获取地址id
             AddressService.getReceiptAddressId({
                 userid: localStorage.getItem("jinlele_userId"),

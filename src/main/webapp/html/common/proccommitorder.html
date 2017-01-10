@@ -230,9 +230,7 @@
         <dd>
             <em>选择门店：</em>
             <span>
-                <!---//TODO 样式需要优化-->
              <select class="default"  ng-model="order.storeId">
-                <option value="">请选择</option>
                 <option value="1">金乐乐门店</option>
                 <option value="2">其他门店</option>
             </select>
@@ -303,8 +301,7 @@
         <dd>
             <em>产品材质：</em>
             <span>
-            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required >
-                <option value="">请选择</option>
+            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)"  required>
                 <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
             </select>
             </span>
@@ -312,9 +309,9 @@
         <dd >
             <em>产品类别：</em>
             <span>
+
             <select class="" ng-model="product.secondCatogoryId[$index]" required>
-                <option value="">请选择</option>
-                <option value="{{item.id}}" ng-repeat="item in secondcatagories[$index]">{{item.name}}</option>
+                <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
             </select>
             </span>
         </dd>
@@ -340,11 +337,11 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-    <span class="total">合计 {{totalprice | number:2}} {{!(submitForm.$valid&&verify)}}</span>
+    <span class="total">合计 {{totalprice | number:2}} </span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
         <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
-        <a ng-disabled="!(submitForm.$valid&&verify)" ng-click="procreceive()">立即下单</a>
+        <a ng-disabled="!(submitForm.$valid&&verify)" ng-click="procreceive(submitForm.$valid&&verify)">立即下单</a>
     </span>
 </footer>
 
