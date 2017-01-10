@@ -21,8 +21,8 @@ angular.module('starter.controllers', [])
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
-                localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
-                localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
+            localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
+            localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
             //是否是微信 初次获取签名 获取微信签名
             if (WeiXinService.isWeiXin()) {
@@ -580,7 +580,7 @@ angular.module('starter.controllers', [])
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
-                 if(data.myrows == 0) $scope.noDataFlag = true;
+                if(data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
                 if($scope.total > $scope.orderlistsinfo.length){
                     $scope.moreFlag = true;
@@ -663,10 +663,10 @@ angular.module('starter.controllers', [])
             $scope.noDataFlag = false;
             $scope.page++;
             GoodService.getFavs({pagenow:$scope.page, userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
-                 if(data.myrows == 0) {
-                     $scope.noDataFlag = true;
-                     return;
-                 }
+                if(data.myrows == 0) {
+                    $scope.noDataFlag = true;
+                    return;
+                }
                 angular.forEach(data.pagingList, function (item) {
                     $scope.FavArr.push(item);
                 })
@@ -675,13 +675,13 @@ angular.module('starter.controllers', [])
         }
         $scope.getFavs();
         $scope.del = function (fid,index) {
-           $scope.rmFlag = true;
+            $scope.rmFlag = true;
             $scope.rmFid = fid;
             $scope.rmIndex = index;
         }
 
         $scope.cancelRemove = function () {
-           $scope.rmFlag = false;
+            $scope.rmFlag = false;
         }
         $scope.confirmRemove = function () {
             GoodService.delFavourite({fid : $scope.rmFid}).success(function (data) {
@@ -743,11 +743,11 @@ angular.module('starter.controllers', [])
             })
         }
 
-         $scope.test = function (index){
-             if(index == 0){
-                 $scope.saleFlag = $scope.saleFlag == 1 ? 0 : 1;
-                 getData(index ,  $scope.saleFlag);    //暂时先按照时间吧  以后需要 用销量来分
-             }
+        $scope.test = function (index){
+            if(index == 0){
+                $scope.saleFlag = $scope.saleFlag == 1 ? 0 : 1;
+                getData(index ,  $scope.saleFlag);    //暂时先按照时间吧  以后需要 用销量来分
+            }
             if(index == 1){
                 $scope.timeFlag = $scope.timeFlag == 1 ? 0 : 1;
                 getData(index ,  $scope.timeFlag);
@@ -757,8 +757,8 @@ angular.module('starter.controllers', [])
                 console.log("==="+$scope.priceFlag);
                 getData(index , $scope.priceFlag);
             }
-         }
-         //页面初始加载
+        }
+        //页面初始加载
         getData(1 , 1);//默认按照 时间倒序
 
 
@@ -872,12 +872,21 @@ angular.module('starter.controllers', [])
         $scope.localIds = [];// 上传图片的微信路径 数组
         $scope.type = "";//服务类型 001翻新
         $scope.service = {  //服务实体
-            price: 1980, //价格
+            price:0 , //价格
             descrip: ""    //描述
         };
+        //如果是翻新的话，需要翻新的价格去后台请求
+        if ($scope.pagetheme == "refurbish") {
+            ProcPhotoService.getrefurbishPrice().success(function (data) {
+                console.log("翻新价格=="+JSON.stringify(data));
+                $scope.service.price = data.code_value;
+            });
+        }
         if ($stateParams.name == "repair") {
             $scope.localflag = true;
         }
+        //获取翻新的价格
+
 
         $scope.wxchooseImage = function () {
             //通过config接口注入权限验证配置
@@ -1151,12 +1160,9 @@ angular.module('starter.controllers', [])
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-              $scope.initData = data.order;
-              $scope.expressArr = data.express;
-             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
-
-             //
-
+            $scope.initData = data.order;
+            $scope.expressArr = data.express;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //客户填写物流单号保存
         $scope.saveExpress = function () {
@@ -1172,7 +1178,7 @@ angular.module('starter.controllers', [])
                     if(data.n==1){
                         $scope.initData.userlogisticsno = $scope.order.userlogisticsno;
                     }
-            });
+                });
         }
 
 

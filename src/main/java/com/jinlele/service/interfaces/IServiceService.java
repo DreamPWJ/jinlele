@@ -10,4 +10,7 @@ public interface IServiceService {
 
 
     Map<String , Object> saveService(Integer userId , Double aturalprice , String descrip , String type , Integer storeId, String[] mediaIds) throws IOException;
+
+    Map<String , Object> getrefurbishPrice();
+
 }

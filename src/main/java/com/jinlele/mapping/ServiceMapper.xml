@@ -232,4 +232,10 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--获取翻新服务的价格-->
+  <select id="getrefurbishPrice" parameterType="java.lang.Integer" resultType="Map">
+         select id , code_value from dict_info where id = 43
+  </select>
+
 </mapper>

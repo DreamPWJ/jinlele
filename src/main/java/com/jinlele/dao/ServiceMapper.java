@@ -2,6 +2,8 @@ package com.jinlele.dao;
 
 import com.jinlele.model.Service;
 
+import java.util.Map;
+
 public interface ServiceMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ServiceMapper {
     int updateByPrimaryKeySelective(Service record);
 
     int updateByPrimaryKey(Service record);
+
+    Map<String , Object> getrefurbishPrice();
 }

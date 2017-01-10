@@ -43,12 +43,19 @@ public class ServiceController {
         return receiptAddressService.getLatestInfo(userid);
     }
 
-
-    @RequestMapping("/createReceiptAddressId")
     @ResponseBody
+    @RequestMapping("/createReceiptAddressId")
     public Map<String, Object>  createReceiptAddressId(ReceiptAddress receiptAddress){
        return receiptAddressService.createReceiptAddressId(receiptAddress);
     }
 
+    /**
+     * 获取翻新的价格
+     */
+    @ResponseBody
+    @RequestMapping("/getrefurbishPrice")
+    public Map<String, Object>  getrefurbishPrice(){
+        return serviceService.getrefurbishPrice();
+    }
 
 }

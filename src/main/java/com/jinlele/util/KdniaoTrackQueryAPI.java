@@ -19,18 +19,6 @@ import java.util.Map;
  *
  * ID和Key请到官网申请：http://www.kdniao.com/ServiceApply.aspx
  */
-
-/*
-//{
-    "EBusinessID": "1273602",
-			"ShipperCode": "YTO",
-			"Success": true,
-			"Reason": "此单无物流信息",
-			"LogisticCode": "905072103939",
-			"Traces": [ ]
-}*/
-
-
 public class KdniaoTrackQueryAPI {
 
 
@@ -41,20 +29,6 @@ public class KdniaoTrackQueryAPI {
     //接口地址请求url
     private static String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
 
-
-//    //DEMO
-//    public static void main(String[] args) {
-//        KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
-//        try {
-//            //String result = api.getOrderTracesByJson("YTO", "905072103939");
-//            String result = api.getOrderTracesByJson("DBL", "5363767194");
-//            //JSONObject jsonObject =  JSONObject.fromObject(result.toString());
-//            //System.out.println(jsonObject.get("Traces"));
-//            System.out.print(result);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
     /**
@@ -253,4 +227,21 @@ public class KdniaoTrackQueryAPI {
         }
         return sb.toString();
     }
+
+
+
+//    //DEMO
+//    public static void main(String[] args) {
+//        KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
+//        try {
+//            //String result = api.getOrderTracesByJson("YTO", "905072103939");
+//            String result = api.getOrderTracesByJson("DBL", "5363767194");
+//            //JSONObject jsonObject =  JSONObject.fromObject(result.toString());
+//            //System.out.println(jsonObject.get("Traces"));
+//            System.out.print(result);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }
