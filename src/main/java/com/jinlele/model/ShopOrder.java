@@ -215,10 +215,12 @@ public class ShopOrder {
 
     public ShopOrder() {
     }
-    public ShopOrder(String orderno,String orderstatus,String payresult) {
+    public ShopOrder(String orderno,Double actualpayprice,String orderstatus,String payresult,Date endtime) {
         this.orderno = orderno;
+        this.actualpayprice=actualpayprice;
         this.shoporderstatuscode = orderstatus;
         this.payResult = payresult;
+        this.updateTime=endtime;
     }
 
     public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {

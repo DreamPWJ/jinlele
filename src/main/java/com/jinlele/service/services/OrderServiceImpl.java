@@ -10,14 +10,16 @@ import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
+import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import org.apache.commons.collections.map.HashedMap;
+import org.jdom.JDOMException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by twislyn on 2016/12/20.
@@ -165,6 +167,61 @@ public class OrderServiceImpl implements IOrderService {
         resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
         resultMap.put("orderdetail",detail);
         return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> putOrder(String orderno, String payresult) {
+        if(payresult.equals("ok")){
+            //调用查询接口，处理业务逻辑
+            ShopOrder order=orderMapper.selectByPrimaryKey(orderno);
+            switch (order.getPayResult()){
+                case "003"://已处理且支付成功，不再处理
+                    break;
+                default:
+                    String randomString = PayCommonUtil.getRandomString(32);
+                    SortedMap<String, Object> parameterMap = new TreeMap<>();
+                    parameterMap.put("appid", PayCommonUtil.APPID);
+                    parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
+                    parameterMap.put("nonce_str", randomString);// 随机字符串
+                    parameterMap.put("out_trade_no", orderno);// 商户订单号
+                    String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
+                    StringBuffer sb = new StringBuffer();
+
+                    sb.append("<xml>");
+                    sb.append("<appid>"+PayCommonUtil.APPID+"</appid>");
+                    sb.append("<mch_id>"+PayCommonUtil.MCH_ID+"</mch_id>");
+                    sb.append("<nonce_str>"+randomString+"</nonce_str>");
+                    sb.append("<out_trade_no>"+orderno+"</out_trade_no>");
+                    sb.append("<sign>"+sign+"</sign>");
+                    sb.append("</xml>");
+
+                    String backxmlstr =PayCommonUtil.httpsRequest("https://api.mch.weixin.qq.com/pay/orderquery", "POST",sb.toString());
+                    Map<String,Object> map=null;
+                    try {
+                        map=PayCommonUtil.doXMLParse(backxmlstr);
+                    } catch (JDOMException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String tradestate=map.get("trade_state").toString();//交易状态  SUCCESS—支付成功 REFUND—转入退款 NOTPAY—未支付  CLOSED—已关闭 REVOKED—已撤销（刷卡支付） USERPAYING--用户支付中 PAYERROR--支付失败(其他原因，如银行返回失败)
+                    if("SUCCESS".equals(tradestate)){
+                        String transaction_id=map.get("transaction_id").toString();//微信支付订单号
+                        Double total_fee=Double.valueOf(Double.valueOf(map.get("total_fee").toString())/100);//订单总金额，实际支付金额
+                        String time_end=map.get("time_end").toString();//支付完成时间
+                        ShopOrder shopOrder=null;
+                        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+                        try {
+                            shopOrder=new ShopOrder(orderno,total_fee,"002","003",s.parse(time_end));
+                            shopOrder.setUpdateTime(s.parse(time_end));//支付完成时间
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        orderMapper.updateByPrimaryKeySelective(shopOrder);
+                    }
+            }
+        }
+        return getOrderDetailByOrderno(orderno);
     }
 
     @Override

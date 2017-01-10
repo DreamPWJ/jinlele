@@ -31,8 +31,10 @@ public interface IOrderService {
      */
     Map<String, Object> getOrderDetailByOrderno(String orderno);
 
-
-
+    /**
+     * 根据订单号及jsapi支付结果处理并查询订单详情
+     */
+    Map<String,Object> putOrder(String orderno,String payresult);
     /**
      *取消订单
      */

@@ -25,8 +25,8 @@
     <result column="pay_result" property="payResult" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
-    user_id, store_id, type,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel
+    orderno, totalprice, totalnum, freightprice, actualpayprice,userlogisticsnoComp, userlogisticsno,logisticsnoComp, logisticsno,
+    user_id, store_id, type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,pay_result
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -93,6 +93,15 @@ public class OrderController {
     }
 
     /**
+     * 根据订单号处理并查询订单及其详情
+     */
+    @ResponseBody
+    @RequestMapping(value = "/putOrder/{orderno}/{payresult}", method = RequestMethod.GET)
+    public Map<String, Object> putOrder(@PathVariable String orderno,@PathVariable String payresult) {
+        return orderService.putOrder(orderno,payresult);
+    }
+
+    /**
      * 更改订单状态
      */
     @ResponseBody

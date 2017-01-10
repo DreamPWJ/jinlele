@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -267,14 +269,14 @@ public class WeiXinController {
         System.out.println("----支付完成后，微信会把相关支付结果和用户信息发送给商户接收到的数据如下：---" + xmlString);
         Map<String, String> map = new HashMap<String, String>();
         map = PayCommonUtil.doXMLParse(xmlString);
-        //订单号 支付结果 支付完成时间
-        String result_code = map.get("result_code");
-        String orderno = map.get("out_trade_no");
+        //订单号 支付结果
         String return_code = map.get("return_code");
-        String finishtime = map.get("time_end");
+        String result_code = map.get("result_code");//业务结果
+        String orderno = map.get("out_trade_no");
+        String finishtime = map.get("time_end");//支付完成时间
+        Double total_fee=Double.valueOf(Double.valueOf(map.get("total_fee").toString())/100);//订单总金额，实际支付金额
 
-        System.out.println("----数据如下：---" + result_code + "--------" + orderno + "--------" + return_code + "--------" + finishtime + "--------");
-        String signResult = "";
+        String signResult = "";//签名结果
         //业务逻辑处理
         //查微信支付通知是否被处理
         ShopOrder shopOrder = orderService.selectByPrimaryKey(orderno);
@@ -283,13 +285,24 @@ public class WeiXinController {
                 signResult = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
                 break;
             default://未处理或已处理且支付失败，继续处理微信支付结果通知
+                ShopOrder order=null;
                 if ("SUCCESS".equals(result_code)) {
                     //支付成功：修改订单状态 已付款，支付结果通知  已处理且支付成功
-                    orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "002", "003"));
+                    SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+                    try {
+                        order=new ShopOrder(orderno,total_fee,"002","003",s.parse(finishtime));
+                        shopOrder.setUpdateTime(s.parse(finishtime));//支付完成时间
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    orderService.updateByPrimaryKeySelective(order);
                     signResult = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
                 } else {
                     //支付失败：维持订单状态 未付款，支付结果通知  已处理且支付失败
-                    orderService.updateByPrimaryKeySelective(new ShopOrder(orderno, "001", "002"));
+                    order=new ShopOrder();
+                    order.setOrderno(orderno);
+                    order.setPayResult("002");
+                    orderService.updateByPrimaryKeySelective(order);
                     signResult = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
                 }
                 break;
