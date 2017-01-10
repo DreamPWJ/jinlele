@@ -286,7 +286,8 @@
         <section class="logistics" ng-if="initData.userlogisticsno != null">
             <span class="title">物流信息</span>
             <ul>
-                <li  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                <li ng-if="userLogistc == null"> 暂无物流信息</li>
+                <li ng-if="userLogistc != null"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
                     <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
                 </li>

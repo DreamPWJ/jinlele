@@ -116,24 +116,12 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/updateOrder" ,method = RequestMethod.GET)
     public  Map<String, Object> updateOrder(ShopOrder order){
-        order.setShoporderstatuscode("003");    //001代表 翻新   001003翻新已付款
         int n =  orderService.updateByPrimaryKeySelective(order);
         Map<String ,Object> map = new HashedMap();
         map.put("n" ,n);
         return map;
     }
-    /**
-     * 修改订单状态 为未付款
-     */
-    @ResponseBody
-    @RequestMapping(value = "/updateOrder2" ,method = RequestMethod.GET)
-    public  Map<String, Object> updateOrder2(ShopOrder order){
-        order.setShoporderstatuscode("002");    //001代表 翻新   001003翻新已付款
-        int n =  orderService.updateByPrimaryKeySelective(order);
-        Map<String ,Object> map = new HashedMap();
-        map.put("n" ,n);
-        return map;
-    }
+
 
     /**
      * 创建订单
