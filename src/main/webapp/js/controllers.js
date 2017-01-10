@@ -1072,7 +1072,6 @@ angular.module('starter.controllers', [])
         }
         //生成订单并付款
         $scope.procreceive = function (flag) {
-            alert(flag);
             if(!flag){
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
