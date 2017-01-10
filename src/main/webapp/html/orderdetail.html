@@ -64,5 +64,5 @@
 <section class="button">
     <span><a href="" ng-click="cancleorder(orderinfo.orderno)">取消订单</a></span>
     <span ng-if="orderinfo.shoporderstatusCode=='001'"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
-	<span ng-if="orderinfo.shoporderstatusCode!='001'"><a href="#/payresult/{{orderinfo.orderno}}">再次下单</a></span>
+	<span ng-if="orderinfo.shoporderstatusCode!='001'"><a href="#/category/1">再次下单</a></span>
 </section>
