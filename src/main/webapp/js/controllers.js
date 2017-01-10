@@ -902,8 +902,6 @@ angular.module('starter.controllers', [])
 
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
-            //暂时模拟
-            // $state.go("proccommitorder", {name: pagetheme ,serviceId:2,aturalprice:$scope.service.price});
 
             //判断参数
             var len = $scope.localIds.length;
@@ -968,7 +966,6 @@ angular.module('starter.controllers', [])
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
         $rootScope.commonService = CommonService;
 
-        console.log("$stateParams==" + JSON.stringify($stateParams));
         $scope.showaddr = $scope.pagetheme == 'recycle' ? false : true;
         $scope.address = {};
         $scope.show = false; //用户控制地址显示
@@ -987,17 +984,7 @@ angular.module('starter.controllers', [])
             memo: []
         };
         $scope.secondcatagories = [];
-        // $scope.$watch("product.num",function () {
-        //     //遍历
-        //     $scope.totalnum = 0;
-        //     if ($scope.product.num.length > 0) {
-        //         for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-        //             $scope.totalnum += $scope.product.num[i] * 1;
-        //         }
-        //     }
-        //     $scope.totalprice = $scope.totalnum * $scope.aturalprice;
-        //     console.log(" $scope.totalprice ==" + $scope.totalprice);
-        // },true) ;
+
 
         $scope.sendwayFlag = false;//寄件方式切换
         $scope.getwayFlag = false; //取件方式切换
@@ -1124,7 +1111,7 @@ angular.module('starter.controllers', [])
                                 if (msg == "get_brand_wcpay_request:ok") {
                                     console.log("支付成功");
                                     // //修改订单状态
-                                    OrderService.updateOrder({orderno: orderno, type: '001'}).success(function (data) {
+                                    OrderService.updateOrder({orderno: orderno, type: '001', shoporderstatuscode:'001003'}).success(function (data) {
                                         //成功后，跳转到下一个页面
                                         if (data && data.n == 1) {
                                             $state.go('procreceive', {
@@ -1136,9 +1123,12 @@ angular.module('starter.controllers', [])
                                     });
                                 } else {
                                     console.log("支付未成功");
-                                    // OrderService.updateOrder2({orderno:orderno}).success(function (data) {
-                                    //     alert("支付未成功");
-                                    // });
+                                    OrderService.updateOrder({orderno: orderno, type: '001', shoporderstatuscode:'001002'}).success(function (data) {
+                                        //成功后，跳转到下一个页面
+                                        if (data && data.n == 1) {
+                                            $state.go('orderlist');
+                                        }
+                                    });
                                 }
                             });
 

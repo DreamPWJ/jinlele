@@ -84,8 +84,9 @@
                         </span>
                         <span >
                             <!--<a href="">联系卖家</a>-->
+                            <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">订单详情</a>
                             <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
-                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
+                            <a ng-if="item.shoporderstatusCode < '001003'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
                         </span>
                         <span ng-if="item.shoporderstatusCode=='003'">
                             <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>
