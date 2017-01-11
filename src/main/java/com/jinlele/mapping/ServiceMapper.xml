@@ -242,5 +242,12 @@
   <select id="getdetectPrice" parameterType="java.lang.Integer" resultType="Map">
     select id , code_value from dict_info where id = 44
   </select>
-
+  <select id="selectServiceDetailByOrderno" resultType="Map" parameterType="java.lang.String">
+    select p.url from service s
+join service_picture sp on s.id=sp.service_id
+JOIN picture p on sp.picture_id=p.id
+where s.order_no=#{orderno}
+order by p.create_time desc
+limit 1;
+  </select>
 </mapper>

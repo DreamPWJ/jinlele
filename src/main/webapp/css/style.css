@@ -4189,7 +4189,6 @@ section.numbers section.numbers_list {
 section.numbers section.numbers_list span {
     width: 50%;
     height: 40px;
-    float: left;
     text-align: left;
 }
 

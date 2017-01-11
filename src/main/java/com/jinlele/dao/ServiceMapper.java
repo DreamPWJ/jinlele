@@ -2,6 +2,7 @@ package com.jinlele.dao;
 
 import com.jinlele.model.Service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ServiceMapper {
@@ -20,4 +21,6 @@ public interface ServiceMapper {
     Map<String , Object> getrefurbishPrice();
 
     Map<String , Object> getdetectPrice();
+
+    List selectServiceDetailByOrderno(String orderno);
 }

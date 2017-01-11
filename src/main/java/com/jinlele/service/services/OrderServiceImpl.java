@@ -49,6 +49,9 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     IReceiptAddressService receiptAddressService;
 
+    @Resource
+    ServiceMapper serviceMapper;
+
     @Override
     public ShopOrder selectByPrimaryKey(String orderno) {
         return orderMapper.selectByPrimaryKey(orderno);
@@ -161,11 +164,19 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getOrderDetailByOrderno(String orderno) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> orderinfo = orderMapper.selectOrderInfoByOrderno(orderno);
-        Map<String, Object> detail = new HashMap<>();
-        detail.put("info",shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
+        String type=orderinfo.get("type").toString();
+        switch (type) {
+            case "006":
+                Map<String, Object> detail = new HashMap<>();
+                detail.put("info", shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
+                resultMap.put("orderdetail", detail);
+                break;
+            default:
+                resultMap.put("servicedetail", serviceMapper.selectServiceDetailByOrderno(orderno).get(0));
+                break;
+        }
         resultMap.put("order",orderinfo);
         resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
-        resultMap.put("orderdetail",detail);
         return resultMap;
     }
 

@@ -354,7 +354,8 @@ angular.module('starter.controllers', [])
                                         CommonService.toolTip("支付成功","tool-tip-message-success");
                                         //支付成功，跳转订单详情
                                         sessionStorage.setItem( r.orderno,"ok");
-                                        $state.go("orderdetail"+ r.orderno);
+                                        var url="orderdetail" + r.orderno;
+                                        $state.go(url);
                                         break;
                                     default :
                                         //未支付，跳转支付进度
@@ -436,7 +437,7 @@ angular.module('starter.controllers', [])
                             case "get_brand_wcpay_request:ok":
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //调用支付后，跳转订单详情
-                                sessionStorage.setItem( orderno,"ok");
+                                sessionStorage.setItem(orderno,"ok");
                                 $state.go("payresult", {orderno: orderno});
                                 break;
                             default :
@@ -604,7 +605,8 @@ angular.module('starter.controllers', [])
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //调用支付后，跳转订单详情
                                 sessionStorage.setItem(orderno,"ok");
-                                $state.go("orderdetail" + orderno);
+                                var url="orderdetail" + orderno;
+                                $state.go(url);
                                 break;
                             default :
                                 //未支付
@@ -1182,10 +1184,159 @@ angular.module('starter.controllers', [])
 
     })
     //流程-评价
-    .controller('ProcAddCmtCtrl', function ($scope, $stateParams) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-    })
+    .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,CommonService,WeiXinService,OrderService) {
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        $rootScope.commonService=CommonService;
+        $scope.pagetheme = $stateParams.name;//服务名
+        $scope.orderno = $stateParams.orderno;//订单号
+        //描述等级
+        $scope.currentId=5;
+        $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
+        $scope.paint=function(id) {
+            $scope.currentId = id + 1;
+        }
+        OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+            $scope.orderinfo = data.order;//订单总信息
+            $scope.servicedetail = data.servicedetail;//地址详情
+            $scope.address = data.address;//地址详情
+        });
+        $scope.content="";//评论内容
+        $scope.jsonimg=[];
+        $scope.jsonmedia=[];
+        $scope.localIds = [];// 上传图片的微信路径 数组
+        WeiXinService.mediaIds = []; //置空媒体id数组
+        $scope.wxchooseImage = function () {
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                WeiXinService.wxchooseImage(function (localIds) {
+                    $scope.jsonimg.push({"localId":  localIds });
+                    $scope.images = [];//展示的图片总数
+                    angular.forEach($scope.jsonimg, function (item,index) {
+                        if (angular.isArray(item.localId)) {
+                            for(var i=0;i<item.localId.length;i++) {
+                                $scope.images.push(item.localId[i]);
+                            }
+                        }else{
+                            $scope.images.push(item.localId);
+                        }
+                    });
+                    $scope.localIds = $scope.images;
+                    $scope.jsonmedia.push({"media": WeiXinService.mediaIds });
+                    $scope.$apply();
+                })
+                WeiXinService.mediaIds = []; //置空媒体id数组
+            })
+        }
+        //提交评论
+        $scope.addcomment=function(){
+            //一条评论  多张图片  orderno
+            $scope.comment = [];//评论整体信息
+            $scope.itemsinfo = [];//评论实体信息
+            var flag=true;
+            var commentinfo = {};
+            commentinfo.orderno = $stateParams.orderno;
+            commentinfo.userId = localStorage.getItem("jinlele_userId");
+            commentinfo.descriplevel = $scope.currentId;//描述等级
+
+
+            //angular.forEach($scope.orderdetail.info, function (item, index) {
+            //    var iteminfo = {};
+            //    iteminfo.gcid = item.gcid;
+            //    if($scope.contents[item.gcid].length==0){
+            //        flag=false;
+            //    }
+            //    iteminfo.content = $scope.contents[item.gcid];
+            //    $scope.mediaIds = [];// 评论图片数组
+            //    angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
+            //        for (var i = 0; i < mediaitem.media.length; i++) {
+            //            if(item.gcid==mediaitem.gcid){
+            //                $scope.mediaIds.push(mediaitem.media[i]);
+            //            }
+            //        }
+            //    })
+            //    iteminfo.mediaIds = $scope.mediaIds;
+            //    $scope.itemsinfo.push(iteminfo);
+            //})
+            //commentinfo.itemsinfo=$scope.itemsinfo;
+            //$scope.comment.push(commentinfo);
+            //if(flag) {
+            //    OrderService.AddComment($scope.comment).success(function (data) {
+            //        if (parseInt(data.row) > 0) {
+            //            CommonService.toolTip("评论成功！", "tool-tip-message-success");
+            //            $state.go("orderlist");
+            //        } else {
+            //            CommonService.toolTip("评论失败！", "tool-tip-message-success");
+            //        }
+            //    });
+            //}else{
+            //    CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
+            //}
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }])
     //估价结果(回收、换款)
     .controller('ProcPricingCtrl', function ($scope, $stateParams, $location) {
         console.log($stateParams.name);

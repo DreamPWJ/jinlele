@@ -114,7 +114,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcCheckCtrl'
             })
             .state('procaddcmt', {  //流程-评论
-                url: '/procaddcmt/:name',
+                url: '/procaddcmt/:name/:orderno',
                 templateUrl: 'html/common/procaddcmt.html',
                 controller: 'ProcAddCmtCtrl'
             })
