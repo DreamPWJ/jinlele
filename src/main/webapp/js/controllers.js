@@ -354,8 +354,7 @@ angular.module('starter.controllers', [])
                                         CommonService.toolTip("支付成功","tool-tip-message-success");
                                         //支付成功，跳转订单详情
                                         sessionStorage.setItem( r.orderno,"ok");
-                                        var url="orderdetail" + r.orderno;
-                                        $state.go(url);
+                                        $state.go("orderdetail", {orderno: r.orderno});
                                         break;
                                     default :
                                         //未支付，跳转支付进度
@@ -437,7 +436,7 @@ angular.module('starter.controllers', [])
                             case "get_brand_wcpay_request:ok":
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //调用支付后，跳转订单详情
-                                sessionStorage.setItem(orderno,"ok");
+                                sessionStorage.setItem( orderno,"ok");
                                 $state.go("payresult", {orderno: orderno});
                                 break;
                             default :
@@ -605,8 +604,7 @@ angular.module('starter.controllers', [])
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //调用支付后，跳转订单详情
                                 sessionStorage.setItem(orderno,"ok");
-                                var url="orderdetail" + orderno;
-                                $state.go(url);
+                                $state.go("orderdetail", {orderno: orderno});
                                 break;
                             default :
                                 //未支付
@@ -1195,14 +1193,14 @@ angular.module('starter.controllers', [])
                 case 0:
                     $scope.jinflag=true;
                     if($scope.myflag)$scope.myflag=false;
-                    $scope.jinlele="retrofit";
-                    $scope.mine="hide";
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
                     break;
                 case 1:
                     $scope.myflag=true;
                     if($scope.jinflag)$scope.jinflag=false;
-                    $scope.jinlele="hide";
-                    $scope.mine="retrofit";
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
                     break;
             }
         }
