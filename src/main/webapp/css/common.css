@@ -10,9 +10,20 @@
 .favcolor em , .favcolor i{
     color:#ffc900;
 }
-
 .txt-ellipsis {
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+/*拍照页面*/
+section.case ul.detect li {
+    width: 50%;
+    height: 113px;
+    float: left;
+    margin: 0 0 0 -1px;
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+}
+section.case ul.detect li:last-child{
+    height: 40px;
+    padding: 36px 0 37px 0;
 }

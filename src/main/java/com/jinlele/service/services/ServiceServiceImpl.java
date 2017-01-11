@@ -78,5 +78,10 @@ public class ServiceServiceImpl implements IServiceService {
         return serviceMapper.getrefurbishPrice();
     }
 
+    @Override
+    public Map<String, Object> getdetectPrice() {
+        return serviceMapper.getdetectPrice();
+    }
+
 
 }

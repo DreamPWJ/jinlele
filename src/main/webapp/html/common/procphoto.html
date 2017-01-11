@@ -299,6 +299,31 @@
             </li>
         </ul>
     </section>
+    <!-- 检测案例 -->
+    <section class="case" ng-switch-when="detect">
+        <section class="process_title"><i>检测案例</i></section>
+
+        <ul class="detect">
+            <li>
+                <span><img src="images/com/03.jpg"></span>
+                <em>检测产品1</em>
+            </li>
+            <li>
+                <i>仅收</i>
+                <i>￥{{service.price | number:2}}</i>
+            </li>
+        </ul>
+        <ul class="detect">
+            <li>
+                <span><img src="images/com/03.jpg"></span>
+                <em>检测产品2</em>
+            </li>
+            <li>
+                <i>仅收</i>
+                <i>￥{{service.price | number:2}}</i>
+            </li>
+        </ul>
+    </section>
     
     <section class="submit" >
         <a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a>

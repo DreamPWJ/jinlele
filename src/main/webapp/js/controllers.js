@@ -845,12 +845,11 @@ angular.module('starter.controllers', [])
         }
 
 
-        //取消收藏
 
     })
 
     //流程-拍照
-    .controller('ProcPhotoCtrl', function ($scope, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state) {
+    .controller('ProcPhotoCtrl', function ($scope,ProcCommitOrderService, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state) {
         $rootScope.commonService = CommonService;
         WeiXinService.mediaIds = []; //置空媒体id数组
         console.log($stateParams.name);
@@ -866,6 +865,12 @@ angular.module('starter.controllers', [])
         if ($scope.pagetheme == "refurbish") {
             ProcPhotoService.getrefurbishPrice().success(function (data) {
                 console.log("翻新价格=="+JSON.stringify(data));
+                $scope.service.price = data.code_value;
+            });
+        }
+        if($scope.pagetheme == "detect"){
+            ProcPhotoService.getdetectPrice().success(function (data) {
+                console.log("检测价格=="+JSON.stringify(data));
                 $scope.service.price = data.code_value;
             });
         }
@@ -889,7 +894,6 @@ angular.module('starter.controllers', [])
 
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
-
             //判断参数
             var len = $scope.localIds.length;
             if (len == 0) {
@@ -900,19 +904,8 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("请填写商品描述" ,"");
                 return;
             }
-            if (pagetheme == "refurbish") {
-                $scope.type = '001';
-            }
-            if (pagetheme == "repair") {
-                $scope.type = '002';
-            }
-            if (pagetheme == "detect") {
-                $scope.type = '003';
-            }
-            if (pagetheme == "recycle") {
-                $scope.type = '004';
-            }
-
+            //获取根据路由获取服务类型
+            $scope.typeCode = ProcCommitOrderService.getType(pagetheme).code;
             //①前台去上传图片的到微信并返回媒体Id 放入集合中
             //通过config接口注入权限验证配置
 
@@ -923,7 +916,7 @@ angular.module('starter.controllers', [])
                 aturalprice: $scope.service.price,
                 descrip: $scope.service.descrip,
                 storeId: 1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
-                type: $scope.type //上传类型 翻新001维修002检测003回收004服务信息表买方005卖方收货006
+                type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
             console.log(JSON.stringify($scope.params));
             ProcPhotoService.saveService($scope.params).success(function (data) {
@@ -939,11 +932,7 @@ angular.module('starter.controllers', [])
             })
 
         }
-
     })
-
-
-
 
 
     //流程-翻新服务 提交订单并付款
@@ -952,7 +941,7 @@ angular.module('starter.controllers', [])
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
         $rootScope.commonService = CommonService;
-
+        $scope.type = ProcCommitOrderService.getType($scope.pagetheme); //根据路由获取服务类型
         $scope.showaddr = $scope.pagetheme == 'recycle' ? false : true;
         $scope.address = {};
         $scope.show = false; //用户控制地址显示
@@ -970,9 +959,6 @@ angular.module('starter.controllers', [])
             num: [],
             memo: []
         };
-        $scope.secondcatagories = [];
-
-
         $scope.sendwayFlag = false;//寄件方式切换
         $scope.getwayFlag = false; //取件方式切换
         $scope.sendwayValue = ['001', '002'];//寄件取件方式值
@@ -1067,7 +1053,7 @@ angular.module('starter.controllers', [])
             $scope.params = {
                 userId: localStorage.getItem("jinlele_userId"),
                 serviceId: $scope.serviceId,
-                type: '001',    //001代表翻新
+                type: $scope.type.code,    //翻新001维修002检测003回收004换款005
                 storeId: 1,     //暂时默认是1
                 totalnum: $scope.totalnum, //产品数量
                 sendWay: $scope.order.sendway,     //送货方式
@@ -1086,7 +1072,7 @@ angular.module('starter.controllers', [])
                     $scope.param = {
                         totalprice: 0.01, //data.totalprice
                         orderNo: data.orderNo,
-                        descrip: '你的翻新订单已付款成功，请尽快邮寄宝贝！',
+                        descrip: '你的'+$scope.type.name+'服务订单已付款成功，请尽快邮寄宝贝！',
                         openid: localStorage.getItem("openId")
                     }
                     //调用支付接口

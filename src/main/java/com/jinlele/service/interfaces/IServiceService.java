@@ -13,4 +13,6 @@ public interface IServiceService {
 
     Map<String , Object> getrefurbishPrice();
 
+    Map<String , Object> getdetectPrice();
+
 }

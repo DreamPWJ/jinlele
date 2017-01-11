@@ -58,4 +58,13 @@ public class ServiceController {
         return serviceService.getrefurbishPrice();
     }
 
+    /**
+     * 获取检测的价格
+     */
+    @ResponseBody
+    @RequestMapping("/getdetectPrice")
+    public Map<String, Object>  getdetectPrice(){
+        return serviceService.getdetectPrice();
+    }
+
 }
