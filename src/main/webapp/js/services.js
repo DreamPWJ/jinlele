@@ -293,26 +293,26 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            getType:function (pathname) {
+            getType:function (pagetheme) {
                 var type = {};
                 if (pagetheme == "refurbish") {
                     type.code = '001';
                     type.name = '翻新';
                 }
                 if (pagetheme == "repair") {
-                    type = '002';
+                    type.code = '002';
                     type.name = '维修';
                 }
                 if (pagetheme == "detect") {
-                    type = '003';
+                    type.code = '003';
                     type.name = '检测';
                 }
                 if (pagetheme == "recycle") {
-                    $scope.type = '004';
+                    type.code = '004';
                     type.name = '回收';
                 }
                 if (pagetheme == "exchange") {
-                    $scope.type = '005';
+                    type.code = '005';
                     type.name = '换款';
                 }
                 return type;

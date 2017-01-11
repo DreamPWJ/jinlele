@@ -905,7 +905,7 @@ angular.module('starter.controllers', [])
                 return;
             }
             //获取根据路由获取服务类型
-            $scope.typeCode = ProcCommitOrderService.getType(pagetheme).code;
+            $scope.typeCode = ProcCommitOrderService.getType($scope.pagetheme).code;
             //①前台去上传图片的到微信并返回媒体Id 放入集合中
             //通过config接口注入权限验证配置
 
@@ -918,6 +918,8 @@ angular.module('starter.controllers', [])
                 storeId: 1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
                 type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
+            console.log("$scope.pagetheme =="+ $scope.pagetheme);
+            console.log("$scope.typeCode =="+ $scope.typeCode);
             console.log(JSON.stringify($scope.params));
             ProcPhotoService.saveService($scope.params).success(function (data) {
                 console.log(data.serviceId);
@@ -945,7 +947,7 @@ angular.module('starter.controllers', [])
         $scope.showaddr = $scope.pagetheme == 'recycle' ? false : true;
         $scope.address = {};
         $scope.show = false; //用户控制地址显示
-
+        $scope.secondcatagories = [];
         $scope.order = {
             storeId: "",
             sendway: "001",
@@ -1119,6 +1121,7 @@ angular.module('starter.controllers', [])
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.name == '003')  $scope.pagetheme = 'detect';
 
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
