@@ -43,6 +43,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/wish.html',
                 controller: 'WishCtrl'
             })
+            .state('bindphone', {  //绑定手机号
+                url: '/bindphone',
+                templateUrl: 'html/bindphone.html',
+                controller: 'BindphoneCtrl'
+            })
             .state('orderlist', {  // 商城订单
                 url: '/orderlist',
                 templateUrl: 'html/orderlist.html',
