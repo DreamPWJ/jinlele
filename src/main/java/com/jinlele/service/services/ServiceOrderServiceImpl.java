@@ -38,7 +38,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         //生成服务订单表
         String orderno = StringHelper.getOrderNum();  //生成订单号
         Date orderTime = new Date();
-        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, "001001", buyeraddresId , orderTime);
+        String shoporderstatus = type + "001";
+        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, shoporderstatus, buyeraddresId , orderTime);
         shopOrderMapper.insertSelective(order);
         //更新服务表
         Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);

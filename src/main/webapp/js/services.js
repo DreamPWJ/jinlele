@@ -638,7 +638,7 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                     //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
-                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/" + params.totalprice + "/" + params.descrip + "/" + params.openid
+                    url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/" + params.totalprice + "/" + params.descrip + "/" + params.openid + "/" + params.orderType
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

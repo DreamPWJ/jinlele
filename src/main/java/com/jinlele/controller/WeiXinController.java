@@ -16,12 +16,14 @@ import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
 import org.jdom.JDOMException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -230,9 +232,9 @@ public class WeiXinController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/weixin/weixinPay/{sn}/{totalAmount}/{description}/{openId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public SortedMap<String, Object> toWeiXinPay(@PathVariable String sn, @PathVariable BigDecimal totalAmount, @PathVariable String description, @PathVariable String openId, HttpServletRequest request) {
-        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomString, request);
+    @RequestMapping(value = "/weixin/weixinPay/{sn}/{totalAmount}/{description}/{openId}/{orderType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public SortedMap<String, Object> toWeiXinPay(@PathVariable String sn, @PathVariable BigDecimal totalAmount, @PathVariable String description, @PathVariable String openId,@PathVariable String orderType, HttpServletRequest request) {
+        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomString,orderType, request);
         SortedMap<String, Object> finalpackage = new TreeMap<String, Object>();//通过子类TreeMap实例化接口对象 可用于排序
         finalpackage.put("appId", PayCommonUtil.APPID);
         finalpackage.put("timeStamp", timeMillis);
@@ -270,12 +272,15 @@ public class WeiXinController {
         Map<String, String> map = new HashMap<String, String>();
         map = PayCommonUtil.doXMLParse(xmlString);
         //订单号 支付结果
-        String return_code = map.get("return_code");
         String result_code = map.get("result_code");//业务结果
         String orderno = map.get("out_trade_no");
         String finishtime = map.get("time_end");//支付完成时间
+        String diyData = map.get("attach");//支付完成时间
         Double total_fee=Double.valueOf(Double.valueOf(map.get("total_fee").toString())/100);//订单总金额，实际支付金额
-
+        //解析自定义商家数据包
+        JSONObject diyDataObject =  JSONObject.fromObject(diyData);
+        String orderType = diyDataObject.getString("type"); //下单类型 001翻新002维修003检测004回收005换款006商城
+        System.out.println("下单类型==============" + orderType);
         String signResult = "";//签名结果
         //业务逻辑处理
         //查微信支付通知是否被处理
@@ -290,7 +295,13 @@ public class WeiXinController {
                     //支付成功：修改订单状态 已付款，支付结果通知  已处理且支付成功
                     SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
                     try {
-                        order=new ShopOrder(orderno,total_fee,"002","003",s.parse(finishtime));
+                        String orderstatus = "";
+                        if("006".equals(orderType)){
+                            orderstatus = "002";
+                        }else{
+                            orderstatus = orderType + "002";
+                        }
+                        order=new ShopOrder(orderno,total_fee,orderstatus,"003",s.parse(finishtime));
                         shopOrder.setUpdateTime(s.parse(finishtime));//支付完成时间
                     } catch (ParseException e) {
                         e.printStackTrace();

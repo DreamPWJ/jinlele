@@ -1075,7 +1075,8 @@ angular.module('starter.controllers', [])
                         totalprice: 0.01, //data.totalprice
                         orderNo: data.orderNo,
                         descrip: '你的'+$scope.type.name+'服务订单已付款成功，请尽快邮寄宝贝！',
-                        openid: localStorage.getItem("openId")
+                        openid: localStorage.getItem("openId"),
+                        orderType:JSON.stringify({type:$scope.type.code})
                     }
                     //调用支付接口
                     console.log(JSON.stringify($scope.param));
@@ -1085,25 +1086,16 @@ angular.module('starter.controllers', [])
                             .then(function (msg) {
                                 if (msg == "get_brand_wcpay_request:ok") {
                                     console.log("支付成功");
-                                    // //修改订单状态
-                                    OrderService.updateOrder({orderno: orderno, type: '001', shoporderstatuscode:'001003'}).success(function (data) {
-                                        //成功后，跳转到下一个页面
-                                        if (data && data.n == 1) {
-                                            $state.go('procreceive', {
-                                                name: $scope.pagetheme,
-                                                orderNo: orderno,
-                                                orderTime: orderTime
-                                            });
-                                        }
+                                    //修改服务端已经修改了奥,//成功后，跳转到下一个页面 ，下个页面中显示订单信息 支付成功和 跳转连接，如跳到列表和再次下单
+                                    $state.go('procreceive', {
+                                        name: $scope.pagetheme,
+                                        orderNo: orderno,
+                                        orderTime: orderTime
                                     });
                                 } else {
                                     console.log("支付未成功");
-                                    OrderService.updateOrder({orderno: orderno, type: '001', shoporderstatuscode:'001002'}).success(function (data) {
-                                        //成功后，跳转到下一个页面
-                                        if (data && data.n == 1) {
-                                            $state.go('orderlist');
-                                        }
-                                    });
+                                    //此处应该进入缓存页面，让客户确认订单再次付款，然后加上跳转连接，返回订单列表
+                                    $state.go('orderlist');
                                 }
                             });
 

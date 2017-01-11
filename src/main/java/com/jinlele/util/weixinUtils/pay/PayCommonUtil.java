@@ -45,7 +45,7 @@ public class PayCommonUtil {
      * @param request
      * @return
      */
-    public static Map<String, String> weixinPrePay(String sn, BigDecimal totalAmount, String description, String openid, String randomString, HttpServletRequest request) {
+    public static Map<String, String> weixinPrePay(String sn, BigDecimal totalAmount, String description, String openid, String randomString,String orderType, HttpServletRequest request) {
         SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
         parameterMap.put("appid", PayCommonUtil.APPID);
         parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
@@ -53,7 +53,7 @@ public class PayCommonUtil {
         parameterMap.put("body", description);// 商品描述
         parameterMap.put("out_trade_no", sn);// 商户订单号
         parameterMap.put("fee_type", "CNY");//人民币
-
+        parameterMap.put("attach", orderType);//商家数据包 现在暂时有 订单类型
         BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
         java.text.DecimalFormat df = new java.text.DecimalFormat("0");
         parameterMap.put("total_fee", df.format(total));// 支付金额
