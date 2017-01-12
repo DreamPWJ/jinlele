@@ -11,7 +11,7 @@ import java.util.Map;
 public interface IUserService {
 
     int insertSelective(User record);
-
+    int updateByPrimaryKeySelective(User record);
 
     /**
      * 获取用户的分页方法

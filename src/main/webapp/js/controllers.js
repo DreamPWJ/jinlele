@@ -636,7 +636,6 @@ angular.module('starter.controllers', [])
     .controller('CashdetailCtrl', function ($scope) {
 
     })
-
     //我的收藏
     .controller('FavouriteCtrl', function ($scope ,GoodService , $state) {
         $scope.rmFlag = false;
@@ -688,7 +687,6 @@ angular.module('starter.controllers', [])
         }
 
     })
-
     //帮助反馈
     .controller('WishCtrl',['$rootScope','$scope','$state','MemberService','CommonService',function($rootScope,$scope,$state,MemberService,CommonService){
         $rootScope.commonService=CommonService;
@@ -714,15 +712,83 @@ angular.module('starter.controllers', [])
 
     }])
     //绑定手机号
-    .controller('BindphoneCtrl',['$scope',function($scope){
-        $scope.phonenumber="";
+    .controller('BindphoneCtrl',['$rootScope','$scope','$state','$timeout','$interval','CommonService','MemberService',function($rootScope,$scope,$state,$timeout,$interval,CommonService,MemberService){
+        $rootScope.commonService=CommonService;
+        $scope.opendisabled = false;//关闭禁用状态
+        $scope.active=true;//按钮激活样式
+        $scope.paracont = "获取验证码";
+        $scope.user={};
+        //查询是否存在手机号码，存在则不再绑定
+        MemberService.getUserInfo( localStorage.getItem("openId")).success(function(data){
+            $scope.user=data.userInfo;
+            if(data&&data.userInfo.phone){
+                $scope.showinfo=false;
+            }else{
+                $scope.showinfo=true;
+            }
+        });
         //获取验证码
-        $scope.getMsgcode=function(){
+        $scope.getMsgcode=function(phoneNumber){
+            //倒计时
+            var timerCount=60,timePromise = undefined;
+            timePromise = $interval(function(){
+                if(timerCount<=0){
+                    $interval.cancel(timePromise);
+                    timePromise = undefined;
+                    $scope.paracont = "重新获取";
+                    $scope.opendisabled = false;//关闭禁用状态
+                    $scope.active=true;//按钮激活样式
+                }else{
+                    $scope.paracont = timerCount + "s后再次获取";
+                    timerCount--;
+                    $scope.opendisabled = true;//打开禁用状态
+                    $scope.active=false;//关闭激活样式
 
+                }
+            },1000,100);
+            //验证手机号码格式，发送验证码
+            var reg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+            var flag = reg.test(phoneNumber);
+            if (flag){
+                MemberService.getCheckcode({phonenumber:phoneNumber}).success(function(data){
+                    switch (data.result){
+                        case "发送失败":
+                            CommonService.toolTip("获取失败，请稍后重试","tool-tip-message-success");
+                            break;
+                        default :
+                            $scope.randomCode=data.result;
+                            CommonService.toolTip("发送成功","tool-tip-message-success");
+                            break;
+                    }
+                });
+            }else{
+                CommonService.toolTip("手机号码格式错误","tool-tip-message-success");
+            }
         }
         //绑定手机号码
-        $scope.bindingphone=function(){
-
+        $scope.bindingphone=function(phoneNumber,code){
+            //再次校验手机号码及验证码
+            var reg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+            var flag = reg.test(phoneNumber);
+            if (flag) {
+                if (code == $scope.randomCode) {
+                    MemberService.bindingPhoneNumber({
+                        phoneNumber: phoneNumber,
+                        userId: localStorage.getItem("jinlele_userId")
+                    }).success(function (data) {
+                        if (data.result > 0) {
+                            CommonService.toolTip("绑定成功", "tool-tip-message-success");
+                            $state.go("member");
+                        } else {
+                            CommonService.toolTip("验证码错误", "tool-tip-message-success");
+                        }
+                    });
+                } else {
+                    CommonService.toolTip("验证码错误", "tool-tip-message-success");
+                }
+            }else{
+                CommonService.toolTip("手机号码格式错误","tool-tip-message-success");
+            }
         }
     }])
     //商品列表

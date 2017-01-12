@@ -433,6 +433,34 @@ angular.module('starter.services', [])
                     deferred.reject(err);// 声明执行失败，即服务器返回错误
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            //获取验证码
+            getCheckcode: function(params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/user/getCheckcode/" + params.phonenumber
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            //绑定手机号码
+            bindingPhoneNumber: function(params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/user/addPhoneNumber/" + params.phoneNumber + '/' + params.userId
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
         }
     })

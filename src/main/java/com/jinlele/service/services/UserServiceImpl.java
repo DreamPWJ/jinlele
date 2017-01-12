@@ -30,6 +30,11 @@ public class UserServiceImpl implements IUserService {
         return   userMapper.insertSelective(record);
     }
 
+    @Override
+    public int updateByPrimaryKeySelective(User record) {
+        return userMapper.updateByPrimaryKeySelective(record);
+    }
+
 
     /**
      * 获取用户的分页方法

@@ -2,17 +2,23 @@
     <i>绑定手机号码</i>
 </section>
 <main class="content submit">
-    <dl class="add_product">
+    <dl class="add_product" ng-if="!showinfo">
         <dd>
             <em>手机号码：</em>
-            <span><input placeholder="请输入手机号码" type="text"></span>
+            <span>{{user.phone}}</span>
         </dd>
     </dl>
-    <section class="numbers">
+    <dl class="add_product" ng-if="showinfo">
+        <dd>
+            <em>手机号码：</em>
+            <span><input placeholder="请输入手机号码" type="text" ng-model="user.phone"/></span>
+        </dd>
+    </dl>
+    <section class="numbers" ng-if="showinfo">
         <section class="code_button">
-            <span><input placeholder="短信验证码" type="text" ng-model="phonenumber"/></span>
-            <em class="hover" ng-click="getMsgcode()"><a href="javascript:void(0);">获取验证码</a></em>
+            <span><input placeholder="短信验证码" type="text" ng-model="user.code"></span>
+            <em><a href="javascript:void(0);" ng-click="opendisabled||getMsgcode(user.phone)" ng-disabled="opendisabled" ng-class="{hover:active}" >{{paracont}}</a></em>
         </section>
     </section>
-    <section class="submit"><a href="" ng-click="bindingphone()">确认绑定</a></section>
+    <section class="submit" ng-if="showinfo"><a href="" ng-click="bindingphone(user.phone,user.code)">确认绑定</a></section>
 </main>

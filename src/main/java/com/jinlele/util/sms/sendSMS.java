@@ -143,16 +143,17 @@ public class sendSMS {
 
         //向StringBuffer追加消息内容转URL标准码
         String content =  "您的验证码为"+randomCode+"，20分钟内有效，请保管好信息，以免泄露。";
-        sb.append("&content="+URLEncoder.encode(content));
+        sb.append("&content="+URLEncoder.encode(content,"UTF-8"));
 
         //追加发送时间，可为空，为空为及时发送
         sb.append("&stime=");
 
         //加签名
-        sb.append("&sign="+URLEncoder.encode(sign));
+        sb.append("&sign="+URLEncoder.encode(sign,"UTF-8"));
 
         //type为固定值pt  extno为扩展码，必须为数字 可为空
         sb.append("&type=pt&extno=");
+
         // 创建url对象
         URL url = new URL(sb.toString());
 
@@ -182,7 +183,8 @@ public class sendSMS {
         //测试添加模板
         // addTemplate();
         //测试发送短信
-        sendSimple(randomCode(),"15166195973");
+        String s = sendSimple(randomCode(),"15263306303");
+        System.out.print(s);
        // String s = "0,2017011210432609743481292,0,1,0,提交成功";
         //System.out.println(s.substring(0,1));
     }

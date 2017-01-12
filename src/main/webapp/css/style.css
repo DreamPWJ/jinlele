@@ -4088,6 +4088,7 @@ dl.add_product dd em {
 
 dl.add_product dd span {
     height: 32px;
+    line-height: 32px;
     display: block;
     overflow: hidden;
     padding: 4px 10px 4px 0;
@@ -4249,15 +4250,15 @@ section.numbers section.code_button {
 }
 
 section.numbers section.code_button span {
-    width: 60%;
+    width: 50%;
     height: 32px;
     display: inline-block;
     overflow: hidden;
-    padding: 4px 10px 4px 0;
+    padding: 2px 0;
 }
 
 section.numbers section.code_button em {
-    width: 100px;
+    width: 130px;
     height: 40px;
     float: right;
     line-height: 40px;
@@ -4279,7 +4280,6 @@ section.numbers section.code_button span input[type="text"] {
 section.numbers section.code_button em a {
     height: 34px;
     display: block;
-    font-size: 80%;
     line-height: 34px;
     text-align: center;
     overflow: hidden;
@@ -4288,7 +4288,7 @@ section.numbers section.code_button em a {
     border-radius: 3px;
 }
 
-section.numbers section.code_button em.hover a {
+section.numbers section.code_button em a.hover {
     background: #F5D000;
     color: #FFF;
 }
