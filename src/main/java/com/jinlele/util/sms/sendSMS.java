@@ -127,7 +127,7 @@ public class sendSMS {
 
 
     //发送短信
-    public static void sendSimple(String randomCode,String phone) throws IOException {
+    public static String  sendSimple(String randomCode,String phone) throws IOException {
 
         // 创建StringBuffer对象用来操作字符串
         StringBuffer sb = new StringBuffer("http://sms.1xinxi.cn/asmx/smsservice.aspx?");
@@ -167,9 +167,12 @@ public class sendSMS {
 
         // 返回发送结果
         String inputline = in.readLine();
-
-        // 返回结果为‘0，20140009090990,1，提交成功’ 发送成功   具体见说明文档
-        System.out.println(inputline);
+       String statusCode = inputline.substring(0,1);
+       if("0".equals(statusCode)){
+           return randomCode;
+       }else {
+           return "发送失败";
+       }
     }
 
 
@@ -180,6 +183,8 @@ public class sendSMS {
         // addTemplate();
         //测试发送短信
         sendSimple(randomCode(),"15166195973");
+       // String s = "0,2017011210432609743481292,0,1,0,提交成功";
+        //System.out.println(s.substring(0,1));
     }
 
 
