@@ -235,12 +235,12 @@
             </span>
         </section>
         <section id="tad" class="numbers_button">
-        	<span onclick="javascript:test_item(1);"><a href="javascript:">我的物流 </a></span>
-            <span onclick="javascript:test_item(0);"><a href="javascript:">金乐乐物流</a></span>
+            <span onclick="javascript:test_item(0);" class="hover"><a href="javascript:">我的物流 </a></span>
+            <span onclick="javascript:test_item(1);"><a href="javascript:">金乐乐物流</a></span>
         </section>
     </section>
-    
-    <section id="test1" class="hide">
+
+    <section id="test0" >
         <section class="address">
             <a href="javascript:">
                 <span class="title">
@@ -265,7 +265,7 @@
             <ul>
                 <li>
                     <u>快递公司：</u>
-                     <span>
+                    <span>
                          <select name="" id="" ng-model="order.userlogisticsnoComp">
                              <option value="{{item.number}}" ng-repeat="item  in expressArr">{{item.company}}</option>
                         </select> </span>
@@ -278,8 +278,23 @@
             </ul>
         </section>
     </section>
+    <!-- 快递单号 -->
+    <section class="express" ng-if="tracking">
+        <span class="title">请把产品送到店做下一步检测为您尽快完成提交</span>
+        <ul>
+            <li>
+                <u>客户电话：</u>
+                <span>027-4021212</span>
+            </li>
+            <li>
+                <u>快递单号：</u>
+                <span><input placeholder="请填写快递单号" type="text"></span>
+                <a href="test.html">提交</a>
+            </li>
+        </ul>
+    </section>
 
-    <section id="test0" class="hide">
+    <section id="test1" class="hide">
         <section class="address">
             <a href="javascript:">
                 <span class="title">
@@ -311,22 +326,9 @@
             </ul>
         </section>
     </section>
-    
-    <!-- 快递单号 -->
-    <section class="express" ng-if="tracking">
-    	<span class="title">请把产品送到店做下一步检测为您尽快完成提交</span>
-    	<ul>
-        	<li>
-            	<u>客户电话：</u>
-            	<span>027-4021212</span>
-            </li>
-        	<li>
-            	<u>快递单号：</u>
-            	<span><input placeholder="请填写快递单号" type="text"></span>
-                <a href="test.html">提交</a>
-            </li>
-        </ul>
-    </section>
+
+
+
     
     <!-- 收货证明 -->
     <section class="prove shouhuo">

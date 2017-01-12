@@ -93,12 +93,21 @@ public class OrderController {
     }
 
     /**
+     * 根据服务类订单号查询订单及其详情
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getOrderDetail/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getOrderDetai(@PathVariable String orderno) {
+        return orderService.getOrderDetail(orderno);
+    }
+
+    /**
      * 根据订单号处理并查询订单及其详情
      */
     @ResponseBody
-    @RequestMapping(value = "/putOrder/{orderno}/{payresult}", method = RequestMethod.GET)
-    public Map<String, Object> putOrder(@PathVariable String orderno,@PathVariable String payresult) {
-        return orderService.putOrder(orderno,payresult);
+    @RequestMapping(value = "/putOrder/{orderno}/{orderType}/{payresult}", method = RequestMethod.GET)
+    public Map<String, Object> putOrder(@PathVariable String orderno,@PathVariable String orderType,@PathVariable String payresult) {
+        return orderService.putOrder(orderno,orderType ,payresult);
     }
 
     /**

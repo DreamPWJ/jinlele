@@ -471,7 +471,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/order/putOrder/" + params.orderno+ '/' + params.payresult
+                    url: JinLeLe.api + "/order/putOrder/" + params.orderno+ '/' + params.type+ '/' + params.payresult
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -485,6 +485,19 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/getOrderDetailInfo/" + params.orderno
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            getOrderDetail:function(params){
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/order/getOrderDetail/" + params.orderno
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -647,7 +660,7 @@ angular.module('starter.services', [])
             //获取微信签名
             getWCSignature: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'POST',
                     url: JinLeLe.api + "/weixin/jsconnect",
@@ -662,14 +675,19 @@ angular.module('starter.services', [])
             //获取微信支付统一下单接口参数
             getweixinPayData: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
                     url: JinLeLe.api + "/weixin/weixinPay/" + params.orderNo + "/" + params.totalprice + "/" + params.descrip + "/" + params.openid + "/" + params.orderType
                 }).success(function (data) {
+                    console.log(data);
+                    console.log(JSON.stringify(data));
+                    console.log("2222");
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
+                    console.log("11111");
+                    console.log(JSON.stringify(err));
                     deferred.reject(err);// 声明执行失败，即服务器返回错误
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
@@ -677,7 +695,7 @@ angular.module('starter.services', [])
             //获取下载微信媒体文件
             getWCMedia: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/wc/media",

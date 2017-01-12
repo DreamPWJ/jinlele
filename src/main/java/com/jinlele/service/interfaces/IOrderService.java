@@ -31,10 +31,13 @@ public interface IOrderService {
      */
     Map<String, Object> getOrderDetailByOrderno(String orderno);
 
+    //订单详情 升级版
+    Map<String, Object> getOrderDetail(String orderno);
+
     /**
      * 根据订单号及jsapi支付结果处理并查询订单详情
      */
-    Map<String,Object> putOrder(String orderno,String payresult);
+    Map<String,Object> putOrder(String orderno,String orderType ,String payresult);
     /**
      *取消订单
      */

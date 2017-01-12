@@ -58,10 +58,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/returnapply.html',
                 controller: 'ReturnApplyCtrl'
             })
-            .state('orderdetail', {  //订单详情
-                url: '/orderdetail{orderno}',
+            .state('orderdetail', {  //商城订单详情
+                url: '/orderdetail{order}',
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderDetailCtrl'
+            })
+            .state('servicedetail', {  //服务订单详情
+                url: '/servicedetail{order}',
+                templateUrl: 'html/servicedetail.html',
+                controller: 'ServiceDetailCtrl'
             })
             .state('payresult', {  //支付进度
                 url: '/payresult/:orderno',

@@ -27,3 +27,7 @@ section.case ul.detect li:last-child{
     height: 40px;
     padding: 36px 0 37px 0;
 }
+
+.mar{
+   margin-top:0.2rem;
+}

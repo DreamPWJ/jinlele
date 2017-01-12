@@ -243,6 +243,7 @@ public class WeiXinController {
         finalpackage.put("signType", "MD5");
         String sign = PayCommonUtil.createSign("UTF-8", finalpackage);
         finalpackage.put("paySign", sign);
+        System.out.println("进入支付方法了吗.........");
         return finalpackage;
     }
 

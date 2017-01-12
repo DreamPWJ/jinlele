@@ -3,7 +3,7 @@
         <em>订单类型：</em>
         <span>
                 <!---//TODO 样式需要优化-->
-                     <select class="" ng-model="type" ng-change="getOrderLists(0)">
+                     <select class="mar" ng-model="type" ng-change="getOrderLists(0)">
                          <option value="ALL">全部订单</option>
                          <option value="006">商城订单</option>
                          <option value="001">翻新订单</option>
@@ -38,7 +38,7 @@
                     <section class="product">
                         <span class="pic"><a href=""><img ng-src="{{subitem.imgurl}}"></a></span>
                         <section class="text">
-                            <p><a ng-href="#/orderdetail{{item.orderno}}">{{subitem.title}}</a></p>
+                            <p><a ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)" >{{subitem.title}}</a></p>
                             <span>颜色分类：{{subitem.color}}</span>
                         </section>
                         <section class="price_1">
@@ -84,9 +84,10 @@
                         </span>
                         <span >
                             <!--<a href="">联系卖家</a>-->
-                            <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">订单详情</a>
+                            <a href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">订单进度</a>
+                            <a  ng-click="servicedetail(item.orderno , item.type ,item.shoporderstatusCode)">订单详情</a>
                             <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消订单</a>
-                            <a ng-if="item.shoporderstatusCode < '001003'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
+                            <a ng-if="item.shoporderstatusCode.substring(3,6) == '001'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice)">付款</a>
                         </span>
                         <span ng-if="item.shoporderstatusCode=='003'">
                             <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>

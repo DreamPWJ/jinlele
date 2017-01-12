@@ -343,7 +343,8 @@ angular.module('starter.controllers', [])
                         totalprice: 0.01, //$scope.totalprice,
                         orderNo: r.orderno,
                         descrip: '六唯壹珠宝',
-                        openid: localStorage.getItem("openId")
+                        openid: localStorage.getItem("openId"),
+                        orderType:JSON.stringify({type:'006'})
                     }
                     //调用微信支付服务器端接口
                     WeiXinService.getweixinPayData($scope.param).success(function (data) {
@@ -354,7 +355,8 @@ angular.module('starter.controllers', [])
                                         CommonService.toolTip("支付成功","tool-tip-message-success");
                                         //支付成功，跳转订单详情
                                         sessionStorage.setItem( r.orderno,"ok");
-                                        $state.go("orderdetail", {orderno: r.orderno});
+                                        var order = {orderno: r.orderno ,orderType:'006' ,orderStatus:""}; //orderStatus为订单状态
+                                        $state.go("orderdetail", {order: JSON.stringify(order)});
                                         break;
                                     default :
                                         //未支付，跳转支付进度
@@ -375,7 +377,7 @@ angular.module('starter.controllers', [])
     .controller('PayResultCtrl',  ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
         $scope.orderno=$stateParams.orderno;
         if (sessionStorage.getItem($scope.orderno) == "ok") {
-            OrderService.queryWxPutOrder({orderno: $scope.orderno, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+            OrderService.queryWxPutOrder({orderno:$scope.orderno, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
                 switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
@@ -402,18 +404,25 @@ angular.module('starter.controllers', [])
             });
         }
     }])
-    //订单详情
-    .controller('OrderDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
+
+    //服务订单详情
+    .controller('ServiceDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
         $rootScope.commonService=CommonService;
-        $scope.orderno = $stateParams.orderno;
-        if (sessionStorage.getItem($scope.orderno) == "ok") {
-            OrderService.queryWxPutOrder({orderno: $scope.orderno, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+        $scope.order = JSON.parse($stateParams.order);
+        console.log($stateParams.order);
+        if($scope.order.orderStatus){
+            $scope.order.orderStatus = $scope.order.orderStatus.substring(3,6);//截取后3位
+        }
+        if (sessionStorage.getItem($scope.order.orderno) == "ok" || $scope.order.orderStatus == '002') {
+            OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+                console.log(JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
-                $scope.address = data.address;//订单总信息
-                $scope.orderdetail = data.orderdetail;//订单详情
+                $scope.address = data.address;// 收货地址信息
+                $scope.pictures = data.pictures;//图片列表
+                $scope.products = data.products;//产品列表
             });
         }else {
-            OrderService.getOrderDetailInfo({orderno: $scope.orderno}).success(function (data) {
+            OrderService.getOrderDetail({orderno: $scope.order.orderno}).success(function (data) {
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
                 $scope.orderdetail = data.orderdetail;//订单详情
@@ -426,7 +435,84 @@ angular.module('starter.controllers', [])
                 totalprice: 0.01, //$scope.totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
-                openid: localStorage.getItem("openId")
+                openid: localStorage.getItem("openId"),
+                orderType:JSON.stringify({type:'006'})
+            }
+            //通过config接口注入权限验证配置
+            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+            //通过ready接口处理成功验证
+            wx.ready(function () {
+                //调用微信支付服务器端接口
+                WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                    WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                        .then(function (msg) {
+                            switch (msg) {
+                                case "get_brand_wcpay_request:ok":
+                                    CommonService.toolTip("支付成功","tool-tip-message-success");
+                                    //调用支付后，跳转订单详情
+                                    sessionStorage.setItem(orderno,"ok");
+                                    $state.go("payresult", {orderno: orderno});
+                                    break;
+                                default :
+                                    //取消或失败，停留此页面
+                                    break;
+                            }
+                        });
+                });
+            })
+        }
+
+        $scope.procreceive = function () {
+            var obj = {
+                name: $scope.order.orderType,
+                orderNo: $scope.order.orderno,
+                orderTime: $scope.orderinfo.create_time
+            };
+            console.log('procreceive===' + JSON.stringify(obj));
+            $state.go('procreceive', obj);
+        }
+
+        $scope.cancleorder=function(orderno){
+            //修改后，重新请求数据
+            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
+                if (parseInt(data.resultnumber) > 0) {
+                    CommonService.toolTip("取消成功", "tool-tip-message-success");
+                    $state.go("orderlist");
+                }
+            });
+        }
+    }])
+
+    //商城订单详情
+    .controller('OrderDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
+        $rootScope.commonService=CommonService;
+        console.log("$stateParams.order=="+$stateParams.order);
+        $scope.order = JSON.parse($stateParams.order);
+        if($scope.order.orderStatus){
+            $scope.order.orderStatus = $scope.order.orderStatus.substring(3,6);//截取后3位
+        }
+        if (sessionStorage.getItem($scope.orderno) == "ok" || $scope.order.orderStatus == '002') {
+            OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+                $scope.orderinfo = data.order;//订单总信息
+                $scope.address = data.address;//订单总信息
+                $scope.orderdetail = data.orderdetail;//订单详情
+            });
+        }else {
+            OrderService.getOrderDetailInfo({orderno: $scope.order.orderno}).success(function (data) {
+                $scope.orderinfo = data.order;//订单总信息
+                $scope.address = data.address;//订单总信息
+                $scope.orderdetail = data.orderdetail;//订单详情
+            });
+        }
+        //微信支付调用
+        $scope.weixinPay = function (orderno, totalprice) {
+            //调用微信支付服务器端接口
+            $scope.param = {
+                totalprice: 0.01, //$scope.totalprice,
+                orderNo: orderno,
+                descrip: '六唯壹珠宝',
+                openid: localStorage.getItem("openId"),
+                orderType:JSON.stringify({type:'006'})
             }
             //调用微信支付服务器端接口
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
@@ -547,8 +633,10 @@ angular.module('starter.controllers', [])
             //console.log(JSON.stringify(data));
         });
     }])
-    //商城订单
+
+    //订单列表
     .controller('OrderListCtrl', ['$rootScope','$scope', '$state', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
+        //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
         $scope.type = '006';
         $scope.orderlistsinfo = [];
@@ -587,14 +675,17 @@ angular.module('starter.controllers', [])
                 }
             });
         }
+
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice) {
             $scope.param = {
                 totalprice: 0.01, //totalprice
                 orderNo: orderno,
                 descrip: '你的订单已付款成功！',
-                openid: localStorage.getItem("openId")
+                openid: localStorage.getItem("openId"),
+                orderType:JSON.stringify({type:'006'})
             }
+            console.log(JSON.stringify($scope.param));
             //调用微信支付服务器端接口
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
                 WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -615,8 +706,23 @@ angular.module('starter.controllers', [])
             })
         }
 
+        //跳转到商城订单详情页
+        $scope.orderdetail = function (orderno , orderType ,shoporderstatusCode) {
+            var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
+            console.log('orderdetail==='+JSON.stringify(order));
+            $state.go("orderdetail", {order: JSON.stringify(order)});
+        }
+        //跳转到服务订单详情页
+        $scope.servicedetail = function (orderno , orderType ,shoporderstatusCode) {
+            var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
+            console.log('servicedetail==='+JSON.stringify(order));
+            $state.go("servicedetail", {order: JSON.stringify(order)});
+        }
+
 
     }])
+
+
     //退货
     .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
         $(function () {
@@ -1163,12 +1269,27 @@ angular.module('starter.controllers', [])
                             .then(function (msg) {
                                 if (msg == "get_brand_wcpay_request:ok") {
                                     console.log("支付成功");
+                                    CommonService.toolTip("恭喜您支付成功", "tool-tip-message-success");
                                     //修改服务端已经修改了奥,//成功后，跳转到下一个页面 ，下个页面中显示订单信息 支付成功和 跳转连接，如跳到列表和再次下单
-                                    $state.go('procreceive', {
-                                        name: $scope.pagetheme,
-                                        orderNo: orderno,
-                                        orderTime: orderTime
-                                    });
+                                    switch (msg) {
+                                        case "get_brand_wcpay_request:ok":
+                                            CommonService.toolTip("支付成功","tool-tip-message-success");
+                                            //支付成功，跳转订单详情
+                                            sessionStorage.setItem($scope.param.orderNo ,"ok");
+                                            var order = {orderno: $scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
+                                            $state.go("servicedetail", {order: JSON.stringify(order)});
+                                            break;
+                                        default :
+                                            //未支付，跳转支付进度
+                                            sessionStorage.setItem(r.orderno,"");
+                                            $state.go("payresult", {orderno: r.orderno});
+                                            break;
+                                    }
+                                    // $state.go('procreceive', {
+                                    //     name: $scope.pagetheme,
+                                    //     orderNo: orderno,
+                                    //     orderTime: orderTime
+                                    // });
                                 } else {
                                     console.log("支付未成功");
                                     //此处应该进入缓存页面，让客户确认订单再次付款，然后加上跳转连接，返回订单列表
@@ -1223,8 +1344,6 @@ angular.module('starter.controllers', [])
                     }
                 });
         }
-
-
     })
 
     //流程-检测

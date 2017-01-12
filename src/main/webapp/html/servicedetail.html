@@ -1,0 +1,79 @@
+
+<main class="content bottom">
+
+	<section class="oddnumbers">
+    	<em>订单编号：{{orderinfo.orderno}}</em>
+    	<i>{{orderinfo.showuserstatus}}</i>
+    </section>
+    
+    <!-- 添加地址 -->
+	<section class="address add">
+        <i class="icon">&#xe617;</i>
+        <a href="javascript:">
+    	<span class="title">
+        	<em>收货人：{{address.userName}}</em>
+        	<em>{{address.telNumber}}</em>
+        </span>
+        <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
+        </a>
+    </section>
+
+    <section class=" photograph">
+        <ul>
+            <li ng-repeat="item in pictures">
+                <span>
+                    <img ng-src="{{item.url}}">
+                </span>
+            </li>
+        </ul>
+        <p>描述信息:{{pictures[0].descrip}}</p>
+    </section>
+
+
+    <!-- 商品列表 -->
+    <section class="check object">
+        <span class="title">服务产品列表</span>
+        <section class="product_list">
+            <section class="product" ng-repeat="item in products">
+                <section class="text">
+                    <p>分类:{{item.name}}</a></p>
+                    <span>材质：{{item.pname}}</span>
+                </section>
+                <section class="price_1">
+                    <em>{{item.aturalprice|currency:'￥'}}</em>
+                    <i>X {{item.num}}</i>
+                </section>
+            </section>
+        </section>
+        <section class="check_main">
+            <a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>
+        </section>
+    </section>
+
+    <section class="order_xq">
+        <ul>
+            <li><em>服务总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li><em>订单总额：</em><i>{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
+            <li ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
+            <li><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+        </ul>
+    </section>
+    
+    <!-- 物流信息 -->
+    <section class="logistics" ng-if="orderinfo.shoporderstatusCode!='001'">
+    	<span class="title">物流信息</span>
+    	<ul>
+        	<li class="hover"> 
+            	<i></i>
+            	<em>请把产品送到店做下一步检测为您尽快完成服务</em>
+            </li>
+        </ul>
+    </section>
+</main>
+
+<section class="button">
+    <span><a href="#/orderlist">返回订单列表</a></span>
+    <span ng-if="orderinfo.shoporderstatusCode=='001'"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
+	<span ng-if="orderinfo.shoporderstatusCode!='001'"><a  ng-click="procreceive()">下一步</a></span>
+</section>

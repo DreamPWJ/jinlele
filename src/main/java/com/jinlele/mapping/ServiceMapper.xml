@@ -244,10 +244,27 @@
   </select>
   <select id="selectServiceDetailByOrderno" resultType="Map" parameterType="java.lang.String">
     select p.url from service s
-join service_picture sp on s.id=sp.service_id
-JOIN picture p on sp.picture_id=p.id
-where s.order_no=#{orderno}
-order by p.create_time desc
-limit 1;
+    join service_picture sp on s.id=sp.service_id
+    JOIN picture p on sp.picture_id=p.id
+    where s.order_no=#{orderno}
+    order by p.create_time desc
+    limit 1;
+  </select>
+
+  <!--//获得服务信息订单所有图片-->
+  <select id="getServicePictures" resultType="Map" parameterType="java.lang.String">
+    select p.url ,s.descrip from service s
+    join service_picture sp on s.id=sp.service_id
+    JOIN picture p on sp.picture_id=p.id
+    where s.order_no=#{orderno}
+    order by p.create_time desc
+  </select>
+  <!--服务订单产品信息详情-->
+  <select id="getServiceProducts" resultType="Map" parameterType="java.lang.String">
+    select (select name  from goodcatogory g where g.id = c.pid ) as pname ,
+    c.name , p.num,s.aturalprice,s.price, p.memo
+    from product p ,goodcatogory c , service s ,shoporder o
+    where  c.id = p.catogory_id and s.id = p.service_id  and o.orderno = s.order_no
+    and   o.orderno = #{orderno}
   </select>
 </mapper>

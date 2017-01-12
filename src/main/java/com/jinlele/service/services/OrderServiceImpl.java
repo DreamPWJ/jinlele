@@ -181,7 +181,28 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> putOrder(String orderno, String payresult) {
+    public Map<String, Object> getOrderDetail(String orderno){
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> orderinfo = orderMapper.selectOrderInfoByOrderno(orderno);
+        String type=orderinfo.get("type").toString();
+        switch (type){
+            case "006":
+                Map<String, Object> detail = new HashMap<>();
+                detail.put("info", shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
+                resultMap.put("orderdetail", detail);
+                break;
+            default:
+                resultMap.put("pictures", serviceMapper.getServicePictures(orderno));
+                resultMap.put("products", serviceMapper.getServiceProducts(orderno));
+                break;
+        }
+        resultMap.put("order",orderinfo);
+        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> putOrder(String orderno ,String orderType , String payresult) {
         if(payresult.equals("ok")){
             //调用查询接口，处理业务逻辑
             ShopOrder order=orderMapper.selectByPrimaryKey(orderno);
@@ -222,8 +243,14 @@ public class OrderServiceImpl implements IOrderService {
                         String time_end=map.get("time_end").toString();//支付完成时间
                         ShopOrder shopOrder=null;
                         SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+                        String orderStatus = "";//订单状态
+                        if("006".equals(orderType)) {
+                            orderStatus = "002";// 商城修改为 已付款
+                        }else{
+                            orderStatus = orderType + "002";//服务类订单订单状态待前缀，如 翻新支付成功 001002
+                        }
                         try {
-                            shopOrder=new ShopOrder(orderno,total_fee,"002","003",s.parse(time_end));
+                            shopOrder=new ShopOrder(orderno,total_fee,orderStatus,"003",s.parse(time_end));
                             shopOrder.setUpdateTime(s.parse(time_end));//支付完成时间
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -232,7 +259,7 @@ public class OrderServiceImpl implements IOrderService {
                     }
             }
         }
-        return getOrderDetailByOrderno(orderno);
+        return getOrderDetail(orderno);
     }
 
     @Override

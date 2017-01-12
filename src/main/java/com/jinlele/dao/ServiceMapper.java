@@ -23,4 +23,11 @@ public interface ServiceMapper {
     Map<String , Object> getdetectPrice();
 
     List selectServiceDetailByOrderno(String orderno);
+
+    //获得服务信息订单所有图片
+    List getServicePictures(String orderno);
+
+    //服务订单产品信息详情
+    List getServiceProducts(String orderno);
+
 }
