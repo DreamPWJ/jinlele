@@ -713,7 +713,18 @@ angular.module('starter.controllers', [])
         }
 
     }])
+    //绑定手机号
+    .controller('BindphoneCtrl',['$scope',function($scope){
+        $scope.phonenumber="";
+        //获取验证码
+        $scope.getMsgcode=function(){
 
+        }
+        //绑定手机号码
+        $scope.bindingphone=function(){
+
+        }
+    }])
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
 
@@ -1185,14 +1196,14 @@ angular.module('starter.controllers', [])
                 case 0:
                     $scope.jinflag=true;
                     if($scope.myflag)$scope.myflag=false;
-                    $scope.jinlele="hide";
-                    $scope.mine="retrofit";
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
                     break;
                 case 1:
                     $scope.myflag=true;
                     if($scope.jinflag)$scope.jinflag=false;
-                    $scope.jinlele="retrofit";
-                    $scope.mine="hide";
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
                     break;
             }
         }
@@ -1211,6 +1222,7 @@ angular.module('starter.controllers', [])
             $scope.address = data.address;//地址详情
         });
         $scope.content="";//评论内容
+        //图片上传
         $scope.jsonimg=[];
         $scope.jsonmedia=[];
         $scope.localIds = [];// 上传图片的微信路径 数组
@@ -1284,48 +1296,6 @@ angular.module('starter.controllers', [])
             //    CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
             //}
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }])
     //估价结果(回收、换款)
     .controller('ProcPricingCtrl', function ($scope, $stateParams, $location) {
