@@ -7,6 +7,8 @@ public class Service {
 
     private Double price;
 
+    private String orderNo;
+
     private Double aturalprice;
 
     private Integer userId;
@@ -18,8 +20,6 @@ public class Service {
     private String sendway;
 
     private String getway;
-
-    private String orderNo;
 
     private String serviceaddress;
 
@@ -36,6 +36,8 @@ public class Service {
     private Date createTime;
 
     private Date updateTime;
+
+    private Integer commentId;
 
     public Service() {
     }
@@ -69,6 +71,14 @@ public class Service {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
     public Double getAturalprice() {
@@ -117,14 +127,6 @@ public class Service {
 
     public void setGetway(String getway) {
         this.getway = getway == null ? null : getway.trim();
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
     public String getServiceaddress() {
@@ -189,5 +191,13 @@ public class Service {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 }

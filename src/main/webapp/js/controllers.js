@@ -592,11 +592,11 @@ angular.module('starter.controllers', [])
         $scope.submitcomment = function () {
             $scope.comment = [];//评论整体信息
             $scope.itemsinfo = [];//评论实体信息
-            var commentinfo = {};
-            var flag=true;;
+            var commentinfo = {},flag=true;
             commentinfo.orderno = $stateParams.orderno;
             commentinfo.userId = localStorage.getItem("jinlele_userId");
             commentinfo.descriplevel = $scope.currentId;
+            commentinfo.type="";//业务类型
             angular.forEach($scope.orderdetail.info, function (item, index) {
                 var iteminfo = {};
                 iteminfo.gcid = item.gcid;
@@ -1434,45 +1434,42 @@ angular.module('starter.controllers', [])
             //一条评论  多张图片  orderno
             $scope.comment = [];//评论整体信息
             $scope.itemsinfo = [];//评论实体信息
-            var flag=true;
             var commentinfo = {};
             commentinfo.orderno = $stateParams.orderno;
             commentinfo.userId = localStorage.getItem("jinlele_userId");
             commentinfo.descriplevel = $scope.currentId;//描述等级
-
-
-            //angular.forEach($scope.orderdetail.info, function (item, index) {
-            //    var iteminfo = {};
-            //    iteminfo.gcid = item.gcid;
-            //    if($scope.contents[item.gcid].length==0){
-            //        flag=false;
-            //    }
-            //    iteminfo.content = $scope.contents[item.gcid];
-            //    $scope.mediaIds = [];// 评论图片数组
-            //    angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
-            //        for (var i = 0; i < mediaitem.media.length; i++) {
-            //            if(item.gcid==mediaitem.gcid){
-            //                $scope.mediaIds.push(mediaitem.media[i]);
-            //            }
-            //        }
-            //    })
-            //    iteminfo.mediaIds = $scope.mediaIds;
-            //    $scope.itemsinfo.push(iteminfo);
-            //})
-            //commentinfo.itemsinfo=$scope.itemsinfo;
-            //$scope.comment.push(commentinfo);
-            //if(flag) {
-            //    OrderService.AddComment($scope.comment).success(function (data) {
-            //        if (parseInt(data.row) > 0) {
-            //            CommonService.toolTip("评论成功！", "tool-tip-message-success");
-            //            $state.go("orderlist");
-            //        } else {
-            //            CommonService.toolTip("评论失败！", "tool-tip-message-success");
-            //        }
-            //    });
-            //}else{
-            //    CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
-            //}
+            commentinfo.type=$scope.pagetheme;//业务类型
+            var flag=true,iteminfo = {};
+            iteminfo.content = $scope.content;
+            if(iteminfo.content.length==0){
+                flag=false;
+            }
+            $scope.mediaIds = [];// 评论图片数组
+            angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
+                if(angular.isArray(mediaitem.media)){
+                    for (var i = 0; i < mediaitem.media.length; i++) {
+                        $scope.mediaIds.push(mediaitem.media[i]);
+                    }
+                }else{
+                    $scope.mediaIds.push(mediaitem.media);
+                }
+            })
+            iteminfo.mediaIds = $scope.mediaIds;
+            $scope.itemsinfo.push(iteminfo);
+            commentinfo.itemsinfo=$scope.itemsinfo;
+            $scope.comment.push(commentinfo);
+            if(flag) {
+                OrderService.AddComment($scope.comment).success(function (data) {
+                    if (parseInt(data.row) > 0) {
+                        CommonService.toolTip("评论成功！", "tool-tip-message-success");
+                        $state.go("orderlist");
+                    } else {
+                        CommonService.toolTip("评论失败！", "tool-tip-message-success");
+                    }
+                });
+            }else{
+                CommonService.toolTip("请输入评论内容！","tool-tip-message-success");
+            }
         }
     }])
     //估价结果(回收、换款)

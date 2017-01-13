@@ -18,6 +18,8 @@ public interface ServiceMapper {
 
     int updateByPrimaryKey(Service record);
 
+    int updateByOrdernoSelective(Service record);
+
     Map<String , Object> getrefurbishPrice();
 
     Map<String , Object> getdetectPrice();

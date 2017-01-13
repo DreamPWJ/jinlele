@@ -40,6 +40,9 @@ public class CommentServiceImpl implements ICommentService {
     @Resource
     ShopOrderMapper shopOrderMapper;
 
+    @Resource
+    ServiceMapper serviceMapper;
+
     @Override
     public int createComment(List<Map<String,Object>> list) {
         try {
@@ -48,10 +51,14 @@ public class CommentServiceImpl implements ICommentService {
                 String orderno = allCommentInfo.get("orderno").toString();
                 Integer userId = Integer.valueOf(allCommentInfo.get("userId").toString());
                 Integer descriplevel = Integer.valueOf(allCommentInfo.get("descriplevel").toString());
+                String type = allCommentInfo.get("type").toString();//业务类型
                 //读取评论内容信息，多条
                 List<Map<String, Object>> itemsinfo = (List) allCommentInfo.get("itemsinfo");
                 for (Map<String, Object> itemsinfoMap : itemsinfo) {
-                    Integer gcid = Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
+                    Integer gcid =0;
+                    if(type.length()==0) {
+                        gcid = Integer.valueOf(itemsinfoMap.get("gcid").toString());//商品子id
+                    }
                     String content = itemsinfoMap.get("content").toString();//针对商品子id的评论内容
                     List mediaIds = (List) itemsinfoMap.get("mediaIds");//针对商品子id的媒体文件集合
                     //添加评论
@@ -74,16 +81,46 @@ public class CommentServiceImpl implements ICommentService {
                             commentPictureMapper.insertSelective(cp);
                         }
                     }
-                    //修改订单商品中间表，添加评论id
-                    ShopOrderGood shopOrderGood = new ShopOrderGood();
-                    shopOrderGood.setCommentId(comment.getId());
-                    shopOrderGood.setGoodchildId(gcid);
-                    shopOrderGood.setShoporderNo(orderno);
-                    shopOrderGoodMapper.updateByOrderNoGcid(shopOrderGood);
+                    if (type.length()==0) {
+                        //修改订单商品中间表，添加评论id
+                        ShopOrderGood shopOrderGood = new ShopOrderGood();
+                        shopOrderGood.setCommentId(comment.getId());
+                        shopOrderGood.setGoodchildId(gcid);
+                        shopOrderGood.setShoporderNo(orderno);
+                        shopOrderGoodMapper.updateByOrderNoGcid(shopOrderGood);
+                    }else{
+                        //修改service表，添加评论id
+                        com.jinlele.model.Service service= new com.jinlele.model.Service();
+                        service.setOrderNo(orderno);
+                        service.setCommentId(comment.getId());
+                        serviceMapper.updateByOrdernoSelective(service);
+                    }
                     //修改订单，增加描述等级
                     ShopOrder shopOrder = new ShopOrder();
                     shopOrder.setDescriplevel(descriplevel);
-                    shopOrder.setShoporderstatuscode("007");
+                    //todo 状态未完成
+                    //region 更新为已评价状态
+                    switch (type) {
+                        case "refurbish"://产品翻新
+                            shopOrder.setShoporderstatuscode("001009");
+                            break;
+                        case "repair"://产品维修
+                            shopOrder.setShoporderstatuscode("");
+                            break;
+                        case "detect"://产品检测
+                            shopOrder.setShoporderstatuscode("003009");
+                            break;
+                        case "recycle"://产品回收
+                            shopOrder.setShoporderstatuscode("");
+                            break;
+                        case "exchange"://产品换款
+                            shopOrder.setShoporderstatuscode("");
+                            break;
+                        default://默认商城
+                            shopOrder.setShoporderstatuscode("005");
+                            break;
+                    }
+                    //endregion
                     shopOrder.setOrderno(orderno);
                     shopOrderMapper.updateByPrimaryKeySelective(shopOrder);
                 }
