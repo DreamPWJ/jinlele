@@ -41,6 +41,18 @@ public class Service {
 
     public Service() {
     }
+    public Service( Integer userId, String descrip, Integer storeId) {
+        this.userId = userId;
+        this.descrip = descrip;
+        this.storeId = storeId;
+    }
+    public Service( Integer userId, String orderNo,String descrip, Integer storeId) {
+        this.userId = userId;
+        this.orderNo = orderNo;
+        this.descrip = descrip;
+        this.storeId = storeId;
+    }
+
 
     public Service(Double aturalprice, Integer userId, String descrip, Integer storeId) {
         this.aturalprice = aturalprice;

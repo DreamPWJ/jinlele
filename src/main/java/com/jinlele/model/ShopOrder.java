@@ -222,6 +222,15 @@ public class ShopOrder {
         this.payResult = payresult;
         this.updateTime=endtime;
     }
+    public ShopOrder(String orderno,  Integer totalnum, Integer userId, Integer storeId, String type,String shoporderstatuscode , Date orderTime) {
+        this.orderno = orderno;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.createTime = orderTime;
+    }
 
     public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
         this.orderno = orderno;

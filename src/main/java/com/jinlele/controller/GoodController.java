@@ -57,7 +57,6 @@ public class GoodController {
      * @param goodId 商品id
      * @return
      */
-
     @ResponseBody
     @RequestMapping(value = "/getGoodDetail/{goodId}/{userId}", method = RequestMethod.GET)
     public Map<String, Object> getGoodDetail(@PathVariable int goodId,@PathVariable int userId) {

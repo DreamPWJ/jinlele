@@ -52,7 +52,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.jinlele.model.Service" >
+  <insert id="insertSelective" parameterType="com.jinlele.model.Service" useGeneratedKeys="true" keyProperty="id">
     insert into service
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

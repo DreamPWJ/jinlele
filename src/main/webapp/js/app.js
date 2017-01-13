@@ -139,7 +139,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcRefurbishCtrl'
             })
             .state('procfixprice', {  //定价
-                url: '/procfixprice/:name',
+                url: '/procfixprice/:name/:orderno/:serviceId',
                 templateUrl: 'html/repair/procfixprice.html',
                 controller: 'ProcFixpriceCtrl'
             })

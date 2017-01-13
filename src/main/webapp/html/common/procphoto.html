@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="css/select.css" />
 <!-- title -->
 <section class="process_title"  ng-switch on="pagetheme">
     <i ng-switch-when="refurbish">产品翻新</i>
@@ -223,35 +222,38 @@
     </section>
     
     <!-- 产品信息 -->
-    <dl class="add_product" ng-switch-when="repair">
-        <dd>
-            <em>产品类别：</em>
-            <span>
-            <select class="default">
-                <option value="">请选择</option>
-                <option value="1">戒指</option>
+    <div  ng-repeat="items in productArr"  ng-switch-when="repair">
+        <dl class="add_product">
+            <dd>
+                <em>产品材质：</em>
+                <span>
+            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)"  required>
+                <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
             </select>
             </span>
-        </dd>
-        <dd>
-            <em>数量：</em>
-            <span><input placeholder="备注内容..." type="text"></span>
-        </dd>
-        <dd>
-            <em>材质：</em>
-            <span>
-            <select class="default">
-                <option value="">请选择</option>
-                <option value="1">黄金</option>
+            </dd>
+            <dd >
+                <em>产品类别：</em>
+                <span>
+
+            <select class="" ng-model="product.secondCatogoryId[$index]" required>
+                <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
             </select>
             </span>
-        </dd>
-        <dd>
-            <em>备注：</em>
-            <span><input placeholder="备注内容..." type="text" ></span>
-        </dd>
-    </dl>
-    
+            </dd>
+            <dd>
+                <em>数量：</em>
+                <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')"   required></span>
+            </dd>
+            <dd>
+                <em>备注：</em>
+                <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]" required></span>
+            </dd>
+        </dl>
+    </div>
+
+
+
     <!-- 拍照 -->
     <section class="photograph">
         <ul >
@@ -328,7 +330,7 @@
     <section class="submit" >
         <a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a>
         <!--<a href="#/proccommitorder/{{pagetheme}}"  ng-if="!localflag">下一步</a>-->
-        <a  ng-click="proccommitorder(pagetheme)" ng-if="!localflag">下一步</a>
+        <a  ng-click="proccommitorder(pagetheme)" >下一步</a>
     </section>
 </main>
 
