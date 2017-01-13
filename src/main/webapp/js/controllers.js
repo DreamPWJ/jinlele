@@ -360,8 +360,10 @@ angular.module('starter.controllers', [])
                                         break;
                                     default :
                                         //未支付，跳转支付进度
-                                        sessionStorage.setItem( r.orderno,"");
-                                        $state.go("payresult", {orderno: r.orderno});
+                                       sessionStorage.setItem(r.orderno,"");
+                                        var order = {orderno: r.orderno ,orderType:'006' ,orderStatus:""}; //orderStatus为订单状态
+                                        //$state.go("payresult", {orderno: r.orderno});
+                                        $state.go("payresult", {order: JSON.stringify(order)});
                                         break;
                                 }
                             });
@@ -375,9 +377,10 @@ angular.module('starter.controllers', [])
     }])
     //支付进度
     .controller('PayResultCtrl',  ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
-        $scope.orderno=$stateParams.orderno;
-        if (sessionStorage.getItem($scope.orderno) == "ok") {
-            OrderService.queryWxPutOrder({orderno:$scope.orderno, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+        $scope.order= JSON.parse($stateParams.order);
+        console.log("$scope.order=="+$stateParams.order);
+        if (sessionStorage.getItem($scope.order.orderno) == "ok" ) {
+            OrderService.queryWxPutOrder({orderno:$scope.order.orderno, type:$scope.order.orderType,payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
                 switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
@@ -390,10 +393,13 @@ angular.module('starter.controllers', [])
                 }
             });
         }else {
-            OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
+            OrderService.getOrderDetailInfo({orderno: $scope.order.orderno}).success(function (data) {
+                console.log('getOrderDetailInfo==='+JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//地址信息
-                switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                var len =  $scope.orderinfo.shoporderstatusCode.length;
+                var status = $scope.orderinfo.shoporderstatusCode.substring(len-3,len);
+                switch (status) {//自定义支付进度展示
                     case "001":
                         $scope.process = [{value: "等待买家付款", len: 1}];
                         break;
@@ -1267,10 +1273,6 @@ angular.module('starter.controllers', [])
                     WeiXinService.getweixinPayData($scope.param).success(function (data) {
                         WeiXinService.wxchooseWXPay(data)
                             .then(function (msg) {
-                                if (msg == "get_brand_wcpay_request:ok") {
-                                    console.log("支付成功");
-                                    CommonService.toolTip("恭喜您支付成功", "tool-tip-message-success");
-                                    //修改服务端已经修改了奥,//成功后，跳转到下一个页面 ，下个页面中显示订单信息 支付成功和 跳转连接，如跳到列表和再次下单
                                     switch (msg) {
                                         case "get_brand_wcpay_request:ok":
                                             CommonService.toolTip("支付成功","tool-tip-message-success");
@@ -1281,20 +1283,11 @@ angular.module('starter.controllers', [])
                                             break;
                                         default :
                                             //未支付，跳转支付进度
-                                            sessionStorage.setItem(r.orderno,"");
-                                            $state.go("payresult", {orderno: r.orderno});
+                                            sessionStorage.setItem($scope.param.orderNo,"");
+                                            var order = {orderno:$scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
+                                            $state.go("payresult", {order: JSON.stringify(order)});
                                             break;
                                     }
-                                    // $state.go('procreceive', {
-                                    //     name: $scope.pagetheme,
-                                    //     orderNo: orderno,
-                                    //     orderTime: orderTime
-                                    // });
-                                } else {
-                                    console.log("支付未成功");
-                                    //此处应该进入缓存页面，让客户确认订单再次付款，然后加上跳转连接，返回订单列表
-                                    $state.go('orderlist');
-                                }
                             });
 
                     });

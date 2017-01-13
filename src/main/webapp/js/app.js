@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ServiceDetailCtrl'
             })
             .state('payresult', {  //支付进度
-                url: '/payresult/:orderno',
+                url: '/payresult{order}',
                 templateUrl: 'html/payresult.html',
                 controller: 'PayResultCtrl'
             })
