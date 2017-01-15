@@ -752,7 +752,7 @@ angular.module('starter.controllers', [])
                     $state.go('proccommitorder');
                 }
             }
-            if(type=='001' || type=='003'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
+            if(type=='001' || type=='003' || type=='004'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
                 $state.go('procreceive' ,{name:type ,orderNo:orderno ,orderTime:createTime});
             }
         }
@@ -1170,7 +1170,7 @@ angular.module('starter.controllers', [])
                 type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
             //如果是翻新和检查 需要传入价格
-            if($scope.typeCode=='001' || $scope.typeCode=='003'){
+            if($scope.typeCode=='001' || $scope.typeCode=='003' || $scope.typeCode=='004'){
                 $scope.params.aturalprice =$scope.service.price;
                 console.log("$scope.pagetheme =="+ $scope.pagetheme);
                 console.log("$scope.typeCode =="+ $scope.typeCode);
@@ -1217,7 +1217,7 @@ angular.module('starter.controllers', [])
     .controller('ProcCommitOrderCtrl', function ( $rootScope,$scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService ,CommonService) {
         $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
-        $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
+        $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice") || 0;
         $scope.orderno = sessionStorage.getItem("jinlele_procphoto_orderno");
         if($scope.pagetheme == 'repair'){
             $scope.totalprice =  $scope.aturalprice;
@@ -1233,7 +1233,7 @@ angular.module('starter.controllers', [])
             storeId: "",
             sendway: "001",
             getway: "001",
-            totalprice: ""
+            totalprice: 0
         };
         $scope.addsendway = function (val) {
             $scope.sendwayFlag = !$scope.sendwayFlag;
@@ -1343,7 +1343,7 @@ angular.module('starter.controllers', [])
                 totalprice: $scope.totalprice,   //总价格
                 buyeraddresId: $scope.address.id//收货地址id外键
             };
-            if($scope.type.code == '001' || $scope.type.code == '003'){  //如果是翻新和检测需要传入产品信息
+            if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004'){  //如果是翻新和检测需要传入产品信息
                 $scope.params.serviceId = $scope.serviceId;
                 $scope.params.totalnum = $scope.totalnum;
                 $scope.params.products = JSON.stringify($scope.product);
@@ -1354,6 +1354,10 @@ angular.module('starter.controllers', [])
                         //调用支付接口
                         var orderno = data.orderNo;
                         var orderTime = data.orderTime;
+                        if($scope.type.code == '004'){   //如果是回收订单无需付款 ，直接进入平台收货页面
+                            $state.go('procreceive',{name:'recycle',orderNo:data.orderNo,orderTime:data.orderTime});
+                            return;
+                        }
                         $scope.param = {
                             totalprice: 0.01, //data.totalprice
                             orderNo: data.orderNo,
@@ -1441,6 +1445,7 @@ angular.module('starter.controllers', [])
         $scope.pagetheme = $stateParams.name;
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
         if($stateParams.name == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.name == '004')  $scope.pagetheme = 'recycle';
 
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
@@ -1679,7 +1684,6 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-
     })
     //维修
     .controller('ProcRepairCtrl', function ($scope, $stateParams) {
@@ -1690,6 +1694,10 @@ angular.module('starter.controllers', [])
     })
     //回收-估价
     .controller('RecycleCtrl', function ($scope) {
+
+    })
+    //回收--估价结果页面
+    .controller('EvaluationresultCtrl' , function ($scope) {
 
     })
     //换款

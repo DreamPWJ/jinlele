@@ -80,7 +80,7 @@
                 <section class="check_button" ng-if="item.type!='006'">
                         <span>
                             <em>共{{item.totalnum}}件商品</em>
-                            <em>合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
+                            <em ng-if="item.totalprice!=0">合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
                         </span>
                         <span >
                             <!--<a href="">联系卖家</a>-->

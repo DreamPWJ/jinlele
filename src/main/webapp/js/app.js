@@ -153,6 +153,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/recycle/index.html',
                 controller: 'RecycleCtrl'
             })
+            //估计结果页面
+            .state('evaluationresult', {  //回收-估价
+                url: '/evaluationresult',
+                templateUrl: 'html/recycle/evaluationresult.html',
+                controller: 'EvaluationresultCtrl'
+            })
             .state('exchange', {  //换款
                 url: '/exchange',
                 templateUrl: 'html/exchange/index.html',
