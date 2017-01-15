@@ -436,9 +436,12 @@ angular.module('starter.controllers', [])
             });
         }else {
             OrderService.getOrderDetail({orderno: $scope.order.orderno}).success(function (data) {
+                console.log('else Data=='+JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
-                $scope.orderdetail = data.orderdetail;//订单详情
+                $scope.pictures = data.pictures;//图片列表
+                $scope.products = data.products;//产品列表
+                //$scope.orderdetail = data.orderdetail;//订单详情
             });
         }
         //微信支付调用
