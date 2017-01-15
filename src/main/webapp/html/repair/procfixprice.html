@@ -53,11 +53,12 @@
     <!-- 定价 -->
   	<section class="price">
     	<i>产品维修价格</i>
-    	<em>￥1688.00</em>
+    	<em ng-if="fixPrice == 0">平台定价中,请耐心等待..</em>
+    	<em ng-if="fixPrice != 0">￥ {{fixPrice}}</em>
     </section>
-    <section class="price_button">
-    	<span><a href="#/proccommitorder/{{pagetheme}}">确认维修</a></span>
-    	<span><a href="#/main">放弃维修</a></span>
+    <section class="price_button" ng-if="fixPrice != 0">
+    	<span><a  ng-click="commit()">确认维修</a></span>
+    	<span><a  ng-click="drop()">放弃维修</a></span>
     </section>
  
 </main>

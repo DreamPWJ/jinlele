@@ -1,7 +1,11 @@
 package com.jinlele.controller;
 
+import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IServiceOrderService;
+import com.jinlele.service.interfaces.IServiceService;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +23,12 @@ public class ServiceOrderController {
 
     @Resource
     IServiceOrderService serviceOrderService;
+
+    @Resource
+    IOrderService orderService;
+
+    @Resource
+    IServiceService serviceService;
 
 
     /**
@@ -56,6 +66,27 @@ public class ServiceOrderController {
     @RequestMapping("/saveRepairOrder")
     public Map<String , Object> saveRepairOrder(Integer userId ,Integer totalnum,String products , String descrip , String type , Integer storeId , String[] mediaIds) throws IOException {
         return  serviceOrderService.saveRepairOrder(userId ,totalnum,products , descrip , type , storeId , mediaIds);
+    }
+
+    /**
+     * 查询维修订单是否已经定价
+     */
+    @ResponseBody
+    @RequestMapping("/selectactualpprice/{orderno}")
+    public Map<String , Object> selectactualpprice(@PathVariable String orderno) throws IOException {
+        Map map = new HashedMap();
+        Double money = orderService.selectactualpprice(orderno);
+        map.put("fixPrice" , money);
+        return  map;
+    }
+
+    /**
+     * 更新维修订单和维修服务信息
+     */
+    @ResponseBody
+    @RequestMapping("/updateRepair")
+    public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId){
+        return  serviceOrderService.updateRepair(orderno , type,userId, storeId, sendWay, getWay,  totalprice, buyeraddresId);
     }
 
 

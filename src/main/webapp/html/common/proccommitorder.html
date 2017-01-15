@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="css/select.css"/>
 <!-- title -->
 <section class="process_title" ng-switch on="pagetheme">
     <i ng-switch-when="refurbish">产品翻新</i>
@@ -230,7 +229,7 @@
         <dd>
             <em>选择门店：</em>
             <span>
-             <select class="default"  ng-model="order.storeId">
+             <select   ng-model="order.storeId">
                 <option value="1">金乐乐门店</option>
             </select>
             <!--<select   ng-model="order.storeId" >-->
@@ -295,7 +294,7 @@
     </section>
 
     <!-- 产品信息 -->
-    <div  ng-repeat="items in productArr">
+    <div  ng-repeat="items in productArr" ng-if="pagetheme != 'repair'">
     <dl class="add_product">
         <dd>
             <em>产品材质：</em>
@@ -325,7 +324,9 @@
     </dl>
     </div>
 
-    <section class="addto" ng-click="addProduct()"><a href=""><i class="iconfont icon-add" style="font-size:12px;margin-top:-0.1rem;"></i><em>添加产品信息</em></a></section>
+    <section class="addto" ng-click="addProduct()"  ng-if="pagetheme != 'repair'">
+        <a href=""><i class="iconfont icon-add" style="font-size:12px;margin-top:-0.1rem;"></i><em>添加产品信息</em></a>
+    </section>
 
     <section class="prompt_tisi">
         <p>以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>

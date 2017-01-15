@@ -297,4 +297,19 @@ public class OrderServiceImpl implements IOrderService {
         return  orderMapper.findAllexpressCompanies();
     }
 
+    @Override
+    public Double selectactualpprice(String orderno) {
+        return orderMapper.selectactualpprice(orderno);
+    }
+
+    //根据订单号查询服务的id
+    @Override
+    public Integer selectServiceIdByOrderNo(String orderno){
+        return orderMapper.selectServiceIdByOrderNo(orderno);
+    }
+
+    //查询下单时间  selectCreateTime
+    public Date selectCreateTime(String orderno){
+        return orderMapper.selectCreateTime(orderno);
+    }
 }

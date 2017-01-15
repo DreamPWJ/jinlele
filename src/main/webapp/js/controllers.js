@@ -669,7 +669,7 @@ angular.module('starter.controllers', [])
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
             //分页显示
-            OrderListService.getorderLists( {userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+            OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
@@ -734,6 +734,29 @@ angular.module('starter.controllers', [])
             console.log('servicedetail==='+JSON.stringify(order));
             $state.go("servicedetail", {order: JSON.stringify(order)});
         }
+
+        $scope.procreceive = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
+            console.log('type=='+type);
+            console.log('orderno=='+orderno);
+            console.log('createTime=='+createTime);
+            console.log('shoporderstatusCode=='+shoporderstatusCode);
+            console.log('totalprice=='+totalprice);
+            if(type=='002'){ //如果 维修订单是带确认维修或者待定价就进入 定价的页面
+                if(shoporderstatusCode < '002003'){
+                   $state.go('procfixprice' ,{name:type ,orderno:orderno});
+                }
+                if(shoporderstatusCode == '002003'){ //如果是确认维修的状态   跳转到提交订单的页面
+                    sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+                    sessionStorage.setItem('jinlele_procphoto_aturalprice',totalprice);
+                    sessionStorage.setItem('jinlele_procphoto_pathname','repair');
+                    $state.go('proccommitorder');
+                }
+            }
+            if(type=='001' || type=='003'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
+                $state.go('procreceive' ,{name:type ,orderNo:orderno ,orderTime:createTime});
+            }
+        }
+        //procreceive
 
 
     }])
@@ -1148,7 +1171,7 @@ angular.module('starter.controllers', [])
             };
             //如果是翻新和检查 需要传入价格
             if($scope.typeCode=='001' || $scope.typeCode=='003'){
-                scope.params.aturalprice =$scope.service.price;
+                $scope.params.aturalprice =$scope.service.price;
                 console.log("$scope.pagetheme =="+ $scope.pagetheme);
                 console.log("$scope.typeCode =="+ $scope.typeCode);
                 console.log(JSON.stringify($scope.params));
@@ -1157,7 +1180,7 @@ angular.module('starter.controllers', [])
                     if (data) {
                         var serviceId = data.serviceId;
                         //③后台处理成功后，跳转到下单页面
-                        sessionStorage.setItem("jinlele_procphoto_pathname", pagetheme);
+                        sessionStorage.setItem("jinlele_procphoto_pathname", $scope.pagetheme);
                         sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
                         sessionStorage.setItem("jinlele_procphoto_aturalprice", $scope.service.price);
                         $state.go("proccommitorder");
@@ -1180,9 +1203,8 @@ angular.module('starter.controllers', [])
                         // sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
                         // sessionStorage.setItem("jinlele_procphoto_orderno", data.orderno);
                         $state.go("procfixprice",{
-                            name:pagetheme,
-                            orderno:data.orderno,
-                            serviceId:data.serviceId
+                            name:$scope.pagetheme,
+                            orderno:data.orderno
                         });
                     }
                 })
@@ -1197,30 +1219,22 @@ angular.module('starter.controllers', [])
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice");
         $scope.orderno = sessionStorage.getItem("jinlele_procphoto_orderno");
+        if($scope.pagetheme == 'repair'){
+            $scope.totalprice =  $scope.aturalprice;
+            console.log('$scope.totalprice==' + $scope.totalprice);
+        }
         console.log('$scope.orderno=='+$scope.orderno);
         $rootScope.commonService = CommonService;
         $scope.type = ProcCommitOrderService.getType($scope.pagetheme); //根据路由获取服务类型
         $scope.showaddr = $scope.pagetheme == 'recycle' ? false : true;
         $scope.address = {};
         $scope.show = false; //用户控制地址显示
-        $scope.secondcatagories = [];
         $scope.order = {
             storeId: "",
             sendway: "001",
             getway: "001",
             totalprice: ""
         };
-        $scope.productArr = [];
-        $scope.product = {
-            firstCatogoryId: [],//一级分类id
-            secondCatogoryId: [], //二级分类id
-            num: [],
-            memo: []
-        };
-        $scope.sendwayFlag = false;//寄件方式切换
-        $scope.getwayFlag = false; //取件方式切换
-        $scope.sendwayValue = ['001', '002'];//寄件取件方式值
-        $scope.getwayValue = ['001', '002'];//寄件取件方式值
         $scope.addsendway = function (val) {
             $scope.sendwayFlag = !$scope.sendwayFlag;
             $scope.order.sendway = val;
@@ -1232,6 +1246,19 @@ angular.module('starter.controllers', [])
         $scope.goback = function () {
             $window.history.back();
         }
+        $scope.sendwayFlag = false;//寄件方式切换
+        $scope.getwayFlag = false; //取件方式切换
+        $scope.sendwayValue = ['001', '002'];//寄件取件方式值
+        $scope.getwayValue = ['001', '002'];//寄件取件方式值
+
+        $scope.secondcatagories = [];
+        $scope.productArr = [];
+        $scope.product = {
+            firstCatogoryId: [],//一级分类id
+            secondCatogoryId: [], //二级分类id
+            num: [],
+            memo: []
+        };
 
         //从数据库获取地址
         AddressService.getlatestinfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
@@ -1286,9 +1313,10 @@ angular.module('starter.controllers', [])
             $scope.totalprice = $scope.totalnum * price;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         }
+
         //生成订单并付款
         $scope.procreceive = function (flag) {
-            if(!flag){
+            if(!flag && ($scope.type.code=='001' ||$scope.type.code=='003') ){ //如果是翻新和检测订单
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
@@ -1308,36 +1336,37 @@ angular.module('starter.controllers', [])
             });
             $scope.params = {
                 userId: localStorage.getItem("jinlele_userId"),
-                serviceId: $scope.serviceId,
                 type: $scope.type.code,    //翻新001维修002检测003回收004换款005
                 storeId: 1,     //暂时默认是1
-                totalnum: $scope.totalnum, //产品数量
                 sendWay: $scope.order.sendway,     //送货方式
                 getWay: $scope.order.getway,      //取货方式
                 totalprice: $scope.totalprice,   //总价格
-                buyeraddresId: $scope.address.id,//收货地址id外键
-                products: JSON.stringify($scope.product)
+                buyeraddresId: $scope.address.id//收货地址id外键
             };
-            console.log(JSON.stringify($scope.params));
-            //保存订单 并去支付订单
-            ProcCommitOrderService.saveServiceOrder($scope.params).success(function (data) {
-                if (data) {
-                    //调用支付接口
-                    var orderno = data.orderNo;
-                    var orderTime = data.orderTime;
-                    $scope.param = {
-                        totalprice: 0.01, //data.totalprice
-                        orderNo: data.orderNo,
-                        descrip: '你的'+$scope.type.name+'服务订单已付款成功，请尽快邮寄宝贝！',
-                        openid: localStorage.getItem("openId"),
-                        orderType:JSON.stringify({type:$scope.type.code})
-                    }
-                    //调用支付接口
-                    console.log(JSON.stringify($scope.param));
-                    //微信支付调用
-                    WeiXinService.getweixinPayData($scope.param).success(function (data) {
-                        WeiXinService.wxchooseWXPay(data)
-                            .then(function (msg) {
+            if($scope.type.code == '001' || $scope.type.code == '003'){  //如果是翻新和检测需要传入产品信息
+                $scope.params.serviceId = $scope.serviceId;
+                $scope.params.totalnum = $scope.totalnum;
+                $scope.params.products = JSON.stringify($scope.product);
+                console.log(JSON.stringify($scope.params));
+                //保存订单 并去支付订单
+                ProcCommitOrderService.saveServiceOrder($scope.params).success(function (data) {
+                    if (data) {
+                        //调用支付接口
+                        var orderno = data.orderNo;
+                        var orderTime = data.orderTime;
+                        $scope.param = {
+                            totalprice: 0.01, //data.totalprice
+                            orderNo: data.orderNo,
+                            descrip: '你的'+$scope.type.name+'服务订单已付款成功，请尽快邮寄宝贝！',
+                            openid: localStorage.getItem("openId"),
+                            orderType:JSON.stringify({type:$scope.type.code})
+                        }
+                        //调用支付接口
+                        console.log(JSON.stringify($scope.param));
+                        //微信支付调用
+                        WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                            WeiXinService.wxchooseWXPay(data)
+                                .then(function (msg) {
                                     switch (msg) {
                                         case "get_brand_wcpay_request:ok":
                                             CommonService.toolTip("支付成功","tool-tip-message-success");
@@ -1353,10 +1382,56 @@ angular.module('starter.controllers', [])
                                             $state.go("payresult", {order: JSON.stringify(order)});
                                             break;
                                     }
-                            });
-                    });
-                }
-            });
+                                });
+                        });
+                    }
+                });
+            }
+            //如果是维修订单
+            if($scope.type.code == '002'){   //String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId
+                $scope.params.orderno = $scope.orderno;
+                console.log(JSON.stringify($scope.params));
+                //保存订单 并去支付订单
+                ProcCommitOrderService.updateRepair($scope.params).success(function (data) {
+                    console.log('data='+JSON.stringify(data))
+                    if (data) {
+                        //调用支付接口
+                        var orderno = data.orderNo;
+                        var orderTime = data.orderTime;
+                        $scope.param = {
+                            totalprice: 0.01, //data.totalprice
+                            orderNo: data.orderNo,
+                            descrip: '你的' + $scope.type.name + '服务订单已付款成功，请尽快邮寄宝贝！',
+                            openid: localStorage.getItem("openId"),
+                            orderType:JSON.stringify({type:$scope.type.code})
+                        }
+                        //调用支付接口
+                        console.log(JSON.stringify($scope.param));
+                        //微信支付调用
+                        WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                            WeiXinService.wxchooseWXPay(data)
+                                .then(function (msg) {
+                                    switch (msg) {
+                                        case "get_brand_wcpay_request:ok":
+                                            CommonService.toolTip("支付成功","tool-tip-message-success");
+                                            //支付成功，跳转订单详情
+                                            sessionStorage.setItem($scope.param.orderNo ,"ok");
+                                            var order = {orderno: $scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
+                                            $state.go("servicedetail", {order: JSON.stringify(order)});
+                                            break;
+                                        default :
+                                            //未支付，跳转支付进度
+                                            sessionStorage.setItem($scope.param.orderNo,"");
+                                            var order = {orderno:$scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
+                                            $state.go("payresult", {order: JSON.stringify(order)});
+                                            break;
+                                    }
+                                });
+                        });
+                    }
+                });
+            }
+
         }
     })
 
@@ -1569,9 +1644,42 @@ angular.module('starter.controllers', [])
 
     })
     //维修-定价
-    .controller('ProcFixpriceCtrl', function ($scope, $stateParams) {
+    .controller('ProcFixpriceCtrl', function ($scope, $stateParams ,OrderService ,$state ,CommonService) {
         console.log('$stateParams===' + JSON.stringify($stateParams));
         $scope.pagetheme = $stateParams.name;
+        if($stateParams.name == '002') $scope.pagetheme = 'repair';
+        $scope.fixPrice = 0;
+        //根据订单号查询是否已经定价
+        OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+             console.log(JSON.stringify(data));
+             if(data && data.fixPrice){
+                 $scope.fixPrice = data.fixPrice;
+             }
+        });
+        //放弃维修 修改订单状态，然后进入跳转到订单详情页 ， 暂时跳转到 订单列表
+        $scope.drop = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002011'}).success(function (data) {
+                 if(data && data.n==1){
+                     CommonService.toolTip('订单已经已经取消','');
+                     setTimeout(function () {
+                         $state.go('orderlist');
+                     },1000);
+                 }
+            });
+        }
+        //确认维修
+        //href="#/proccommitorder/{{pagetheme}}"
+        $scope.commit = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002003'}).success(function (data) {
+                if(data && data.n==1){
+                    sessionStorage.setItem('jinlele_procphoto_orderno',$stateParams.orderno);
+                    sessionStorage.setItem('jinlele_procphoto_aturalprice',$scope.fixPrice);
+                    sessionStorage.setItem('jinlele_procphoto_pathname','repair');
+                    $state.go('proccommitorder');
+                }
+            });
+        }
+
     })
     //维修
     .controller('ProcRepairCtrl', function ($scope, $stateParams) {

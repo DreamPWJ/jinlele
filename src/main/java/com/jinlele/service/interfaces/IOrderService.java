@@ -2,6 +2,7 @@ package com.jinlele.service.interfaces;
 
 import com.jinlele.model.ShopOrder;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,15 @@ public interface IOrderService {
 
     //查询所有的快递
     List<Map<String , Object>> findAllexpressCompanies();
+
+    //查询维修订单是否已经定价
+    Double selectactualpprice(String orderno);
+
+    //根据订单号查询服务的id
+    Integer selectServiceIdByOrderNo(String orderno);
+
+    //查询下单时间  selectCreateTime
+    Date selectCreateTime(String orderno);
 
 
 }

@@ -299,6 +299,9 @@ public class WeiXinController {
                         String orderstatus = "";
                         if("006".equals(orderType)){
                             orderstatus = "002";
+                        }else if("002".equals(orderType)){
+                            orderstatus =  "002004";  //维修订单的状态需要改为002004 （已付款）待客户发货
+                            System.out.println("orderstatus==="+orderstatus);
                         }else{
                             orderstatus = orderType + "002";
                         }

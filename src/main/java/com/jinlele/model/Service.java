@@ -41,7 +41,20 @@ public class Service {
 
     public Service() {
     }
-    public Service( Integer userId, String descrip, Integer storeId) {
+
+
+    public Service(Integer id , Double price , Double aturalprice, Integer userId , Integer storeId ,String sendWay ,String getWay, Date updateTime){
+        this.id = id;
+        this.price = price;
+        this.aturalprice = aturalprice;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.sendway = sendWay;
+        this.getway = getWay;
+        this.updateTime = updateTime;
+    }
+
+    public Service(Integer userId, String descrip, Integer storeId) {
         this.userId = userId;
         this.descrip = descrip;
         this.storeId = storeId;

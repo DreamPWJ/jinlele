@@ -3,6 +3,7 @@ package com.jinlele.dao;
 import com.jinlele.model.ShopOrder;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,15 @@ public interface ShopOrderMapper {
     Map<String , Object> findReceiptServiceByOrderno(@Param("orderno")String orderno);
 
     List findAllexpressCompanies();
+
+    Double selectactualpprice(String orderno);
+
+    //根据订单号查询服务的id
+    Integer selectServiceIdByOrderNo(String orderno);
+
+    //查询下单时间  selectCreateTime
+    Date selectCreateTime(String orderno);
+
+
+
 }

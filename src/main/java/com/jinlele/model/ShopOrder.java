@@ -215,6 +215,16 @@ public class ShopOrder {
 
     public ShopOrder() {
     }
+
+    public ShopOrder(String orderno,String type,Integer userId,Integer storeId,Double totalprice,Integer receiptAddressId){
+        this.orderno = orderno;
+        this.type = type;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.totalprice = totalprice;
+        this.receiptAddressId = receiptAddressId;
+    }
+
     public ShopOrder(String orderno,Double actualpayprice,String orderstatus,String payresult,Date endtime) {
         this.orderno = orderno;
         this.actualpayprice=actualpayprice;

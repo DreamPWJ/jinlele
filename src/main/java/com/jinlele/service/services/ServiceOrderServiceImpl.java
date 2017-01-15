@@ -140,4 +140,19 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         map.put("serviceId" , service.getId());
         return map;
     }
+
+    public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId){
+        //更新订单信息
+        ShopOrder order = new  ShopOrder(orderno,type,userId,storeId,totalprice,buyeraddresId);
+        shopOrderMapper.updateByPrimaryKeySelective(order);
+        Integer serviceId =  shopOrderMapper.selectServiceIdByOrderNo(orderno);
+        Service service = new Service(serviceId ,totalprice ,totalprice ,userId , storeId , sendWay ,getWay ,new Date());
+        serviceMapper.updateByPrimaryKeySelective(service);
+        Date orderTime = shopOrderMapper.selectCreateTime(orderno);
+        Map map = new HashedMap();
+        map.put("orderTime" , orderTime);
+        map.put("orderNo" , orderno);
+        return map;
+    }
+
 }
