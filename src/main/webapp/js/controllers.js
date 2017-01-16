@@ -1069,8 +1069,6 @@ angular.module('starter.controllers', [])
             }
         }
 
-
-
     })
 
     //流程-拍照
@@ -1099,7 +1097,7 @@ angular.module('starter.controllers', [])
                 $scope.service.price = data.code_value;
             });
         }
-        if ($stateParams.name == "repair") {
+        if($stateParams.name == "repair") {
             $scope.secondcatagories = [];
             $scope.productArr = [];
             $scope.productArr.push(0);
@@ -1173,8 +1171,8 @@ angular.module('starter.controllers', [])
                 type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
             //如果是翻新和检查 需要传入价格
-            if($scope.typeCode=='001' || $scope.typeCode=='003' || $scope.typeCode=='004'){
-                $scope.params.aturalprice =$scope.service.price;
+            if($scope.typeCode=='001' || $scope.typeCode=='003' || $scope.typeCode=='004' || $scope.typeCode=='005'){
+                $scope.params.aturalprice = $scope.service.price;
                 console.log("$scope.pagetheme =="+ $scope.pagetheme);
                 console.log("$scope.typeCode =="+ $scope.typeCode);
                 console.log(JSON.stringify($scope.params));
@@ -1319,7 +1317,7 @@ angular.module('starter.controllers', [])
 
         //生成订单并付款
         $scope.procreceive = function (flag) {
-            if(!flag && ($scope.type.code=='001' ||$scope.type.code=='003') ){ //如果是翻新和检测订单
+            if(!flag && ($scope.type.code!='004') ){ //如果是翻新 检测 换款 维修
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
@@ -1346,7 +1344,7 @@ angular.module('starter.controllers', [])
                 totalprice: $scope.totalprice,   //总价格
                 buyeraddresId: $scope.address.id//收货地址id外键
             };
-            if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004'){  //如果是翻新和检测需要传入产品信息
+            if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004' || $scope.type.code == '005'){  //如果是翻新和检测需要传入产品信息
                 $scope.params.serviceId = $scope.serviceId;
                 $scope.params.totalnum = $scope.totalnum;
                 $scope.params.products = JSON.stringify($scope.product);
@@ -1357,8 +1355,12 @@ angular.module('starter.controllers', [])
                         //调用支付接口
                         var orderno = data.orderNo;
                         var orderTime = data.orderTime;
-                        if($scope.type.code == '004'){   //如果是回收订单无需付款 ，直接进入平台收货页面
+                        if($scope.type.code == '004'){   //如果是回收订单无需付款，直接进入平台收货页面
                             $state.go('procreceive',{name:'recycle',orderNo:data.orderNo,orderTime:data.orderTime});
+                            return;
+                        }
+                        if($scope.type.code == '005'){   //如果是回收订单无需付款，直接进入平台收货页面
+                            $state.go('procreceive',{name:'exchange',orderNo:data.orderNo,orderTime:data.orderTime});
                             return;
                         }
                         $scope.param = {
@@ -1449,6 +1451,7 @@ angular.module('starter.controllers', [])
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
         if($stateParams.name == '003')  $scope.pagetheme = 'detect';
         if($stateParams.name == '004')  $scope.pagetheme = 'recycle';
+        if($stateParams.name == '005')  $scope.pagetheme = 'exchange';
 
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
