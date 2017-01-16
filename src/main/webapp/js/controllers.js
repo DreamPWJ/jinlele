@@ -1696,12 +1696,14 @@ angular.module('starter.controllers', [])
         }
     })
     //回收-估价
-    .controller('RecycleCtrl', function ($scope) {
-
+    .controller('EvaluationCtrl', function ($scope ,$stateParams) {
+         $scope.name = $stateParams.name;
+         console.log('$scope.name ==' + $scope.name);
     })
     //回收--估价结果页面
-    .controller('EvaluationresultCtrl' , function ($scope) {
-
+    .controller('EvaluationresultCtrl' , function ($scope , $stateParams) {
+        $scope.name = $stateParams.name;
+        console.log('$scope.name ==' + $scope.name);
     })
     //换款
     .controller('ExchangCtrl', function ($scope) {

@@ -148,14 +148,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/repair/procrepair.html',
                 controller: 'ProcRepairCtrl'
             })
-            .state('recycle', {  //回收-估价
-                url: '/recycle',
+            .state('evaluation', {  //回收-估价
+                url: '/evaluation/:name',
                 templateUrl: 'html/recycle/index.html',
-                controller: 'RecycleCtrl'
+                controller: 'EvaluationCtrl'
             })
             //估计结果页面
             .state('evaluationresult', {  //回收-估价
-                url: '/evaluationresult',
+                url: '/evaluationresult/:name',
                 templateUrl: 'html/recycle/evaluationresult.html',
                 controller: 'EvaluationresultCtrl'
             })

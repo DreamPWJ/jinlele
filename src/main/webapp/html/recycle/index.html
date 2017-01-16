@@ -1,7 +1,10 @@
 
 <link rel="stylesheet" href="css/select.css" />
 <!-- title -->
-<section class="process_title"><i>产品回收</i></section>
+<section class="process_title">
+    <i ng-if="name=='recyle'">产品回收</i>
+    <i ng-if="name=='exchange'">产品换款</i>
+</section>
 
 <main class="content">
 
@@ -87,7 +90,7 @@
                 </span>
             </dd>
         </dl>
-        <section class="load parameter_buttom"><a href="#/evaluationresult">估价</a></section>
+        <section class="load parameter_buttom"><a href="#/evaluationresult/{{name}}">估价</a></section>
         
         <!-- 今日金价 -->
         <section class="gold">
@@ -183,7 +186,7 @@
             </dd>
         </dl>
         <section class="load parameter_buttom">
-            <a href="#/evaluationresult">估价</a>
+            <a href="#/evaluationresult/{{name}}">估价</a>
             <!--<a href="#/procphoto/recycle">估价</a>-->
         </section>
     </section>
