@@ -33,7 +33,7 @@ public final class MatrixToImageWriter {
      * @param orderno 订单号用于给二维码图片命名
      * @return
      */
-    public static void makeRQCode(String content, String orderno) throws IOException, WriterException {
+    public static String makeRQCode(String content, String orderno) throws IOException, WriterException {
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         Map hints = new HashMap();
         //内容所使用编码
@@ -45,6 +45,7 @@ public final class MatrixToImageWriter {
             outputFile.mkdirs();
         }
         MatrixToImageWriter.writeToFile(bitMatrix, "jpg", outputFile);
+        return "http://58.58.180.104:8081/jinleleBack/admin/order/shoporder/detail/"+orderno;//图片访问路径
     }
 
     public static BufferedImage toBufferedImage(BitMatrix matrix) {

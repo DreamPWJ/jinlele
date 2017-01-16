@@ -10,6 +10,7 @@ import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
+import com.jinlele.util.rqcode.MatrixToImageWriter;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.jdom.JDOMException;
@@ -104,6 +105,8 @@ public class OrderServiceImpl implements IOrderService {
                 order.setType("006");//订单类型
                 order.setShoporderstatuscode("001");//设置订单状态 待付款
                 order.setFreightprice(Double.valueOf(0));//运费
+                order.setQrcodeUrl(MatrixToImageWriter.makeRQCode("订单号:"+orderno+";买家:"+address.getUserName()+";联系方式："+address.getTelNumber(),orderno));//生成二维码
+
                 //生成订单
                 orderMapper.insertSelective(order);
                 //添加订单_商品中间表，记录订单明细
