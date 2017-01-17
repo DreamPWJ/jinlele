@@ -105,7 +105,7 @@ public class OrderServiceImpl implements IOrderService {
                 order.setType("006");//订单类型
                 order.setShoporderstatuscode("001");//设置订单状态 待付款
                 order.setFreightprice(Double.valueOf(0));//运费
-                order.setQrcodeUrl(MatrixToImageWriter.makeRQCode("订单号:"+orderno+";买家:"+address.getUserName()+";联系方式："+address.getTelNumber(),orderno));//生成二维码
+                order.setQrcodeUrl(MatrixToImageWriter.makeQRCode("006", orderno));//生成二维码
 
                 //生成订单
                 orderMapper.insertSelective(order);

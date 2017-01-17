@@ -24,14 +24,12 @@ import java.util.Map;
 @Service
 public class PictureServiceImpl implements IPictureService{
 
+    public static String key_suff =  "comment/";//七牛上评论所使用目录
+    public static String savePath =  "c:/download";  //默认保存到服务器的该目录
     @Resource
     BaseMapper baseMapper;
-
     @Resource
     PictureMapper pictureMapper;
-
-    public static String key_suff =  "service/";
-    public static String savePath =  "c:/download";  //默认保存到服务器的该目录
 
     @Override
     public List<String> saveURL(String[] mediaIds) throws IOException {

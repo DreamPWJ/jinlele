@@ -1,11 +1,13 @@
 package com.jinlele.service.services;
 
+import com.google.zxing.WriterException;
 import com.jinlele.dao.*;
 import com.jinlele.model.*;
 import com.jinlele.service.interfaces.IServiceOrderService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
+import com.jinlele.util.rqcode.MatrixToImageWriter;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,6 +25,8 @@ import java.util.Map;
 @org.springframework.stereotype.Service
 public class ServiceOrderServiceImpl implements IServiceOrderService{
 
+    public static String key_suff =  "service/";
+    public static String savePath =  "c:/download";  //默认保存到服务器的该目录
     @Resource
     BaseMapper baseMapper;
     @Resource
@@ -36,9 +40,6 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     @Resource
     ServicePictureMapper servicePictureMapper;
 
-    public static String key_suff =  "service/";
-    public static String savePath =  "c:/download";  //默认保存到服务器的该目录
-
     //生成服务类订单
     @Override
     public Map<String , Object> saveServiceOrder(Integer serviceId, Integer totalnum,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products) {
@@ -47,6 +48,14 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         Date orderTime = new Date();
         String shoporderstatus = type + "001";
         ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, shoporderstatus, buyeraddresId , orderTime);
+        try {
+            order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
         shopOrderMapper.insertSelective(order);
         //更新服务表
         Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
@@ -98,6 +107,13 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         Date orderTime = new Date();
         String shoporderstatus = type + "001";
         ShopOrder order  = new ShopOrder(orderno ,totalnum,  userId,  storeId, type, shoporderstatus , orderTime);
+        try {
+            order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
         shopOrderMapper.insertSelective(order);
         //保存服务表
         Service service = new Service(userId ,orderno , descrip , storeId); //暂时设定门店为1，以后会动态获取
