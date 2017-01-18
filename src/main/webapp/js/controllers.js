@@ -1070,69 +1070,70 @@ angular.module('starter.controllers', [])
         }
 
     })
-
     //流程-拍照
     .controller('ProcPhotoCtrl', function ($scope,ProcCommitOrderService, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state ,CategoryService) {
         $rootScope.commonService = CommonService;
-        WeiXinService.mediaIds = []; //置空媒体id数组
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
         $scope.localflag = false;
         $scope.localIds = [];// 上传图片的微信路径 数组
+        WeiXinService.mediaIds = []; //置空媒体id数组
         $scope.type = "";//服务类型 001翻新
         $scope.service = {  //服务实体
             price:0 , //价格
             descrip: ""    //描述
         };
-        //如果是翻新的话，需要翻新的价格去后台请求
-        if ($scope.pagetheme == "refurbish") {
-            ProcPhotoService.getrefurbishPrice().success(function (data) {
-                console.log("翻新价格=="+JSON.stringify(data));
-                $scope.service.price = data.code_value;
-            });
-        }
-        if($scope.pagetheme == "detect"){
-            ProcPhotoService.getdetectPrice().success(function (data) {
-                console.log("检测价格=="+JSON.stringify(data));
-                $scope.service.price = data.code_value;
-            });
-        }
-        if($stateParams.name == "repair") {
-            $scope.secondcatagories = [];
-            $scope.productArr = [];
-            $scope.productArr.push(0);
-            $scope.product = {
-                firstCatogoryId: [],//一级分类id
-                secondCatogoryId: [], //二级分类id
-                num: [],
-                memo: []
-            };
-            //$scope.localflag = true;
-            //遍历一级分类
-            CategoryService.getcatogories().success(function (data) {
-                $scope.firstCatogories = data.firstList;
-                console.log(JSON.stringify($scope.firstCatogories))
-            });
-            //根据一级分类遍历二级分类
-            $scope.getSecondCatogories = function (index) {
-                console.log("index==" + index);
-                CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                    $scope.secondcatagories["s"+index]= data;
+        switch ($scope.pagetheme) {
+            case "refurbish"://翻新
+                ProcPhotoService.getrefurbishPrice().success(function (data) {
+                    console.log("翻新价格==" + JSON.stringify(data));
+                    $scope.service.price = data.code_value;
                 });
-            }
-            //计算总数量和总价格
-            $scope.numblur = function () {
-                //遍历
-                $scope.totalnum = 0;
-                if ($scope.product.num.length > 0) {
-                    for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-                        $scope.totalnum += $scope.product.num[i] * 1;
-                    }
+                break;
+            case "repair"://维修
+                $scope.secondcatagories = [];
+                $scope.productArr = [];
+                $scope.productArr.push(0);
+                $scope.product = {
+                    firstCatogoryId: [],//一级分类id
+                    secondCatogoryId: [], //二级分类id
+                    num: [],
+                    memo: []
+                };
+                //$scope.localflag = true;
+                //遍历一级分类
+                CategoryService.getcatogories().success(function (data) {
+                    $scope.firstCatogories = data.firstList;
+                    console.log(JSON.stringify($scope.firstCatogories))
+                });
+                //根据一级分类遍历二级分类
+                $scope.getSecondCatogories = function (index) {
+                    console.log("index==" + index);
+                    CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
+                        $scope.secondcatagories["s" + index] = data;
+                    });
                 }
-                console.log(" $scope.totalnum ==" + $scope.totalnum);
-            }
+                //计算总数量和总价格
+                $scope.numblur = function () {
+                    //遍历
+                    $scope.totalnum = 0;
+                    if ($scope.product.num.length > 0) {
+                        for (var i = 0, len = $scope.product.num.length; i < len; i++) {
+                            $scope.totalnum += $scope.product.num[i] * 1;
+                        }
+                    }
+                    console.log(" $scope.totalnum ==" + $scope.totalnum);
+                }
+                break;
+            case "detect"://检测
+                ProcPhotoService.getdetectPrice().success(function (data) {
+                    console.log("检测价格==" + JSON.stringify(data));
+                    $scope.service.price = data.code_value;
+                });
+                break;
+            default :
+                break;
         }
-
         $scope.wxchooseImage = function () {
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
@@ -1144,7 +1145,6 @@ angular.module('starter.controllers', [])
                 })
             })
         }
-
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
             //判断参数
@@ -1162,7 +1162,8 @@ angular.module('starter.controllers', [])
             //①前台去上传图片的到微信并返回媒体Id 放入集合中
             //通过config接口注入权限验证配置
 
-            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径 //然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
+            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径
+            // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
             $scope.params = {
                 userId: localStorage.getItem("jinlele_userId"),
                 mediaIds: WeiXinService.mediaIds,
@@ -1170,45 +1171,45 @@ angular.module('starter.controllers', [])
                 storeId: 1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
                 type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
-            //如果是翻新和检查 需要传入价格
-            if($scope.typeCode=='001' || $scope.typeCode=='003' || $scope.typeCode=='004' || $scope.typeCode=='005'){
-                $scope.params.aturalprice = $scope.service.price;
-                console.log("$scope.pagetheme =="+ $scope.pagetheme);
-                console.log("$scope.typeCode =="+ $scope.typeCode);
-                console.log(JSON.stringify($scope.params));
-                ProcPhotoService.saveService($scope.params).success(function (data) {
-                    console.log(data.serviceId);
-                    if (data) {
-                        var serviceId = data.serviceId;
-                        //③后台处理成功后，跳转到下单页面
-                        sessionStorage.setItem("jinlele_procphoto_pathname", $scope.pagetheme);
-                        sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
-                        sessionStorage.setItem("jinlele_procphoto_aturalprice", $scope.service.price);
-                        $state.go("proccommitorder");
-                    }
-                })
-            }
-            //如果是维修，需要传入产品信息
-            if($scope.typeCode=='002'){
-                $scope.params.products = JSON.stringify($scope.product);
-                $scope.params.totalnum = $scope.totalnum;
-                console.log("$scope.pagetheme =="+ $scope.pagetheme);
-                console.log("$scope.typeCode =="+ $scope.typeCode);
-                console.log(JSON.stringify($scope.params));
-                ProcPhotoService.saveRepairOrder($scope.params).success(function (data) {
-                    console.log('data=='+JSON.stringify(data));
-                    if (data) {
-                        // var serviceId = data.serviceId;
-                        // //③后台处理成功后，跳转到下单页面
-                        // sessionStorage.setItem("jinlele_procphoto_pathname", pagetheme);
-                        // sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
-                        // sessionStorage.setItem("jinlele_procphoto_orderno", data.orderno);
-                        $state.go("procfixprice",{
-                            name:$scope.pagetheme,
-                            orderno:data.orderno
-                        });
-                    }
-                })
+            switch ($scope.typeCode){
+                case "002"://如果是维修，需要传入产品信息
+                    $scope.params.products = JSON.stringify($scope.product);
+                    $scope.params.totalnum = $scope.totalnum;
+                    console.log("$scope.pagetheme =="+ $scope.pagetheme);
+                    console.log("$scope.typeCode =="+ $scope.typeCode);
+                    console.log(JSON.stringify($scope.params));
+                    ProcPhotoService.saveRepairOrder($scope.params).success(function (data) {
+                        console.log('data=='+JSON.stringify(data));
+                        if (data) {
+                            // var serviceId = data.serviceId;
+                            // //③后台处理成功后，跳转到下单页面
+                            // sessionStorage.setItem("jinlele_procphoto_pathname", pagetheme);
+                            // sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
+                            // sessionStorage.setItem("jinlele_procphoto_orderno", data.orderno);
+                            $state.go("procfixprice",{
+                                name:$scope.pagetheme,
+                                orderno:data.orderno
+                            });
+                        }
+                    });
+                    break;
+                default://如果是翻新和检查 需要传入价格   001,003,004,005
+                    $scope.params.aturalprice = $scope.service.price;
+                    console.log("$scope.pagetheme =="+ $scope.pagetheme);
+                    console.log("$scope.typeCode =="+ $scope.typeCode);
+                    console.log(JSON.stringify($scope.params));
+                    ProcPhotoService.saveService($scope.params).success(function (data) {
+                        console.log(data.serviceId);
+                        if (data) {
+                            var serviceId = data.serviceId;
+                            //③后台处理成功后，跳转到下单页面
+                            sessionStorage.setItem("jinlele_procphoto_pathname", $scope.pagetheme);
+                            sessionStorage.setItem("jinlele_procphoto_serviceId", data.serviceId);
+                            sessionStorage.setItem("jinlele_procphoto_aturalprice", $scope.service.price);
+                            $state.go("proccommitorder");
+                        }
+                    });
+                    break;
             }
         }
     })

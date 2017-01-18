@@ -29,7 +29,6 @@
         <p>描述信息:{{pictures[0].descrip}}</p>
     </section>
 
-
     <!-- 商品列表 -->
     <section class="check object">
         <span class="title">服务产品列表</span>
@@ -44,6 +43,9 @@
                     <i>X {{item.num}}</i>
                 </section>
             </section>
+        </section>
+        <section class="qr_code">
+            <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
         <section class="check_main">
             <a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>

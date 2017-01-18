@@ -20,7 +20,7 @@
     
     <!-- 商品列表 -->
     <section class="check object">
-        <span class="title">商品列表</span>
+        <span class="title">订单明细</span>
         <section class="product_list">
             <section class="product" ng-repeat="item in orderdetail.info">
                 <span class="pic"><a href=""><img ng-src="{{item.imgurl}}"></a></span>
@@ -35,7 +35,6 @@
             </section>
         </section>
         <section class="qr_code">
-            <span class="title">凭下列二维码，可到店支付</span>
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
         <section class="check_main">
