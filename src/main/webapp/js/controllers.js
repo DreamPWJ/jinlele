@@ -1068,9 +1068,8 @@ angular.module('starter.controllers', [])
                 })
             }
         }
-
     })
-    //流程-拍照
+    //流程-拍照(翻新，检测，回收业务只有拍照功能，维修业务包含拍照及下单功能)
     .controller('ProcPhotoCtrl', function ($scope,ProcCommitOrderService, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state ,CategoryService) {
         $rootScope.commonService = CommonService;
         console.log($stateParams.name);
@@ -1213,9 +1212,7 @@ angular.module('starter.controllers', [])
             }
         }
     })
-
-
-    //流程-服务 提交订单并付款
+    //流程- 提交订单(翻新，检测，回收业务生成订单并付款，维修业务更新订单信息)
     .controller('ProcCommitOrderCtrl', function ( $rootScope,$scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService ,CommonService) {
         $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
@@ -1444,8 +1441,7 @@ angular.module('starter.controllers', [])
 
         }
     })
-
-    //流程-平台收货
+    //流程-平台收货(五大类服务展示物流状态及收货证明)
     .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService ,CommonService ,$rootScope) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
@@ -1486,13 +1482,12 @@ angular.module('starter.controllers', [])
                 });
         }
     })
-
-    //流程-检测
+    //流程-检测(五大类服务检测报告)
     .controller('ProcTestCtrl', function ($scope, $stateParams) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
     })
-    //流程-邮寄
+    //流程-邮寄(五大类服务返回产品物流)
     .controller('ProcPostCtrl', function ($scope, $stateParams, $location) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
@@ -1501,7 +1496,7 @@ angular.module('starter.controllers', [])
         }
 
     })
-    //流程-验货
+    //流程-验货(五大类服务用户收货验收)
     .controller('ProcCheckCtrl', function ($scope, $stateParams, $location) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
@@ -1510,7 +1505,7 @@ angular.module('starter.controllers', [])
         }
 
     })
-    //流程-评价
+    //流程-评价(五大类服务交易结束)
     .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,CommonService,WeiXinService,OrderService) {
         //物流样式展示
         $scope.jinlele="hide";
@@ -1636,7 +1631,7 @@ angular.module('starter.controllers', [])
                 break;
         }
     })
-    //翻新
+    //翻新-翻新
     .controller('ProcRefurbishCtrl', function ($scope, $stateParams, $location) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
@@ -1692,7 +1687,7 @@ angular.module('starter.controllers', [])
             });
         }
     })
-    //维修
+    //维修-维修
     .controller('ProcRepairCtrl', function ($scope, $stateParams) {
         $scope.pagetheme = $stateParams.name;
         if ($stateParams.name != "repair") {
