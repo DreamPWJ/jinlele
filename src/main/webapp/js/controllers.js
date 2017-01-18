@@ -376,7 +376,7 @@ angular.module('starter.controllers', [])
         }
     }])
     //支付进度
-    .controller('PayResultCtrl',  ['$scope', '$stateParams', 'OrderService', function ($scope, $stateParams, OrderService) {
+    .controller('PayResultCtrl',  ['$scope', '$stateParams','$state', 'OrderService', function ($scope, $stateParams,$state, OrderService) {
         $scope.order= JSON.parse($stateParams.order);
         console.log("$scope.order=="+$stateParams.order);
         if (sessionStorage.getItem($scope.order.orderno) == "ok" ) {
