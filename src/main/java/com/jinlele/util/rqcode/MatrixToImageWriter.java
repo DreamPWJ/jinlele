@@ -24,7 +24,7 @@ import java.util.Map;
 public final class MatrixToImageWriter {
     private static final int BLACK = 0xFF000000;
     private static final int WHITE = 0xFFFFFFFF;
-    private static final String PATH = "c:/download";  //默认保存到服务器的该目录，二维码图片存储路径
+    private static final String PATH = "c:/qrcode/";  //默认保存到服务器的该目录，二维码图片存储路径
     public static String key_suff =  "qrcode/";//七牛上存储二维码目录位置
 
     private MatrixToImageWriter() {
