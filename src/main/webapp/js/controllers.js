@@ -700,7 +700,7 @@ angular.module('starter.controllers', [])
             $scope.param = {
                 totalprice: 0.01, //totalprice
                 orderNo: orderno,
-                descrip: '你的订单已付款成功！',
+                descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
                 orderType:JSON.stringify({type:'006'})
             }
