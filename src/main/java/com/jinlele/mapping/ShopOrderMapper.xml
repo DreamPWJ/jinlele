@@ -292,7 +292,7 @@
   <select id="findReceiptServiceByOrderno" parameterType="java.lang.String" resultType="Map">
     select o.orderno , o.create_time , o.receipt_address_id ,
     o.userlogisticsno ,o.userlogisticsnoComp, o.logisticsno ,O.logisticsnoComp , a.user_name , a.tel_number ,
-    a.province_name ,a.city_name ,a.detail_info
+    a.province_name ,a.city_name ,a.country_name,a.detail_info
     from shoporder o
     LEFT JOIN receipt_address a on a.id = o.receipt_address_id
     where  o.orderno = #{orderno}

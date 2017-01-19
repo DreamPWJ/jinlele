@@ -194,13 +194,13 @@
             </span>
         </section>
         <section id="tad" class="numbers_button">
-        	<span onclick="javascript:test_item(0);"><a href="javascript:">金乐乐物流</a></span>
-        	<span onclick="javascript:test_item(1);"><a href="javascript:">我的物流 </a></span>
+            <span ng-click="showwuliuInfo(0)" ng-class="{hover:jinflag}"><a href="javascript:">金乐乐物流</a></span>
+            <span ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">我的物流 </a></span>
         </section>
     </section>
 
-	<!-- 金乐乐物流 -->
-	<section id="test0" class="hide">
+    <!-- 金乐乐物流 -->
+    <section class="{{jinlele}}">
         <section class="address">
             <a href="javascript:">
                 <span class="title">
@@ -211,41 +211,7 @@
             </a>
         </section>
         <section class="logistics">
-            <span class="title">物流信息</span>
-            <ul>
-                <li class="hover">
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-            </ul>
-        </section>
-	</section>
-    
-    <!-- 我的物流 -->
-    <section id="test1" class="hide">
-        <section class="address">
-            <a href="javascript:">
-                <span class="title">
-                    <em>张三</em>
-                    <em>15872325323</em>
-                </span>
-                <p>收货地址：广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</p>
-            </a>
-        </section>
-        <section class="logistics">
-            <span class="title">物流信息</span>
+            <span class="title">物流详情</span>
             <ul>
                 <li class="hover">
                     <i></i>
@@ -266,8 +232,30 @@
             </ul>
         </section>
     </section>
+
+    <!-- 我的物流 -->
+    <section class="{{mine}}">
+        <section class="address">
+            <a href="javascript:">
+                <span class="title">
+                    <em>{{initData.user_name}}</em>
+                    <em>{{initData.tel_number}}</em>
+                </span>
+                <p>收货地址：{{initData.province_name}} {{initData.city_name}}{{initData.country_name}} {{initData.detail_info}}</p>
+            </a>
+        </section>
+        <section class="logistics">
+            <span class="title">物流详情</span>
+            <ul>
+                <li  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                    <i></i>
+                    <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
+                </li>
+            </ul>
+        </section>
+    </section>
     
-	<!-- 送货 -->
+	<!-- 验货 -->
     <section class="report">
         <section class="report_mian"><img src="images/com/sh01.jpg"></section>
     </section>

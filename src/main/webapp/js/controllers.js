@@ -1563,7 +1563,7 @@ angular.module('starter.controllers', [])
         }
     })
     //流程-检测(五大类服务检测报告)
-    .controller('ProcTestCtrl', function ($scope, $stateParams) {
+    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService', function ($scope, $stateParams,OrderService) {
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
@@ -1572,11 +1572,35 @@ angular.module('starter.controllers', [])
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
-
-
-    })
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+            $scope.initData = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+    }])
     //流程-邮寄(五大类服务返回产品物流)
-    .controller('ProcPostCtrl', function ($scope, $stateParams, $location) {
+    .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
@@ -1587,9 +1611,35 @@ angular.module('starter.controllers', [])
         }
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
-    })
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+            $scope.initData = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+    }])
     //流程-验货(五大类服务用户收货验收)
-    .controller('ProcCheckCtrl', function ($scope, $stateParams, $location) {
+    .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
@@ -1600,8 +1650,33 @@ angular.module('starter.controllers', [])
         }
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
-
-    })
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+            $scope.initData = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+    }])
     //流程-评价(五大类服务交易结束)
     .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,CommonService,WeiXinService,OrderService) {
         //物流样式展示
@@ -1633,6 +1708,10 @@ angular.module('starter.controllers', [])
         if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         $scope.orderno = $stateParams.orderno;//订单号
+        //买方物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
         //描述等级
         $scope.currentId=5;
         $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
@@ -1734,7 +1813,7 @@ angular.module('starter.controllers', [])
         }
     })
     //翻新-翻新
-    .controller('ProcRefurbishCtrl', function ($scope, $stateParams, $location) {
+    .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
         if ($stateParams.name != "refurbish") {
@@ -1742,9 +1821,33 @@ angular.module('starter.controllers', [])
         }
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
-
-
-    })
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+            $scope.initData = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+    }])
     //维修-定价
     .controller('ProcFixpriceCtrl', function ($scope, $stateParams ,OrderService ,$state ,CommonService) {
         console.log('$stateParams===' + JSON.stringify($stateParams));

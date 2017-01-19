@@ -247,7 +247,7 @@
             </a>
         </section>
         <section class="logistics">
-            <span class="title">物流信息</span>
+            <span class="title">物流详情</span>
             <ul>
                 <li class="hover">
                     <i></i>
@@ -281,16 +281,11 @@
             </a>
         </section>
         <section class="logistics">
-            <span class="title">物流信息</span>
+            <span class="title">物流详情</span>
             <ul>
-                <li class="hover">
+                <li  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
+                    <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
                 </li>
             </ul>
         </section>
