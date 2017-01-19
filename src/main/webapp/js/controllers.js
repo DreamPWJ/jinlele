@@ -654,7 +654,7 @@ angular.module('starter.controllers', [])
     }])
 
     //订单列表
-    .controller('OrderListCtrl', ['$rootScope','$scope', '$state', 'WeiXinService', 'OrderListService', 'OrderService','CommonService', '$ionicScrollDelegate', function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService,$ionicScrollDelegate) {
+    .controller('OrderListCtrl', ['$rootScope','$scope', '$state', 'WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
         //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
         $scope.type = '006';
@@ -737,34 +737,95 @@ angular.module('starter.controllers', [])
             console.log('servicedetail==='+JSON.stringify(order));
             $state.go("servicedetail", {order: JSON.stringify(order)});
         }
-
+        //订单追踪
         $scope.procreceive = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
             console.log('type=='+type);
             console.log('orderno=='+orderno);
             console.log('createTime=='+createTime);
             console.log('shoporderstatusCode=='+shoporderstatusCode);
             console.log('totalprice=='+totalprice);
-            if(type=='002'){ //如果 维修订单是带确认维修或者待定价就进入 定价的页面
-                if(shoporderstatusCode < '002003'){
-                   $state.go('procfixprice' ,{name:type ,orderno:orderno});
-                }
-                if(shoporderstatusCode == '002003'){ //如果是确认维修的状态   跳转到提交订单的页面
-                    sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
-                    sessionStorage.setItem('jinlele_procphoto_aturalprice',totalprice);
-                    sessionStorage.setItem('jinlele_procphoto_pathname','repair');
-                    $state.go('proccommitorder');
-                }
+            //分类型=>分状态=>确定进度
+            switch(type){
+                case "001"://翻新
+                    switch (shoporderstatusCode) {
+                        case "001002":
+                        case "001003":
+                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "001004":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "001005":
+                            $state.go('procrefurbish', {name: 'refurbish', orderNo: orderno, orderTime: createTime});//翻新
+                            break;
+                        case "001006":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//平台发货
+                            break;
+                        case "001007":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "001008":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                case "002"://维修
+                    switch (shoporderstatusCode){
+                        case "":
+                            break;
+                    }
+                    break;
+                case "003"://检测
+                    switch (shoporderstatusCode){
+                        case "003002":
+                        case "003003":
+                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "003004":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "003006":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//平台发货
+                            break;
+                        case "003007":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "003008":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                case "004"://回收
+                    switch (shoporderstatusCode){
+                        case "":
+                            break;
+                    }
+                    break;
+                default://换款
+                    switch (shoporderstatusCode){
+                        case "":
+                            break;
+                    }
+                    break;
             }
-            if(type=='001' || type=='003' || type=='004'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
-                $state.go('procreceive' ,{name:type ,orderNo:orderno ,orderTime:createTime});
-            }
+            //if(type=='002') { //如果 维修订单是带确认维修或者待定价就进入 定价的页面
+            //    if (shoporderstatusCode < '002003') {
+            //        $state.go('procfixprice', {name: type, orderno: orderno});
+            //    }
+            //    if (shoporderstatusCode == '002003') { //如果是确认维修的状态   跳转到提交订单的页面
+            //        sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+            //        sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
+            //        sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
+            //        $state.go('proccommitorder');
+            //    }
+            //}
+            //if(type=='001' || type=='003' || type=='004'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
+            //    $state.go('procreceive' ,{name:type ,orderNo:orderno ,orderTime:createTime});
+            //}
         }
-        //procreceive
 
 
     }])
-
-
     //退货
     .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
         $(function () {
@@ -1456,7 +1517,8 @@ angular.module('starter.controllers', [])
         //参数
         $scope.order = {
             userlogisticsnoComp:"",//买方发货快递公司编码
-            userlogisticsno:"" //买方发货单号
+            userlogisticsno:"", //买方发货单号
+            orderstatus:""//订单状态
         };
         $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
@@ -1467,42 +1529,77 @@ angular.module('starter.controllers', [])
         });
         //客户填写物流单号保存
         $scope.saveExpress = function () {
-            if(!$scope.order.userlogisticsno){
+            if (!$scope.order.userlogisticsno) {
                 CommonService.toolTip("请填写物流单号", "");
-                return
+                return;
+            }
+            //根据业务类型判断订单状态
+            switch ($stateParams.name){
+                case "002"://todo 维修
+                    $scope.order.orderstatus="";
+                    break;
+                case "004"://todo 回收
+                    $scope.order.orderstatus="";
+                    break;
+                case "005"://todo 换款
+                    $scope.order.orderstatus="";
+                    break;
+                default://翻新、检测
+                    $scope.order.orderstatus=$stateParams.name+"003";
+                    break;
             }
             //'003'代表的订单状态:已发货
-            OrderService.update({orderno:$scope.orderNo,userlogisticsnocomp:$scope.order.userlogisticsnoComp,
-                userlogisticsno: $scope.order.userlogisticsno , shoporderstatuscode:'003'})
-                .success(function (data) {
-                    console.log("data=="+JSON.stringify(data));
-                    if(data.n==1){
-                        $scope.initData.userlogisticsno = $scope.order.userlogisticsno;
-                    }
-                });
+            OrderService.update({
+                orderno: $scope.orderNo,
+                userlogisticsnocomp: $scope.order.userlogisticsnoComp,
+                userlogisticsno: $scope.order.userlogisticsno,
+                shoporderstatuscode:$scope.order.orderstatus
+            }).success(function (data) {
+                console.log("data==" + JSON.stringify(data));
+                if (data.n == 1) {
+                    $scope.initData.userlogisticsno = $scope.order.userlogisticsno;
+                }
+            });
         }
     })
     //流程-检测(五大类服务检测报告)
     .controller('ProcTestCtrl', function ($scope, $stateParams) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
+        console.log($stateParams.type);
+        $scope.pagetheme = $stateParams.type;
+        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
+        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
+
+
     })
     //流程-邮寄(五大类服务返回产品物流)
     .controller('ProcPostCtrl', function ($scope, $stateParams, $location) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        if ($stateParams.name == "recycle") {
+        console.log($stateParams.type);
+        $scope.pagetheme = $stateParams.type;
+        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
+        if ($stateParams.type == "004") {//回收
             $location.path("/");
         }
-
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
     })
     //流程-验货(五大类服务用户收货验收)
     .controller('ProcCheckCtrl', function ($scope, $stateParams, $location) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        if ($stateParams.name == "recycle") {
+        console.log($stateParams.type);
+        $scope.pagetheme = $stateParams.type;
+        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
+        if ($stateParams.type == "004") {//回收
             $location.path("/");
         }
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
 
     })
     //流程-评价(五大类服务交易结束)
@@ -1529,7 +1626,12 @@ angular.module('starter.controllers', [])
             }
         }
         $rootScope.commonService=CommonService;
-        $scope.pagetheme = $stateParams.name;//服务名
+        //服务名
+        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
+        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
+        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         $scope.orderno = $stateParams.orderno;//订单号
         //描述等级
         $scope.currentId=5;
@@ -1581,7 +1683,7 @@ angular.module('starter.controllers', [])
             commentinfo.orderno = $stateParams.orderno;
             commentinfo.userId = localStorage.getItem("jinlele_userId");
             commentinfo.descriplevel = $scope.currentId;//描述等级
-            commentinfo.type=$scope.pagetheme;//业务类型
+            commentinfo.type=$stateParams.type;//业务类型
             var flag=true,iteminfo = {};
             iteminfo.content = $scope.content;
             if(iteminfo.content.length==0){
@@ -1638,15 +1740,8 @@ angular.module('starter.controllers', [])
         if ($stateParams.name != "refurbish") {
             $location.path("/");
         }
-
-        $scope.wxchooseImage = function () {
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
-                WeiXinService.wxchooseImage()
-            })
-        }
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
 
 
     })

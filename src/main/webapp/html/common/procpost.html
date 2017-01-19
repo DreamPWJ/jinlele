@@ -180,18 +180,16 @@
             </li>
         </ul>
     </section>
-
-    <a href="#/proccheck/{{pagetheme}}">{{pagetheme}}</a>
     <!-- 单号 TAB -->
 	<section class="numbers">
     	<section class="numbers_list">
             <span>
-                <i>单号：</i>
-                <em>24012545488879887</em>
+                <i>订单号:</i>
+                <em>{{orderNo}}</em>
             </span>
             <span>
-                <i>下单时间：</i>
-                <em>2014.05.25 16:20</em>
+                <i>下单时间:</i>
+                <em>{{orderTime | date:'yyyy-MM-dd HH:mm'}}</em>
             </span>
         </section>
         <section id="tad" class="numbers_button">
@@ -271,12 +269,11 @@
 	<!-- 拍照 -->
     <section class="photograph">
         <ul>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><span><img src="images/com/01.jpg"></span><a class="icon" href="">&#xe721;</a></li>
-            <li><i class="icon">&#xe600;</i><input type="file"></li>
+            <li><span><img src="images/com/01.jpg"></span></li>
+            <li><span><img src="images/com/01.jpg"></span></li>
+            <li><span><img src="images/com/01.jpg"></span></li>
+            <li><span><img src="images/com/01.jpg"></span></li>
+            <li><span><img src="images/com/01.jpg"></span></li>
         </ul>
     </section>
 </main>

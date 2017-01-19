@@ -109,22 +109,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcReceiveCtrl'
             })
             .state('proctest', {  //流程-检测
-                url: '/proctest/:name',
+                url: '/proctest/:type/:orderNo/:orderTime',
                 templateUrl: 'html/common/proctest.html',
                 controller: 'ProcTestCtrl'
             })
             .state('procpost', {  //流程-邮寄
-                url: '/procpost/:name',
+                url: '/procpost/:type/:orderNo/:orderTime',
                 templateUrl: 'html/common/procpost.html',
                 controller: 'ProcPostCtrl'
             })
             .state('proccheck', {  //流程-验货
-                url: '/proccheck/:name',
+                url: '/proccheck/:type/:orderNo/:orderTime',
                 templateUrl: 'html/common/proccheck.html',
                 controller: 'ProcCheckCtrl'
             })
             .state('procaddcmt', {  //流程-评论
-                url: '/procaddcmt/:name/:orderno',
+                url: '/procaddcmt/:type/:orderno',
                 templateUrl: 'html/common/procaddcmt.html',
                 controller: 'ProcAddCmtCtrl'
             })
@@ -134,7 +134,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcPricingCtrl'
             })
             .state('procrefurbish', {  //翻新
-                url: '/procrefurbish/:name',
+                url: '/procrefurbish/:name/:orderNo/:orderTime',
                 templateUrl: 'html/refurbish/procrefurbish.html',
                 controller: 'ProcRefurbishCtrl'
             })
