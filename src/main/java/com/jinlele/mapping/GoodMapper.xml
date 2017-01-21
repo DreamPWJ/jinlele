@@ -338,7 +338,7 @@
 
     <!-- 获取首页新品推荐 -->
     <select id="getNewProducts" resultType="map">
-    select id ,title,bannerurl,saleprice FROM good  WHERE  ishotCode='001' ORDER BY create_time DESC LIMIT 0,3
+    select id ,title,bannerurl,saleprice FROM good  WHERE  ishotCode='001' and deleteCode='001' ORDER BY create_time DESC LIMIT 0,3
   </select>
 
     <!-- 获取产品详情 -->
