@@ -164,8 +164,12 @@ public class OrderController {
         List<Map<String, Object>> express = orderService.findAllexpressCompanies();
         Map<String , Object> order  = orderService.findReceiptServiceByOrderno(orderno);
         if(order.get("userlogisticsno")!=null && order.get("userlogisticsnoComp")!=null){
-            JSONObject result = KdniaoTrackQueryAPI.getOrderTracesByJson((String)order.get("userlogisticsnoComp") , (String)order.get("userlogisticsno"));
-            map.put("userLogistc" , result);
+            JSONObject buyer = KdniaoTrackQueryAPI.getOrderTracesByJson((String)order.get("userlogisticsnoComp") , (String)order.get("userlogisticsno"));
+            map.put("userLogistc" , buyer);
+        }
+        if(order.get("logisticsno")!=null && order.get("logisticsnoComp")!=null){
+            JSONObject seller = KdniaoTrackQueryAPI.getOrderTracesByJson((String)order.get("logisticsnoComp") , (String)order.get("logisticsno"));
+            map.put("storeLogistc" , seller);
         }
         map.put("express" ,express);
         map.put("order" ,order);

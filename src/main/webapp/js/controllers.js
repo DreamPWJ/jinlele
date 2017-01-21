@@ -123,6 +123,7 @@ angular.module('starter.controllers', [])
         };
         $scope.delstyle = {display: 'none'};
         CartService.getcartinfo($scope.init).success(function (data) {
+            console.log(data);
             $scope.isNotData = false;
             if (data.pagingList.length == 0) {
                 $scope.isNotData = true;
@@ -522,6 +523,10 @@ angular.module('starter.controllers', [])
                 $scope.orderdetail = data.orderdetail;//订单详情
             });
         }
+        //查询物流信息
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.order.orderno}).success(function (data) {
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
@@ -694,17 +699,19 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-
+        $scope.confirmReceive = function (orderno){
+            //1.修改订单状态
+            //2.重新加载数据
+        }
         //微信支付调用
-        $scope.weixinPay = function (orderno, totalprice) {
+        $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
             $scope.param = {
                 totalprice: 0.01, //totalprice
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
-                orderType:JSON.stringify({type:'006'})
-            }
-            console.log(JSON.stringify($scope.param));
+                orderType:JSON.stringify({type:ordertype})
+            };
             //调用微信支付服务器端接口
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
                 WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -714,7 +721,8 @@ angular.module('starter.controllers', [])
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //调用支付后，跳转订单详情
                                 sessionStorage.setItem(orderno,"ok");
-                                $state.go("orderdetail", {orderno: orderno});
+                                var order = {orderno: orderno ,orderType:ordertype ,orderStatus:orderstatus};
+                                $state.go("orderdetail", {order: JSON.stringify(order)});
                                 break;
                             default :
                                 //未支付
@@ -737,7 +745,7 @@ angular.module('starter.controllers', [])
             console.log('servicedetail==='+JSON.stringify(order));
             $state.go("servicedetail", {order: JSON.stringify(order)});
         }
-        //订单追踪
+        //服务订单追踪
         $scope.procreceive = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
             console.log('type=='+type);
             console.log('orderno=='+orderno);
@@ -773,6 +781,15 @@ angular.module('starter.controllers', [])
                     switch (shoporderstatusCode){
                         case "":
                             break;
+                    }
+                    if (shoporderstatusCode < '002003') {
+                        $state.go('procfixprice', {name: type, orderno: orderno});
+                    }
+                    if (shoporderstatusCode == '002003') { //如果是确认维修的状态   跳转到提交订单的页面
+                        sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+                        sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
+                        sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
+                        $state.go('proccommitorder');
                     }
                     break;
                 case "003"://检测

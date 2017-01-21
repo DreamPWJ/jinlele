@@ -54,11 +54,12 @@
     
     <!-- 物流信息 -->
     <section class="logistics" ng-if="orderinfo.shoporderstatusCode!='001'">
-    	<span class="title">物流信息</span>
-    	<ul>
-        	<li class="hover"> 
-            	<i></i>
-            	<em>您的订单正在处理</em>
+    	<span class="title">物流详情</span>{{orderinfo.userlogisticsno.length}}
+        <ul>
+            <li ng-if="sellerLogistc == null"> <em>暂无物流信息</em></li>
+            <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                <i></i>
+                <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
             </li>
         </ul>
     </section>
