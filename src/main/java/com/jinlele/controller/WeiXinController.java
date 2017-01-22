@@ -38,16 +38,14 @@ import java.util.*;
 @Controller
 public class WeiXinController {
 
-    @Resource
-    IUserService userService;
-
-    @Resource
-    IOrderService orderService;
-
-    String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
-    String randomString = PayCommonUtil.getRandomString(32);
     public static String openIds;
     public static Integer userIds;
+    @Resource
+    IUserService userService;
+    @Resource
+    IOrderService orderService;
+    String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
+    String randomString = PayCommonUtil.getRandomString(32);
 
     /**
      * 微信验签
@@ -294,7 +292,7 @@ public class WeiXinController {
                 ShopOrder order=null;
                 if ("SUCCESS".equals(result_code)) {
                     //支付成功：修改订单状态 已付款，支付结果通知  已处理且支付成功
-                    SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+                    SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                     try {
                         String orderstatus = "";
                         if("006".equals(orderType)){
