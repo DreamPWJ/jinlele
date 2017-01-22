@@ -101,20 +101,20 @@ public class CommentServiceImpl implements ICommentService {
                     //todo 状态未完成
                     //region 更新为已评价状态
                     switch (type) {
-                        case "refurbish"://产品翻新
+                        case "001"://产品翻新
                             shopOrder.setShoporderstatuscode("001009");
                             break;
-                        case "repair"://产品维修
-                            shopOrder.setShoporderstatuscode("");
+                        case "002"://产品维修
+                            shopOrder.setShoporderstatuscode("002010");
                             break;
-                        case "detect"://产品检测
+                        case "003"://产品检测
                             shopOrder.setShoporderstatuscode("003009");
                             break;
-                        case "recycle"://产品回收
-                            shopOrder.setShoporderstatuscode("");
+                        case "004"://产品回收
+                            shopOrder.setShoporderstatuscode("004008");
                             break;
-                        case "exchange"://产品换款
-                            shopOrder.setShoporderstatuscode("");
+                        case "005"://产品换款
+                            shopOrder.setShoporderstatuscode("005014");
                             break;
                         default://默认商城
                             shopOrder.setShoporderstatuscode("005");
