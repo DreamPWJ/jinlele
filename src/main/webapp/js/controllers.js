@@ -507,6 +507,10 @@ angular.module('starter.controllers', [])
         $rootScope.commonService=CommonService;
         console.log("$stateParams.order=="+$stateParams.order);
         $scope.order = JSON.parse($stateParams.order);
+        //查询物流信息
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.order.orderno}).success(function (data) {
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
         if($scope.order.orderStatus){
             $scope.order.orderStatus = $scope.order.orderStatus.substring(3,6);//截取后3位
         }
@@ -523,10 +527,6 @@ angular.module('starter.controllers', [])
                 $scope.orderdetail = data.orderdetail;//订单详情
             });
         }
-        //查询物流信息
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.order.orderno}).success(function (data) {
-            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
-        });
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
@@ -650,7 +650,7 @@ angular.module('starter.controllers', [])
     }])
 
     //订单列表
-    .controller('OrderListCtrl', ['$rootScope','$scope', '$state', 'WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
+    .controller('OrderListCtrl', ['$rootScope','$scope', '$state','WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
         //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
         $scope.type = '006';
@@ -669,6 +669,7 @@ angular.module('starter.controllers', [])
             $scope.noDataFlag = false;
             //分页显示
             OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+                console.log(data);
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
@@ -699,7 +700,7 @@ angular.module('starter.controllers', [])
             }).success(function (data) {
                 if (data.n == 1) {
                     CommonService.toolTip("收货成功，感谢您的购买~", "tool-tip-message");
-                    $scope.getOrderLists();
+                    $state.reload();
                 }
             });
         }
@@ -1695,7 +1696,7 @@ angular.module('starter.controllers', [])
         });
     }])
     //流程-评价(五大类服务交易结束)
-    .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,CommonService,WeiXinService,OrderService) {
+    .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','$state','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,$state,CommonService,WeiXinService,OrderService) {
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
