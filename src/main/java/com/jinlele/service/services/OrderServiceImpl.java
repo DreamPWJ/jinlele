@@ -245,7 +245,7 @@ public class OrderServiceImpl implements IOrderService {
                         Double total_fee=Double.valueOf(Double.valueOf(map.get("total_fee").toString())/100);//订单总金额，实际支付金额
                         String time_end=map.get("time_end").toString();//支付完成时间
                         ShopOrder shopOrder=null;
-                        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddhhmmss");
+                        SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                         String orderStatus = "";//订单状态
                         if("006".equals(orderType)) {
                             orderStatus = "002";// 商城修改为 已付款
