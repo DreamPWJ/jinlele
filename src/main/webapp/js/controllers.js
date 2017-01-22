@@ -1627,7 +1627,6 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
-            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
         //收货证明
         OrderService.getCertifyInfo({orderno:$scope.orderNo}).success(function (data) {
@@ -1761,9 +1760,10 @@ angular.module('starter.controllers', [])
         if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         $scope.orderno = $stateParams.orderno;//订单号
-        //买方物流进度
+        //物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
         //描述等级
         $scope.currentId=5;
@@ -1899,7 +1899,6 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
-            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
     }])
     //维修-定价

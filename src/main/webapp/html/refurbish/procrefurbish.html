@@ -75,11 +75,7 @@
         <section class="logistics">
             <span class="title">物流详情</span>
             <ul>
-                <li ng-if="sellerLogistc == null"><em>暂无物流信息</em></li>
-                <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
-                    <i></i>
-                    <em>{{item.AcceptTime}}&nbsp;{{item.AcceptStation}}</em>
-                </li>
+                <li><em>暂无物流信息</em></li>
             </ul>
         </section>
 	</section>
