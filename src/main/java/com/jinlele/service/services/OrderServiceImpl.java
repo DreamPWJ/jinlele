@@ -315,4 +315,9 @@ public class OrderServiceImpl implements IOrderService {
     public Date selectCreateTime(String orderno){
         return orderMapper.selectCreateTime(orderno);
     }
+
+    @Override
+    public Map<String, Object> getCertificationInfo(String orderno) {
+        return orderMapper.getCertificationInfo(orderno);
+    }
 }

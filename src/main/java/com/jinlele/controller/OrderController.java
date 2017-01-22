@@ -201,5 +201,10 @@ public class OrderController {
 //    }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/getCertificationInfo/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getCertificationInfo(@PathVariable String orderno) {
+        return orderService.getCertificationInfo(orderno);
+    }
 
 }

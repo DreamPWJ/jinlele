@@ -64,5 +64,6 @@ public interface IOrderService {
     //查询下单时间  selectCreateTime
     Date selectCreateTime(String orderno);
 
-
+    //获取收货证明信息
+    Map<String,Object> getCertificationInfo(String orderno);
 }

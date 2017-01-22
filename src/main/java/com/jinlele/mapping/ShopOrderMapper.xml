@@ -318,7 +318,9 @@
   <select id="selectCreateTime" resultType="java.util.Date" parameterType="java.lang.String">
         select create_time from shoporder where orderno = #{orderno}
   </select>
-
-
+  <!--获取收货证明信息-->
+  <select id="getCertificationInfo" parameterType="java.lang.String" resultType="Map">
+    select imgurl,create_time from receive_test where order_no = #{orderno}
+  </select>
 
 </mapper>
