@@ -296,18 +296,6 @@
             <i>{{certificationInfo.create_time|date:'yyyy年MM月dd日'}}</i>
         </section>
     </section>
-    <!-- 检测报告 -->
-    <section class="report" ng-if="report!=null">
-        <span class="title">检测报告</span>
-        <section class="report_mian">
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
-            <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
-        </section>
-        <section class="empty" style="display:none;">
-            <i class="icon">&#xe639;</i>
-            <em>检测还没结果，请等待</em>
-        </section>
-    </section>
     <!--二维码-->
     <section class="qr_code">
         <span class="title">感谢您选择我们</span>

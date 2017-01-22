@@ -73,7 +73,7 @@
                         </span>
                         <span ng-if="item.shoporderstatusCode=='003'">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span ng-if="item.shoporderstatusCode=='004'">
@@ -92,6 +92,10 @@
                             <a  ng-click="servicedetail(item.orderno , item.type ,item.shoporderstatusCode)">详情</a>
                             <a href="javascript:void(0);" ng-click="cancleorder(item.orderno)">取消</a>
                             <a ng-if="item.shoporderstatusCode.substring(3,6) == '001'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
+                            <a class="strike" ng-if="item.shoporderstatusCode=='001007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-if="item.shoporderstatusCode=='002008'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-if="item.shoporderstatusCode=='003007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-if="item.shoporderstatusCode=='005012'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
                         </span>
                         <span ng-if="item.shoporderstatusCode=='003'">
                             <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>

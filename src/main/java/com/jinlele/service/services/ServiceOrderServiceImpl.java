@@ -3,6 +3,7 @@ package com.jinlele.service.services;
 import com.google.zxing.WriterException;
 import com.jinlele.dao.*;
 import com.jinlele.model.*;
+import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceOrderService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +41,9 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     ServiceMapper serviceMapper;
     @Resource
     ServicePictureMapper servicePictureMapper;
+
+    @Resource
+    IReceiptAddressService receiptAddressService;
 
     //生成服务类订单
     @Override
@@ -169,6 +174,64 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         map.put("orderTime" , orderTime);
         map.put("orderNo" , orderno);
         return map;
+    }
+
+    @Override
+    public Map<String, Object> createServiceOrder(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
+        //订单号生成
+        String orderno = StringHelper.getOrderNum();
+        //一条总数据
+        for (Map<String, Object> confirmInfo : list) {
+            Integer userId = Integer.valueOf(confirmInfo.get("userId").toString());//用户id
+            String type = confirmInfo.get("type").toString();//业务类型type
+            Integer storeId = Integer.valueOf(confirmInfo.get("storeId").toString());//门店id
+            String sendWay = confirmInfo.get("sendWay").toString();//送货方式
+            String getWay = confirmInfo.get("getWay").toString();//取货方式
+            Integer totalnum = Integer.valueOf(confirmInfo.get("totalnum").toString());//总数量
+            Double totalprice = Double.valueOf(confirmInfo.get("totalprice").toString());//总金额
+            Integer serviceId = Integer.valueOf(confirmInfo.get("serviceId").toString());//服务id
+            List<Map<String, Object>> addressinfo = (List) confirmInfo.get("addressinfo");//地址信息
+            //获取地址id
+            ReceiptAddress address = null;
+            for (Map<String, Object> item : addressinfo) {
+                address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
+            }
+            Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
+            Date orderTime = new Date();
+            try {
+                //保存订单
+                String shoporderstatus = type + "001";
+                ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
+
+                //生成订单
+                shopOrderMapper.insertSelective(order);
+                //更新服务表
+                Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
+                serviceMapper.updateByPrimaryKeySelective(service);
+                //添加订单_商品中间表，记录订单明细
+                List<Map<String, Object>> products = (List) confirmInfo.get("products");//产品集合
+                Product product = null;
+                for (Map<String, Object> detailInfo : products) {
+                    Integer catogoryId = Integer.valueOf(detailInfo.get("secondCatogoryId").toString());
+                    Integer num = Integer.valueOf(detailInfo.get("num").toString());
+                    String memo = detailInfo.get("memo").toString();
+
+                    product = new Product(catogoryId , type , serviceId ,num , memo);
+                    //保存服务类商品
+                    productMapper.insertSelective(product);
+                }
+                resultMap.put("errmsg", "ok");
+
+            } catch (Exception e) {
+                resultMap.put("errmsg", "error");
+            }
+            resultMap.put("orderNo" , orderno);
+            resultMap.put("totalprice" , totalprice);
+            resultMap.put("orderTime" , orderTime);
+        }
+        return resultMap;
     }
 
 }

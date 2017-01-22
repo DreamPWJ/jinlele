@@ -690,12 +690,32 @@ angular.module('starter.controllers', [])
                 }
             });
         }
-        $scope.confirmReceive = function (orderno){
-            //1.修改订单状态
-            //2.重新加载数据
+        //确认收货
+        $scope.confirmReceive = function (type,orderno){
+            var orderstatus="";
+            switch (type){
+                case '001':
+                    orderstatus='001008';
+                    break;
+                case '002':
+                    orderstatus='002009';
+                    break;
+                case '003':
+                    orderstatus='003008';
+                    break;
+                case '004':
+                    orderstatus='004007';
+                    break;
+                case '005':
+                    orderstatus='005013';
+                    break;
+                default ://默认商城
+                    orderstatus='004';
+                    break;
+            }
             OrderService.update({
                 orderno: orderno,
-                shoporderstatuscode:'004'
+                shoporderstatuscode:orderstatus
             }).success(function (data) {
                 if (data.n == 1) {
                     CommonService.toolTip("收货成功，感谢您的购买~", "tool-tip-message");
@@ -1421,12 +1441,35 @@ angular.module('starter.controllers', [])
                 buyeraddresId: $scope.address.id//收货地址id外键
             };
             if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004' || $scope.type.code == '005'){  //如果是翻新和检测需要传入产品信息
-                $scope.params.serviceId = $scope.serviceId;
-                $scope.params.totalnum = $scope.totalnum;
-                $scope.params.products = JSON.stringify($scope.product);
-                console.log(JSON.stringify($scope.params));
+
+                //确认信息
+                $scope.confirminfo = [];
+                //地址信息
+                $scope.addressinfo = [];
+                var address = {};
+                address.userName = $scope.address.userName;
+                address.postalCode = $scope.address.postalCode;
+                address.provinceName = $scope.address.provinceName;
+                address.cityName = $scope.address.cityName;
+                address.countryName = $scope.address.countryName;
+                address.detailInfo = $scope.address.detailInfo;
+                address.nationalCode = $scope.address.nationalCode;
+                address.telNumber = $scope.address.telNumber;
+                $scope.addressinfo.push(address);
+                var obj = {};
+                obj.userId = localStorage.getItem("jinlele_userId");//用户id
+                obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
+                obj.storeId = 1;//后续需要根据客户选择传入
+                obj.sendWay=$scope.order.sendway;     //送货方式
+                obj.getWay=$scope.order.getway;    //取货方式
+                obj.totalprice = $scope.totalprice;//总价格
+                obj.totalnum = $scope.totalnum;//总数量
+                obj.serviceId = $scope.serviceId;//服务id
+                obj.addressinfo = $scope.addressinfo;//地址信息
+                obj.products = JSON.parse($scope.product);//产品集合
+                $scope.confirminfo.push(obj);
                 //保存订单 并去支付订单
-                ProcCommitOrderService.saveServiceOrder($scope.params).success(function (data) {
+                ProcCommitOrderService.createServiceOrder($scope.confirminfo).success(function (data) {
                     if (data) {
                         //调用支付接口
                         var orderno = data.orderNo;
@@ -1654,14 +1697,6 @@ angular.module('starter.controllers', [])
         MemberService.getUserInfo(localStorage.getItem("openId")).success(function(data) {
             $scope.user = data.userInfo;
         });
-        //检测报告
-        OrderService.getServiceDetailInfo({orderno:$scope.orderNo}).success(function(data){
-            if(data.checkreport) {
-                $scope.report = data;
-            }else{
-                $scope.report = null;
-            }
-        });
     }])
     //流程-邮寄(五大类服务返回产品物流)
     .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
@@ -1676,9 +1711,9 @@ angular.module('starter.controllers', [])
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
         //物流样式展示
-        $scope.jinlele="hide";
+        $scope.jinlele="retrofit";
         $scope.mine="hide";
-        $scope.jinflag=false;
+        $scope.jinflag=true;
         $scope.myflag=false;
         $scope.showwuliuInfo=function(index){
             switch (index){
@@ -1701,10 +1736,6 @@ angular.module('starter.controllers', [])
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
-        });
-        //加载发货证明图片
-        OrderService.getPostImg({orderno:$scope.orderNo}).success(function(data){
-            $scope.images=data.image;
         });
     }])
     //流程-验货(五大类服务用户收货验收)
@@ -1745,6 +1776,10 @@ angular.module('starter.controllers', [])
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
+        //加载发货证明图片
+        OrderService.getPostImg({orderno:$scope.orderNo}).success(function(data){
+            $scope.images=data.image;
         });
     }])
     //流程-评价(五大类服务交易结束)
@@ -1884,7 +1919,7 @@ angular.module('starter.controllers', [])
         }
     })
     //翻新-翻新
-    .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
+    .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService', function ($scope, $stateParams, $location,OrderService,MemberService) {
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
         if ($stateParams.name != "refurbish") {
@@ -1917,6 +1952,22 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+        //收货证明
+        OrderService.getCertifyInfo({orderno:$scope.orderNo}).success(function (data) {
+            $scope.certificationInfo = data;
+        });
+        //用户信息
+        MemberService.getUserInfo(localStorage.getItem("openId")).success(function(data) {
+            $scope.user = data.userInfo;
+        });
+        //检测报告
+        OrderService.getServiceDetailInfo({orderno:$scope.orderNo}).success(function(data){
+            if(data.checkreport) {
+                $scope.report = data;
+            }else{
+                $scope.report = null;
+            }
         });
     }])
     //维修-定价

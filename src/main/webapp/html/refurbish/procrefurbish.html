@@ -101,7 +101,30 @@
             </ul>
         </section>
     </section>
-    
+
+    <!-- 收货证明 -->
+    <section class="prove shouhuo" ng-if="certificationInfo.length!=0">
+        <p><font>收货证明</font><br/>六唯壹收到<i>{{user.nickname}}</i>（微信账号）送来的宝贝，如右图；此宝贝只用作<font ng-if="pagetheme=='refurbish'">翻新</font><font ng-if="pagetheme=='repair'">维修</font><font ng-if="pagetheme=='detect'">检测</font><font ng-if="pagetheme=='recycle'">回收</font><font ng-if="pagetheme=='exchange'">换款</font>业务。</p>
+        <span><img ng-src="{{certificationInfo.imgurl}}"></span>
+        <section class="prove_bottom">
+            <em>特此声明</em>
+            <u><img src="images/seal.png"></u>
+            <i>金乐乐珠宝有限公司</i>
+            <i>{{certificationInfo.create_time|date:'yyyy年MM月dd日'}}</i>
+        </section>
+    </section>
+    <!-- 检测报告 -->
+    <section class="report" ng-if="report!=null">
+        <span class="title">检测报告</span>
+        <section class="report_mian">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
+            <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
+        </section>
+        <section class="empty" style="display:none;">
+            <i class="icon">&#xe639;</i>
+            <em>检测还没结果，请等待</em>
+        </section>
+    </section>
 	<!-- 翻新中 -->
     <section class="report">
         <section class="report_mian"><img src="images/com/fx01.jpg"></section>

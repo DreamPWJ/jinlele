@@ -5,12 +5,11 @@ import com.jinlele.service.interfaces.IServiceOrderService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,6 +86,15 @@ public class ServiceOrderController {
     @RequestMapping("/updateRepair")
     public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId){
         return  serviceOrderService.updateRepair(orderno , type,userId, storeId, sendWay, getWay,  totalprice, buyeraddresId);
+    }
+
+    /**
+     * 创建服务订单
+     */
+    @ResponseBody
+    @RequestMapping(value = "/createServiceOrder" ,method = RequestMethod.POST)
+    public  Map<String,Object> createServiceOrder(@RequestBody List<Map<String,Object>> list) {
+        return serviceOrderService.createServiceOrder(list);
     }
 
 
