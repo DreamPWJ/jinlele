@@ -235,12 +235,12 @@
             </span>
         </section>
         <section id="tad" class="numbers_button">
-            <span onclick="javascript:test_item(0);" class="hover"><a href="javascript:">我的物流 </a></span>
-            <span onclick="javascript:test_item(1);"><a href="javascript:">金乐乐物流</a></span>
+            <span ng-click="showwuliuInfo(0)" ng-class="{hover:jinflag}"><a href="javascript:">金乐乐物流</a></span>
+            <span ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">我的物流 </a></span>
         </section>
     </section>
-
-    <section id="test0" >
+    <!-- 我的物流 -->
+    <section class="{{mine}}">
         <section class="address">
             <a href="javascript:">
                 <span class="title">
@@ -293,8 +293,8 @@
             </li>
         </ul>
     </section>
-
-    <section id="test1" class="hide">
+    <!-- 金乐乐物流 -->
+    <section class="{{jinlele}}">
         <section class="address">
             <a href="javascript:">
                 <span class="title">
@@ -311,7 +311,6 @@
             </ul>
         </section>
     </section>
-
 
 
     

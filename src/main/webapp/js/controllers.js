@@ -669,7 +669,6 @@ angular.module('starter.controllers', [])
             $scope.noDataFlag = false;
             //分页显示
             OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                console.log(data);
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
@@ -1517,21 +1516,40 @@ angular.module('starter.controllers', [])
                     }
                 });
             }
-
         }
     })
     //流程-平台收货(五大类服务展示物流状态及收货证明)
     .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService ,CommonService ,$rootScope) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
+        $scope.orderNo = $stateParams.orderNo;
+        $scope.orderTime = $stateParams.orderTime;
+
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
         if($stateParams.name == '003')  $scope.pagetheme = 'detect';
         if($stateParams.name == '004')  $scope.pagetheme = 'recycle';
         if($stateParams.name == '005')  $scope.pagetheme = 'exchange';
-
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
-
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="retrofit";
+        $scope.jinflag=false;
+        $scope.myflag=true;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
         //参数
         $scope.order = {
             userlogisticsnoComp:"",//买方发货快递公司编码
@@ -1685,7 +1703,7 @@ angular.module('starter.controllers', [])
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
         //加载发货证明图片
-        OrderService.getPostImg({orderNo:$scope.orderNo}).success(function(data){
+        OrderService.getPostImg({orderno:$scope.orderNo}).success(function(data){
             $scope.images=data.image;
         });
     }])
