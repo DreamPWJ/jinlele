@@ -258,21 +258,10 @@
         <section class="logistics">
             <span class="title">物流详情</span>
             <ul>
-                <li class="hover">
+                <li ng-if="sellerLogistc == null"><em>暂无物流信息</em></li>
+                <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
+                    <em>{{item.AcceptTime}}&nbsp;{{item.AcceptStation}}</em>
                 </li>
             </ul>
         </section>
@@ -301,21 +290,23 @@
     </section>
 
     <!-- 收货证明 -->
-    <section class="prove shouhuo">
-        <p>收货证明<br/>我司收到<i>wx-wxhehgej</i>（微信号）如右图物品，经过详细检测和返厂翻新后，归还其本人。</p>
-        <span><img src="images/com/04.jpg"></span>
-
+    <section class="prove shouhuo" ng-if="certificationInfo.length!=0">
+        <p><font>收货证明</font><br/>六唯壹收到<i>{{user.nickname}}</i>（微信账号）送来的宝贝，如右图；此宝贝只用作<font ng-if="pagetheme=='refurbish'">翻新</font><font ng-if="pagetheme=='repair'">维修</font><font ng-if="pagetheme=='detect'">检测</font><font ng-if="pagetheme=='recycle'">回收</font><font ng-if="pagetheme=='exchange'">换款</font>业务。</p>
+        <span><img ng-src="{{certificationInfo.imgurl}}"></span>
         <section class="prove_bottom">
             <em>特此声明</em>
             <u><img src="images/seal.png"></u>
             <i>金乐乐珠宝有限公司</i>
-            <i>2015年10月20日</i>
+            <i>{{certificationInfo.create_time|date:'yyyy年MM月dd日'}}</i>
         </section>
     </section>
     <!-- 检测报告 -->
-    <section class="report">
+    <section class="report" ng-if="report!=null">
         <span class="title">检测报告</span>
-        <section class="report_mian"><img src="images/com/001.jpg"></section>
+        <section class="report_mian">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
+            <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
+        </section>
         <section class="empty" style="display:none;">
             <i class="icon">&#xe639;</i>
             <em>检测还没结果，请等待</em>

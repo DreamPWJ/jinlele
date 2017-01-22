@@ -1581,15 +1581,27 @@ angular.module('starter.controllers', [])
         }
     })
     //流程-检测(五大类服务检测报告)
-    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService', function ($scope, $stateParams,OrderService) {
+    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService','MemberService', function ($scope, $stateParams,OrderService,MemberService) {
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
-        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
-        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
+        switch ($stateParams.type){
+            case '001':
+                $scope.pagetheme = 'refurbish';
+                break;
+            case '002':
+                $scope.pagetheme = 'repair';
+            case '003':
+                $scope.pagetheme = 'detect';
+                break;
+            case '004':
+                $scope.pagetheme = 'recycle';
+                break;
+            case '005':
+                $scope.pagetheme = 'exchange';
+                break;
+        }
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
@@ -1615,6 +1627,23 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
+        //收货证明
+        OrderService.getCertifyInfo({orderno:$scope.orderNo}).success(function (data) {
+            $scope.certificationInfo = data;
+        });
+        //用户信息
+        MemberService.getUserInfo(localStorage.getItem("openId")).success(function(data) {
+            $scope.user = data.userInfo;
+        });
+        //检测报告
+        OrderService.getServiceDetailInfo({orderno:$scope.orderNo}).success(function(data){
+            if(data.checkreport) {
+                $scope.report = data;
+            }else{
+                $scope.report = null;
+            }
         });
     }])
     //流程-邮寄(五大类服务返回产品物流)
@@ -1654,6 +1683,7 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
     }])
     //流程-验货(五大类服务用户收货验收)
@@ -1864,6 +1894,7 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
     }])
     //维修-定价

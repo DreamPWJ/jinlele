@@ -334,4 +334,7 @@
     where  c.id = p.catogory_id and s.id = p.service_id  and o.orderno = s.order_no
     and   o.orderno = #{orderno}
   </select>
+  <select id="getServiceInfo" resultType="Map" parameterType="java.lang.String">
+select * from service where order_no=#{orderno}
+  </select>
 </mapper>

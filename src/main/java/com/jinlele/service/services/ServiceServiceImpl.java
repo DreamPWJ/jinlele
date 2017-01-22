@@ -24,23 +24,16 @@ import java.util.Map;
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements IServiceService {
 
-    @Resource
-    BaseMapper baseMapper;
-
-    @Resource
-    ServiceMapper serviceMapper;
-
-    @Resource
-    PictureMapper pictureMapper;
-
-    @Resource
-    ServicePictureMapper servicePictureMapper;
-
-
     public static String key_suff =  "service/";
     public static String savePath =  "c:/download";  //默认保存到服务器的该目录
-
-
+    @Resource
+    BaseMapper baseMapper;
+    @Resource
+    ServiceMapper serviceMapper;
+    @Resource
+    PictureMapper pictureMapper;
+    @Resource
+    ServicePictureMapper servicePictureMapper;
 
     @Override
     public Map<String , Object> saveService(Integer userId, Double aturalprice, String descrip, String type , Integer storeId, String[] mediaIds) throws IOException {
@@ -81,6 +74,11 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     public Map<String, Object> getdetectPrice() {
         return serviceMapper.getdetectPrice();
+    }
+
+    @Override
+    public Map<String, Object> getServiceInfo(String orderno) {
+        return serviceMapper.getServiceInfo(orderno);
     }
 
 

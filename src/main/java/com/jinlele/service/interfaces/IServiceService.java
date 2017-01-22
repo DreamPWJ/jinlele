@@ -15,4 +15,6 @@ public interface IServiceService {
 
     Map<String , Object> getdetectPrice();
 
+    //根据订单号查询服务信息
+    Map<String , Object> getServiceInfo(String orderno);
 }

@@ -4378,6 +4378,11 @@ section.report section.report_mian {
     padding: 10px;
 }
 
+section.report section.report_mian p {
+    width: 100%;
+    line-height: 23px;
+    font-size: 80%;
+}
 section.report img {
     width: 100%;
     float: left;

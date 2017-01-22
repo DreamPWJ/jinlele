@@ -67,4 +67,14 @@ public class ServiceController {
         return serviceService.getdetectPrice();
     }
 
+    /**
+     * 获取检测报告
+     * @param orderno
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getServiceInfo/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getServiceInfo(@PathVariable String orderno) {
+        return serviceService.getServiceInfo(orderno);
+    }
 }

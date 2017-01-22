@@ -32,4 +32,6 @@ public interface ServiceMapper {
     //服务订单产品信息详情
     List getServiceProducts(String orderno);
 
+    //根据订单号查询服务信息
+    Map<String , Object> getServiceInfo(String orderno);
 }
