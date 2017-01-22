@@ -556,15 +556,6 @@ angular.module('starter.controllers', [])
                     });
             });
         }
-        $scope.cancleorder=function(orderno){
-            //修改后，重新请求数据
-            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
-                if (parseInt(data.resultnumber) > 0) {
-                    CommonService.toolTip("取消成功", "tool-tip-message-success");
-                    $state.go("orderlist");
-                }
-            });
-        }
     }])
     //发表评论
     .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state','$rootScope', 'WeiXinService', 'OrderService','CommonService', function ($scope, $stateParams, $state, $rootScope,WeiXinService, OrderService,CommonService) {
@@ -702,6 +693,15 @@ angular.module('starter.controllers', [])
         $scope.confirmReceive = function (orderno){
             //1.修改订单状态
             //2.重新加载数据
+            OrderService.update({
+                orderno: orderno,
+                shoporderstatuscode:'004'
+            }).success(function (data) {
+                if (data.n == 1) {
+                    CommonService.toolTip("收货成功，感谢您的购买~", "tool-tip-message");
+                    $scope.getOrderLists();
+                }
+            });
         }
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
@@ -1442,7 +1442,7 @@ angular.module('starter.controllers', [])
                         $scope.param = {
                             totalprice: 0.01, //data.totalprice
                             orderNo: data.orderNo,
-                            descrip: '你的'+$scope.type.name+'服务订单已付款成功，请尽快邮寄宝贝！',
+                            descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
                             orderType:JSON.stringify({type:$scope.type.code})
                         }
@@ -1486,7 +1486,7 @@ angular.module('starter.controllers', [])
                         $scope.param = {
                             totalprice: 0.01, //data.totalprice
                             orderNo: data.orderNo,
-                            descrip: '你的' + $scope.type.name + '服务订单已付款成功，请尽快邮寄宝贝！',
+                            descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
                             orderType:JSON.stringify({type:$scope.type.code})
                         }
