@@ -322,5 +322,10 @@
   <select id="getCertificationInfo" parameterType="java.lang.String" resultType="Map">
     select imgurl,create_time from receive_test where order_no = #{orderno}
   </select>
-
+  <!--获取拍照邮寄图片-->
+  <select id="getPostbackImg" parameterType="java.lang.String" resultType="Map">
+select p.url from order_picture op
+join picture p on op.picture_id=p.id
+where p.deleteCode='001' and order_no=#{orderno}
+  </select>
 </mapper>

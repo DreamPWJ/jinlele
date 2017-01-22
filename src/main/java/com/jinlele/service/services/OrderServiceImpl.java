@@ -320,4 +320,11 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getCertificationInfo(String orderno) {
         return orderMapper.getCertificationInfo(orderno);
     }
+
+    @Override
+    public Map<String, Object> getPostbackImg(String orderno) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("image",orderMapper.getPostbackImg(orderno));
+        return result;
+    }
 }

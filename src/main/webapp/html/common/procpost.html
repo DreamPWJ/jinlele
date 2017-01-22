@@ -246,11 +246,7 @@
 	<!-- 拍照 -->
     <section class="photograph">
         <ul>
-            <li><span><img src="images/com/01.jpg"></span></li>
-            <li><span><img src="images/com/01.jpg"></span></li>
-            <li><span><img src="images/com/01.jpg"></span></li>
-            <li><span><img src="images/com/01.jpg"></span></li>
-            <li><span><img src="images/com/01.jpg"></span></li>
+            <li ng-repeat="item in images"><span><img src="images/com/01.jpg" ng-src="{{item.url}}"></span></li>
         </ul>
     </section>
 </main>

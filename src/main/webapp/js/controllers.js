@@ -1685,6 +1685,10 @@ angular.module('starter.controllers', [])
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
+        //加载发货证明图片
+        OrderService.getPostImg({orderNo:$scope.orderNo}).success(function(data){
+            $scope.images=data.image;
+        });
     }])
     //流程-验货(五大类服务用户收货验收)
     .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
@@ -1723,6 +1727,7 @@ angular.module('starter.controllers', [])
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
     }])
     //流程-评价(五大类服务交易结束)

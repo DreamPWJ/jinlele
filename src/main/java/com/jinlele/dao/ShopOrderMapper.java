@@ -37,5 +37,6 @@ public interface ShopOrderMapper {
     //获取收货证明信息
     Map<String,Object> getCertificationInfo(String orderno);
 
-
+    //获取拍照邮寄图片
+    List getPostbackImg(String orderno);
 }

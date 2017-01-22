@@ -207,4 +207,10 @@ public class OrderController {
         return orderService.getCertificationInfo(orderno);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getPostbackImg/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getPostbackImg(@PathVariable String orderno) {
+        return orderService.getPostbackImg(orderno);
+    }
+
 }

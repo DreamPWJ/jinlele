@@ -213,21 +213,10 @@
         <section class="logistics">
             <span class="title">物流详情</span>
             <ul>
-                <li class="hover">
+                <li ng-if="sellerLogistc == null"><em>暂无物流信息</em></li>
+                <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
-                </li>
-                <li>
-                    <i></i>
-                    <em>广州市内寄快递费用回程车往返物流白云区太和收货网点广州市内寄快递费用</em>
+                    <em>{{item.AcceptTime}}&nbsp;{{item.AcceptStation}}</em>
                 </li>
             </ul>
         </section>

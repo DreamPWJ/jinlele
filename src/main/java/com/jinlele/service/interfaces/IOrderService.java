@@ -66,4 +66,7 @@ public interface IOrderService {
 
     //获取收货证明信息
     Map<String,Object> getCertificationInfo(String orderno);
+
+    //获取拍照邮寄图片
+    Map<String,Object> getPostbackImg(String orderno);
 }
