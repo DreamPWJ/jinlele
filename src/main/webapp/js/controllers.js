@@ -1466,7 +1466,7 @@ angular.module('starter.controllers', [])
                 obj.totalnum = $scope.totalnum;//总数量
                 obj.serviceId = $scope.serviceId;//服务id
                 obj.addressinfo = $scope.addressinfo;//地址信息
-                obj.products = JSON.parse($scope.product);//产品集合
+                obj.products = $scope.product;//产品集合
                 $scope.confirminfo.push(obj);
                 //保存订单 并去支付订单
                 ProcCommitOrderService.createServiceOrder($scope.confirminfo).success(function (data) {
