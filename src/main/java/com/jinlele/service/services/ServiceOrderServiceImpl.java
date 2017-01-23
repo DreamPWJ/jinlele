@@ -149,11 +149,13 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         JSONArray array2 = json.getJSONArray("secondCatogoryId");
         JSONArray array3 = json.getJSONArray("num");
         JSONArray array4 = json.getJSONArray("memo");
+        JSONArray array5 = json.getJSONArray("repairItemValue");
         for(int i=0;i<array1.size();i++){
             Integer  catogoryId =  array2.getInt(i);
             Integer num = array3.getInt(i);
             String memo = array4.getString(i);
             product = new Product(catogoryId , type , service.getId() ,num , memo);
+            product.setRepairitem(array5.getString(i));//维修项目类型
             //保存服务类商品
             productMapper.insertSelective(product);
         }
@@ -162,18 +164,38 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         return map;
     }
 
-    public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId){
-        //更新订单信息
-        ShopOrder order = new  ShopOrder(orderno,type,userId,storeId,totalprice,buyeraddresId);
-        shopOrderMapper.updateByPrimaryKeySelective(order);
-        Integer serviceId =  shopOrderMapper.selectServiceIdByOrderNo(orderno);
-        Service service = new Service(serviceId ,totalprice ,totalprice ,userId , storeId , sendWay ,getWay ,new Date());
-        serviceMapper.updateByPrimaryKeySelective(service);
-        Date orderTime = shopOrderMapper.selectCreateTime(orderno);
-        Map map = new HashedMap();
-        map.put("orderTime" , orderTime);
-        map.put("orderNo" , orderno);
-        return map;
+
+
+    @Override
+    public Map<String, Object> updateRepair(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
+        //一条总数据
+        for (Map<String, Object> confirmInfo : list) {
+            Integer userId = Integer.valueOf(confirmInfo.get("userId").toString());//用户id
+            String type = confirmInfo.get("type").toString();//业务类型type
+            Integer storeId = Integer.valueOf(confirmInfo.get("storeId").toString());//门店id
+            String sendWay = confirmInfo.get("sendWay").toString();//送货方式
+            String getWay = confirmInfo.get("getWay").toString();//取货方式
+            Double totalprice = Double.valueOf(confirmInfo.get("totalprice").toString());//总金额
+            String orderno = confirmInfo.get("orderno").toString();//订单号
+            List<Map<String, Object>> addressinfo = (List) confirmInfo.get("addressinfo");//地址信息
+            //获取地址id
+            ReceiptAddress address = null;
+            for (Map<String, Object> item : addressinfo) {
+                address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
+            }
+            Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
+            //更新订单信息
+            ShopOrder order = new  ShopOrder(orderno,type,userId,storeId,totalprice,Integer.valueOf(result.get("receiptAddressId").toString()));
+            shopOrderMapper.updateByPrimaryKeySelective(order);
+            Integer serviceId =  shopOrderMapper.selectServiceIdByOrderNo(orderno);
+            Service service = new Service(serviceId ,totalprice ,totalprice ,userId , storeId , sendWay ,getWay ,new Date());
+            serviceMapper.updateByPrimaryKeySelective(service);
+            Date orderTime = shopOrderMapper.selectCreateTime(orderno);
+            resultMap.put("orderTime" , orderTime);
+            resultMap.put("orderNo" , orderno);
+        }
+        return resultMap;
     }
 
     @Override
