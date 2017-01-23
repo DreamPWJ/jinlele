@@ -337,4 +337,7 @@
   <select id="getServiceInfo" resultType="Map" parameterType="java.lang.String">
 select * from service where order_no=#{orderno}
   </select>
+  <select id="getDictInfo" resultType="Map" parameterType="java.lang.String">
+    select * from vw_dictdetail where eng=#{typename}
+  </select>
 </mapper>

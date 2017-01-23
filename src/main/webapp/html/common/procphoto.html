@@ -227,7 +227,7 @@
             <dd>
                 <em>产品材质：</em>
                 <span>
-                    <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required>
+                    <select  ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required>
                         <option value="{{item.id}}" ng-repeat="item in firstCatogories">{{item.name}}</option>
                     </select>
                 </span>
@@ -235,7 +235,7 @@
             <dd>
                 <em>产品类别：</em>
                 <span>
-                    <select class="" ng-model="product.secondCatogoryId[$index]" required>
+                    <select ng-model="product.secondCatogoryId[$index]" required>
                         <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
                     </select>
                 </span>
@@ -243,17 +243,8 @@
             <dd>
                 <em>维修项目：</em>
                 <span>
-                    <select>
-                        <option value="">请选择</option>
-                        <option value="1">焊接</option>
-                        <option value="2">种爪</option>
-                        <option value="3">改指圈</option>
-                        <option value="4">镶石</option>
-                        <option value="5">加爪子扣</option>
-                        <option value="6">焊弹簧扣、鱼钩扣</option>
-                        <option value="7">分色电镀</option>
-                        <option value="8">喷砂、拉砂</option>
-                        <option value="9">其他</option>
+                    <select ng-model="product.repairItemValue[$index]" required>
+                        <option value="{{item.codevalue}}" ng-repeat="item in repairItems">{{item.dictname}}</option>
                     </select>
                 </span>
             </dd>

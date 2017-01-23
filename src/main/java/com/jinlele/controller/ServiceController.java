@@ -77,4 +77,10 @@ public class ServiceController {
     public Map<String, Object> getServiceInfo(@PathVariable String orderno) {
         return serviceService.getServiceInfo(orderno);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getRepairItem/{typename}", method = RequestMethod.GET)
+    public Map<String, Object> getRepairItem(@PathVariable String typename) {
+        return serviceService.getDictInfo(typename);
+    }
 }

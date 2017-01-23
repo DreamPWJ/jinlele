@@ -1216,6 +1216,7 @@ angular.module('starter.controllers', [])
                 $scope.product = {
                     firstCatogoryId: [],//一级分类id
                     secondCatogoryId: [], //二级分类id
+                    repairItemValue:[],//维修项目
                     num: [],
                     memo: []
                 };
@@ -1232,6 +1233,9 @@ angular.module('starter.controllers', [])
                         $scope.secondcatagories["s" + index] = data;
                     });
                 }
+                CategoryService.getRepairItem({typename:'repairitem'}).success(function(data){
+                    $scope.repairItems=data.repairitem;
+                });
                 //计算总数量和总价格
                 $scope.numblur = function () {
                     //遍历

@@ -34,4 +34,6 @@ public interface ServiceMapper {
 
     //根据订单号查询服务信息
     Map<String , Object> getServiceInfo(String orderno);
+    //根据类型查询字典信息
+    List getDictInfo(String typename);
 }
