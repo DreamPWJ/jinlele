@@ -821,7 +821,7 @@ angular.module('starter.controllers', [])
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
                             break;
                         case "002006":
-                            $state.go('procrepair', {type: type, orderno: orderno, orderTime: createTime});//维修
+                            $state.go('procrepair', {name: 'repair', orderno: orderno, orderTime: createTime});//维修
                             break;
                         case "002007":
                             $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
@@ -2033,10 +2033,10 @@ angular.module('starter.controllers', [])
     })
     //维修-维修
     .controller('ProcRepairCtrl',['$scope', '$stateParams','OrderService','MemberService',  function ($scope, $stateParams,OrderService,MemberService) {
-        $scope.type = $stateParams.type;
+        $scope.pagetheme = $stateParams.name;
         $scope.orderno = $stateParams.orderno;
         $scope.orderTime = $stateParams.orderTime;
-        if ($stateParams.type != "002") {
+        if ($stateParams.name != "repair") {
             $location.path("/");
         }
         //物流样式展示
