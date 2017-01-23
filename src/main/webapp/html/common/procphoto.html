@@ -1,5 +1,5 @@
 <!-- title -->
-<section class="process_title"  ng-switch on="pagetheme">
+<section class="process_title" ng-switch on="pagetheme">
     <i ng-switch-when="refurbish">产品翻新</i>
     <i ng-switch-when="repair">产品维修</i>
     <i ng-switch-when="detect">产品检测</i>
@@ -220,47 +220,37 @@
             </li>
         </ul>
     </section>
-    
+
     <!-- 产品信息 -->
-    <div  ng-repeat="items in productArr"  ng-switch-when="repair">
+    <div ng-repeat="items in productArr" ng-switch-when="repair">
         <dl class="add_product">
-            <dd>
-                <em>维修项目：</em>
-            <span>
-            <select>
-                <option value="">请选择</option>
-                <option value="1">焊接</option>
-                <option value="2">种爪</option>
-                <option value="3">改指圈</option>
-                <option value="4">镶石</option>
-                <option value="5">加爪子扣</option>
-                <option value="6">焊弹簧扣、鱼钩扣</option>
-                <option value="7">分色电镀</option>
-                <option value="8">喷砂、拉砂</option>
-                <option value="9">其他</option>
-                </select>
-            </span>
-            </dd>
             <dd>
                 <em>产品材质：</em>
                 <span>
-            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)"  required>
-                <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
-            </select>
-            </span>
+                    <select  ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required>
+                        <option value="{{item.id}}" ng-repeat="item in firstCatogories">{{item.name}}</option>
+                    </select>
+                </span>
             </dd>
-            <dd >
+            <dd>
                 <em>产品类别：</em>
                 <span>
-
-            <select class="" ng-model="product.secondCatogoryId[$index]" required>
-                <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
-            </select>
-            </span>
+                    <select ng-model="product.secondCatogoryId[$index]" required>
+                        <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
+                    </select>
+                </span>
+            </dd>
+            <dd>
+                <em>维修项目：</em>
+                <span>
+                    <select ng-model="product.repairItemValue[$index]" required>
+                        <option value="{{item.codevalue}}" ng-repeat="item in repairItems">{{item.dictname}}</option>
+                    </select>
+                </span>
             </dd>
             <dd>
                 <em>数量：</em>
-                <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')"   required></span>
+                <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')" required></span>
             </dd>
             <dd>
                 <em>备注：</em>
@@ -270,10 +260,9 @@
     </div>
 
 
-
     <!-- 拍照 -->
     <section class="photograph">
-        <ul >
+        <ul>
             <!--<wx-img ng-repeat="per in localIds"></wx-img>-->
             <li ng-repeat="per in localIds">
                 <span><wx-img></wx-img></span>
@@ -281,11 +270,11 @@
             </li>
             <li ng-click="wxchooseImage()"><i class="iconfont icon-add"></i></li>
         </ul>
-        <p><textarea   class="desc"  ng-model="service.descrip"  rows="5" placeholder="请描述产品..."></textarea></p>
+        <p><textarea class="desc" ng-model="service.descrip" rows="5" placeholder="请描述产品..."></textarea></p>
 
 
     </section>
-    
+
     <!-- 翻新案例 -->
     <section class="case" ng-switch-when="refurbish">
         <section class="process_title"><i>翻新案例</i></section>
@@ -343,17 +332,17 @@
             </li>
         </ul>
     </section>
-    
-    <section class="submit" >
+
+    <section class="submit">
         <a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a>
         <!--<a href="#/proccommitorder/{{pagetheme}}"  ng-if="!localflag">下一步</a>-->
-        <a  ng-click="proccommitorder(pagetheme)" >下一步</a>
+        <a ng-click="proccommitorder(pagetheme)">下一步</a>
     </section>
 </main>
 
 <script type="text/javascript">
-$(document).ready(function(){  
-    $('.default').dropkick();
-    theme:'black'
-}); 
+    $(document).ready(function () {
+        $('.default').dropkick();
+        theme:'black'
+    });
 </script>

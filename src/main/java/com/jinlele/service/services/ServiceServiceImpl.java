@@ -81,5 +81,12 @@ public class ServiceServiceImpl implements IServiceService {
         return serviceMapper.getServiceInfo(orderno);
     }
 
+    @Override
+    public Map<String, Object> getDictInfo(String typename) {
+        Map<String , Object> map = new HashedMap();
+        map.put("repairitem",serviceMapper.getDictInfo(typename));
+        return map;
+    }
+
 
 }
