@@ -2092,6 +2092,7 @@ angular.module('starter.controllers', [])
     //回收--估价结果页面
     .controller('EvaluationresultCtrl' , function ($scope , $stateParams) {
         $scope.name = $stateParams.name;
+        $scope.
         console.log('$scope.name ==' + $scope.name);
     })
     //换款

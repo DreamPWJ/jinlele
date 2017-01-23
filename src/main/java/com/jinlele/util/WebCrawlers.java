@@ -57,7 +57,8 @@ public class WebCrawlers {
         //创建HttpClient对象
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
         //创建POST请求对象 参数是访问服务器地址
-        HttpPost httpPost = new HttpPost("http://www.yijinhang.com/Wechats/queryGoldPrice.do");//中塑在线
+        //HttpPost httpPost = new HttpPost("http://www.yijinhang.com/Wechats/queryGoldPrice.do");//金价
+        HttpPost httpPost = new HttpPost("http://www.yijinhang.com/Wechats/diamond.jsp");//金价抓取网址
         httpPost.setHeader("Content-Type", "text/xml;charset=UTF-8");
 
         //执行请求 获取服务器返还的响应对象

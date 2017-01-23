@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="css/select.css" />
+<!--<link rel="stylesheet" href="css/select.css" />-->
 <!-- title -->
 <section class="process_title">
     <i ng-if="name=='recycle'">产品回收</i>
@@ -50,7 +50,7 @@
    
    	<!-- TAB -->
    	<section id="tad" class="product_tab">
-    	<a class="hover" onclick="javascript:test_item(0);" href="javascript:">贵金属</a>
+    	<a class="hover"  onclick="javascript:test_item(0);" href="javascript:">贵金属</a>
     	<a onclick="javascript:test_item(1);" href="javascript:">钻石产品</a>
     </section>
 
@@ -74,20 +74,26 @@
                         <span>
                         <select class="default">
                             <option value="">请选择</option>
-                            <option value="1">千足金</option>
+                             <option  value='0101010101'>万足金</option>
+ 					         <option  value='0101010102' selected="selected">千足金</option>
+                             <option  value='0101010103'>足金</option>
                         </select>
                         </span>
                     </dd>
                     <dd>
                         <u>类型：</u>
                         <span>
-                        <select class="default">
+                        <select class="">
                             <option value="">请选择</option>
+                             <option value='0101010201'class="selected">首 饰</option>
+						      <option value='0101010202'>金条</option>
                         </select>
                         </span>
                     </dd>
                 </dl>
-                <section class="load parameter_buttom"><a href="">估价</a></section>
+                <section class="load parameter_buttom">
+                    <a ng-href="#/evaluationresult/{{name}}">估价</a>
+                </section>
             </section>
 
             <!-- 铂金 -->
@@ -102,22 +108,26 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                            <option value="1">千足金</option>
+                        <select class="">
+                             <option  value='0101020101'>Pt999</option>
+                             <option  value='0101020102' selected="selected">Pt990</option>
+                             <option  value='0101020103'>Pt950</option>
+                             <option  value='0101020104'>Pt900</option>
                         </select>
                         </span>
                     </dd>
-                    <dd>
-                        <u>类型：</u>
-                        <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                        </select>
-                        </span>
-                    </dd>
+                    <!--<dd>-->
+                        <!--<u>类型：</u>-->
+                        <!--<span>-->
+                        <!--<select class="">-->
+                            <!--<option value="">请选择</option>-->
+                        <!--</select>-->
+                        <!--</span>-->
+                    <!--</dd>-->
                 </dl>
-                <section class="load parameter_buttom"><a href="">估价</a></section>
+                <section class="load parameter_buttom">
+                    <a ng-href="#/evaluationresult/{{name}}">估价</a>
+                </section>
             </section>
 
             <!-- K金 -->
@@ -132,22 +142,33 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                            <option value="1">千足金</option>
+                        <select class="">
+                            <option  value='0101030101'>18K</option>
+ 					        <option  value='0101030102' selected="selected">14K</option>
+ 					        <option  value='0101030103'>9K</option>
                         </select>
                         </span>
                     </dd>
-                    <dd>
-                        <u>类型：</u>
-                        <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                        </select>
-                        </span>
-                    </dd>
+                    <!--<dd>-->
+                        <!--<u>类型：</u>-->
+                        <!--<span>-->
+                        <!--<select class="">-->
+                            <!--<option value="">请选择</option>-->
+                        <!--</select>-->
+                        <!--</span>-->
+                    <!--</dd> <!--<dd>-->
+                        <!--<u>类型：</u>-->
+                        <!--<span>-->
+                        <!--<select class="">-->
+                            <!--<option value="">请选择</option>-->
+                        <!--</select>-->
+                        <!--</span>-->
+                    <!--</dd>-->
                 </dl>
-                <section class="load parameter_buttom"><a href="">估价</a></section>
+                <section class="load parameter_buttom">
+                    <a ng-href="#/evaluationresult/{{name}}">估价</a>
+                </section>
+
             </section>
 
             <!-- 钯金 -->
@@ -162,22 +183,26 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                            <option value="1">千足金</option>
+                        <select class="">
+                          <option  value='0101040101'>Pd999</option>
+ 					      <option  value='0101040102' selected="selected">Pd950</option>
+ 					      <option  value='0101040103'>Pd900</option>
                         </select>
                         </span>
                     </dd>
                     <dd>
                         <u>类型：</u>
                         <span>
-                        <select class="default">
-                            <option value="">请选择</option>
+                        <select class="">
+                            <option value='0101040201'class="selected">首饰金</option>
+						      <option value='0101040202'>投资金</option>
                         </select>
                         </span>
                     </dd>
                 </dl>
-                <section class="load parameter_buttom"><a href="">估价</a></section>
+                <section class="load parameter_buttom">
+                    <a ng-href="#/evaluationresult/{{name}}">估价</a>
+                </section>
             </section>
 
             <!-- 白银 -->
@@ -192,22 +217,27 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="default">
-                            <option value="">请选择</option>
-                            <option value="1">千足金</option>
+                        <select class="">
+                             <option  value='0101050101'>千足银</option>
+ 					         <option  value='0101050102' selected="selected">足银</option>
+ 					         <option  value='0101050103'>925银</option>
                         </select>
                         </span>
                     </dd>
                     <dd>
                         <u>类型：</u>
                         <span>
-                        <select class="default">
+                        <select class="">
                             <option value="">请选择</option>
+                            <option value='0101050201'class="selected">首饰</option>
+						      <option value='0101050202'>银条</option>
                         </select>
                         </span>
                     </dd>
                 </dl>
-                <section class="load parameter_buttom"><a href="">估价</a></section>
+                <section class="load parameter_buttom">
+                    <a ng-href="#/evaluationresult/{{name}}">估价</a>
+                </section>
             </section>
         </section>
 
@@ -256,41 +286,71 @@
             <dd>
                 <u>证书：</u>
                 <span>
-                <select class="default">
+                <select class="">
                     <option value="">请选择</option>
-                    <option value="1">千足金</option>
+                   <option value='GIA'>GIA</option>
+					<option value='IGI'>IGI</option>
+					<option value='HRD'>HRD</option>
+					<option value='EGL'>EGL</option>
                 </select>
                 </span>
             </dd>
             <dd>
                 <u>形状：</u>
                 <span>
-                <select class="default">
+                <select class="">
                     <option value="">请选择</option>
+                     <option value="圆形">圆形</option>
+		             <option value="异形">异形</option>
                 </select>
                 </span>
             </dd>
             <dd>
                 <u>颜色：</u>
                 <span>
-                <select class="default">
+                <select class="">
                     <option value="">请选择</option>
+                    <option value='D'>D</option>
+					<option value='E'>E</option>
+					<option value='F'>F</option>
+					<option value='G'>G</option>
+					<option value='H'>H</option>
+					<option value='I'>I</option>
+					<option value='J'>J</option>
+					<option value='K'>K</option>
+					<option value='L'>L</option>
+					<option value='M'>M</option>
+					<option value='N'>N</option>
                 </select>
                 </span>
             </dd>
             <dd>
                 <u>净度：</u>
                 <span>
-                <select class="default">
+                <select class="">
                     <option value="">请选择</option>
+                    <option value="IF">IF</option>
+					<option value="VVS1">VVS1</option>
+					<option value="VVS2">VVS2</option>
+					<option value="VS1">VS1</option>
+					<option value="VS2">VS2</option>
+					<option value="SI1">SI1</option>
+					<option value="SI2">SI2</option>
+					<option value="SI3">SI3</option>
+					<option value="I1">I1</option>
+					<option value="I2">I2</option>
+					<option value="I3">I3</option>
                 </select>
                 </span>
             </dd>
             <dd>
                 <u>镶嵌材质：</u>
                 <span>
-                <select class="default">
+                <select class="">
                     <option value="">请选择</option>
+                    <option value="无">无</option>
+					<option value="18K">18K</option>
+					 <OPTION value="PT">PT</OPTION>
                 </select>
                 </span>
             </dd>
@@ -304,7 +364,9 @@
                 <span><input placeholder="请填写" type="text"></span>
             </dd>
         </dl>
-        <section class="load parameter_buttom"><a href="">估价</a></section>
+        <section class="load parameter_buttom">
+            <a ng-href="#/evaluationresult/{{name}}">估价</a>
+        </section>
     </section>
     
     <!-- 回收案例 -->
@@ -358,14 +420,15 @@
 
 
 <script type="text/javascript">
-$(document).ready(function(){  
-    $('.default').dropkick();
-    theme:'black'
-}); 
+//$(document).ready(function(){
+//    $('.default').dropkick();
+//    theme:'black'
+//});
 //$(".check_label").checkbox();
 </script>
 <script type="text/javascript" language="javascript"> 
 function test_item(n){
+     console.log(1);
 	var menu = document.getElementById("tad");
 	var menuli = menu.getElementsByTagName("a");
 	for(var i = 0; i< menuli.length;i++){
@@ -383,6 +446,7 @@ function test_item(n){
         for(var i = 0; i< menuli.length;i++){
             menuli[i].className= "";
             menuli[n].className="hover";
+
             document.getElementById("test"+ i).className = "hide";
             document.getElementById("test"+ n).className = "metal";
         }
