@@ -94,7 +94,8 @@ public class ServiceOrderController {
     @ResponseBody
     @RequestMapping(value = "/updateServiceOrder" ,method = RequestMethod.POST)
     public  Map<String,Object> updateServiceOrder(@RequestBody List<Map<String,Object>> list) {
-        return serviceOrderService.createServiceOrder(list);
+        System.out.print("1111111111sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss======================");
+        return serviceOrderService.updateRepair(list);
     }
 
 

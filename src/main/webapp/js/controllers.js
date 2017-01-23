@@ -1439,7 +1439,7 @@ angular.module('starter.controllers', [])
 
         //生成订单并付款
         $scope.procreceive = function (flag) {
-            if(!flag && ($scope.type.code!='004') ){ //如果是翻新 检测 换款 维修
+            if($scope.type.code!='002'&&(!flag && ($scope.type.code!='004'))){ //如果是翻新 检测 换款 维修
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
@@ -1447,25 +1447,25 @@ angular.module('starter.controllers', [])
             $scope.confirminfo = [];
             //地址信息
             $scope.addressinfo = [];
-            var address = {};
-            address.userName = $scope.address.userName;
-            address.postalCode = $scope.address.postalCode;
-            address.provinceName = $scope.address.provinceName;
-            address.cityName = $scope.address.cityName;
-            address.countryName = $scope.address.countryName;
-            address.detailInfo = $scope.address.detailInfo;
-            address.nationalCode = $scope.address.nationalCode;
-            address.telNumber = $scope.address.telNumber;
-            $scope.addressinfo.push(address);
-            var obj = {};
-            obj.userId = localStorage.getItem("jinlele_userId");//用户id
-            obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
-            obj.storeId = 1;//后续需要根据客户选择传入
-            obj.sendWay=$scope.order.sendway;     //送货方式
-            obj.getWay=$scope.order.getway;    //取货方式
-            obj.totalprice = $scope.totalprice;//总价格
-            obj.addressinfo = $scope.addressinfo;//地址信息
             if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004' || $scope.type.code == '005'){  //如果是翻新和检测需要传入产品信息
+                var address = {};
+                address.userName = $scope.address.userName;
+                address.postalCode = $scope.address.postalCode;
+                address.provinceName = $scope.address.provinceName;
+                address.cityName = $scope.address.cityName;
+                address.countryName = $scope.address.countryName;
+                address.detailInfo = $scope.address.detailInfo;
+                address.nationalCode = $scope.address.nationalCode;
+                address.telNumber = $scope.address.telNumber;
+                $scope.addressinfo.push(address);
+                var obj = {};
+                obj.userId = localStorage.getItem("jinlele_userId");//用户id
+                obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
+                obj.storeId = 1;//后续需要根据客户选择传入
+                obj.sendWay=$scope.order.sendway;     //送货方式
+                obj.getWay=$scope.order.getway;    //取货方式
+                obj.totalprice = $scope.totalprice;//总价格
+                obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = $scope.serviceId;//服务id
                 obj.totalnum = $scope.totalnum;//总数量
                 obj.products = $scope.product;//产品集合
@@ -1520,6 +1520,24 @@ angular.module('starter.controllers', [])
             }
             //如果是维修订单
             if($scope.type.code == '002'){
+                var address = {};
+                address.userName = $scope.address.userName;
+                address.postalCode = $scope.address.postalCode;
+                address.provinceName = $scope.address.provinceName;
+                address.cityName = $scope.address.cityName;
+                address.countryName = $scope.address.countryName;
+                address.detailInfo = $scope.address.detailInfo;
+                address.nationalCode = $scope.address.nationalCode;
+                address.telNumber = $scope.address.telNumber;
+                $scope.addressinfo.push(address);
+                var obj = {};
+                obj.userId = localStorage.getItem("jinlele_userId");//用户id
+                obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
+                obj.storeId = 1;//后续需要根据客户选择传入
+                obj.sendWay=$scope.order.sendway;     //送货方式
+                obj.getWay=$scope.order.getway;    //取货方式
+                obj.totalprice = $scope.totalprice;//总价格
+                obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.orderno = $scope.orderno;
                 $scope.confirminfo.push(obj);
                 console.log(JSON.stringify($scope.confirminfo));
@@ -1573,6 +1591,7 @@ angular.module('starter.controllers', [])
         $scope.orderTime = $stateParams.orderTime;
 
         if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.name == '002')  $scope.pagetheme = 'repair';
         if($stateParams.name == '003')  $scope.pagetheme = 'detect';
         if($stateParams.name == '004')  $scope.pagetheme = 'recycle';
         if($stateParams.name == '005')  $scope.pagetheme = 'exchange';
@@ -1657,6 +1676,7 @@ angular.module('starter.controllers', [])
                 break;
             case '002':
                 $scope.pagetheme = 'repair';
+                break;
             case '003':
                 $scope.pagetheme = 'detect';
                 break;

@@ -168,6 +168,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
 
     @Override
     public Map<String, Object> updateRepair(List<Map<String, Object>> list) {
+        System.out.print("1111111111sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss======================");
         Map<String, Object> resultMap = new HashedMap();
         //一条总数据
         for (Map<String, Object> confirmInfo : list) {
