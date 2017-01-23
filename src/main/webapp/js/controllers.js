@@ -1443,57 +1443,34 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
-            //获取地址id
-            AddressService.getReceiptAddressId({
-                userid: localStorage.getItem("jinlele_userId"),
-                userName: $scope.address.userName,
-                postalCode: $scope.address.postalCode,
-                provinceName: $scope.address.provinceName,
-                cityName: $scope.address.cityName,
-                countryName: $scope.address.countryName,
-                detailInfo: $scope.address.detailInfo,
-                nationalCode: $scope.address.nationalCode,
-                telNumber: $scope.address.telNumber
-            }).success(function (data) {
-                $scope.address.id = data.receiptAddressId;
-            });
-            $scope.params = {
-                userId: localStorage.getItem("jinlele_userId"),
-                type: $scope.type.code,    //翻新001维修002检测003回收004换款005
-                storeId: 1,     //暂时默认是1
-                sendWay: $scope.order.sendway,     //送货方式
-                getWay: $scope.order.getway,      //取货方式
-                totalprice: $scope.totalprice,   //总价格
-                buyeraddresId: $scope.address.id//收货地址id外键
-            };
+            //确认信息
+            $scope.confirminfo = [];
+            //地址信息
+            $scope.addressinfo = [];
+            var address = {};
+            address.userName = $scope.address.userName;
+            address.postalCode = $scope.address.postalCode;
+            address.provinceName = $scope.address.provinceName;
+            address.cityName = $scope.address.cityName;
+            address.countryName = $scope.address.countryName;
+            address.detailInfo = $scope.address.detailInfo;
+            address.nationalCode = $scope.address.nationalCode;
+            address.telNumber = $scope.address.telNumber;
+            $scope.addressinfo.push(address);
+            var obj = {};
+            obj.userId = localStorage.getItem("jinlele_userId");//用户id
+            obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
+            obj.storeId = 1;//后续需要根据客户选择传入
+            obj.sendWay=$scope.order.sendway;     //送货方式
+            obj.getWay=$scope.order.getway;    //取货方式
+            obj.totalprice = $scope.totalprice;//总价格
+            obj.addressinfo = $scope.addressinfo;//地址信息
             if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004' || $scope.type.code == '005'){  //如果是翻新和检测需要传入产品信息
-
-                //确认信息
-                $scope.confirminfo = [];
-                //地址信息
-                $scope.addressinfo = [];
-                var address = {};
-                address.userName = $scope.address.userName;
-                address.postalCode = $scope.address.postalCode;
-                address.provinceName = $scope.address.provinceName;
-                address.cityName = $scope.address.cityName;
-                address.countryName = $scope.address.countryName;
-                address.detailInfo = $scope.address.detailInfo;
-                address.nationalCode = $scope.address.nationalCode;
-                address.telNumber = $scope.address.telNumber;
-                $scope.addressinfo.push(address);
-                var obj = {};
-                obj.userId = localStorage.getItem("jinlele_userId");//用户id
-                obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
-                obj.storeId = 1;//后续需要根据客户选择传入
-                obj.sendWay=$scope.order.sendway;     //送货方式
-                obj.getWay=$scope.order.getway;    //取货方式
-                obj.totalprice = $scope.totalprice;//总价格
-                obj.totalnum = $scope.totalnum;//总数量
                 obj.serviceId = $scope.serviceId;//服务id
-                obj.addressinfo = $scope.addressinfo;//地址信息
+                obj.totalnum = $scope.totalnum;//总数量
                 obj.products = $scope.product;//产品集合
                 $scope.confirminfo.push(obj);
+                console.log(JSON.stringify($scope.confirminfo));
                 //保存订单 并去支付订单
                 ProcCommitOrderService.createServiceOrder($scope.confirminfo).success(function (data) {
                     if (data) {
@@ -1542,11 +1519,12 @@ angular.module('starter.controllers', [])
                 });
             }
             //如果是维修订单
-            if($scope.type.code == '002'){   //String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId
-                $scope.params.orderno = $scope.orderno;
-                console.log(JSON.stringify($scope.params));
+            if($scope.type.code == '002'){
+                obj.orderno = $scope.orderno;
+                $scope.confirminfo.push(obj);
+                console.log(JSON.stringify($scope.confirminfo));
                 //保存订单 并去支付订单
-                ProcCommitOrderService.updateRepair($scope.params).success(function (data) {
+                ProcCommitOrderService.updateRepair($scope.confirminfo).success(function (data) {
                     console.log('data='+JSON.stringify(data))
                     if (data) {
                         //调用支付接口

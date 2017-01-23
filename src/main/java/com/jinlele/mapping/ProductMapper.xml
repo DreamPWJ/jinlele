@@ -12,10 +12,11 @@
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="repairitem" property="repairitem" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, catogory_id, type, service_id, comment_id, num, memo, deleteCode, create_time, 
-    update_time
+    update_time, repairitem
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,11 +32,11 @@
     insert into product (id, catogory_id, type, 
       service_id, comment_id, num, 
       memo, deleteCode, create_time, 
-      update_time)
+      update_time, repairitem)
     values (#{id,jdbcType=INTEGER}, #{catogoryId,jdbcType=INTEGER}, #{type,jdbcType=CHAR}, 
       #{serviceId,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
       #{memo,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP}, #{repairitem,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Product" >
     insert into product
@@ -70,6 +71,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="repairitem != null" >
+        repairitem,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +105,9 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repairitem != null" >
+        #{repairitem,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +141,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="repairitem != null" >
+        repairitem = #{repairitem,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -147,7 +157,8 @@
       memo = #{memo,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      repairitem = #{repairitem,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -13,7 +13,12 @@ public interface IServiceOrderService {
 
     public Map<String , Object> saveRepairOrder(Integer userId ,Integer totalnum,String products , String descrip , String type , Integer storeId , String[] mediaIds) throws IOException;
 
-    public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId);
+
+
+    /**
+     * 更新订单信息
+     */
+    Map<String , Object> updateRepair(List<Map<String,Object>> list);
     /**
      * 创建服务订单
      */

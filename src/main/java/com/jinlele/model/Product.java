@@ -23,6 +23,8 @@ public class Product {
 
     private Date updateTime;
 
+    private String repairitem;
+
     public Product() {
     }
 
@@ -112,5 +114,13 @@ public class Product {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getRepairitem() {
+        return repairitem;
+    }
+
+    public void setRepairitem(String repairitem) {
+        this.repairitem = repairitem == null ? null : repairitem.trim();
     }
 }

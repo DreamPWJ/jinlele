@@ -80,20 +80,20 @@ public class ServiceOrderController {
     }
 
     /**
-     * 更新维修订单和维修服务信息
-     */
-    @ResponseBody
-    @RequestMapping("/updateRepair")
-    public Map<String , Object> updateRepair(String orderno ,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId){
-        return  serviceOrderService.updateRepair(orderno , type,userId, storeId, sendWay, getWay,  totalprice, buyeraddresId);
-    }
-
-    /**
      * 创建服务订单
      */
     @ResponseBody
     @RequestMapping(value = "/createServiceOrder" ,method = RequestMethod.POST)
     public  Map<String,Object> createServiceOrder(@RequestBody List<Map<String,Object>> list) {
+        return serviceOrderService.createServiceOrder(list);
+    }
+
+    /**
+     * 更新维修订单和维修服务信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateServiceOrder" ,method = RequestMethod.POST)
+    public  Map<String,Object> updateServiceOrder(@RequestBody List<Map<String,Object>> list) {
         return serviceOrderService.createServiceOrder(list);
     }
 
