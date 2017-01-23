@@ -1443,7 +1443,7 @@ angular.module('starter.controllers', [])
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
-            //确认信息
+            //提交信息
             $scope.confirminfo = [];
             //地址信息
             $scope.addressinfo = [];
