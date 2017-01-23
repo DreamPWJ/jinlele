@@ -665,6 +665,11 @@ main.content section.load {
     padding: 10px 0;
 }
 
+section.product_tab a.swiper-pagination-bullet-active {
+    color: #F5D000;
+    font-weight: bold;
+    border-bottom: 1px solid #F5D000;
+}
 main.content section.load a {
     height: 40px;
     display: block;

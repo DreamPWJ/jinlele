@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="css/select.css" />
 <!-- title -->
 <section class="process_title">
-    <i ng-if="name=='recyle'">产品回收</i>
+    <i ng-if="name=='recycle'">产品回收</i>
     <i ng-if="name=='exchange'">产品换款</i>
 </section>
 
@@ -53,45 +53,164 @@
     	<a class="hover" onclick="javascript:test_item(0);" href="javascript:">贵金属</a>
     	<a onclick="javascript:test_item(1);" href="javascript:">钻石产品</a>
     </section>
-    
+
     <!-- 贵金属 -->
     <section id="test0" class="metal">
-        <section class="product_tab four">
-            <a class="hover" href="">黄金</a>
-            <a href="">铂金</a>
-            <a href="">K金</a>
-            <a href="">钯金</a>
-            <a href="">白银</a>
-        </section>
-        
+        <section class="product_tab four"></section>
+
         <!-- 贵金属参数 -->
-        <dl class="parameter">
-            <dt>请输入贵金属参数</dt>
-            <dd>
-                <u>克重：</u>
-                <span><input placeholder="请填写" type="text"></span>
-                <em>克</em>
-            </dd>
-            <dd>
-                <u>纯度：</u>
-                <span>
-                <select class="default">
-                    <option value="">请选择</option>
-                    <option value="1">千足金</option>
-                </select>
-                </span>
-            </dd>
-            <dd>
-                <u>类型：</u>
-                <span>
-                <select class="default">
-                    <option value="">请选择</option>
-                </select>
-                </span>
-            </dd>
-        </dl>
-        <section class="load parameter_buttom"><a href="#/evaluationresult/{{name}}">估价</a></section>
-        
+        <section class="swiper-wrapper">
+            <!-- 黄金 -->
+            <section class="swiper-slide">
+                <dl class="parameter">
+                    <dt>请输入贵金属参数</dt>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input placeholder="请填写" type="text"></span>
+                        <em>克</em>
+                    </dd>
+                    <dd>
+                        <u>纯度：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                            <option value="1">千足金</option>
+                        </select>
+                        </span>
+                    </dd>
+                    <dd>
+                        <u>类型：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                        </select>
+                        </span>
+                    </dd>
+                </dl>
+                <section class="load parameter_buttom"><a href="">估价</a></section>
+            </section>
+
+            <!-- 铂金 -->
+            <section class="swiper-slide">
+                <dl class="parameter">
+                    <dt>请输入贵金属参数</dt>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input placeholder="请填写" type="text"></span>
+                        <em>克</em>
+                    </dd>
+                    <dd>
+                        <u>纯度：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                            <option value="1">千足金</option>
+                        </select>
+                        </span>
+                    </dd>
+                    <dd>
+                        <u>类型：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                        </select>
+                        </span>
+                    </dd>
+                </dl>
+                <section class="load parameter_buttom"><a href="">估价</a></section>
+            </section>
+
+            <!-- K金 -->
+            <section class="swiper-slide">
+                <dl class="parameter">
+                    <dt>请输入贵金属参数</dt>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input placeholder="请填写" type="text"></span>
+                        <em>克</em>
+                    </dd>
+                    <dd>
+                        <u>纯度：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                            <option value="1">千足金</option>
+                        </select>
+                        </span>
+                    </dd>
+                    <dd>
+                        <u>类型：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                        </select>
+                        </span>
+                    </dd>
+                </dl>
+                <section class="load parameter_buttom"><a href="">估价</a></section>
+            </section>
+
+            <!-- 钯金 -->
+            <section class="swiper-slide">
+                <dl class="parameter">
+                    <dt>请输入贵金属参数</dt>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input placeholder="请填写" type="text"></span>
+                        <em>克</em>
+                    </dd>
+                    <dd>
+                        <u>纯度：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                            <option value="1">千足金</option>
+                        </select>
+                        </span>
+                    </dd>
+                    <dd>
+                        <u>类型：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                        </select>
+                        </span>
+                    </dd>
+                </dl>
+                <section class="load parameter_buttom"><a href="">估价</a></section>
+            </section>
+
+            <!-- 白银 -->
+            <section class="swiper-slide">
+                <dl class="parameter">
+                    <dt>请输入贵金属参数</dt>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input placeholder="请填写" type="text"></span>
+                        <em>克</em>
+                    </dd>
+                    <dd>
+                        <u>纯度：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                            <option value="1">千足金</option>
+                        </select>
+                        </span>
+                    </dd>
+                    <dd>
+                        <u>类型：</u>
+                        <span>
+                        <select class="default">
+                            <option value="">请选择</option>
+                        </select>
+                        </span>
+                    </dd>
+                </dl>
+                <section class="load parameter_buttom"><a href="">估价</a></section>
+            </section>
+        </section>
+
         <!-- 今日金价 -->
         <section class="gold">
             <span class="title">今日金价</span>
@@ -104,10 +223,10 @@
             <p>注：金价以上交所当天为准，回收价格只需要减掉折旧费用。</p>
         </section>
     </section>
-    
+
     <!-- 贵金属 -->
     <section id="test1" class="hide">
-        
+
         <!-- 钻石产品参数 -->
         <dl class="parameter">
             <dt>请输入钻石产品参数</dt>
@@ -125,7 +244,7 @@
                 </label>
                 <b>换主石</b>
                 </span>
-                
+
                 <span class="check">
                 <input id="1" type="radio" />
                 <label for="1" class="check_label">
@@ -185,10 +304,7 @@
                 <span><input placeholder="请填写" type="text"></span>
             </dd>
         </dl>
-        <section class="load parameter_buttom">
-            <a href="#/evaluationresult/{{name}}">估价</a>
-            <!--<a href="#/procphoto/recycle">估价</a>-->
-        </section>
+        <section class="load parameter_buttom"><a href="">估价</a></section>
     </section>
     
     <!-- 回收案例 -->
@@ -260,3 +376,32 @@ function test_item(n){
 	}
 }
 </script>
+<script type="text/javascript" language="javascript">
+    function test_item(n){
+        var menu = document.getElementById("tad");
+        var menuli = menu.getElementsByTagName("a");
+        for(var i = 0; i< menuli.length;i++){
+            menuli[i].className= "";
+            menuli[n].className="hover";
+            document.getElementById("test"+ i).className = "hide";
+            document.getElementById("test"+ n).className = "metal";
+        }
+    }
+    var mySwiper = new Swiper('.metal',{
+        pagination: '.product_tab',
+        paginationClickable: true,
+        //autoHeight: true,
+        paginationBulletRender: function (index, className) {
+            switch (index) {
+                case 0: name='黄金';break;
+                case 1: name='铂金';break;
+                case 2: name='K金';break;
+                case 3: name='钯金';break;
+                case 4: name='白银';break;
+                default: name='';
+            }
+            return '<a href="javascript:" class="' + className + '">' + name + '</a>';
+        }
+    });
+</script>
+
