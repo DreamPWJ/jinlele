@@ -216,10 +216,14 @@ angular.module('starter.controllers', [])
         $scope.confirm = function () {
             console.log($scope.checkedGcIds);
             $scope.delstyle = {display: 'none'};
-            CartService.deleteCart({userid: 1, gcIdStr: $scope.checkedGcIds.join('-').trim()}).success(function (data) {
+            CartService.deleteCart({userid: localStorage.getItem("jinlele_userId"), gcIdStr: $scope.checkedGcIds.join('-').trim()}).success(function (data) {
                 console.log(data);
                 CartService.getcartinfo($scope.init).success(function (data) {
                     $scope.cartlist = data;
+                    $scope.isNotData = false;
+                    if (data.pagingList.length == 0) {
+                        $scope.isNotData = true;
+                    }
                 });
             })
         }
@@ -787,7 +791,7 @@ angular.module('starter.controllers', [])
                             $state.go('procrefurbish', {name: 'refurbish', orderNo: orderno, orderTime: createTime});//翻新
                             break;
                         case "001006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//平台发货
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
                             break;
                         case "001007":
                             $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
@@ -799,17 +803,35 @@ angular.module('starter.controllers', [])
                     break;
                 case "002"://维修
                     switch (shoporderstatusCode){
-                        case "":
+                        case "002001":
+                        case "002002":
+                            $state.go('procfixprice', {name: type, orderno: orderno});
                             break;
-                    }
-                    if (shoporderstatusCode < '002003') {
-                        $state.go('procfixprice', {name: type, orderno: orderno});
-                    }
-                    if (shoporderstatusCode == '002003') { //如果是确认维修的状态   跳转到提交订单的页面
-                        sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
-                        sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
-                        sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
-                        $state.go('proccommitorder');
+                        case "002003"://确认维修(待付款)
+                            sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+                            sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
+                            sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
+                            $state.go('proccommitorder');
+                            break;
+                        case "002004"://客户发货
+                        case "002012":
+                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "002005":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "002006":
+                            $state.go('procrepair', {type: type, orderno: orderno, orderTime: createTime});//维修
+                            break;
+                        case "002007":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+                            break;
+                        case "002008":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "002009":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
                     }
                     break;
                 case "003"://检测
@@ -822,7 +844,7 @@ angular.module('starter.controllers', [])
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
                             break;
                         case "003006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//平台发货
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
                             break;
                         case "003007":
                             $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
@@ -1703,6 +1725,7 @@ angular.module('starter.controllers', [])
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
         if($stateParams.type == '003')  $scope.pagetheme = 'detect';
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         if ($stateParams.type == "004") {//回收
@@ -1743,6 +1766,7 @@ angular.module('starter.controllers', [])
         console.log($stateParams.type);
         $scope.pagetheme = $stateParams.type;
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
         if($stateParams.type == '003')  $scope.pagetheme = 'detect';
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
         if ($stateParams.type == "004") {//回收
@@ -2008,12 +2032,58 @@ angular.module('starter.controllers', [])
         }
     })
     //维修-维修
-    .controller('ProcRepairCtrl', function ($scope, $stateParams) {
-        $scope.pagetheme = $stateParams.name;
-        if ($stateParams.name != "repair") {
+    .controller('ProcRepairCtrl',['$scope', '$stateParams','OrderService','MemberService',  function ($scope, $stateParams,OrderService,MemberService) {
+        $scope.type = $stateParams.type;
+        $scope.orderno = $stateParams.orderno;
+        $scope.orderTime = $stateParams.orderTime;
+        if ($stateParams.type != "002") {
             $location.path("/");
         }
-    })
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderno}).success(function (data) {
+            $scope.initData = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+        //收货证明
+        OrderService.getCertifyInfo({orderno:$scope.orderno}).success(function (data) {
+            $scope.certificationInfo = data;
+        });
+        //用户信息
+        MemberService.getUserInfo(localStorage.getItem("openId")).success(function(data) {
+            $scope.user = data.userInfo;
+        });
+        //检测报告
+        OrderService.getServiceDetailInfo({orderno:$scope.orderno}).success(function(data){
+            if(data.checkreport) {
+                $scope.report = data;
+            }else{
+                $scope.report = null;
+            }
+        });
+
+    }])
     //回收-估价
     .controller('EvaluationCtrl', function ($scope ,$stateParams) {
          $scope.name = $stateParams.name;
