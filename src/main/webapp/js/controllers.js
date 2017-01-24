@@ -1231,7 +1231,7 @@ angular.module('starter.controllers', [])
                 $scope.product = {
                     firstCatogoryId: [],//一级分类id
                     secondCatogoryId: [], //二级分类id
-                    repairItemValue:[],//维修项目
+                    repairItemValue: [],//维修项目
                     num: [],
                     memo: []
                 };
@@ -1248,8 +1248,8 @@ angular.module('starter.controllers', [])
                         $scope.secondcatagories["s" + index] = data;
                     });
                 }
-                CategoryService.getRepairItem({typename:'repairitem'}).success(function(data){
-                    $scope.repairItems=data.repairitem;
+                CategoryService.getRepairItem({typename: 'repairitem'}).success(function (data) {
+                    $scope.repairItems = data.repairitem;
                 });
                 //计算总数量和总价格
                 $scope.numblur = function () {
@@ -1268,6 +1268,9 @@ angular.module('starter.controllers', [])
                     console.log("检测价格==" + JSON.stringify(data));
                     $scope.service.price = data.code_value;
                 });
+                break;
+            case "recycle"://回收
+                $scope.service.price = localStorage.getItem("evaluationPrice");
                 break;
             default :
                 break;
