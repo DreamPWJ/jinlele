@@ -688,16 +688,16 @@ main.content section.collection_load {
     float: left;
     padding: 0 0 10px 0;
 }
-section.metal dl.parameter dd span select {
-    width: 100%;
-    height: 32px;
-    font-size: 80%;
-}
-select {
-    width: 100%;
-    height: 32px;
-    font-size: 80%;
-}
+/*section.metal dl.parameter dd span select {*/
+    /*width: 100%;*/
+    /*height: 32px;*/
+    /*font-size: 80%;*/
+/*}*/
+/*select {*/
+    /*width: 100%;*/
+    /*height: 32px;*/
+    /*font-size: 80%;*/
+/*}*/
 
 main.content section.collection_load a {
     height: 40px;

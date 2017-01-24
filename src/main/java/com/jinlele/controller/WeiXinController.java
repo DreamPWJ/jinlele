@@ -202,6 +202,8 @@ public class WeiXinController {
                 userService.insertSelective(userInfo);
             }
             userIds = userInfo.getId();
+            //查询有无虚拟账户，没有的话新建
+            userService.insertSelective(openIds , userIds);
 
         } else {
             return null;
@@ -209,6 +211,7 @@ public class WeiXinController {
         return "redirect:/mall";
 
     }
+
 
     /**
      * 页面授权回调页面

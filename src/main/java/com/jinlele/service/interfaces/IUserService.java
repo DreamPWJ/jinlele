@@ -19,4 +19,9 @@ public interface IUserService {
      Map<String,Object> getUserPaging();
 
     User getUserInfo(String openid);
+
+    /**
+     * 创建虚拟账户
+     */
+    void insertSelective(String openid , Integer userId);
 }
