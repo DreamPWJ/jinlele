@@ -20,8 +20,10 @@ public interface IUserService {
 
     User getUserInfo(String openid);
 
+    String findWalletAccount(Integer userId);
+
     /**
      * 创建虚拟账户
      */
-    void insertSelective(String openid , Integer userId);
+    void insertWallet(String openid , Integer userId);
 }

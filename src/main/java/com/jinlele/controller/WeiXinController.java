@@ -4,6 +4,7 @@ import com.jinlele.model.ShopOrder;
 import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IUserService;
+import com.jinlele.util.StringHelper;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import com.jinlele.util.weixinUtils.service.CoreService;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
@@ -203,8 +204,10 @@ public class WeiXinController {
             }
             userIds = userInfo.getId();
             //查询有无虚拟账户，没有的话新建
-            userService.insertSelective(openIds , userIds);
-
+            String walletAccount = userService.findWalletAccount(userIds);
+            if(StringHelper.isEmpty(walletAccount)){
+                userService.insertWallet(openIds , userIds);
+            }
         } else {
             return null;
         }

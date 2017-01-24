@@ -9,7 +9,7 @@ import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
-import org.apache.ibatis.annotations.Param;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -64,19 +64,20 @@ public class UserServiceImpl implements IUserService {
     public User getUserInfo(String openid) {
         return userMapper.getUserInfo(openid);
     }
-
     @Override
-    public void insertSelective(String openid , Integer userId) {
-        String  walletAccount = walletMapper.selectWalletByUserId(userId);
-        if(StringHelper.isEmpty(walletAccount)){
-            String substrOpendid = openid.substring(openid.length()-4 , openid.length());
-            String walletno = "JLL" + StringHelper.getOrderNum() + substrOpendid;
-            Wallet wallet = new Wallet(walletno , userId);
-            //规则商城虚拟账户的规则 JLL + '订单号规则' + opendid后四位
-            //"JLL"+ StringHelper.getOrderNum() +
-            walletMapper.insertSelective(wallet);
-            System.out.println("创建成功");
-        }
+    public String findWalletAccount(Integer userId){
+        return  walletMapper.selectWalletByUserId(userId);
+    }
+    @Override
+    public void insertWallet(String openid , Integer userId) {
+        String substrOpendid = openid.substring(openid.length()-4 , openid.length());
+        String walletno = "JLL" + StringHelper.getOrderNum() + substrOpendid;
+        Wallet wallet = new Wallet(walletno , userId);
+        //规则商城虚拟账户的规则 JLL + '订单号规则' + opendid后四位
+        //"JLL"+ StringHelper.getOrderNum() +
+        walletMapper.insertSelective(wallet);
+        System.out.println("创建成功");
+
     }
 
 
