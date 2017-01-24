@@ -104,7 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcCommitOrderCtrl'
             })
             .state('procreceive', {  //流程-平台收货
-                url: '/procreceive/:name/:orderNo/:orderTime',
+                url: '/procreceive/:type/:orderNo/:orderTime',
                 templateUrl: 'html/common/procreceive.html',
                 controller: 'ProcReceiveCtrl'
             })
@@ -159,9 +159,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'EvaluationResultCtrl'
             })
             .state('actualprice', {  //实际定价(回收、换款)
-                url: '/actualprice/:name/:orderno',
+                url: '/actualprice/:type/:orderno',
                 templateUrl: 'html/shared/actualprice.html',
                 controller: 'ActualPriceCtrl'
+            })
+            .state('cfmrecycle', {  //回收-确认回收
+                url: '/cfmrecycle/:type/:orderno',
+                templateUrl: 'html/shared/cfmrecycle.html',
+                controller: 'CfmRecycleCtrl'
             })
             .state('exchange', {  //换款
                 url: '/exchange',

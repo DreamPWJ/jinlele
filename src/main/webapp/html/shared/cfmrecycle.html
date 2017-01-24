@@ -31,7 +31,7 @@
                 <span><i class="t08"></i></span>
                 <em>评价</em>
             </li>
-            <li>
+            <li class="hover">
                 <span><i class="t14"></i></span>
                 <em>确认回收</em>
             </li>
@@ -99,17 +99,53 @@
     <!-- 定价 -->
     <section class="price">
         <i>您的产品实际回收价格</i>
-        <em>平台定价中,请耐心等待...</em>
+        <em ng-if="fixPrice == 0">平台定价中,请耐心等待..</em>
+        <em ng-if="fixPrice != 0">&yen;&nbsp;{{fixPrice}}</em>
     </section>
-    <!-- 定价 -->
-  	<!--<section class="price">-->
-    	<!--<span class="title">您的产品黄金戒指</span>-->
-    	<!--<i>产品定价为</i>-->
-    	<!--<em>￥1688.00</em>-->
-    <!--</section>-->
-    <!--<section class="price_button">-->
-    	<!--<span><a href="evaluationresult.html">确认变现</a></span>-->
-    	<!--<span><a href="../../index.html">放弃变现</a></span>-->
-    <!--</section>-->
-
+    <section class="price_button" ng-if="fixPrice != 0">
+        <span><a  ng-click="commit()">确认变现</a></span>
+        <span><a  ng-click="drop()">放弃变现</a></span>
+    </section>
+    <!-- 免费换 -->
+    <section class="buy">
+        <span class="title">您还可以免费换以下新款</span>
+        <ul>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <span><img src="images/com/01.jpg"></span>
+                    <em>￥1600.00</em>
+                </a>
+            </li>
+        </ul>
+    </section>
 </main>

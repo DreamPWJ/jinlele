@@ -782,7 +782,7 @@ angular.module('starter.controllers', [])
                     switch (shoporderstatusCode) {
                         case "001002":
                         case "001003":
-                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
                             break;
                         case "001004":
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
@@ -815,7 +815,7 @@ angular.module('starter.controllers', [])
                             break;
                         case "002004"://客户发货
                         case "002012":
-                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
                             break;
                         case "002005":
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
@@ -838,7 +838,7 @@ angular.module('starter.controllers', [])
                     switch (shoporderstatusCode){
                         case "003002":
                         case "003003":
-                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
                             break;
                         case "003004":
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
@@ -858,14 +858,16 @@ angular.module('starter.controllers', [])
                     switch (shoporderstatusCode){
                         case "004001":
                         case "004002":
-                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
                             break;
                         case "004003":
                             $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
                             break;
                         case "004004":
+                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
+                            break;
                         case "004005":
-                            $state.go('actualprice', {name: 'recycle', orderno: orderno});//实际定价
+                            $state.go('cfmrecycle', {type: type, orderno: orderno});//实际定价
                             break;
                         case "004006":
                             $state.go('evaluationresult', {name: 'recycle', orderno: orderno});//确认回收
@@ -882,23 +884,7 @@ angular.module('starter.controllers', [])
                     }
                     break;
             }
-            //if(type=='002') { //如果 维修订单是带确认维修或者待定价就进入 定价的页面
-            //    if (shoporderstatusCode < '002003') {
-            //        $state.go('procfixprice', {name: type, orderno: orderno});
-            //    }
-            //    if (shoporderstatusCode == '002003') { //如果是确认维修的状态   跳转到提交订单的页面
-            //        sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
-            //        sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
-            //        sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
-            //        $state.go('proccommitorder');
-            //    }
-            //}
-            //if(type=='001' || type=='003' || type=='004'){   //翻新检测类服务跳转到收货的页面   :name/:orderNo/:orderTime',
-            //    $state.go('procreceive' ,{name:type ,orderNo:orderno ,orderTime:createTime});
-            //}
         }
-
-
     }])
     //退货
     .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
@@ -1495,12 +1481,12 @@ angular.module('starter.controllers', [])
                         //调用支付接口
                         var orderno = data.orderNo;
                         var orderTime = data.orderTime;
-                        if($scope.type.code == '004'){   //如果是回收订单无需付款，直接进入平台收货页面
-                            $state.go('procreceive',{name:'recycle',orderNo:data.orderNo,orderTime:data.orderTime});
-                            return;
-                        }
-                        if($scope.type.code == '005'){   //如果是回收订单无需付款，直接进入平台收货页面
-                            $state.go('procreceive',{name:'exchange',orderNo:data.orderNo,orderTime:data.orderTime});
+                        if($scope.type.code == '004'||$scope.type.code == '005') {   //如果是回收或换款订单无需付款，直接进入平台收货页面
+                            $state.go('procreceive', {
+                                type: $scope.type.code,
+                                orderNo: data.orderNo,
+                                orderTime: data.orderTime
+                            });
                             return;
                         }
                         $scope.param = {
@@ -1604,15 +1590,14 @@ angular.module('starter.controllers', [])
     //流程-平台收货(五大类服务展示物流状态及收货证明)
     .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService ,CommonService ,$rootScope) {
         $rootScope.commonService = CommonService;
-        $scope.pagetheme = $stateParams.name;
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
+        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
+        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
+        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
+        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
 
-        if($stateParams.name == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.name == '002')  $scope.pagetheme = 'repair';
-        if($stateParams.name == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.name == '004')  $scope.pagetheme = 'recycle';
-        if($stateParams.name == '005')  $scope.pagetheme = 'exchange';
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="retrofit";
@@ -1653,18 +1638,16 @@ angular.module('starter.controllers', [])
                 return;
             }
             //根据业务类型判断订单状态
-            switch ($stateParams.name){
-                case "002"://todo 维修
-                    $scope.order.orderstatus="";
+            switch ($stateParams.type){
+                case "002":
+                    $scope.order.orderstatus=$stateParams.type+"012";
                     break;
-                case "004"://todo 回收
-                    $scope.order.orderstatus="";
-                    break;
-                case "005"://todo 换款
-                    $scope.order.orderstatus="";
+                case "004":
+                case "005":
+                    $scope.order.orderstatus=$stateParams.type+"002";
                     break;
                 default://翻新、检测
-                    $scope.order.orderstatus=$stateParams.name+"003";
+                    $scope.order.orderstatus=$stateParams.type+"003";
                     break;
             }
             //'003'代表的订单状态:已发货
@@ -2132,9 +2115,59 @@ angular.module('starter.controllers', [])
         localStorage.setItem("evaluationPrice" , $scope.evaluationPrice);
         console.log('$scope.name ==' + $scope.pagetheme);
     })
-
+    //实际定价
+    .controller('ActualPriceCtrl', function ($scope , $stateParams) {
+        switch ($stateParams.type){
+            case '004':
+                $scope.pagetheme = 'recycle';
+                break;
+            case '005':
+                $scope.pagetheme = 'exchange';
+                break;
+        }
+    })
+    //确认回收
+    .controller('CfmRecycleCtrl', ['$scope' ,'$state','$stateParams','OrderService','CommonService',function ($scope ,$state, $stateParams,OrderService,CommonService) {
+        switch ($stateParams.type){
+            case '004':
+                $scope.pagetheme = 'recycle';
+                break;
+            case '005':
+                $scope.pagetheme = 'exchange';
+                break;
+        }
+        $scope.fixPrice = 0;
+        //根据订单号查询是否已经定价
+        OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+            console.log(JSON.stringify(data));
+            if(data && data.fixPrice){
+                $scope.fixPrice = data.fixPrice;
+            }
+        });
+        //确认回收
+        $scope.commit = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002003'}).success(function (data) {
+                if(data && data.n==1){
+                    sessionStorage.setItem('jinlele_procphoto_orderno',$stateParams.orderno);
+                    sessionStorage.setItem('jinlele_procphoto_aturalprice',$scope.fixPrice);
+                    sessionStorage.setItem('jinlele_procphoto_pathname','repair');
+                    $state.go('proccommitorder');
+                }
+            });
+        }
+        //放弃回收
+        $scope.drop = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002011'}).success(function (data) {
+                if(data && data.n==1){
+                    CommonService.toolTip('订单已经已经取消','');
+                    setTimeout(function () {
+                        $state.go('orderlist');
+                    },1000);
+                }
+            });
+        }
+    }])
     //换款
     .controller('ExchangCtrl', function ($scope) {
 
     })
-
