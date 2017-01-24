@@ -2125,6 +2125,9 @@ angular.module('starter.controllers', [])
     //回收--估价结果页面
     .controller('EvaluationresultCtrl' , function ($scope , $stateParams) {
         $scope.name = $stateParams.name;
+        //这里要带入的是 估价价格，需要保存的奥  暂时写死
+        $scope.evaluationPrice = 5000;
+        localStorage.setItem("evaluationPrice" , $scope.evaluationPrice);
         console.log('$scope.name ==' + $scope.name);
     })
 
