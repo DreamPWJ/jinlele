@@ -1640,7 +1640,6 @@ angular.module('starter.controllers', [])
             userlogisticsno:"", //买方发货单号
             orderstatus:""//订单状态
         };
-        $scope.tracking = $stateParams.name == 'recycle' ? true : false;
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
