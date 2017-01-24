@@ -1,0 +1,199 @@
+
+<link rel="stylesheet" href="css/select.css" />
+
+<!-- title -->
+<section class="process_title"ng-switch on="pagetheme">
+    <i ng-switch-when="recycle">产品回收</i>
+    <i ng-switch-when="exchange">产品换款</i>
+</section>
+
+<main class="content" ng-switch on="pagetheme">
+
+    <!-- 回收流程 -->
+    <section class="process" ng-switch-when="recycle">
+        <b class="right"></b>
+        <b class="left"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t13"></i></span>
+                <em>估价</em>
+            </li>
+            <li>
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li>
+                <span><i class="t09"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价</em>
+            </li>
+            <li>
+                <span><i class="t14"></i></span>
+                <em>确认回收</em>
+            </li>
+            <li>
+                <span><i class="t10"></i></span>
+                <em>实际定价</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+        </ul>
+    </section>
+
+    <!--换款流程 -->
+    <section class="process fanx" ng-switch-when="exchange">
+        <b class="right"></b>
+        <b class="left seu"></b>
+        <b class="muye"></b>
+        <b class="kuen"></b>
+        <ul>
+            <li class="hover">
+                <span><i class="t13"></i></span>
+                <em>估价</em>
+            </li>
+            <li>
+                <span><i class="t01"></i></span>
+                <em>拍照</em>
+            </li>
+            <li>
+                <span><i class="t09"></i></span>
+                <em>提交订单</em>
+            </li>
+            <li>
+                <span><i class="t03"></i></span>
+                <em>平台收货</em>
+            </li>
+            <li>
+                <span><i class="t07"></i></span>
+                <em>收货验收</em>
+            </li>
+            <li>
+                <span><i class="t06"></i></span>
+                <em>邮寄</em>
+            </li>
+            <li>
+                <span><i class="t10"></i></span>
+                <em>实际定价</em>
+            </li>
+            <li>
+                <span><i class="t04"></i></span>
+                <em>检测</em>
+            </li>
+            <li>
+                <span><i class="t11"></i></span>
+                <em>确认换款</em>
+            </li>
+            <li>
+                <span><i class="t08"></i></span>
+                <em>评价换款</em>
+            </li>
+        </ul>
+    </section>
+   
+	<!--  -->
+    <section class="cash">
+    	<span class="title">您的物品价格</span>
+        <span class="cash_title">变现公式</span>
+        <ul>
+        	<li>200.00</li>
+        	<li>*</li>
+        	<li>150.00</li>
+        	<li>-</li>
+        	<li>10.00</li>
+        </ul>
+        <ul>
+        	<li>金价</li>
+        	<li></li>
+        	<li>克重</li>
+        	<li></li>
+        	<li>折旧费</li>
+        </ul>
+        <span class="cash_title">参考估值</span>
+        <span class="cash_price">￥5000.00元</span>
+        <section class="load" ng-switch on="pagetheme">
+            <a ng-switch-when="recycle" ng-href="#/procphoto/recycle" >立即变现</a>
+            <a ng-switch-when="exchange" ng-href="#/procphoto/exchange" >立即换款</a>
+        </section>
+    </section>
+    
+    <!-- 提示 -->
+    <section class="mode">
+    	<ul>
+        	<li>
+            	<em class="icon">&#xe613;</em>
+                <span><i>24小时</i>快速收款，我们承诺在收到物品后24小时内打款。</span>
+            </li>
+        	<li>
+            	<em class="icon">&#xe61b;</em>
+                <span>可选择<i>支付宝</i>担保交易，先付款，再发货，保证交易安全。</span>
+            </li>
+        	<li>
+            	<em class="icon">&#xea86;</em>
+                <span><i>太平洋保险</i>为您的物品担保，保证在物品在物流过程中的安全不丢失。</span>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- 免费换 -->
+    <!--<section class="buy">-->
+    	<!--<span class="title">您还可以免费换以下新款</span>-->
+        <!--<ul>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            	<!--<a href="">-->
+                <!--<span><img src="../../images/com/01.jpg"></span>-->
+            	<!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</section>-->
+    
+    
+</main>
+
+
+<script type="text/javascript">
+$(document).ready(function(){  
+    $('.default').dropkick();
+    theme:'black'
+}); 
+</script>
+

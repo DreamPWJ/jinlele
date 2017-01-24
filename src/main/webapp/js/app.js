@@ -148,16 +148,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/repair/procrepair.html',
                 controller: 'ProcRepairCtrl'
             })
-            .state('evaluation', {  //回收-估价
-                url: '/evaluation/:name',
-                templateUrl: 'html/recycle/index.html',
-                controller: 'EvaluationCtrl'
+            .state('evaluate', {  //估价(回收、换款)
+                url: '/evaluate/:name',
+                templateUrl: 'html/shared/evaluate.html',
+                controller: 'EvaluateCtrl'
             })
-            //估计结果页面
-            .state('evaluationresult', {  //回收-估价
-                url: '/evaluationresult/:name',
-                templateUrl: 'html/recycle/evaluationresult.html',
-                controller: 'EvaluationresultCtrl'
+            .state('evaluationresult', {  //估计结果(回收、换款)
+                url: '/{name}evaluationresult/:orderno',
+                templateUrl: 'html/shared/evaluationresult.html',
+                controller: 'EvaluationResultCtrl'
+            })
+            .state('actualprice', {  //实际定价(回收、换款)
+                url: '/actualprice/:name/:orderno',
+                templateUrl: 'html/shared/actualprice.html',
+                controller: 'ActualPriceCtrl'
             })
             .state('exchange', {  //换款
                 url: '/exchange',

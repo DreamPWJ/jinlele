@@ -856,7 +856,22 @@ angular.module('starter.controllers', [])
                     break;
                 case "004"://回收
                     switch (shoporderstatusCode){
-                        case "":
+                        case "004001":
+                        case "004002":
+                            $state.go('procreceive', {name: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "004003":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "004004":
+                        case "004005":
+                            $state.go('actualprice', {name: 'recycle', orderno: orderno});//实际定价
+                            break;
+                        case "004006":
+                            $state.go('evaluationresult', {name: 'recycle', orderno: orderno});//确认回收
+                            break;
+                        case "004007":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
                     }
                     break;
@@ -2084,20 +2099,32 @@ angular.module('starter.controllers', [])
                 $scope.report = null;
             }
         });
+
     }])
-
-    //回收-估价
-    .controller('EvaluationCtrl', function ($scope ,$stateParams) {
-         $scope.name = $stateParams.name;
-         console.log('$scope.name ==' + $scope.name);
+    //估价(回收、换款)
+    .controller('EvaluateCtrl', function ($scope ,$stateParams) {
+         $scope.pagetheme = $stateParams.name;
+         $scope.orderno = $stateParams.orderno;
+        var mySwiper = new Swiper('.metal',{
+            pagination: '.product_tab',
+            paginationClickable: true,
+            //autoHeight: true,
+            paginationBulletRender: function (index, className) {
+                switch (index) {
+                    case 0: name='黄金';break;
+                    case 1: name='铂金';break;
+                    case 2: name='K金';break;
+                    case 3: name='钯金';break;
+                    case 4: name='白银';break;
+                    default: name='';
+                }
+                return '<a href="javascript:" class="' + className + '">' + name + '</a>';
+            }
+        });
     })
-
     //回收--估价结果页面
     .controller('EvaluationresultCtrl' , function ($scope , $stateParams) {
         $scope.name = $stateParams.name;
-        //这里要带入的是 估价价格，需要保存的奥  暂时写死
-        $scope.evaluationPrice = 5000;
-        localStorage.setItem("evaluationPrice" , $scope.evaluationPrice);
         console.log('$scope.name ==' + $scope.name);
     })
 
