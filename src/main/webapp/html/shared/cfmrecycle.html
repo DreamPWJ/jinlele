@@ -97,14 +97,17 @@
     </section>
 
     <!-- 定价 -->
-    <section class="price">
+    <section class="price" ng-if="orderstatus == '004005'">
         <i>您的产品实际回收价格</i>
-        <em ng-if="fixPrice == 0">平台定价中,请耐心等待..</em>
+        <em ng-if="fixPrice == 0">平台定价中,请耐心等待...</em>
         <em ng-if="fixPrice != 0">&yen;&nbsp;{{fixPrice}}</em>
     </section>
-    <section class="price_button" ng-if="fixPrice != 0">
+    <section class="price_button" ng-if="showbtn == 1">
         <span><a  ng-click="commit()">确认变现</a></span>
         <span><a  ng-click="drop()">放弃变现</a></span>
+    </section>
+    <section class="price" ng-if="orderstatus == '004006'">
+        <em>您的变现申请已提交，请耐心等待...</em>
     </section>
     <!-- 免费换 -->
     <section class="buy">

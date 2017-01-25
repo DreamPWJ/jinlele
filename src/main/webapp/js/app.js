@@ -164,7 +164,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ActualPriceCtrl'
             })
             .state('cfmrecycle', {  //回收-确认回收
-                url: '/cfmrecycle/:type/:orderno',
+                url: '/cfmrecycle/:type/:orderno/:orderstatus',
                 templateUrl: 'html/shared/cfmrecycle.html',
                 controller: 'CfmRecycleCtrl'
             })

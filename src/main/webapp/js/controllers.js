@@ -867,10 +867,8 @@ angular.module('starter.controllers', [])
                             $state.go('actualprice', {type: type, orderno: orderno});//实际定价
                             break;
                         case "004005":
-                            $state.go('cfmrecycle', {type: type, orderno: orderno});//实际定价
-                            break;
                         case "004006":
-                            $state.go('evaluationresult', {name: 'recycle', orderno: orderno});//确认回收
+                            $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
                             break;
                         case "004007":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
@@ -2116,7 +2114,7 @@ angular.module('starter.controllers', [])
         console.log('$scope.name ==' + $scope.pagetheme);
     })
     //实际定价
-    .controller('ActualPriceCtrl', function ($scope , $stateParams) {
+    .controller('ActualPriceCtrl',['$scope' , '$stateParams',function ($scope , $stateParams) {
         switch ($stateParams.type){
             case '004':
                 $scope.pagetheme = 'recycle';
@@ -2125,41 +2123,51 @@ angular.module('starter.controllers', [])
                 $scope.pagetheme = 'exchange';
                 break;
         }
-    })
+    }])
     //确认回收
     .controller('CfmRecycleCtrl', ['$scope' ,'$state','$stateParams','OrderService','CommonService',function ($scope ,$state, $stateParams,OrderService,CommonService) {
         switch ($stateParams.type){
             case '004':
+                $scope.hide = true;
                 $scope.pagetheme = 'recycle';
                 break;
             case '005':
                 $scope.pagetheme = 'exchange';
                 break;
         }
+        $scope.orderstatus=$stateParams.orderstatus;
         $scope.fixPrice = 0;
-        //根据订单号查询是否已经定价
-        OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
-            console.log(JSON.stringify(data));
-            if(data && data.fixPrice){
-                $scope.fixPrice = data.fixPrice;
-            }
-        });
+        $scope.showbtn = 0;
+        switch ($scope.orderstatus){
+            case '004005':
+                //根据订单号查询是否已经定价
+                OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+                    if(data && data.fixPrice){
+                        $scope.fixPrice = data.fixPrice;
+                        $scope.showbtn=1;
+                    }
+                });
+                break;
+            case '004006':
+                $scope.showbtn=0;
+        }
+        console.log($scope.showbtn);
         //确认回收
         $scope.commit = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002003'}).success(function (data) {
+            $scope.orderstatus='004006';//待审核
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:$scope.orderstatus}).success(function (data) {
                 if(data && data.n==1){
-                    sessionStorage.setItem('jinlele_procphoto_orderno',$stateParams.orderno);
-                    sessionStorage.setItem('jinlele_procphoto_aturalprice',$scope.fixPrice);
-                    sessionStorage.setItem('jinlele_procphoto_pathname','repair');
-                    $state.go('proccommitorder');
+                    setTimeout(function () {
+                        $state.go('orderlist');
+                    },1000);
                 }
             });
         }
         //放弃回收
         $scope.drop = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002011'}).success(function (data) {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'004011'}).success(function (data) {
                 if(data && data.n==1){
-                    CommonService.toolTip('订单已经已经取消','');
+                    CommonService.toolTip('订单取消成功','');
                     setTimeout(function () {
                         $state.go('orderlist');
                     },1000);

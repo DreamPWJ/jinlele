@@ -4442,7 +4442,7 @@ section.price em {
     line-height: 60px;
     text-align: center;
     font-style: normal;
-    font-size: 160%;
+    font-size: 130%;
     color: #FE2E2E;
 }
 
@@ -5890,4 +5890,3 @@ ion-infinite-scroll:not(.active) .icon:before {
     font-size: 15px; }
 .loading-container .loading h1, .loading-container .loading h2, .loading-container .loading h3, .loading-container .loading h4, .loading-container .loading h5, .loading-container .loading h6 {
     color: #fff; }
-
