@@ -168,7 +168,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/shared/cfmrecycle.html',
                 controller: 'CfmRecycleCtrl'
             })
-            .state('morestyle', {  //换款
+            .state('morestyle', {  //换款-更多款式
                 url: '/morestyle',
                 templateUrl: 'html/exchange/morestyle.html',
                 controller: 'MoreStyleCtrl'
