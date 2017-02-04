@@ -17,5 +17,7 @@ public interface WalletMapper {
 
     String selectWalletByUserId(Integer userId);
 
+    Double selectWalletBalanceByUserId(Integer userId);
+
 
 }

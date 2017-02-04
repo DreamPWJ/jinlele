@@ -9,7 +9,6 @@ import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.SysConstants;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -67,6 +66,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String findWalletAccount(Integer userId){
         return  walletMapper.selectWalletByUserId(userId);
+    }
+    @Override
+    public Double selectWalletBalanceByUserId(Integer userId){
+        return  walletMapper.selectWalletBalanceByUserId(userId);
     }
     @Override
     public void insertWallet(String openid , Integer userId) {

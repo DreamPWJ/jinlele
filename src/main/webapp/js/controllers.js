@@ -896,8 +896,11 @@ angular.module('starter.controllers', [])
         }
     })
     //我的钱包
-    .controller('WalletCtrl', function ($scope) {
-
+    .controller('WalletCtrl', function ($scope ,WalletService) {
+        WalletService.getBalance({userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
+            console.log('data==='+JSON.stringify(data));
+              $scope.balance = data.balance;
+        });
     })
     //提现记录
     .controller('CashdetailCtrl', function ($scope) {
