@@ -116,6 +116,10 @@
   </update>
 
   <select id="selectWalletByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
-        select walletno from wallet where user_id = #{userId}
+      select walletno from wallet where user_id = #{userId}
+  </select>
+
+  <select id="selectWalletBalanceByUserId" parameterType="java.lang.Integer" resultType="java.lang.Double">
+    select balance from wallet where user_id = #{userId} and deleteCode = '001'
   </select>
 </mapper>

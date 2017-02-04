@@ -26,4 +26,12 @@ public interface IUserService {
      * 创建虚拟账户
      */
     void insertWallet(String openid , Integer userId);
+
+    /**
+     * 查询账户余额
+     * @param userId
+     * @return
+     */
+    Double selectWalletBalanceByUserId(Integer userId);
+
 }

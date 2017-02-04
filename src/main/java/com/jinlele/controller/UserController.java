@@ -111,4 +111,16 @@ public class UserController {
         map.put("result" ,result);
         return map;
     }
+
+    /**
+     * 获得账户的余额
+     */
+    @ResponseBody
+    @RequestMapping(value = "/selectWalletBalanceByUserId/{userId}" ,method = RequestMethod.GET)
+    public Map<String , Object> selectWalletBalanceByUserId(@PathVariable Integer userId){
+          Double balance =  userService.selectWalletBalanceByUserId(userId);
+          Map map = new HashedMap();
+          map.put("balance" , balance);
+          return map;
+    }
 }
