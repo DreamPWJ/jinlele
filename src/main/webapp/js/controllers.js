@@ -2085,26 +2085,41 @@ angular.module('starter.controllers', [])
 
     }])
     //估价(回收、换款)
-    .controller('EvaluateCtrl', function ($scope ,$stateParams) {
-         $scope.pagetheme = $stateParams.name;
-         $scope.orderno = $stateParams.orderno;
-        var mySwiper = new Swiper('.metal',{
+    .controller('EvaluateCtrl', ['$scope','$stateParams','ProcCommitOrderService',function ($scope ,$stateParams,ProcCommitOrderService) {
+        $scope.pagetheme = $stateParams.name;
+        $scope.orderno = $stateParams.orderno;
+        var mySwiper = new Swiper('.metal', {
             pagination: '.product_tab',
             paginationClickable: true,
             //autoHeight: true,
             paginationBulletRender: function (index, className) {
                 switch (index) {
-                    case 0: name='黄金';break;
-                    case 1: name='铂金';break;
-                    case 2: name='K金';break;
-                    case 3: name='钯金';break;
-                    case 4: name='白银';break;
-                    default: name='';
+                    case 0:
+                        name = '黄金';
+                        break;
+                    case 1:
+                        name = '铂金';
+                        break;
+                    case 2:
+                        name = 'K金';
+                        break;
+                    case 3:
+                        name = '钯金';
+                        break;
+                    case 4:
+                        name = '白银';
+                        break;
+                    default:
+                        name = '';
                 }
                 return '<a href="javascript:" class="' + className + '">' + name + '</a>';
             }
         });
-    })
+        ProcCommitOrderService.getCurrentPrice().success(function(data){
+            $scope.dayprice=data.dayprice;
+        });
+
+    }])
     //回收--估价结果页面
     .controller('EvaluationResultCtrl' , function ($scope , $stateParams) {
         $scope.pagetheme = $stateParams.name;
@@ -2176,6 +2191,6 @@ angular.module('starter.controllers', [])
         }
     }])
     //换款
-    .controller('ExchangCtrl', function ($scope) {
+    .controller('MoreStyleCtrl', function ($scope) {
 
     })

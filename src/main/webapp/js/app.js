@@ -168,10 +168,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/shared/cfmrecycle.html',
                 controller: 'CfmRecycleCtrl'
             })
-            .state('exchange', {  //换款
-                url: '/exchange',
-                templateUrl: 'html/exchange/index.html',
-                controller: 'ExchangCtrl'
+            .state('morestyle', {  //换款
+                url: '/morestyle',
+                templateUrl: 'html/exchange/morestyle.html',
+                controller: 'MoreStyleCtrl'
             })
 
         $urlRouterProvider.otherwise('main')

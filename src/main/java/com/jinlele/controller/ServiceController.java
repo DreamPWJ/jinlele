@@ -1,6 +1,7 @@
 package com.jinlele.controller;
 
 import com.jinlele.model.ReceiptAddress;
+import com.jinlele.service.interfaces.IDayPriceService;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,9 @@ public class ServiceController {
 
     @Resource
     IReceiptAddressService receiptAddressService;
+
+    @Resource
+    IDayPriceService dayPriceService;
 
    //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径
    // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
@@ -82,5 +86,14 @@ public class ServiceController {
     @RequestMapping(value = "/getRepairItem/{typename}", method = RequestMethod.GET)
     public Map<String, Object> getRepairItem(@PathVariable String typename) {
         return serviceService.getDictInfo(typename);
+    }
+
+    /**
+     * 获取估价
+     */
+    @ResponseBody
+    @RequestMapping("/getCurrentPrice")
+    public Map<String, Object>  getCurrentPrice(){
+        return dayPriceService.getCurrentPrice();
     }
 }
