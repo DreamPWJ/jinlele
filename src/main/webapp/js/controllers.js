@@ -903,8 +903,35 @@ angular.module('starter.controllers', [])
         });
     })
     //提现记录
-    .controller('CashdetailCtrl', function ($scope) {
+    .controller('CashdetailCtrl', function ($scope ,WalletService) {
+        $scope.noDataFlag = false;
+        WalletService.getAllcashApply({userId:localStorage.getItem("jinlele_userId")})
+            .success(function (data) {
+                 console.log("data==" + JSON.stringify(data));
+                 $scope.arr = data.records;
+                 if($scope.arr.length == 0)$scope.noDataFlag = true;
+                 console.log('$scope.noDataFlag=='+$scope.noDataFlag);
+            });
+    })
+    //提现申请
+    .controller('cashApplyCtrl', function ($scope , $stateParams ,$rootScope ,CommonService ,WalletService ,$state) {
+        $rootScope.commonService=CommonService;
+        $scope.balance = $stateParams.balance;
+        $scope.applyMoney = '';
+        $scope.submit = function () {
+            if($scope.applyMoney > $scope.balance){
+                 CommonService.toolTip("提现金额不能超过余额", "");
+                 return;
+            }
+            WalletService.saveCashApply({userId:localStorage.getItem("jinlele_userId"),applyMoney:$scope.applyMoney})
+                .success(function (data) {
+                    console.log("data=="+JSON.stringify(data));
+                    if(data.n == 1){
+                        $state.go("cashdetail");
+                    }
+                });
 
+        }
     })
     //我的收藏
     .controller('FavouriteCtrl', function ($scope ,GoodService , $state) {

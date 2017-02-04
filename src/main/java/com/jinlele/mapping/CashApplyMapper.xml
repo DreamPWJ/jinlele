@@ -114,4 +114,16 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--查询所有的提现记录-->
+  <select id="getAllRecords" resultType="Map" parameterType="java.lang.Integer" >
+     select
+		money ,
+		dealCode ,
+		(select dictname from vw_dictdetail where eng = 'cashapplyCode' and  codevalue = dealCode) as  dealname,
+		create_time as createTime
+     from cash_apply
+     where user_id = #{userId}
+  </select>
+
 </mapper>

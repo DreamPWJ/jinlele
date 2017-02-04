@@ -1,8 +1,10 @@
 package com.jinlele.service.services;
 
 import com.jinlele.dao.BaseMapper;
+import com.jinlele.dao.CashApplyMapper;
 import com.jinlele.dao.UserMapper;
 import com.jinlele.dao.WalletMapper;
+import com.jinlele.model.CashApply;
 import com.jinlele.model.User;
 import com.jinlele.model.Wallet;
 import com.jinlele.service.interfaces.IUserService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +32,9 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     WalletMapper walletMapper;
+
+    @Resource
+    CashApplyMapper cashApplyMapper;
 
 
     public int insertSelective(User record){
@@ -71,6 +77,17 @@ public class UserServiceImpl implements IUserService {
     public Double selectWalletBalanceByUserId(Integer userId){
         return  walletMapper.selectWalletBalanceByUserId(userId);
     }
+
+    @Override
+    public int saveCashApply(Integer userId, Double applyMoney) {
+        return cashApplyMapper.insertSelective(new CashApply(applyMoney , userId ,"001"));
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllRecords(Integer userId) {
+        return cashApplyMapper.getAllRecords(userId);
+    }
+
     @Override
     public void insertWallet(String openid , Integer userId) {
         String substrOpendid = openid.substring(openid.length()-4 , openid.length());
@@ -80,7 +97,6 @@ public class UserServiceImpl implements IUserService {
         //"JLL"+ StringHelper.getOrderNum() +
         walletMapper.insertSelective(wallet);
         System.out.println("创建成功");
-
     }
 
 

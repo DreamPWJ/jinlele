@@ -28,6 +28,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/wallet.html',
                 controller: 'WalletCtrl'
             })
+            .state('cashApply', {  //钱包
+                url: '/cashApply/:balance',
+                templateUrl: 'html/cashApply.html',
+                controller: 'cashApplyCtrl'
+            })
             .state('cashdetail', {  //钱包
                 url: '/cashdetail',
                 templateUrl: 'html/cashdetail.html',

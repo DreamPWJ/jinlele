@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,28 +31,31 @@ public class UserController {
 
     @Resource
     IWishService wishService;
+
     /**
      * 获取用户的分页方法
+     *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value ="/getUserPaging",method = RequestMethod.GET)
-    public Map<String,Object> getUserPaging(){
-        Map<String, Object> userparamMap=userService.getUserPaging();
+    @RequestMapping(value = "/getUserPaging", method = RequestMethod.GET)
+    public Map<String, Object> getUserPaging() {
+        Map<String, Object> userparamMap = userService.getUserPaging();
         return userparamMap;
     }
 
     /**
      * 获取用户信息
+     *
      * @param openid
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getUserInfo/{openid}",method = RequestMethod.GET)
-    public Map<String,Object> getUserInfo(@PathVariable("openid") String openid){
-        Map<String,Object> map=new HashMap();
-        map.put("userInfo",userService.getUserInfo(openid));
-        return  map;
+    @RequestMapping(value = "/getUserInfo/{openid}", method = RequestMethod.GET)
+    public Map<String, Object> getUserInfo(@PathVariable("openid") String openid) {
+        Map<String, Object> map = new HashMap();
+        map.put("userInfo", userService.getUserInfo(openid));
+        return map;
     }
 
     /**
@@ -59,12 +63,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping("/getUserInfo")
-    public Map<String,Object>  getUserInfo(HttpServletRequest request){
+    public Map<String, Object> getUserInfo(HttpServletRequest request) {
         Integer id = (Integer) request.getSession().getAttribute("jinlele_id");
         User userInfo = (User) request.getSession().getAttribute("userInfo");
-        Map<String ,Object> map = new HashedMap();
-        map.put("userId" , id);
-        map.put("userInfo" , userInfo);
+        Map<String, Object> map = new HashedMap();
+        map.put("userId", id);
+        map.put("userInfo", userInfo);
         return map;
 
     }
@@ -73,11 +77,11 @@ public class UserController {
      * 提交用户建议反馈
      */
     @ResponseBody
-    @RequestMapping(value = "/saveWish/{suggest}/{userId}" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/saveWish/{suggest}/{userId}", method = RequestMethod.GET)
     public Map<String, Object> saveWish(@PathVariable String suggest, @PathVariable int userId) {
-        Map<String , Object> map = new HashedMap();
-        int n = wishService.insertSelective(new Wish(suggest,userId));
-        map.put("n" ,n);
+        Map<String, Object> map = new HashedMap();
+        int n = wishService.insertSelective(new Wish(suggest, userId));
+        map.put("n", n);
         return map;
     }
 
@@ -85,12 +89,12 @@ public class UserController {
      * 获取验证码
      */
     @ResponseBody
-    @RequestMapping(value = "/getCheckcode/{phonenumber}" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/getCheckcode/{phonenumber}", method = RequestMethod.GET)
     public Map<String, Object> getCheckcode(@PathVariable String phonenumber) {
-        Map<String , Object> map = new HashedMap();
+        Map<String, Object> map = new HashedMap();
         try {
-            String s =sendSMS.sendSimple(sendSMS.randomCode(), phonenumber);
-            map.put("result" ,s);
+            String s = sendSMS.sendSimple(sendSMS.randomCode(), phonenumber);
+            map.put("result", s);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,14 +105,14 @@ public class UserController {
      * 绑定手机号码
      */
     @ResponseBody
-    @RequestMapping(value = "/addPhoneNumber/{phoneNumber}/{userId}" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/addPhoneNumber/{phoneNumber}/{userId}", method = RequestMethod.GET)
     public Map<String, Object> addPhoneNumber(@PathVariable String phoneNumber, @PathVariable int userId) {
-        Map<String , Object> map = new HashedMap();
-        User user =new User();
+        Map<String, Object> map = new HashedMap();
+        User user = new User();
         user.setId(userId);
         user.setPhone(phoneNumber);
         int result = userService.updateByPrimaryKeySelective(user);
-        map.put("result" ,result);
+        map.put("result", result);
         return map;
     }
 
@@ -116,11 +120,36 @@ public class UserController {
      * 获得账户的余额
      */
     @ResponseBody
-    @RequestMapping(value = "/selectWalletBalanceByUserId/{userId}" ,method = RequestMethod.GET)
-    public Map<String , Object> selectWalletBalanceByUserId(@PathVariable Integer userId){
-          Double balance =  userService.selectWalletBalanceByUserId(userId);
-          Map map = new HashedMap();
-          map.put("balance" , balance);
-          return map;
+    @RequestMapping(value = "/selectWalletBalanceByUserId/{userId}", method = RequestMethod.GET)
+    public Map<String, Object> selectWalletBalanceByUserId(@PathVariable Integer userId) {
+        Double balance = userService.selectWalletBalanceByUserId(userId);
+        Map map = new HashedMap();
+        map.put("balance", balance);
+        return map;
+    }
+
+    /**
+     * 新增提现记录 saveCashApply
+     */
+    @ResponseBody
+    @RequestMapping(value = "/saveCashApply/{userId}/{applyMoney}", method = RequestMethod.GET)
+    public Map<String, Object> saveCashApply(@PathVariable Integer userId, @PathVariable Double applyMoney) {
+        int n = userService.saveCashApply(userId , applyMoney);
+        Map map = new HashedMap();
+        map.put("n", n);
+        return map;
+    }
+
+    /**
+     * 遍历所有的提现记录
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getAllRecords/{userId}", method = RequestMethod.GET)
+    public Map<String, Object> getAllRecords(@PathVariable Integer userId) {
+        List<Map<String, Object>> records = userService.getAllRecords(userId);
+        Map map = new HashedMap();
+        map.put("records", records);
+        return map;
     }
 }
+

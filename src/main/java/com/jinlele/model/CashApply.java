@@ -17,6 +17,15 @@ public class CashApply {
 
     private Date updateTime;
 
+    public CashApply() {
+    }
+
+    public CashApply(Double money, Integer userId, String dealcode) {
+        this.money = money;
+        this.userId = userId;
+        this.dealcode = dealcode;
+    }
+
     public Integer getId() {
         return id;
     }

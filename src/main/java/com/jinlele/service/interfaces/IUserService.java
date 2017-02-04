@@ -2,6 +2,7 @@ package com.jinlele.service.interfaces;
 
 import com.jinlele.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,5 +34,15 @@ public interface IUserService {
      * @return
      */
     Double selectWalletBalanceByUserId(Integer userId);
+
+    /**
+     * 保存申请提现的记录
+     */
+    int saveCashApply(Integer userId , Double applyMoney);
+
+    /**
+     * 得到所有的提现记录
+     */
+    List<Map<String , Object>> getAllRecords(Integer userId);
 
 }

@@ -1,58 +1,26 @@
 <main class="content bottom">
-	
-    <section class="list_take">
+
+
+	<div ng-if="noDataFlag" class="isNotDataHint">
+		<i class="iconfont icon-cry1"></i>
+		<p>暂无数据</p>
+	</div>
+
+    <section class="list_take" ng-repeat="item in arr">
     	<section class="title">
         	<em>提现金额</em>
-        	<em>2016-6-20 16:20:30</em>
+        	<em>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</em>
         </section>
         <section class="money">
         	<span class="money_title">
-            	<em>90000</em>
+            	<em>{{item.money}}</em>
             	<i>元</i>
             </span>
-        	<u>待处理</u>
+        	<u>{{item.dealname}}</u>
         </section>
 	</section>
-    <section class="list_take">
-    	<section class="title">
-        	<em>提现金额</em>
-        	<em>2016-6-20 16:20:30</em>
-        </section>
-        <section class="money">
-        	<span class="money_title">
-            	<em>90000</em>
-            	<i>元</i>
-            </span>
-        	<u>待处理</u>
-        </section>
-	</section>
-    <section class="list_take">
-    	<section class="title">
-        	<em>提现金额</em>
-        	<em>2016-6-20 16:20:30</em>
-        </section>
-        <section class="money">
-        	<span class="money_title">
-            	<em>90000</em>
-            	<i>元</i>
-            </span>
-        	<u>待处理</u>
-        </section>
-	</section>
-    <section class="list_take">
-    	<section class="title">
-        	<em>提现金额</em>
-        	<em>2016-6-20 16:20:30</em>
-        </section>
-        <section class="money">
-        	<span class="money_title">
-            	<em>90000</em>
-            	<i>元</i>
-            </span>
-        	<u>待处理</u>
-        </section>
-	</section>
-	<section class="load"><a href="">加载更多</a></section>
+
+	<!--<section class="load"><a href="">加载更多</a></section>-->
 </main>
 
 <footer class="bottom">
