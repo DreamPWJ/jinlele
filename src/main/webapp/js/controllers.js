@@ -896,11 +896,21 @@ angular.module('starter.controllers', [])
         }
     })
     //我的钱包
-    .controller('WalletCtrl', function ($scope ,WalletService) {
+    .controller('WalletCtrl', function ($scope ,WalletService , $state ,$rootScope ,CommonService) {
+        $rootScope.commonService=CommonService;
+        $scope.balance = 0;
         WalletService.getBalance({userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
             console.log('data==='+JSON.stringify(data));
               $scope.balance = data.balance;
         });
+        $scope.cashApply = function () {
+            if(!$scope.balance){
+                CommonService.toolTip("您没有可提现的金额", "");
+                return;
+            }
+            $state.go('cashApply',{balance:$scope.balance});
+
+        }
     })
     //提现记录
     .controller('CashdetailCtrl', function ($scope ,WalletService) {

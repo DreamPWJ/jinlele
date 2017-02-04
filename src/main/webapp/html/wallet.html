@@ -4,7 +4,7 @@
         <em>我的余额</em>
     	<u>￥ {{balance | number:2}}</u>
     	<!--<a href="#/cashdetail">提现</a>-->
-    	<a href="#/cashApply/{{balance}}">提现</a>
+    	<a ng-click="cashApply()">提现</a>
     	<a href="#/exchange">我要换款</a>
     </span>
 </main>

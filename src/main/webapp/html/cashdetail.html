@@ -6,10 +6,10 @@
 		<p>暂无数据</p>
 	</div>
 
-    <section class="list_take" ng-repeat="item in arr">
+    <section class="list_take" ng-repeat="item in arr | orderBy : '-createTime'">
     	<section class="title">
         	<em>提现金额</em>
-        	<em>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</em>
+        	<em>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'  }}</em>
         </section>
         <section class="money">
         	<span class="money_title">
