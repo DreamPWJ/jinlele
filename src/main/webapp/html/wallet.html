@@ -2,10 +2,10 @@
 	<span class="wallet">
         <i class="icon">&#xe6bd;</i>
         <em>我的余额</em>
-    	<u>￥ {{balance | number:2}}</u>
+    	<u>{{balance | currency:'￥'}}</u>
     	<!--<a href="#/cashdetail">提现</a>-->
     	<a ng-click="cashApply()">提现</a>
-    	<a href="#/exchange">我要换款</a>
+    	<a ng-href="#/evaluate/exchange">我要换款</a>
     </span>
 </main>
 
