@@ -487,7 +487,7 @@ angular.module('starter.controllers', [])
 
         $scope.procreceive = function () {
             var obj = {
-                name: $scope.order.orderType,
+                type: $scope.order.orderType,
                 orderNo: $scope.order.orderno,
                 orderTime: $scope.orderinfo.create_time
             };
