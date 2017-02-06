@@ -108,20 +108,16 @@ public class PayCommonUtil {
         parameterMap.put("check_name", "NO_CHECK");// NO_CHECK：不校验真实姓名 FORCE_CHECK：强校验真实姓名（未实名认证的用户会校验失败，无法转账） OPTION_CHECK：针对已实名认证的用户才校验真实姓名（未实名认证用户不校验，可以转账成功）
         BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
         java.text.DecimalFormat df = new java.text.DecimalFormat("0");
-        parameterMap.put("amount", df.format(total));// 支付金额
-
+        parameterMap.put("amount", df.format(total));// 金额
         parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
         parameterMap.put("desc", description);//企业付款操作说明信息。必填。
-
-
         String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
-
         parameterMap.put("sign", sign);// 签名
         String requestXML = PayCommonUtil.getRequestXml(parameterMap);
         System.out.println("requestXML===============" + requestXML);
         String result = null;
         try {
-            result = PayCommonUtil.httpsRequestReturn(
+            result = PayCommonUtil.httpsRequestCertificaten(
                     "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers", "POST",
                     requestXML);
         } catch (Exception e) {
@@ -292,7 +288,7 @@ public class PayCommonUtil {
 
 
     /**
-     * 退款的请求微信方法
+     * 请求微信方法 需要证书
      *
      * @param requestUrl
      * @param requestMethod
@@ -300,7 +296,7 @@ public class PayCommonUtil {
      * @return
      * @throws Exception
      */
-    public static String httpsRequestReturn(String requestUrl, String requestMethod, String outputStr) throws Exception {
+    public static String httpsRequestCertificaten(String requestUrl, String requestMethod, String outputStr) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         StringBuilder res = new StringBuilder("");
         FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
@@ -312,7 +308,7 @@ public class PayCommonUtil {
 
         // Trust own CA and all self-signed certs
         SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, "1422893502".toCharArray())
+                .loadKeyMaterial(keyStore, PayCommonUtil.MCH_ID.toCharArray())
                 .build();
         // Allow TLSv1 protocol only
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
