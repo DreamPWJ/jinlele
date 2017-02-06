@@ -45,7 +45,7 @@ public class PayCommonUtil {
      * @param request
      * @return
      */
-    public static Map<String, String> weixinPrePay(String sn, BigDecimal totalAmount, String description, String openid, String randomString,String orderType, HttpServletRequest request) {
+    public static Map<String, String> weixinPrePay(String sn, BigDecimal totalAmount, String description, String openid, String randomString, String orderType, HttpServletRequest request) {
         SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
         parameterMap.put("appid", PayCommonUtil.APPID);
         parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
@@ -86,7 +86,65 @@ public class PayCommonUtil {
         return map;
     }
 
-    //随机字符串生成
+    /**
+     * 企业付款业务是基于微信支付商户平台的资金管理能力，为了协助商户方便地实现企业向个人付款，针对部分有开发能力的商户，提供通过API完成企业付款的功能。
+     * 比如目前的保险行业向客户退保、给付、理赔
+     *
+     * @param sn
+     * @param totalAmount
+     * @param description
+     * @param openid
+     * @param randomString
+     * @param request
+     * @return
+     */
+    public static Map<String, String> weixinEnterprisePayment(String sn, BigDecimal totalAmount, String description, String openid, String randomString, HttpServletRequest request) {
+        SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
+        parameterMap.put("mch_appid", PayCommonUtil.APPID);
+        parameterMap.put("mchid", PayCommonUtil.MCH_ID);// 商户号
+        parameterMap.put("nonce_str", randomString);// 随机字符串
+        parameterMap.put("out_trade_no", sn);// 商户订单号
+        parameterMap.put("openid", openid);// 用户标识
+        parameterMap.put("check_name", "NO_CHECK");// NO_CHECK：不校验真实姓名 FORCE_CHECK：强校验真实姓名（未实名认证的用户会校验失败，无法转账） OPTION_CHECK：针对已实名认证的用户才校验真实姓名（未实名认证用户不校验，可以转账成功）
+        BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0");
+        parameterMap.put("amount", df.format(total));// 支付金额
+
+        parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
+        parameterMap.put("desc", description);//企业付款操作说明信息。必填。
+
+
+        String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
+
+        parameterMap.put("sign", sign);// 签名
+        String requestXML = PayCommonUtil.getRequestXml(parameterMap);
+        System.out.println("requestXML===============" + requestXML);
+        String result = null;
+        try {
+            result = PayCommonUtil.httpsRequestReturn(
+                    "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers", "POST",
+                    requestXML);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("result===============" + result);
+        Map<String, String> map = null;
+        try {
+            map = PayCommonUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 随机字符串生成
+     */
+
     public static String getRandomString(int length) { //length表示生成字符串的长度
         String base = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
@@ -98,7 +156,13 @@ public class PayCommonUtil {
         return sb.toString();
     }
 
-    //请求xml组装
+
+    /**
+     * 请求xml组装
+     *
+     * @param parameters
+     * @return
+     */
     public static String getRequestXml(SortedMap<String, Object> parameters) {
         StringBuffer sb = new StringBuffer();
         sb.append("<xml>");
@@ -118,7 +182,14 @@ public class PayCommonUtil {
         return sb.toString();
     }
 
-    //生成签名
+
+    /**
+     * 生成签名
+     *
+     * @param characterEncoding
+     * @param parameters
+     * @return
+     */
     public static String createSign(String characterEncoding, SortedMap<String, Object> parameters) {
         StringBuffer sb = new StringBuffer();
         Set es = parameters.entrySet();
@@ -167,7 +238,15 @@ public class PayCommonUtil {
         return tenpaySign.equals(resultSign);
     }
 
-    //请求方法
+
+    /**
+     * 请求微信方法
+     *
+     * @param requestUrl
+     * @param requestMethod
+     * @param outputStr
+     * @return
+     */
     public static String httpsRequest(String requestUrl, String requestMethod, String outputStr) {
         try {
 
@@ -211,8 +290,17 @@ public class PayCommonUtil {
         return null;
     }
 
-    //退款的请求方法
-    public static String httpsRequest2(String requestUrl, String requestMethod, String outputStr) throws Exception {
+
+    /**
+     * 退款的请求微信方法
+     *
+     * @param requestUrl
+     * @param requestMethod
+     * @param outputStr
+     * @return
+     * @throws Exception
+     */
+    public static String httpsRequestReturn(String requestUrl, String requestMethod, String outputStr) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         StringBuilder res = new StringBuilder("");
         FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
@@ -224,7 +312,7 @@ public class PayCommonUtil {
 
         // Trust own CA and all self-signed certs
         SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, "1313329201".toCharArray())
+                .loadKeyMaterial(keyStore, "1422893502".toCharArray())
                 .build();
         // Allow TLSv1 protocol only
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
@@ -237,7 +325,7 @@ public class PayCommonUtil {
                 .build();
         try {
 
-            HttpPost httpost = new HttpPost("https://api.mch.weixin.qq.com/secapi/pay/refund");
+            HttpPost httpost = new HttpPost(requestUrl);
             httpost.addHeader("Connection", "keep-alive");
             httpost.addHeader("Accept", "*/*");
             httpost.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -278,7 +366,15 @@ public class PayCommonUtil {
 
     }
 
-    //xml解析
+
+    /**
+     * xml解析
+     *
+     * @param strxml
+     * @return
+     * @throws JDOMException
+     * @throws IOException
+     */
     public static Map doXMLParse(String strxml) throws JDOMException, IOException {
         strxml = strxml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
 
