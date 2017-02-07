@@ -657,6 +657,9 @@ main.content section.submit a {
     text-align: center;
     background: #F5D000;
 }
+.full-image {
+    width: 100%;
+}
 
 main.content section.load {
     width: 100%;

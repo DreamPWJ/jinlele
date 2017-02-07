@@ -3,6 +3,7 @@ package com.jinlele.service.services;
 import com.jinlele.dao.BaseMapper;
 import com.jinlele.dao.GoodCatogoryMapper;
 import com.jinlele.dao.GoodMapper;
+import com.jinlele.dao.ShopBannerMapper;
 import com.jinlele.service.interfaces.IIndexService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
@@ -26,6 +27,8 @@ public class IndexServiceImpl implements IIndexService {
     GoodCatogoryMapper goodCatogoryMapper;
     @Resource
     GoodMapper goodMapper;
+    @Resource
+    ShopBannerMapper shopBannerMapper;
 
     /**
      * 获取首页数据展示
@@ -37,11 +40,14 @@ public class IndexServiceImpl implements IIndexService {
         List firstCatogoryList = goodCatogoryMapper.getFirstCatogory();
         //首页二级分类获取
         List secondCatogoryList = goodCatogoryMapper.getSecondCatogory();
+        //获取所有的海报信息
+        List<Map<String , Object>> banners = shopBannerMapper.listBanners();
         //新品推荐展示
         List newProductsList = goodMapper.getNewProducts();
         indexMap.put("firstCatogory", firstCatogoryList);
         indexMap.put("secondCatogory", secondCatogoryList);
         indexMap.put("newProducts", newProductsList);
+        indexMap.put("banners", banners);
         return indexMap;
     }
 

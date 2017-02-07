@@ -8,11 +8,22 @@ angular.module('starter.controllers', [])
 
     //APP首页面
     .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate) {
-        var swiper = new Swiper('.banner', {
-            pagination: '.spot',
-            paginationClickable: true,
-            autoplay: 3000
-        });
+        function getBanners(arr) {
+            //$(".swiper-wrapper")
+             var html = "";
+             if(arr){
+                 for(var i=0,len=arr.length;i<len;i++){
+                     console.log(arr[i]);
+                     html += "<li class='swiper-slide'><a href=''><img src='"+arr[i].imgurl+"' ></a></li>";
+                 }
+             }
+            $(".banner .swiper-wrapper").html(html);
+            var swiper = new Swiper('.banner', {
+                pagination: '.spot',
+                paginationClickable: true,
+                autoplay: 3000
+            });
+        }
 
         //加载此页面的时候
         //自动读取网页授权接口获取用户的opendId,从而得到用户的信息，得到前台用户的id，这里暂时强制设定用户的id
@@ -21,6 +32,9 @@ angular.module('starter.controllers', [])
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
+            getBanners(data.banners);
+            // console.log(JSON.stringify(data));
+            console.log(JSON.stringify(data.banners));
             localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
             localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
