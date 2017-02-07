@@ -103,7 +103,7 @@ public class PayCommonUtil {
         parameterMap.put("mch_appid", PayCommonUtil.APPID);
         parameterMap.put("mchid", PayCommonUtil.MCH_ID);// 商户号
         parameterMap.put("nonce_str", randomString);// 随机字符串
-        parameterMap.put("out_trade_no", sn);// 商户订单号
+        parameterMap.put("partner_trade_no", sn);// 商户订单号
         parameterMap.put("openid", openid);// 用户标识
         parameterMap.put("check_name", "NO_CHECK");// NO_CHECK：不校验真实姓名 FORCE_CHECK：强校验真实姓名（未实名认证的用户会校验失败，无法转账） OPTION_CHECK：针对已实名认证的用户才校验真实姓名（未实名认证用户不校验，可以转账成功）
         BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
