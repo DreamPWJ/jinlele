@@ -9,7 +9,6 @@ angular.module('starter.controllers', [])
     //APP首页面
     .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate) {
         function getBanners(arr) {
-            //$(".swiper-wrapper")
              var html = "";
              if(arr){
                  for(var i=0,len=arr.length;i<len;i++){
@@ -659,12 +658,18 @@ angular.module('starter.controllers', [])
         }
     }])
     //会员
-    .controller('MemberCtrl', ['$scope', 'MemberService', function ($scope, MemberService) {
+    .controller('MemberCtrl', ['$scope', 'MemberService','WalletService', function ($scope, MemberService ,WalletService) {
         var opendid = localStorage.getItem("openId");
         MemberService.getUserInfo(opendid).success(function (data) {
             $scope.user = data.userInfo;
             //console.log(JSON.stringify(data));
         });
+        $scope.balance = 0;
+        WalletService.getBalance({userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
+            console.log('data==='+JSON.stringify(data));
+            $scope.balance = data.balance;
+        });
+
     }])
 
     //订单列表
@@ -696,8 +701,10 @@ angular.module('starter.controllers', [])
                     $scope.moreFlag = true;
                     console.log("moreFlag ==" + $scope.moreFlag );
                 }
+
             })
         }
+
         $scope.getOrderLists();
 
         $scope.cancleorder = function (orderno) {

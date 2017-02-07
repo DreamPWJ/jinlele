@@ -3,7 +3,7 @@
 	<section class="user">
 		<span class="user_pic"><img src="{{user.headimgurl}}"></span>
 		<h2>{{user.nickname}}</h2>
-		<p>余额：0.00</p>
+		<p>余额：￥{{balance | number : 2}}</p>
 		<section class="user_button">
 			<a ng-href="#/evaluate/exchange"><i class="icon">&#xe602;</i><em>换款</em></a>
 			<a ng-click="weixinPay()"><i class="icon">&#xe67c;</i><em>充值</em></a>
