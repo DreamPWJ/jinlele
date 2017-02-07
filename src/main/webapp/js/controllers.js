@@ -14,7 +14,7 @@ angular.module('starter.controllers', [])
              if(arr){
                  for(var i=0,len=arr.length;i<len;i++){
                      console.log(arr[i]);
-                     html += "<li class='swiper-slide'><a href=''><img src='"+arr[i].imgurl+"' ></a></li>";
+                     html += "<li class='swiper-slide'><a href=''><img src='"+arr[i].imgurl+"'  height='188'></a></li>";
                  }
              }
             $(".banner .swiper-wrapper").html(html);
