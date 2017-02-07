@@ -15,6 +15,7 @@ import com.jinlele.util.weixinUtils.vo.WeiXinOauth2Token;
 import com.jinlele.util.weixinUtils.vo.WeiXinUtil;
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.jdom.JDOMException;
@@ -341,5 +342,22 @@ public class WeiXinController {
         return  signResult;
     }
 
+    /**
+     * 企业付款业务是基于微信支付商户平台的资金管理能力，为了协助商户方便地实现企业向个人付款，针对部分有开发能力的商户，提供通过API完成企业付款的功能。
+     * 比如目前的保险行业向客户退保、给付、理赔
+     *
+     * @param sn    订单号
+     * @param amount 金额
+     * @param description 企业付款操作说明信息
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/weixin/enterprisePayment/{sn}/{amount}/{description}/{openId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> enterprisePayment(@PathVariable String sn, @PathVariable BigDecimal amount, @PathVariable String description, @PathVariable String openId, HttpServletRequest request) {
+        Map<String, String> map = PayCommonUtil.weixinEnterprisePayment(sn, amount, description, openId, randomString, request);
+        System.out.println("企业向个人付款==========="+  JSONObject.fromObject(map));
+        return null;
+    }
 
 }

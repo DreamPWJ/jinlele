@@ -301,7 +301,7 @@ public class PayCommonUtil {
         StringBuilder res = new StringBuilder("");
         FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
         try {
-            keyStore.load(instream, "".toCharArray());
+            keyStore.load(instream, PayCommonUtil.MCH_ID.toCharArray());
         } finally {
             instream.close();
         }
@@ -342,7 +342,7 @@ public class PayCommonUtil {
                 System.out.println(response.getStatusLine());
                 if (entity != null) {
                     System.out.println("Response content length: " + entity.getContentLength());
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"utf-8"));
                     String text = "";
                     res.append(text);
                     while ((text = bufferedReader.readLine()) != null) {
