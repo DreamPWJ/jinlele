@@ -8,6 +8,7 @@ angular.module('starter.controllers', [])
 
     //APP首页面
     .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate) {
+        $scope.rightFlag = false;//右侧栏控制，true显示 false不显示
         function getBanners(arr) {
              var html = "";
              if(arr){
