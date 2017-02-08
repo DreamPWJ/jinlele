@@ -229,13 +229,10 @@
         <dd>
             <em>选择门店：</em>
             <span>
-             <select   ng-model="order.storeId">
+             <select  select2  ng-model="order.storeId" class="form-control" placeholder="请选择门店"  required>
                 <option value="1">金乐乐门店</option>
+                 <!--<option value="{{item.id}}"  ng-repeat="item in stores">{{item.name}}</option>-->
             </select>
-            <!--<select   ng-model="order.storeId" >-->
-                <!--<option value="">请选择</option>-->
-                <!--<option value="{{item.id}}"  ng-repeat="item in stores">{{item.name}}</option>-->
-            <!--</select>-->
             </span>
         </dd>
         <dd>
@@ -299,7 +296,7 @@
         <dd>
             <em>产品材质：</em>
             <span>
-            <select class="" ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)"  required>
+            <select class="form-control" select2  ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" placeholder="请选择材质"  required>
                 <option value="{{item.id}}" ng-repeat="item in firstCatogories"  >{{item.name}}</option>
             </select>
             </span>
@@ -308,7 +305,7 @@
             <em>产品类别：</em>
             <span>
 
-            <select class="" ng-model="product.secondCatogoryId[$index]" required>
+            <select class="form-control" select2  ng-model="product.secondCatogoryId[$index]" placeholder="请选择类别" required>
                 <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
             </select>
             </span>
@@ -337,7 +334,7 @@
 
 <!-- FOOTER -->
 <footer class="submit">
-    <span class="total">合计 {{totalprice | number:2}} </span>
+    <span class="total">合计 {{totalprice | currency:'￥'}} </span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
         <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
