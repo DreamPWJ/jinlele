@@ -1720,10 +1720,20 @@ angular.module('starter.controllers', [])
             userlogisticsno:"", //买方发货单号
             orderstatus:""//订单状态
         };
+        //物流公司
+        $scope.userlogisticsnoConfig= {
+            data: [],
+            placeholder: '请选择物流公司'
+        };
         //去后台查询请求数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
-            $scope.expressArr = data.express;
+            angular.forEach(data.express,function(item,index){
+                var obj={};
+                obj.id=item.number;
+                obj.text=item.company;
+                $scope.userlogisticsnoConfig.data.push(obj);
+            })
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //客户填写物流单号保存

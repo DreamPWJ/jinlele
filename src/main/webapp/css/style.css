@@ -4527,10 +4527,8 @@ section.express ul li u {
 section.express ul li span {
     height: 40px;
     line-height: 40px;
-    font-size: 80%;
     display: block;
     overflow: hidden;
-    padding: 0 70px 0 10px;
 }
 
 section.express ul li span input[type="text"] {
@@ -4539,9 +4537,11 @@ section.express ul li span input[type="text"] {
     float: left;
 }
 
+section.express ul li span input.logisticsno {
+    height:34px;border:1px solid #ccc;border-radius: 4px;font-size:90%;width:70%;margin-right: 20px;padding-left: 10px;
+}
 section.express ul li a {
     height: 40px;
-    float: left;
     line-height: 40px;
     color: #FFF;
     font-size: 80%;
