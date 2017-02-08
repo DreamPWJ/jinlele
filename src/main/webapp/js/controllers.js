@@ -913,10 +913,6 @@ angular.module('starter.controllers', [])
     }])
     //退货
     .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
-        $(function () {
-            $('.default').dropkick();
-            theme:'black'
-        });
         $scope.returnApply = {returntypeCode: "", harvestCode: "", reason: "", memo: "", orderno: $stateParams.id};
         $scope.sub = function () {
             console.log($scope.returnApply);
