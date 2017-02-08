@@ -2,17 +2,8 @@
     <dd>
         <em>订单类型：</em>
         <span>
-                <!---//TODO 样式需要优化-->
-                     <select class="mar" ng-model="type" ng-change="getOrderLists(0)">
-                         <option value="ALL">全部订单</option>
-                         <option value="006">商城订单</option>
-                         <option value="001">翻新订单</option>
-                         <option value="002">维修订单</option>
-                         <option value="003">检测订单</option>
-                         <option value="004">回收订单</option>
-                         <option value="005">换款订单</option>
-                     </select>
-                </span>
+            <input select2 ng-model="type" select2-model="selectedModel" config="config" class="form-control" type="text" ng-change="getOrderLists(0)"/>
+        </span>
     </dd>
 </dl>
 

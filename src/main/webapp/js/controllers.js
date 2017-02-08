@@ -677,6 +677,11 @@ angular.module('starter.controllers', [])
     .controller('OrderListCtrl', ['$rootScope','$scope', '$state','WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
         //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
+        $scope.config = {
+            data: [{id: 'ALL', text: '全部订单'},{id: '001', text: '翻新订单'},{id: '002', text: '维修订单'},{id: '003', text: '检测订单'},{id: '004', text: '回收订单'},{id: '005', text: '换款订单'},{id: '006', text: '商城订单'}],
+            placeholder: '商城订单',
+            minimumResultsForSearch:-1
+        };
         $scope.type = '006';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
