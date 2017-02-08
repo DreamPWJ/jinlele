@@ -227,25 +227,19 @@
             <dd>
                 <em>产品材质：</em>
                 <span>
-                    <select  ng-model="product.firstCatogoryId[$index]" ng-change="getSecondCatogories($index)" required>
-                        <option value="{{item.id}}" ng-repeat="item in firstCatogories">{{item.name}}</option>
-                    </select>
+                    <input select2 ng-model="product.firstCatogoryId[$index]" select2-model="selectedStuff" config="stuffConfig" class="form-control" type="text" ng-change="getSecondCatogories($index)" required/>
                 </span>
             </dd>
             <dd>
                 <em>产品类别：</em>
                 <span>
-                    <select ng-model="product.secondCatogoryId[$index]" required>
-                        <option value="{{item.id}}" ng-repeat="item in secondcatagories['s'+$index]">{{item.name}}</option>
-                    </select>
+                    <input select2 ng-model="product.secondCatogoryId[$index]" select2-model="selectedType" config="typeConfig" class="form-control" type="text" required/>
                 </span>
             </dd>
             <dd>
                 <em>维修项目：</em>
                 <span>
-                    <select ng-model="product.repairItemValue[$index]" required>
-                        <option value="{{item.codevalue}}" ng-repeat="item in repairItems">{{item.dictname}}</option>
-                    </select>
+                    <input select2 ng-model="product.repairItemValue[$index]" select2-model="selectedRepair" config="repairConfig" class="form-control" type="text" required/>
                 </span>
             </dd>
             <dd>

@@ -1282,21 +1282,55 @@ angular.module('starter.controllers', [])
                     num: [],
                     memo: []
                 };
-                //$scope.localflag = true;
+                //材质
+                $scope.stuffConfig= {
+                    data: [],
+                    placeholder: '请选择',
+                    minimumResultsForSearch:-1
+                };
+                //类别
+                $scope.typeConfig= {
+                    data: [],
+                    placeholder: '请选择',
+                    minimumResultsForSearch:-1
+                };
+                //维修项目
+                $scope.repairConfig= {
+                    data: [],
+                    placeholder: '请选择',
+                    minimumResultsForSearch:-1
+                };
                 //遍历一级分类
                 CategoryService.getcatogories().success(function (data) {
-                    $scope.firstCatogories = data.firstList;
-                    console.log(JSON.stringify($scope.firstCatogories))
+                    console.log(JSON.stringify(data.firstList));
+                    angular.forEach(data.firstList,function(item,index){
+                        var obj={};
+                        obj.id=item.id;
+                        obj.text=item.name;
+                        $scope.stuffConfig.data.push(obj);
+                    })
                 });
                 //根据一级分类遍历二级分类
                 $scope.getSecondCatogories = function (index) {
-                    console.log("index==" + index);
                     CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                        $scope.secondcatagories["s" + index] = data;
+                        $scope.product.secondCatogoryId[index] = "";
+                        $scope.typeConfig.data = [];
+                        angular.forEach(data, function (item, index) {
+                            var obj = {};
+                            obj.id = item.id;
+                            obj.text = item.name;
+                            $scope.typeConfig.data.push(obj);
+                        })
                     });
                 }
+                //维修项目
                 CategoryService.getRepairItem({typename: 'repairitem'}).success(function (data) {
-                    $scope.repairItems = data.repairitem;
+                    angular.forEach(data.repairitem,function(item,index){
+                        var obj={};
+                        obj.id=item.id;
+                        obj.text=item.dictname;
+                        $scope.repairConfig.data.push(obj);
+                    })
                 });
                 //计算总数量和总价格
                 $scope.numblur = function () {
