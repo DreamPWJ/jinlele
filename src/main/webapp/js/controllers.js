@@ -1503,7 +1503,7 @@ angular.module('starter.controllers', [])
 
         //生成订单并付款
         $scope.procreceive = function (flag) {
-            if($scope.type.code!='002'&&(!flag && ($scope.type.code!='004'))){ //如果是翻新 检测 换款 维修
+            if($scope.type.code!='002'&&!flag){ //如果是翻新 检测 回收  换款
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
