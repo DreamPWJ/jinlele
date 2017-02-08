@@ -2181,6 +2181,83 @@ angular.module('starter.controllers', [])
         ProcCommitOrderService.getCurrentPrice().success(function(data){
             $scope.dayprice=data.dayprice;
         });
+        //黄金
+        $scope.goldTypeConfig = {
+            data: [{id: '001', text: '首饰'}, {id: '002', text: '金条'}],
+            minimumResultsForSearch: -1
+        };
+        $scope.goldType='001';
+        $scope.goldPurityConfig = {
+            data: [{id: '001', text: '万足金'},{id: '002', text: '千足金'},{id: '003', text: '足金'}],
+            placeholder: '请选择',
+            minimumResultsForSearch:-1
+        };
+        $scope.getGoldPurity=function(type){
+            switch (type){
+                case '001':
+                    $scope.goldPurityConfig.data=[{id: '001', text: '万足金'},{id: '002', text: '千足金'},{id: '003', text: '足金'}];
+                    $scope.goldPurity="";//重置数据
+                    break;
+                case '002':
+                    $scope.goldPurityConfig.data=[{id: '002', text: '千足金'},{id: '003', text: '足金'}];
+                    $scope.goldPurity="";//重置数据
+                    break;
+            }
+        }
+        //铂金
+        $scope.boPurityConfig = {
+            data: [{id: '001', text: 'Pt999'},{id: '002', text: 'Pt990'},{id: '003', text: 'Pt950'},{id: '004', text: 'Pt900'}],
+            placeholder: '请选择',
+            minimumResultsForSearch:-1
+        };
+        //K金
+        $scope.kPurityConfig = {
+            data:  [{id: '001', text: '22K'},{id: '002', text: '18K'},{id: '003', text: '14K'},{id: '004', text: '9K'}],
+            placeholder: '请选择',
+            minimumResultsForSearch:-1
+        };
+        //钯金
+        $scope.baPurityConfig = {
+            data: [{id: '001', text: 'Pd999'},{id: '002', text: 'Pd990'},{id: '003', text: 'Pd950'},{id: '004', text: 'Pd900'}],
+            placeholder: '请选择',
+            minimumResultsForSearch:-1
+        };
+        //白银
+        $scope.silverTypeConfig = {
+            data: [{id: '001', text: '首饰'}, {id: '002', text: '银条'}],
+            placeholder: '请选择',
+            minimumResultsForSearch: -1
+        };
+        $scope.silverType='001';
+        $scope.silverPurityConfig = {
+            data: [{id: '001', text: '千足银'},{id: '002', text: '足银'},{id: '003', text: '925银'}],
+            placeholder: '请选择',
+            minimumResultsForSearch:-1
+        };
+        $scope.getSilverType=function(type){
+            switch (type){
+                case '001':
+                    $scope.silverPurityConfig.data= [{id: '001', text: '千足银'},{id: '002', text: '足银'},{id: '003', text: '925银'}];
+                    $scope.silverPurity="";//重置数据
+                    break;
+                case '002':
+                    $scope.silverPurityConfig.data= [{id: '001', text: '千足银'},{id: '002', text: '足银'}]
+                    $scope.silverPurity="";//重置数据
+                    break;
+            }
+        }
+        //钻石
+        $scope.certificateConfig = {
+            data: [{id: '001', text: 'GIA'}, {id: '002', text: 'IGI'}, {id: '003', text: 'HRD'}, {id: '004', text: 'NGTG'}, {id: '005', text: 'EGL'}, {id: '006', text: '其他'}],
+            placeholder: '请选择',
+            minimumResultsForSearch: -1
+        };
+        $scope.colorConfig = {
+            data: [{id: '001', text: 'D'}, {id: '002', text: 'E'}, {id: '003', text: 'F'}, {id: '004', text: 'G'}, {id: '005', text: 'H'}, {id: '006', text: 'I'},{id: '007', text: 'J'}, {id: '008', text: 'K'}, {id: '009', text: 'L'}, {id: '010', text: 'M'}, {id: '011', text: 'N'}],
+            placeholder: '请选择',
+            minimumResultsForSearch: -1
+        };
+
 
     }])
     //回收--估价结果页面

@@ -691,11 +691,15 @@ main.content section.collection_load {
     float: left;
     padding: 0 0 10px 0;
 }
-/*section.metal dl.parameter dd span select {*/
-    /*width: 100%;*/
-    /*height: 32px;*/
-    /*font-size: 80%;*/
-/*}*/
+section.metal dl.parameter dd span input {
+    font-size: 80%;
+}
+section.metal dl.parameter dd span a {
+    font-size: 80%;
+}
+section.metal dl.parameter dd span a span {
+    line-height: 25px;
+}
 /*select {*/
     /*width: 100%;*/
     /*height: 32px;*/

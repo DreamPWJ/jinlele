@@ -118,24 +118,15 @@
                         <em>克</em>
                     </dd>
                     <dd>
-                        <u>纯度：</u>
+                        <u>类型：</u>
                         <span>
-                        <select class="">
-                            <option value="">请选择</option>
-                            <option  value='万足金'>万足金</option>
-                            <option  value='千足金' selected="selected">千足金</option>
-                            <option  value='足金'>足金</option>
-                        </select>
+                            <input select2 ng-model="goldType" select2-model="selectedGoldType" config="goldTypeConfig" class="form-control" type="text" ng-change="getGoldPurity(goldType)"/>
                         </span>
                     </dd>
                     <dd>
-                        <u>类型：</u>
+                        <u>纯度：</u>
                         <span>
-                        <select class="">
-                            <option value="">请选择</option>
-                            <option value='首饰' class="selected">首饰</option>
-                            <option value='金条'>金条</option>
-                        </select>
+                            <input select2 ng-model="goldPurity" select2-model="selectedGoldPurity" config="goldPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
                 </dl>
@@ -156,22 +147,9 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="">
-                            <option  value='Pt999'>Pt999</option>
-                            <option  value='Pt990' selected="selected">Pt990</option>
-                            <option  value='Pt950'>Pt950</option>
-                            <option  value='Pt900'>Pt900</option>
-                        </select>
+                            <input select2 ng-model="boPurity" select2-model="selectedBoPurity" config="boPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
-                    <!--<dd>-->
-                    <!--<u>类型：</u>-->
-                    <!--<span>-->
-                    <!--<select class="">-->
-                    <!--<option value="">请选择</option>-->
-                    <!--</select>-->
-                    <!--</span>-->
-                    <!--</dd>-->
                 </dl>
                 <section class="load parameter_buttom">
                     <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
@@ -190,28 +168,9 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="">
-                            <option  value='18K'>18K</option>
-                            <option  value='14K' selected="selected">14K</option>
-                            <option  value='9K'>9K</option>
-                        </select>
+                            <input select2 ng-model="kPurity" select2-model="selectedKPurity" config="kPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
-                    <!--<dd>-->
-                    <!--<u>类型：</u>-->
-                    <!--<span>-->
-                    <!--<select class="">-->
-                    <!--<option value="">请选择</option>-->
-                    <!--</select>-->
-                    <!--</span>-->
-                    <!--</dd> <!--<dd>-->
-                    <!--<u>类型：</u>-->
-                    <!--<span>-->
-                    <!--<select class="">-->
-                    <!--<option value="">请选择</option>-->
-                    <!--</select>-->
-                    <!--</span>-->
-                    <!--</dd>-->
                 </dl>
                 <section class="load parameter_buttom">
                     <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
@@ -231,20 +190,7 @@
                     <dd>
                         <u>纯度：</u>
                         <span>
-                        <select class="">
-                            <option  value='Pd999'>Pd999</option>
-                            <option  value='Pd950' selected="selected">Pd950</option>
-                            <option  value='Pd900'>Pd900</option>
-                        </select>
-                        </span>
-                    </dd>
-                    <dd>
-                        <u>类型：</u>
-                        <span>
-                        <select class="">
-                            <option value='首饰金'class="selected">首饰金</option>
-                            <option value='投资金'>投资金</option>
-                        </select>
+                            <input select2 ng-model="baPurity" select2-model="selectedBaPurity" config="baPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
                 </dl>
@@ -263,23 +209,15 @@
                         <em>克</em>
                     </dd>
                     <dd>
-                        <u>纯度：</u>
+                        <u>类型：</u>
                         <span>
-                        <select class="">
-                            <option  value='千足银'>千足银</option>
-                            <option  value='足银' selected="selected">足银</option>
-                            <option  value='925银'>925银</option>
-                        </select>
+                            <input select2 ng-model="silverType" select2-model="selectedSilverType" config="silverTypeConfig" class="form-control" type="text" ng-change="getSilverType(silverType)"/>
                         </span>
                     </dd>
                     <dd>
-                        <u>类型：</u>
+                        <u>纯度：</u>
                         <span>
-                        <select class="">
-                            <option value="">请选择</option>
-                            <option value='首饰'class="selected">首饰</option>
-                            <option value='银条'>银条</option>
-                        </select>
+                            <input select2 ng-model="silverPurity" select2-model="selectedSilverPurity" config="silverPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
                 </dl>
@@ -331,42 +269,13 @@
             <dd>
                 <u>证书：</u>
                 <span>
-                <select class="">
-                    <option value="">请选择</option>
-                    <option value='GIA'>GIA</option>
-                    <option value='IGI'>IGI</option>
-                    <option value='HRD'>HRD</option>
-                    <option value='EGL'>EGL</option>
-                </select>
-                </span>
-            </dd>
-            <dd>
-                <u>形状：</u>
-                <span>
-                <select class="">
-                    <option value="">请选择</option>
-                    <option value="圆形">圆形</option>
-                    <option value="异形">异形</option>
-                </select>
+                    <input select2 ng-model="certificate" select2-model="selectedCertificate" config="certificateConfig" class="form-control" type="text"/>
                 </span>
             </dd>
             <dd>
                 <u>颜色：</u>
                 <span>
-                <select class="">
-                    <option value="">请选择</option>
-                    <option value='D'>D</option>
-                    <option value='E'>E</option>
-                    <option value='F'>F</option>
-                    <option value='G'>G</option>
-                    <option value='H'>H</option>
-                    <option value='I'>I</option>
-                    <option value='J'>J</option>
-                    <option value='K'>K</option>
-                    <option value='L'>L</option>
-                    <option value='M'>M</option>
-                    <option value='N'>N</option>
-                </select>
+                    <input select2 ng-model="color" select2-model="selectedColor" config="colorConfig" class="form-control" type="text"/>
                 </span>
             </dd>
             <dd>
