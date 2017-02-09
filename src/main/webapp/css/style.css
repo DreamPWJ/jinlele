@@ -696,6 +696,7 @@ section.metal dl.parameter dd span input {
 }
 section.metal dl.parameter dd span a {
     font-size: 80%;
+    padding-left: 10px;
 }
 section.metal dl.parameter dd span a span {
     line-height: 25px;
@@ -4827,6 +4828,7 @@ section.metal dl.parameter dd u {
     line-height: 40px;
     font-size: 80%;
     text-decoration: none;
+    text-align: center;
 }
 
 section.metal dl.parameter dd span {
@@ -4842,19 +4844,24 @@ section.metal dl.parameter dd span input[type="text"] {
     float: left;
     line-height: 32px;
     font-size: 80%;
+    border:1px solid #ccc;
+    padding-left: 10px;
+    border-radius: 4px;
 }
 
 section.metal dl.parameter dd em {
-    height: 26px;
-    line-height: 26px;
+    height: 32px;
+    line-height: 32px;
     display: block;
     padding: 0 15px;
     font-size: 80%;
     font-style: normal;
     position: absolute;
-    top: 7px;
+    top: 5px;
     right: 0px;
-    border-left: 1px solid rgba(0, 0, 0, 0.06);
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-radius: 0 2px 2px 0;
 }
 
 section.metal dl.parameter dd span.check {

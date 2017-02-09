@@ -114,7 +114,7 @@
                     <dt>请输入贵金属参数</dt>
                     <dd>
                         <u>克重：</u>
-                        <span><input placeholder="请填写" type="text"></span>
+                        <span><input ng-model="goldWeight" placeholder="请填写" type="text"/></span>
                         <em>克</em>
                     </dd>
                     <dd>
@@ -131,7 +131,8 @@
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
+                    <a ng-click="appraise(0)">估价</a>
+                    <!--<a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>-->
                 </section>
             </section>
 
@@ -231,7 +232,7 @@
         <section class="gold">
             <span class="title">今日金价</span>
             <ul>
-                <li ng-repeat="item in dayprice">{{item.name}}：{{item.price}}元/克</li>
+                <li ng-repeat='item in dayprice| filter: {name: "!18K金"}'>{{item.name}}：{{item.price}}元/克</li>
             </ul>
             <p>注：金价以上交所当天为准，回收价格只需要减掉折旧费用。</p>
         </section>
