@@ -1,10 +1,7 @@
 package com.jinlele.service.services;
 
 import com.jinlele.dao.*;
-import com.jinlele.model.GoodChild;
-import com.jinlele.model.ReceiptAddress;
-import com.jinlele.model.ShopOrder;
-import com.jinlele.model.ShopOrderGood;
+import com.jinlele.model.*;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.util.CommonUtil;
@@ -40,6 +37,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Resource
     ShopOrderGoodMapper shopOrderGoodMapper;
+
+    @Resource
+    GoodMapper goodMapper;
 
     @Resource
     GoodChildMapper goodChildMapper;
@@ -122,10 +122,14 @@ public class OrderServiceImpl implements IOrderService {
                     shopOrderGoodMapper.insertSelective(ordergood);
                     //删除购物车中下单的数据
                     cartMapper.deleteByPrimaryKey(cartId);
-                    //减少库存数量
+                    //减少子库存数量
                     GoodChild goodChild = goodChildMapper.selectByPrimaryKey(goodchildId);
                     goodChild.setStocknumber(goodChild.getStocknumber() - num);
                     goodChildMapper.updateByPrimaryKeySelective(goodChild);
+                    //减少总库存数量
+                    Good good =goodMapper.selectByPrimaryKey(goodChild.getGoodId());
+                    good.setStocknum(good.getStocknum()-num);
+                    goodMapper.updateByPrimaryKeySelective(good);
                 }
                 resultMap.put("errmsg", "ok");
 
