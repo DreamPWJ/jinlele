@@ -682,7 +682,7 @@ angular.module('starter.controllers', [])
             placeholder: '商城订单',
             minimumResultsForSearch:-1
         };
-        $scope.type = '006';
+        $scope.type = 'ALL';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
@@ -1046,7 +1046,7 @@ angular.module('starter.controllers', [])
         $rootScope.commonService=CommonService;
         $scope.opendisabled = false;//关闭禁用状态
         $scope.active=true;//按钮激活样式
-        $scope.paracont = "获取验证码";
+        $scope.btninfo = "获取验证码";
         $scope.user={};
         //查询是否存在手机号码，存在则不再绑定
         MemberService.getUserInfo( localStorage.getItem("openId")).success(function(data){
@@ -1059,27 +1059,27 @@ angular.module('starter.controllers', [])
         });
         //获取验证码
         $scope.getMsgcode=function(phoneNumber){
-            //倒计时
-            var timerCount=60,timePromise = undefined;
-            timePromise = $interval(function(){
-                if(timerCount<=0){
-                    $interval.cancel(timePromise);
-                    timePromise = undefined;
-                    $scope.paracont = "重新获取";
-                    $scope.opendisabled = false;//关闭禁用状态
-                    $scope.active=true;//按钮激活样式
-                }else{
-                    $scope.paracont = timerCount + "s后再次获取";
-                    timerCount--;
-                    $scope.opendisabled = true;//打开禁用状态
-                    $scope.active=false;//关闭激活样式
-
-                }
-            },1000,100);
             //验证手机号码格式，发送验证码
             var reg = /^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
             var flag = reg.test(phoneNumber);
             if (flag){
+                //倒计时
+                var timerCount=60,timePromise = undefined;
+                timePromise = $interval(function(){
+                    if(timerCount<=0){
+                        $interval.cancel(timePromise);
+                        timePromise = undefined;
+                        $scope.btninfo = "重新获取";
+                        $scope.opendisabled = false;//关闭禁用状态
+                        $scope.active=true;//按钮激活样式
+                    }else{
+                        $scope.btninfo = timerCount + "s后再次获取";
+                        timerCount--;
+                        $scope.opendisabled = true;//打开禁用状态
+                        $scope.active=false;//关闭激活样式
+
+                    }
+                },1000,100);
                 MemberService.getCheckcode({phonenumber:phoneNumber}).success(function(data){
                     switch (data.result){
                         case "发送失败":

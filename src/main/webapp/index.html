@@ -22,7 +22,20 @@
 <!--全局提示框-->
 <tool-tip   message="commonService.message" type="commonService.type"></tool-tip>
 <div ui-view></div>
-
+<!-- 菜单栏 -->
+<section class="menu_bg" ng-class="{true:'show_menu',false:'hide_menu'}[rightFlag]" ng-click="rightFlag=!rightFlag">
+    <!-- menu_bg 起始状态  show_menu 显示  hide_menu 隐藏 -->
+    <a class="icon menu_tion" href=""><i class="iconfont icon-add" style="color:#fff;font-weight:bold ;"></i></a>
+        <span class="menu_nav">
+            <a href="#/main"><img src="images/column@_07.png"></a>
+            <a href="#/shoppingcart"><img src="images/column@_06.png"></a>
+            <a href="#/procphoto/refurbish"><img src="images/column@_01.png"></a>
+            <a href="#/procphoto/repair"><img src="images/column@_02.png"></a>
+            <a href="#/procphoto/detect"><img src="images/column@_03.png"></a>
+            <a href="#/evaluate/recycle"><img src="images/column@_04.png"></a>
+            <a href="#/evaluate/exchange"><img src="images/column@_05.png"></a>
+        </span>
+</section>
 </body>
 </html>
 

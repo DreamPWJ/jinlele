@@ -17,7 +17,7 @@
     <section class="numbers" ng-if="showinfo">
         <section class="code_button">
             <span><input placeholder="短信验证码" type="text" ng-model="user.code"></span>
-            <em><a href="javascript:void(0);" ng-click="opendisabled||getMsgcode(user.phone)" ng-disabled="opendisabled" ng-class="{hover:active}" >{{paracont}}</a></em>
+            <em><a href="javascript:void(0);" ng-click="opendisabled||getMsgcode(user.phone)" ng-disabled="opendisabled" ng-class="{hover:active}" >{{btninfo}}</a></em>
         </section>
     </section>
     <section class="submit" ng-if="showinfo"><a href="" ng-click="bindingphone(user.phone,user.code)">确认绑定</a></section>
