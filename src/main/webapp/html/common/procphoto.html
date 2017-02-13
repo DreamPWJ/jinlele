@@ -260,10 +260,11 @@
             <!--<wx-img ng-repeat="per in localIds"></wx-img>-->
             <li ng-repeat="per in localIds">
                 <span><wx-img></wx-img></span>
-                <a class="icon" href="">&#xe721;</a>
+                <a class="icon" ng-click="delThis($index)">&#xe62c;</a>
             </li>
             <li ng-click="wxchooseImage()"><i class="iconfont icon-add"></i></li>
         </ul>
+        <p>注：最多上传5张图片</p>
     </section>
 
     <!-- 翻新案例 -->

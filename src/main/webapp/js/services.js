@@ -907,10 +907,10 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxchooseImage: function (callback) { //拍照或从手机相册中选图接口
+            wxchooseImage: function (callback,count) { //拍照或从手机相册中选图接口
                 WeiXinService = this;
                 wx.chooseImage({
-                    count: 6, // 默认9
+                    count: count, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (results) {

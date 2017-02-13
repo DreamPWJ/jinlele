@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+﻿angular.module('starter.controllers', [])
     .config(function ($httpProvider) { //统一配置设置
         //服务注册到$httpProvider.interceptors中  用于接口授权
         $httpProvider.interceptors.push('MyInterceptor');
@@ -672,7 +672,6 @@ angular.module('starter.controllers', [])
         });
 
     }])
-
     //订单列表
     .controller('OrderListCtrl', ['$rootScope','$scope', '$state','WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
         //通过config接口注入权限验证配置
@@ -1258,7 +1257,37 @@ angular.module('starter.controllers', [])
         $scope.pagetheme = $stateParams.name;
         $scope.localflag = false;
         $scope.localIds = [];// 上传图片的微信路径 数组
-        WeiXinService.mediaIds = []; //置空媒体id数组
+        WeiXinService.mediaIds = []; //媒体id数组
+        $scope.imgSrcs=[];//显示的图片src数组
+        $scope.count=0;//记录图片src总数
+        $scope.perUploadNumber=5;//每次上传数量
+        //上传图片
+        $scope.wxchooseImage = function () {
+            if($scope.count<5) {
+                //通过config接口注入权限验证配置
+                WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+                //通过ready接口处理成功验证
+                wx.ready(function () {
+                    WeiXinService.wxchooseImage(function (localIds) {
+                        for (var i = 0; i < localIds.length; i++) {
+                            $scope.imgSrcs.push(localIds[i]);
+                        }
+                        $scope.count = $scope.imgSrcs.length;
+                        $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
+                        $scope.localIds = $scope.imgSrcs;
+                        $scope.$apply();
+                    }, $scope.perUploadNumber)
+                })
+            }else{
+                CommonService.toolTip("最多上传五张图片", "");
+            }
+        }
+        $scope.delThis=function(index){
+            $scope.imgSrcs.splice(index,1);
+            WeiXinService.mediaIds.splice(index,1);
+            $scope.count = $scope.imgSrcs.length;
+            $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
+        }
         $scope.type = "";//服务类型 001翻新
         $scope.service = {  //服务实体
             price:0 , //价格
@@ -1355,17 +1384,6 @@ angular.module('starter.controllers', [])
                 break;
             default :
                 break;
-        }
-        $scope.wxchooseImage = function () {
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
-                WeiXinService.wxchooseImage(function (localIds) {
-                    $scope.localIds = localIds;
-                    $scope.$apply();
-                })
-            })
         }
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
