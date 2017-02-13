@@ -50,21 +50,12 @@ public class ServiceOrderController {
     }
 
     /**
-     * 维修订单生成
-     * @param userId
-     * @param totalnum
-     * @param products
-     * @param descrip
-     * @param type
-     * @param storeId
-     * @param mediaIds
-     * @return
-     * @throws IOException
+     * 创建维修订单
      */
     @ResponseBody
-    @RequestMapping("/saveRepairOrder")
-    public Map<String , Object> saveRepairOrder(Integer userId ,Integer totalnum,String products , String descrip , String type , Integer storeId , String[] mediaIds) throws IOException {
-        return  serviceOrderService.saveRepairOrder(userId ,totalnum,products , descrip , type , storeId , mediaIds);
+    @RequestMapping(value = "/saveRepairOrder",method = RequestMethod.POST)
+    public Map<String , Object> saveRepairOrder(@RequestBody List<Map<String,Object>> list) {
+        return  serviceOrderService.saveRepairOrder(list);
     }
 
     /**

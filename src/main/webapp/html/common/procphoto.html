@@ -222,33 +222,33 @@
     </section>
 
     <!-- 产品信息 -->
-    <div ng-repeat="items in productArr" ng-switch-when="repair">
+    <div ng-switch-when="repair">
         <dl class="add_product">
             <dd>
                 <em>产品材质：</em>
                 <span>
-                    <input select2 ng-model="product.firstCatogoryId[$index]" select2-model="selectedStuff" config="stuffConfig" class="form-control" type="text" ng-change="getSecondCatogories($index)" required/>
+                    <input select2 ng-model="product.firstCatogoryId" select2-model="selectedStuff" config="stuffConfig" class="form-control" type="text" ng-change="getSecondCategories(product.firstCatogoryId)" required/>
                 </span>
             </dd>
             <dd>
                 <em>产品类别：</em>
                 <span>
-                    <input select2 ng-model="product.secondCatogoryId[$index]" select2-model="selectedType" config="typeConfig" class="form-control" type="text" required/>
+                    <input select2 ng-model="product.secondCatogoryId" select2-model="selectedType" config="typeConfig" class="form-control" type="text" required/>
                 </span>
             </dd>
             <dd>
                 <em>维修项目：</em>
                 <span>
-                    <input select2 ng-model="product.repairItemValue[$index]" select2-model="selectedRepair" config="repairConfig" class="form-control" type="text" required/>
+                    <input select2 ng-model="product.repairItemValue" select2-model="selectedRepair" config="repairConfig" class="form-control" type="text" required/>
                 </span>
             </dd>
             <dd>
                 <em>数量：</em>
-                <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')" required></span>
+                <span><input placeholder="数量" type="text" ng-model="product.num" ng-blur="numblur()" check-form ng-change="checkForm(product.num,'数量填写有误','positivenumber','')" required></span>
             </dd>
             <dd>
                 <em>备注：</em>
-                <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]" required></span>
+                <span><input placeholder="备注内容..." type="text" ng-model="product.memo" required></span>
             </dd>
         </dl>
     </div>
@@ -260,9 +260,9 @@
             <!--<wx-img ng-repeat="per in localIds"></wx-img>-->
             <li ng-repeat="per in localIds">
                 <span><wx-img></wx-img></span>
-                <a class="icon" ng-click="delThis($index)">&#xe62c;</a>
+                <a class="icon" ng-click="delthisImage($index)">&#xe721;</a>
             </li>
-            <li ng-click="wxchooseImage()"><i class="iconfont icon-add"></i></li>
+            <li ng-click="wxchooseImage()"><i class="icon">&#xe62c;</i></li>
         </ul>
         <p>注：最多上传5张图片</p>
     </section>

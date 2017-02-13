@@ -34,8 +34,8 @@ public class ServiceController {
    // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
     @RequestMapping("/saveService")
     @ResponseBody
-    public Map<String , Object> saveService(Integer userId , Double aturalprice , String descrip , String type , Integer storeId , String[] mediaIds) throws IOException {
-        return  serviceService.saveService(userId ,aturalprice ,descrip , type,storeId,mediaIds);
+    public Map<String , Object> saveService(Integer userId , Double aturalprice ,String type , String[] mediaIds) throws IOException {
+        return serviceService.saveService(userId, aturalprice, type, mediaIds);
     }
 
     /**

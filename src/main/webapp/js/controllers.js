@@ -1282,16 +1282,18 @@
                 CommonService.toolTip("最多上传五张图片", "");
             }
         }
-        $scope.delThis=function(index){
+        //删除图片
+        $scope.delthisImage=function(index){
             $scope.imgSrcs.splice(index,1);
             WeiXinService.mediaIds.splice(index,1);
             $scope.count = $scope.imgSrcs.length;
             $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
         }
-        $scope.type = "";//服务类型 001翻新
-        $scope.service = {  //服务实体
-            price:0 , //价格
-            descrip: ""    //描述
+        //根据路由获取服务类型代码
+        $scope.typeCode = ProcCommitOrderService.getType($scope.pagetheme).code;
+        //服务类实体
+        $scope.service = {
+            price: 0  //价格
         };
         switch ($scope.pagetheme) {
             case "refurbish"://翻新
@@ -1302,53 +1304,65 @@
                 break;
             case "repair"://维修
                 $scope.secondcatagories = [];
-                $scope.productArr = [];
-                $scope.productArr.push(0);
                 $scope.product = {
-                    firstCatogoryId: [],//一级分类id
-                    secondCatogoryId: [], //二级分类id
-                    repairItemValue: [],//维修项目
-                    num: [],
-                    memo: []
+                    firstCatogoryId: "",//一级分类id
+                    secondCatogoryId: "", //二级分类id
+                    repairItemValue: "",//维修项目
+                    num: "",
+                    memo: ""
                 };
                 //材质
                 $scope.stuffConfig= {
                     data: [],
-                    placeholder: '请选择',
                     minimumResultsForSearch:-1
                 };
                 //类别
                 $scope.typeConfig= {
                     data: [],
-                    placeholder: '请选择',
                     minimumResultsForSearch:-1
                 };
                 //维修项目
                 $scope.repairConfig= {
                     data: [],
-                    placeholder: '请选择',
                     minimumResultsForSearch:-1
                 };
-                //遍历一级分类
-                CategoryService.getcatogories().success(function (data) {
+                //一级分类
+                CategoryService.getCategories().success(function (data) {
                     console.log(JSON.stringify(data.firstList));
                     angular.forEach(data.firstList,function(item,index){
                         var obj={};
                         obj.id=item.id;
                         obj.text=item.name;
                         $scope.stuffConfig.data.push(obj);
-                    })
-                });
-                //根据一级分类遍历二级分类
-                $scope.getSecondCatogories = function (index) {
-                    CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                        $scope.product.secondCatogoryId[index] = "";
+                        if(index==0){
+                            $scope.product.firstCatogoryId=item.id;
+                        }
+                    });
+                    CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId).success(function (data) {
                         $scope.typeConfig.data = [];
                         angular.forEach(data, function (item, index) {
                             var obj = {};
                             obj.id = item.id;
                             obj.text = item.name;
                             $scope.typeConfig.data.push(obj);
+                            if(index==0){
+                                $scope.product.secondCatogoryId=item.id;
+                            }
+                        })
+                    });
+                });
+                //根据一级分类获取二级分类
+                $scope.getSecondCategories = function (firstCatogoryId) {
+                    CategoryService.getSecondCatogByPid(firstCatogoryId).success(function (data) {
+                        $scope.typeConfig.data = [];
+                        angular.forEach(data, function (item, index) {
+                            var obj = {};
+                            obj.id = item.id;
+                            obj.text = item.name;
+                            $scope.typeConfig.data.push(obj);
+                            if(index==0){
+                                $scope.product.secondCatogoryId=item.id;
+                            }
                         })
                     });
                 }
@@ -1359,17 +1373,15 @@
                         obj.id=item.id;
                         obj.text=item.dictname;
                         $scope.repairConfig.data.push(obj);
+                        if(index==0){
+                            $scope.product.repairItemValue=item.id;
+                        }
                     })
                 });
                 //计算总数量和总价格
                 $scope.numblur = function () {
                     //遍历
-                    $scope.totalnum = 0;
-                    if ($scope.product.num.length > 0) {
-                        for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-                            $scope.totalnum += $scope.product.num[i] * 1;
-                        }
-                    }
+                    $scope.totalnum = $scope.product.num;
                     console.log(" $scope.totalnum ==" + $scope.totalnum);
                 }
                 break;
@@ -1393,32 +1405,22 @@
                 CommonService.toolTip("请上传图片" ,"");
                 return;
             }
-            if ($scope.service.descrip == "") {
-                CommonService.toolTip("请填写商品描述" ,"");
-                return;
-            }
-            //获取根据路由获取服务类型
-            $scope.typeCode = ProcCommitOrderService.getType($scope.pagetheme).code;
-            //①前台去上传图片的到微信并返回媒体Id 放入集合中
-            //通过config接口注入权限验证配置
-
-            //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径
-            // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
             $scope.params = {
                 userId: localStorage.getItem("jinlele_userId"),
                 mediaIds: WeiXinService.mediaIds,
-                descrip: $scope.service.descrip,
-                storeId: 1,//暂时设定门店id为1 ，以后会根据地理位置动态获取
                 type: $scope.typeCode //上传类型 翻新001维修002检测003回收004换款005
             };
             switch ($scope.typeCode){
                 case "002"://如果是维修，需要传入产品信息
-                    $scope.params.products = JSON.stringify($scope.product);
+                    $scope.repairInfo=[];
+                    $scope.params.products =[];
+                    $scope.params.products.push($scope.product);
                     $scope.params.totalnum = $scope.totalnum;
+                    $scope.repairInfo.push($scope.params);
                     console.log("$scope.pagetheme =="+ $scope.pagetheme);
                     console.log("$scope.typeCode =="+ $scope.typeCode);
-                    console.log(JSON.stringify($scope.params));
-                    ProcPhotoService.saveRepairOrder($scope.params).success(function (data) {
+                    console.log(JSON.stringify($scope.repairInfo));
+                    ProcPhotoService.saveRepairOrder($scope.repairInfo).success(function (data) {
                         console.log('data=='+JSON.stringify(data));
                         if (data) {
                             // var serviceId = data.serviceId;
@@ -1523,7 +1525,7 @@
         });
 
         //遍历一级分类
-        CategoryService.getcatogories().success(function (data) {
+        CategoryService.getCategories().success(function (data) {
             $scope.firstCatogories = data.firstList;
             console.log(JSON.stringify($scope.firstCatogories))
         });

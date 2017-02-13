@@ -45,6 +45,68 @@ public class ShopOrder {
 
     private String payResult;
 
+    public ShopOrder() {
+    }
+
+    public ShopOrder(String orderno,String type,Integer userId,Integer storeId,Double totalprice,Integer receiptAddressId){
+        this.orderno = orderno;
+        this.type = type;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.totalprice = totalprice;
+        this.receiptAddressId = receiptAddressId;
+    }
+
+    public ShopOrder(String orderno,Double actualpayprice,String orderstatus,String payresult,Date endtime) {
+        this.orderno = orderno;
+        this.actualpayprice=actualpayprice;
+        this.shoporderstatuscode = orderstatus;
+        this.payResult = payresult;
+        this.updateTime=endtime;
+    }
+
+    public ShopOrder(String orderno,  Integer totalnum, Integer userId,  String type,String shoporderstatuscode , Date orderTime) {
+        this.orderno = orderno;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.createTime = orderTime;
+    }
+
+    public ShopOrder(String orderno,  Integer totalnum, Integer userId, Integer storeId, String type,String shoporderstatuscode , Date orderTime) {
+        this.orderno = orderno;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.createTime = orderTime;
+    }
+
+    public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
+        this.orderno = orderno;
+        this.totalprice = totalprice;
+        this.totalnum = totalnum;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.receiptAddressId = receiptAddressId;
+        this.deletecode = deletecode;
+    }
+
+    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId ,Date createTime) {
+        this.orderno = orderno;
+        this.totalnum = totalnum;
+        this.totalprice = totalprice;
+        this.actualpayprice = actualpayprice;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+        this.receiptAddressId = receiptAddressId;
+        this.createTime = createTime;
+    }
+
     public String getOrderno() {
         return orderno;
     }
@@ -211,58 +273,5 @@ public class ShopOrder {
 
     public void setPayResult(String payResult) {
         this.payResult = payResult == null ? null : payResult.trim();
-    }
-
-    public ShopOrder() {
-    }
-
-    public ShopOrder(String orderno,String type,Integer userId,Integer storeId,Double totalprice,Integer receiptAddressId){
-        this.orderno = orderno;
-        this.type = type;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.totalprice = totalprice;
-        this.receiptAddressId = receiptAddressId;
-    }
-
-    public ShopOrder(String orderno,Double actualpayprice,String orderstatus,String payresult,Date endtime) {
-        this.orderno = orderno;
-        this.actualpayprice=actualpayprice;
-        this.shoporderstatuscode = orderstatus;
-        this.payResult = payresult;
-        this.updateTime=endtime;
-    }
-    public ShopOrder(String orderno,  Integer totalnum, Integer userId, Integer storeId, String type,String shoporderstatuscode , Date orderTime) {
-        this.orderno = orderno;
-        this.totalnum = totalnum;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.type = type;
-        this.shoporderstatuscode = shoporderstatuscode;
-        this.createTime = orderTime;
-    }
-
-    public ShopOrder(String orderno, Double totalprice, Integer totalnum, Integer userId, Integer storeId, Integer receiptAddressId,String deletecode) {
-        this.orderno = orderno;
-        this.totalprice = totalprice;
-        this.totalnum = totalnum;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.receiptAddressId = receiptAddressId;
-        this.deletecode = deletecode;
-    }
-
-
-    public ShopOrder(String orderno,Integer totalnum ,Double totalprice, Double actualpayprice, Integer userId, Integer storeId, String type, String shoporderstatuscode, Integer receiptAddressId ,Date createTime) {
-        this.orderno = orderno;
-        this.totalnum = totalnum;
-        this.totalprice = totalprice;
-        this.actualpayprice = actualpayprice;
-        this.userId = userId;
-        this.storeId = storeId;
-        this.type = type;
-        this.shoporderstatuscode = shoporderstatuscode;
-        this.receiptAddressId = receiptAddressId;
-        this.createTime = createTime;
     }
 }

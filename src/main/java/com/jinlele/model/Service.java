@@ -59,6 +59,10 @@ public class Service {
         this.descrip = descrip;
         this.storeId = storeId;
     }
+    public Service( Integer userId, String orderNo) {
+        this.userId = userId;
+        this.orderNo = orderNo;
+    }
     public Service( Integer userId, String orderNo,String descrip, Integer storeId) {
         this.userId = userId;
         this.orderNo = orderNo;

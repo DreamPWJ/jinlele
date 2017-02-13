@@ -87,88 +87,82 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         return map;
     }
 
-
     /**
-     * 维修订单 : 生成订单表 服务表 产品表  图片表  服务_图片中间表
-     * @param userId
-     * @param totalnum
-     * @param products
-     * @param descrip
-     * @param type
-     * @param storeId
-     * @param mediaIds
-     * @return
-     * @throws IOException
+     * 创建维修订单
      */
     @Override
-    public Map<String, Object> saveRepairOrder(Integer userId,Integer totalnum, String products, String descrip, String type, Integer storeId, String[] mediaIds) throws IOException {
+    public Map<String, Object> saveRepairOrder(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
         //循环下载媒体文件 上传到七牛 并返回 七牛的连接
         String filePath = null;
         String key = null;
         String imgurl = null;
         Picture picture = null;
-        //生成维修服务订单表
-        String orderno = StringHelper.getOrderNum();  //生成订单号
-        Date orderTime = new Date();
-        String shoporderstatus = type + "001";
-        ShopOrder order  = new ShopOrder(orderno ,totalnum,  userId,  storeId, type, shoporderstatus , orderTime);
-        try {
-            order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-        shopOrderMapper.insertSelective(order);
-        //保存服务表
-        Service service = new Service(userId ,orderno , descrip , storeId); //暂时设定门店为1，以后会动态获取
-        serviceMapper.insertSelective(service);
-        Map<String , Object> map = new HashedMap();
-        ServicePicture servicePicture = null;
-        for(int i=0,len=mediaIds.length;i<len;i++){
-            filePath = AdvancedUtil.getMedia(mediaIds[i] , savePath);
-            key = key_suff + mediaIds[i];
-            QiniuUtil.upload(filePath,key);
-            //拼接七牛的路径
-            imgurl = QiniuParamter.URL + key;
-            //保存图片表
-            picture = new Picture(imgurl , userId);
-            pictureMapper.insertSelective(picture);
-            //插入中间表
-            servicePicture = new ServicePicture(service.getId(), picture.getId() , type);
-            servicePictureMapper.insertSelective(servicePicture);
-            //删除服务器上的该文件
-            StringHelper.deleteFile(filePath);
-        }
-        //保存订单表 保存产品表
-        //循环新增产品表
-        // JSONObject json = JSONObject.fromObject(products.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONObect  对象，json 对象值使用""双引号存储
-        JSONObject json = JSONObject.fromObject(products.replaceAll("&quot;","\"")); // 首先把字符串转成 JSONObect  对象，json 对象值使用""双引号存储
-        Product product = null;
-        JSONArray array1 = json.getJSONArray("firstCatogoryId");
-        JSONArray array2 = json.getJSONArray("secondCatogoryId");
-        JSONArray array3 = json.getJSONArray("num");
-        JSONArray array4 = json.getJSONArray("memo");
-        JSONArray array5 = json.getJSONArray("repairItemValue");
-        for(int i=0;i<array1.size();i++){
-            Integer  catogoryId =  array2.getInt(i);
-            Integer num = array3.getInt(i);
-            String memo = array4.getString(i);
-            product = new Product(catogoryId , type , service.getId() ,num , memo);
-            product.setRepairitem(array5.getString(i));//维修项目类型
-            //保存服务类商品
-            productMapper.insertSelective(product);
-        }
-        map.put("orderno" , orderno);
-        map.put("serviceId" , service.getId());
-        return map;
-    }
+        //订单号生成
+        String orderno = StringHelper.getOrderNum();
+        //一条总数据
+        for (Map<String, Object> repairInfo : list) {
+            Integer userId = Integer.valueOf(repairInfo.get("userId").toString());//用户id
+            String type = repairInfo.get("type").toString();//业务类型type
+            Integer totalnum = Integer.valueOf(repairInfo.get("totalnum").toString());//总数量
+            List<String> mediaIds = (List)repairInfo.get("mediaIds");//媒体id数组
+            List<Map<String, Object>> products = (List) repairInfo.get("products");//产品信息
+            //生成维修服务订单表
+            Date orderTime = new Date();
+            String shoporderstatus = type + "001";
+            ShopOrder order  = new ShopOrder(orderno ,totalnum,  userId, type, shoporderstatus , orderTime);
+            try {
+                order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+            shopOrderMapper.insertSelective(order);
+            //保存服务表
+            Service service = new Service(userId ,orderno);
+            serviceMapper.insertSelective(service);
+            ServicePicture servicePicture = null;
+            for(int i=0,len=mediaIds.size();i<len;i++){
+                filePath = AdvancedUtil.getMedia(mediaIds.get(i) , savePath);
+                key = key_suff + mediaIds.get(i);
+                try {
+                    QiniuUtil.upload(filePath,key);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //拼接七牛的路径
+                imgurl = QiniuParamter.URL + key;
+                //保存图片表
+                picture = new Picture(imgurl , userId);
+                pictureMapper.insertSelective(picture);
+                //插入中间表
+                servicePicture = new ServicePicture(service.getId(), picture.getId() , type);
+                servicePictureMapper.insertSelective(servicePicture);
+                //删除服务器上的该文件
+                StringHelper.deleteFile(filePath);
+            }
+            Product product = null;
+            for (Map<String, Object> detailInfo : products) {
+                Integer catogoryId = Integer.valueOf(detailInfo.get("secondCatogoryId").toString());
+                String repairItemValue = detailInfo.get("repairItemValue").toString();
+                Integer num = Integer.valueOf(detailInfo.get("num").toString());
+                String memo = detailInfo.get("memo").toString();
 
+                product = new Product(catogoryId , type , service.getId() ,num , memo);
+                product.setRepairitem(repairItemValue);//维修项目类型
+                //保存服务类商品
+                productMapper.insertSelective(product);
+            }
+            resultMap.put("orderno" , orderno);
+            resultMap.put("serviceId" , service.getId());
+        }
+        return resultMap;
+    }
 
 
     @Override
     public Map<String, Object> updateRepair(List<Map<String, Object>> list) {
-        System.out.print("1111111111sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss======================");
         Map<String, Object> resultMap = new HashedMap();
         //一条总数据
         for (Map<String, Object> confirmInfo : list) {

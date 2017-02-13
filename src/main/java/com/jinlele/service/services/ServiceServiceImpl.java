@@ -36,14 +36,16 @@ public class ServiceServiceImpl implements IServiceService {
     ServicePictureMapper servicePictureMapper;
 
     @Override
-    public Map<String , Object> saveService(Integer userId, Double aturalprice, String descrip, String type , Integer storeId, String[] mediaIds) throws IOException {
+    public Map<String , Object> saveService(Integer userId, Double aturalprice, String type ,String[] mediaIds) throws IOException {
         //循环下载媒体文件 上传到七牛 并返回 七牛的连接
         String filePath = null;
         String key = null;
         String imgurl = null;
         Picture picture = null;
         //保存服务表
-        Service service = new Service(aturalprice , userId , descrip , storeId); //暂时设定门店为1，以后会动态获取
+        Service service = new Service();
+        service.setAturalprice(aturalprice);
+        service.setUserId(userId);
         serviceMapper.insertSelective(service);
         Map<String , Object> map = new HashedMap();
         ServicePicture servicePicture = null;
