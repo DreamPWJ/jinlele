@@ -357,6 +357,7 @@ public class OrderServiceImpl implements IOrderService {
     //充值成功后,修改订单表，虚拟账户表，账户明细表
     @Override
     public void updateRechargetSuccess(ShopOrder order) {
+        order.setUpdateTime(new Date());
         orderMapper.updateByPrimaryKeySelective(order);
         //根据订单号 查询得到用户用户id
         Integer userId = orderMapper.getUserIdByOrderno(order.getOrderno());
@@ -367,6 +368,7 @@ public class OrderServiceImpl implements IOrderService {
         balance = balance + order.getActualpayprice();
         Wallet wallet = new Wallet(walletno, balance, new Date());
         //更新账户余额
+        wallet.setUpdateTime(new Date());
         walletMapper.updateByPrimaryKeySelective(wallet);//更新虚拟账户
         //新增提现充值记录明细表
         Paymentdetail paymentdetail = new Paymentdetail();

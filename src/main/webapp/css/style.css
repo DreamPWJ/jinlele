@@ -2970,6 +2970,28 @@ section.list_take section.money span.money_title {
     height: 36px;
     float: left;
 }
+section.list_take section.money span.money_title2 {
+    height: 36px;
+    float: right;
+}
+
+section.list_take section.money span.money_title2 em {
+    height: 36px;
+    float: left;
+    font-style: normal;
+    line-height: 36px;
+    color: #FE2E2E;
+    font-size: 22px;
+}
+section.list_take section.money span.money_title2 i {
+    height: 30px;
+    float: left;
+    font-style: normal;
+    line-height: 36px;
+    font-size: 66%;
+    padding: 3px 0 0 10px;
+}
+
 
 section.list_take section.money span.money_title em {
     height: 36px;

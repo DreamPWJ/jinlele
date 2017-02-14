@@ -6,21 +6,22 @@
 		<p>暂无数据</p>
 	</div>
 
-    <section class="list_take" ng-repeat="item in arr | orderBy : '-createTime'">
+    <section class="list_take" ng-repeat="item in walletdetailArr | orderBy : '-createTime'">
     	<section class="title">
-        	<em>提现金额</em>
-			<u>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'  }}</u>
-
+        	<em>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'  }}</em>
+			<em>{{item.changeMoney>0 ? '收入' : '支出'}}</em>
 		</section>
         <section class="money">
-        	<span class="money_title">
-            	<em>{{item.money}}</em>
+        	<span class="money_title2">
+            	<em ng-if="item.changeMoney>0"><span style="color:green"> {{'+'+item.changeMoney}}</span></em>
+            	<em ng-if="item.changeMoney<0"><span style="color:red"> {{'-'+item.changeMoney}}</span></em>
             	<i>元</i>
             </span>
+        	<u>{{item.dealname}}</u>
         </section>
 	</section>
 
-	<!--<section class="load"><a href="">加载更多</a></section>-->
+	<section class="collection_load" ng-click="getData()" ng-if="moreDataFlag"><a href="">加载更多</a></section>
 </main>
 
 <footer class="bottom">

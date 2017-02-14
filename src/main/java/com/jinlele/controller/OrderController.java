@@ -4,6 +4,7 @@ import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.ICommentService;
 import com.jinlele.service.interfaces.IOrderService;
+import com.jinlele.service.interfaces.IPaymentdetailService;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import com.jinlele.util.KdniaoTrackQueryAPI;
 import net.sf.json.JSONObject;
@@ -30,6 +31,9 @@ public class OrderController {
 
     @Resource
     ICommentService commentService;
+
+    @Resource
+    IPaymentdetailService paymentdetailService;
 
     /**
      * 分页获取购物车数据
@@ -196,7 +200,7 @@ public class OrderController {
     public Map<String, Object> update(ShopOrder order) {
         Map<String , Object> map = new HashedMap();
         int n = orderService.updateByPrimaryKeySelective(order);
-       map.put("n" ,n);
+        map.put("n" ,n);
         return map;
     }
 
@@ -242,6 +246,14 @@ public class OrderController {
     @RequestMapping(value = "/getRechargeResult/{orderno}")
     public Map<String , Object>  getRechargeResult(@PathVariable String orderno){
         return orderService.getRechargeResult(orderno);
+    }
 
+    /**
+     * 查询账户充值提现明细
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getwalletDetail/{pagenow}/{userId}")
+    public Map<String , Object>  getwalletDetail(@PathVariable int pagenow, @PathVariable Integer userId){
+        return paymentdetailService.getPayDetailListPaging(pagenow, userId);
     }
 }

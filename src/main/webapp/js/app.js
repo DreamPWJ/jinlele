@@ -188,6 +188,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/rechargeOK.html',
                 controller: 'RechargeOKCtrl'
             })
+            .state('walletdetail', {  //换款-更多款式
+                url: '/walletdetail',
+                templateUrl: 'html/walletdetail.html',
+                controller: 'WalletdetailCtrl'
+            })
 
         $urlRouterProvider.otherwise('main')
     })

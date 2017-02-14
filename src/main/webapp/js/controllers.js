@@ -929,6 +929,33 @@
             console.log($scope.returnApply);
         }
     })
+
+    //虚拟账户明细
+    .controller('WalletdetailCtrl', function ($scope, WalletService) {
+        console.log(1);
+        $scope.noDataFlag = false;  //暂无数据标示
+        // $scope.rmFid = "";
+        // $scope.rmIndex = 0;
+        $scope.walletdetailArr = [];
+        $scope.page = 0;//当前页数
+        $scope.moreDataFlag = false; //是否显示 加载更多的点击按钮
+        $scope.getData = function () {
+            $scope.noDataFlag = false;
+            $scope.page++;
+            WalletService.getWalletdetail({pagenow:$scope.page, userId:localStorage.getItem("jinlele_userId")}).success(function (data) {
+                if(data.myrows == 0) {
+                    $scope.noDataFlag = true;
+                    return;
+                }
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.walletdetailArr.push(item);
+                })
+                $scope.moreDataFlag = (data.myrows > $scope.walletdetailArr.length) ?  true : false;
+            })
+        }
+        $scope.getData();
+    })
+
     //充值成功页面
     .controller('RechargeOKCtrl', function ($scope, $stateParams, $rootScope, CommonService, WalletService) {
             $scope.resultFlag = false;//充值结果
