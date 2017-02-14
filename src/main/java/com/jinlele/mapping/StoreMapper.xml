@@ -141,6 +141,7 @@
 
   <!--查询所有的门店列表-->
   <select id="findAll" resultType="map">
-       select id ,name from store where deleteCode = '001'
+    SELECT id,name,address,SQRT(POW(111.2 * (lat - #{0}), 2) +POW(111.2 * (#{1} - lan) * COS(lat / 57.3), 2)) AS distance
+    FROM store where deleteCode = '001'  ORDER BY distance;
   </select>
 </mapper>

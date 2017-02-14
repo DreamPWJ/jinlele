@@ -322,13 +322,13 @@ angular.module('starter.services', [])
     //翻新等服务提交订单的页面Service
     .service('ProcCommitOrderService', function ($q, $http, JinLeLe) {
         return {
-            //添加购物车
-            findAllStores: function () { //商品
+            //门店
+            findAllStores: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/store/findAllStores",
+                    url: JinLeLe.api + "/store/findAllStores/"+ params.latitude + '/' + params.longitude
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

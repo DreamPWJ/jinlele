@@ -2,6 +2,7 @@ package com.jinlele.controller;
 
 import com.jinlele.service.interfaces.IStoreService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
@@ -18,9 +19,9 @@ public class StoreController {
     @Resource
     IStoreService storeService;
 
-    @RequestMapping("/findAllStores")
     @ResponseBody
-    public List<Map<String , Object>> findAllStores(){
-          return  storeService.findAllStores();
+    @RequestMapping("/findAllStores/{latitude}/{longitude}")
+    public List<Map<String , Object>> findAllStores(@PathVariable String latitude,@PathVariable String longitude){
+          return  storeService.findAllStores(latitude,longitude);
     }
 }

@@ -1468,6 +1468,11 @@
     })
     //流程- 提交订单(翻新，检测，回收业务生成订单并付款，维修业务更新订单信息)
     .controller('ProcCommitOrderCtrl', function ( $rootScope,$scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService ,CommonService) {
+        WeiXinService.wxgetLocation();
+        console.log('latitude:'+localStorage.getItem('latitude'));
+        console.log('longitude:'+localStorage.getItem('longitude'));
+        console.log(typeof localStorage.getItem('latitude'));
+        console.log(typeof localStorage.getItem('longitude'));
         $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice") || 0;
@@ -1484,6 +1489,7 @@
         $scope.show = false; //用户控制地址显示
         $scope.order = {
             storeId: "",
+            address:"",
             sendway: "001",
             getway: "001",
             totalprice: 0
@@ -1525,19 +1531,29 @@
             data: [],
             minimumResultsForSearch:-1
         };
+
         //所有门店数据
-        ProcCommitOrderService.findAllStores().success(function (data) {
+        ProcCommitOrderService.findAllStores({latitude:angular.isString(localStorage.getItem('latitude'))?localStorage.getItem('latitude'):0,longitude:angular.isString(localStorage.getItem('longitude'))?localStorage.getItem('longitude'):0}).success(function (data) {
             $scope.stores = data;
             angular.forEach(data,function(item,index){
                 var obj={};
                 obj.id=item.id;
                 obj.text=item.name;
+                obj.address=item.address;
                 $scope.storeConfig.data.push(obj);
                 if(index==0){
                     $scope.order.storeId=item.id;
+                    $scope.order.address=item.address;
                 }
             });
         });
+        $scope.getStoreAddress=function(storeid){
+            angular.forEach($scope.storeConfig.data,function(item,index){
+                if(item.id==storeid){
+                    $scope.order.address=item.address;
+                }
+            });
+        }
         $scope.product = {
             firstCatogoryId: "",//一级分类id
             secondCatogoryId: "", //二级分类id

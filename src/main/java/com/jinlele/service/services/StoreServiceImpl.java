@@ -15,7 +15,7 @@ public class StoreServiceImpl implements IStoreService {
     private StoreMapper storeMapper;
 
     @Override
-    public List findAllStores() {
-        return storeMapper.findAll();
+    public List findAllStores(String latitude,String longitude) {
+        return storeMapper.findAll(latitude,longitude);
     }
 }

@@ -17,5 +17,5 @@ public interface StoreMapper {
 
     int updateByPrimaryKey(Store record);
 
-    List findAll();
+    List findAll(String latitude,String longitude);
 }

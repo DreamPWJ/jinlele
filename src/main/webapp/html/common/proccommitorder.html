@@ -255,13 +255,13 @@
             <dd>
                 <em>选择门店：</em>
                 <span>
-                    <input select2 ng-model="order.storeId" select2-model="selectedStore" config="storeConfig" class="form-control" type="text" required/>
+                    <input select2 ng-model="order.storeId" select2-model="selectedStore" config="storeConfig" class="form-control" type="text" ng-change="getStoreAddress(order.storeId)" required/>
                 </span>
             </dd>
         </dl>
         <section class="address add" >
             <a href="">
-                <p>门店地址：你师父那时候复健科客人富士康你看你好可怜上课时候</p>
+                <p>门店地址：{{order.address}}</p>
             </a>
         </section>
         <!-- 收货地址 -->
