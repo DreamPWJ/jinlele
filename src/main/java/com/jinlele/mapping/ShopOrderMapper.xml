@@ -328,4 +328,19 @@ select p.url from order_picture op
 join picture p on op.picture_id=p.id
 where p.deleteCode='001' and order_no=#{orderno}
   </select>
+
+  <!--根据订单号查询用户id-->
+  <select id="getUserIdByOrderno" resultType="Integer" parameterType="java.lang.String">
+    select user_id from shoporder where orderno = #{orderno}
+  </select>
+
+  <!--查询充值结果-->
+  <select id="getRechargeResult" parameterType="java.lang.String" resultType="Map">
+    select
+    actualpayprice,
+    pay_result,
+    shoporderstatusCode
+    from shoporder where orderno = #{orderno}
+  </select>
+
 </mapper>

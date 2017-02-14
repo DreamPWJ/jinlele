@@ -69,4 +69,13 @@ public interface IOrderService {
 
     //获取拍照邮寄图片
     Map<String,Object> getPostbackImg(String orderno);
+
+    //生成充值订单
+    Map<String , Object> saveRechargeOrder(Integer userId, Double rechargeMoney);
+
+    //充值成功后,修改订单表，虚拟账户表，账户明细表
+    void updateRechargetSuccess(ShopOrder order);
+
+    //查询充值结果
+    Map<String,Object> getRechargeResult(String orderno);
 }

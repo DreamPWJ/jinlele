@@ -39,4 +39,9 @@ public interface ShopOrderMapper {
 
     //获取拍照邮寄图片
     List getPostbackImg(String orderno);
+
+    //根据订单号查询用户id
+    Integer getUserIdByOrderno(String orderno);
+
+    Map<String, Object> getRechargeResult(String orderno);
 }

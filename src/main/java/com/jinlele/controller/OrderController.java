@@ -225,4 +225,23 @@ public class OrderController {
         return orderService.getPostbackImg(orderno);
     }
 
+    /**
+     * 生成充值订单
+     */
+    @ResponseBody
+    @RequestMapping(value = "/saveRechargeOrder/{userId}/{rechargeMoney}")
+    public Map<String , Object>  saveRechargeOrder(@PathVariable Integer userId , @PathVariable Double rechargeMoney){
+        return orderService.saveRechargeOrder(userId , rechargeMoney);
+
+    }
+
+    /**
+     * 查询充值结果
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getRechargeResult/{orderno}")
+    public Map<String , Object>  getRechargeResult(@PathVariable String orderno){
+        return orderService.getRechargeResult(orderno);
+
+    }
 }

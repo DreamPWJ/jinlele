@@ -178,6 +178,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/exchange/morestyle.html',
                 controller: 'MoreStyleCtrl'
             })
+            .state('recharge', {  //换款-更多款式
+                url: '/recharge',
+                templateUrl: 'html/recharge.html',
+                controller: 'RechargeCtrl'
+            })
+            .state('rechargeOK', {  //换款-更多款式
+                url: '/rechargeOK/:orderno',
+                templateUrl: 'html/rechargeOK.html',
+                controller: 'RechargeOKCtrl'
+            })
 
         $urlRouterProvider.otherwise('main')
     })

@@ -53,6 +53,12 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     ServiceMapper serviceMapper;
 
+    @Resource
+    WalletMapper walletMapper;
+
+    @Resource
+    PaymentdetailMapper paymentdetailMapper;
+
     @Override
     public ShopOrder selectByPrimaryKey(String orderno) {
         return orderMapper.selectByPrimaryKey(orderno);
@@ -69,7 +75,7 @@ public class OrderServiceImpl implements IOrderService {
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
         if("ALL".equals(type)) {
-            paramMap.put("wherecase", " deleteCode='001'  and user_id=" + userid);
+            paramMap.put("wherecase", " deleteCode='001' and type!='007' and user_id=" + userid);
         }else{
             paramMap.put("wherecase", " deleteCode='001' and  type = " + type + " and user_id="+userid);
         }
@@ -330,5 +336,50 @@ public class OrderServiceImpl implements IOrderService {
         Map<String, Object> result = new HashMap<>();
         result.put("image",orderMapper.getPostbackImg(orderno));
         return result;
+    }
+
+    @Override
+    public Map<String , Object> saveRechargeOrder(Integer userId, Double rechargeMoney) {
+        Map<String , Object> map = new HashMap<>();
+        String orderno = StringHelper.getOrderNum();
+        String type = "007";//007代表的是充值订单
+        String orderstatus = "007001";//007001 代表已下单
+        ShopOrder order = new ShopOrder( orderno, rechargeMoney, userId, type, orderstatus);
+        int n = orderMapper.insertSelective(order);
+        map.put("orderno" , orderno);
+        map.put("type" , type);
+        map.put("orderstatus" , orderstatus);
+        map.put("price" , rechargeMoney);
+        map.put("n" , n);
+        return map;
+    }
+
+    //充值成功后,修改订单表，虚拟账户表，账户明细表
+    @Override
+    public void updateRechargetSuccess(ShopOrder order) {
+        orderMapper.updateByPrimaryKeySelective(order);
+        //根据订单号 查询得到用户用户id
+        Integer userId = orderMapper.getUserIdByOrderno(order.getOrderno());
+        //根据用户id 查询得到账户名称和余额
+        Map<String, Object> map = walletMapper.getWalletByUserId(userId);
+        Double balance = (Double) map.get("balance");
+        String walletno = (String) map.get("walletno");
+        balance = balance + order.getActualpayprice();
+        Wallet wallet = new Wallet(walletno, balance, new Date());
+        //更新账户余额
+        walletMapper.updateByPrimaryKeySelective(wallet);//更新虚拟账户
+        //新增提现充值记录明细表
+        Paymentdetail paymentdetail = new Paymentdetail();
+        paymentdetail.setWalletNo(walletno);
+        paymentdetail.setChangemoney(order.getActualpayprice());
+        paymentdetail.setBalance(balance);
+        paymentdetail.setMemo("会员自己充值,来自充值订单:"+order.getOrderno());
+        paymentdetailMapper.insertSelective(paymentdetail);
+
+    }
+
+    //查询充值结果
+    public Map<String,Object> getRechargeResult(String orderno){
+        return  orderMapper.getRechargeResult(orderno);
     }
 }

@@ -15,7 +15,6 @@ import com.jinlele.util.weixinUtils.vo.WeiXinOauth2Token;
 import com.jinlele.util.weixinUtils.vo.WeiXinUtil;
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.jdom.JDOMException;
@@ -312,16 +311,24 @@ public class WeiXinController {
                         }
                         order=new ShopOrder(orderno,total_fee,orderstatus,"003",s.parse(finishtime));
                         shopOrder.setUpdateTime(s.parse(finishtime));//支付完成时间
-                    } catch (ParseException e) {
+                       if(!"007".equals(orderType)){
+                           orderService.updateByPrimaryKeySelective(order);
+                       }else{
+                           //更新充值订单 修改账户余额  新增账户余额明细
+                           orderService.updateRechargetSuccess(order);
+                       }
+                    }catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    orderService.updateByPrimaryKeySelective(order);
                     signResult = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[验签成功]]></return_msg></xml>";
                 } else {
                     //支付失败：维持订单状态 未付款，支付结果通知  已处理且支付失败
                     order=new ShopOrder();
                     order.setOrderno(orderno);
                     order.setPayResult("002");
+                    if("007".equals(orderType)){
+                        order.setShoporderstatuscode("007003");//充值订单状态改成 充值失败
+                    }
                     orderService.updateByPrimaryKeySelective(order);
                     signResult = "<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[验签失败]]></return_msg></xml>";
                 }
