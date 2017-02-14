@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="wallet_no" property="walletNo" jdbcType="VARCHAR" />
     <result column="changeMoney" property="changemoney" jdbcType="DOUBLE" />
+    <result column="balance" property="balance" jdbcType="DOUBLE" />
     <result column="dealcode" property="dealcode" jdbcType="VARCHAR" />
     <result column="memo" property="memo" jdbcType="VARCHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -12,7 +13,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, wallet_no, changeMoney, dealcode, memo, deleteCode, create_time, update_time
+    id, wallet_no, changeMoney, balance, dealcode, memo, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,11 +27,13 @@
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Paymentdetail" >
     insert into paymentdetail (id, wallet_no, changeMoney, 
-      dealcode, memo, deleteCode, 
-      create_time, update_time)
+      balance, dealcode, memo, 
+      deleteCode, create_time, update_time
+      )
     values (#{id,jdbcType=INTEGER}, #{walletNo,jdbcType=VARCHAR}, #{changemoney,jdbcType=DOUBLE}, 
-      #{dealcode,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{balance,jdbcType=DOUBLE}, #{dealcode,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Paymentdetail" >
     insert into paymentdetail
@@ -43,6 +46,9 @@
       </if>
       <if test="changemoney != null" >
         changeMoney,
+      </if>
+      <if test="balance != null" >
+        balance,
       </if>
       <if test="dealcode != null" >
         dealcode,
@@ -70,6 +76,9 @@
       <if test="changemoney != null" >
         #{changemoney,jdbcType=DOUBLE},
       </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DOUBLE},
+      </if>
       <if test="dealcode != null" >
         #{dealcode,jdbcType=VARCHAR},
       </if>
@@ -96,6 +105,9 @@
       <if test="changemoney != null" >
         changeMoney = #{changemoney,jdbcType=DOUBLE},
       </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DOUBLE},
+      </if>
       <if test="dealcode != null" >
         dealcode = #{dealcode,jdbcType=VARCHAR},
       </if>
@@ -118,6 +130,7 @@
     update paymentdetail
     set wallet_no = #{walletNo,jdbcType=VARCHAR},
       changeMoney = #{changemoney,jdbcType=DOUBLE},
+      balance = #{balance,jdbcType=DOUBLE},
       dealcode = #{dealcode,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},

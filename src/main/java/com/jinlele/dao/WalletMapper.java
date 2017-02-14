@@ -2,6 +2,8 @@ package com.jinlele.dao;
 
 import com.jinlele.model.Wallet;
 
+import java.util.Map;
+
 public interface WalletMapper {
     int deleteByPrimaryKey(String walletno);
 
@@ -18,6 +20,8 @@ public interface WalletMapper {
     String selectWalletByUserId(Integer userId);
 
     Double selectWalletBalanceByUserId(Integer userId);
+
+    Map<String, Object> getWalletByUserId(Integer userId);
 
 
 }

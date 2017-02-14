@@ -1,0 +1,23 @@
+<main class="content">
+	<span class="wallet">
+        <i class="icon">&#xe6bd;</i>
+		<div ng-if="resultFlag">
+			 <em>充值成功</em>
+        	<em>充值金额：{{price}}(元)</em>
+		</div>
+		<div ng-if="!resultFlag">
+			 <em>充值失败</em>
+		 </div>
+		<em></em>
+    	<!--<a href="#/cashdetail">提现</a>-->
+    	<a ng-click="cashApply()">历史账户明细</a>
+    	<a ng-href="#/member">返回</a>
+    </span>
+</main>
+
+<footer class="bottom">
+	<a href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
+	<a href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
+	<a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em></a>
+	<a class="hover" href=""><i class="icon">&#xe625;</i><em>会员</em></a>
+</footer>

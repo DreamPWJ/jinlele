@@ -929,6 +929,75 @@
             console.log($scope.returnApply);
         }
     })
+    //充值成功页面
+    .controller('RechargeOKCtrl', function ($scope, $stateParams, $rootScope, CommonService, WalletService) {
+            $scope.resultFlag = false;//充值结果
+            $scope.orderno =  $stateParams.orderno;
+            console.log('$stateParams.orderno=='+$stateParams.orderno);
+            //{"totalprice":50.0,"pay_result":"001","shoporderstatusCode":"007001"}
+
+
+             WalletService.getRechargeResult({orderno:$scope.orderno})
+            .success(function (data) {
+                console.log("DATA=="+JSON.stringify(data));
+                if(data.pay_result=='003'){
+                    $scope.resultFlag = true;
+                    $scope.price = data.actualpayprice;
+                }else{
+                    $scope.resultFlag = false;
+                }
+            })
+    })
+    //充值页面
+    .controller('RechargeCtrl', function ($scope, $stateParams, $rootScope, CommonService, WalletService, $state, WeiXinService) {
+        $rootScope.commonService=CommonService;
+        $scope.rechargeMoney = "";
+        $scope.submit = function () {
+            if(!$scope.rechargeMoney){
+                CommonService.toolTip("充值金额不能为空", "");
+                return;
+            }
+            WalletService.saveRechargeOrder({userId:localStorage.getItem("jinlele_userId"),rechargeMoney:$scope.rechargeMoney})
+                .success(function (data) {
+                    if(data && data.n==1){
+                        console.log("充值data=="+JSON.stringify(data));
+                        $scope.weixinPay(data.orderno, data.price, data.type, data.orderstatus);
+                    }else{
+                        CommonService.toolTip("网络异常", "");
+                        return;
+                    }
+                }).error(function (res) {
+                    console.log(JSON.stringify(res));
+                    CommonService.toolTip("网络异常", "");
+                });
+        }
+
+        //微信支付调用
+        $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
+            $scope.param = {
+                totalprice: 0.01, //totalprice
+                orderNo: orderno,
+                descrip: '六唯壹珠宝',
+                openid: localStorage.getItem("openId"),
+                orderType:JSON.stringify({type:ordertype})
+            };
+            //调用微信支付服务器端接口
+            WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                    .then(function (msg) {
+                        switch (msg) {
+                            case "get_brand_wcpay_request:ok":
+                                CommonService.toolTip("支付成功","tool-tip-message-success");
+                                //调用支付后，跳转订单详情
+                                break;
+                            default :
+                                break;
+                        }
+                        $state.go("rechargeOK", {orderno: orderno});
+                    });
+            })
+        }
+    })
     //我的钱包
     .controller('WalletCtrl', function ($scope ,WalletService , $state ,$rootScope ,CommonService) {
         $rootScope.commonService=CommonService;

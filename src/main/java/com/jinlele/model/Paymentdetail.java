@@ -9,6 +9,8 @@ public class Paymentdetail {
 
     private Double changemoney;
 
+    private Double balance;
+
     private String dealcode;
 
     private String memo;
@@ -41,6 +43,14 @@ public class Paymentdetail {
 
     public void setChangemoney(Double changemoney) {
         this.changemoney = changemoney;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public String getDealcode() {

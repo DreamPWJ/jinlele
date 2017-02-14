@@ -47,6 +47,14 @@ public class ShopOrder {
 
     public ShopOrder() {
     }
+    public ShopOrder(String orderno, Double totalprice, Integer userId, String type ,String shoporderstatuscode) {
+        this.orderno = orderno;
+        this.totalprice = totalprice;
+        this.userId = userId;
+        this.type = type;
+        this.shoporderstatuscode = shoporderstatuscode;
+    }
+
 
     public ShopOrder(String orderno,String type,Integer userId,Integer storeId,Double totalprice,Integer receiptAddressId){
         this.orderno = orderno;
@@ -274,4 +282,8 @@ public class ShopOrder {
     public void setPayResult(String payResult) {
         this.payResult = payResult == null ? null : payResult.trim();
     }
+
+
+
+
 }

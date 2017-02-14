@@ -130,4 +130,6 @@
   <select id="listBanners" resultType="Map">
     select positon,imgurl,id,create_time from shop_banner where deleteCode = '001' and shown = '001'
   </select>
+
+
 </mapper>

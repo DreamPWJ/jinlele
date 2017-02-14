@@ -25,6 +25,12 @@ public class Wallet {
         this.userId = userId;
     }
 
+    public Wallet(String walletno, Double balance, Date updateTime) {
+        this.walletno = walletno;
+        this.balance = balance;
+        this.updateTime = updateTime;
+    }
+
     public String getWalletno() {
         return walletno;
     }
