@@ -7,7 +7,7 @@
 
 
     //APP首页面
-    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', 'CartService',function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate,CartService) {
         $scope.rightFlag = false;//右侧栏控制，true显示 false不显示
         function getBanners(arr) {
              var html = "";
@@ -87,11 +87,13 @@
             })
         }
         $scope.getNewProducts();
-
+        CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
+            $scope.cartTotalNum=data.totalnum;
+        });
     }])
 
     //分类tab
-    .controller('CategoryCtrl', function ($scope, $stateParams, $window, CategoryService, ResizeService) {
+    .controller('CategoryCtrl',['$scope', '$stateParams', '$window', 'CategoryService', 'ResizeService','CartService', function ($scope, $stateParams, $window, CategoryService, ResizeService,CartService) {
         ResizeService.autoHeight();
         $window.onresize = ResizeService.autoHeight;
         $scope.init = {
@@ -115,13 +117,16 @@
             }
         };
         //初始加载
-        CategoryService.getcatogories().success(function (data) {
+        CategoryService.getCategories().success(function (data) {
             $scope.catogory = data.firstList;
         });
         //初始加载二级分类和下面的产品列表
         $scope.init.getSecondCatogories($stateParams.id);
         $scope.catogoryid = $stateParams.id;
-    })
+        CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
+            $scope.cartTotalNum=data.totalnum;
+        });
+    }])
 
 
     //登录页面
@@ -659,7 +664,7 @@
         }
     }])
     //会员
-    .controller('MemberCtrl', ['$scope', 'MemberService','WalletService', function ($scope, MemberService ,WalletService) {
+    .controller('MemberCtrl', ['$scope', 'MemberService','WalletService','CartService', function ($scope, MemberService ,WalletService,CartService) {
         var opendid = localStorage.getItem("openId");
         MemberService.getUserInfo(opendid).success(function (data) {
             $scope.user = data.userInfo;
@@ -670,7 +675,9 @@
             console.log('data==='+JSON.stringify(data));
             $scope.balance = data.balance;
         });
-
+        CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
+            $scope.cartTotalNum=data.totalnum;
+        });
     }])
     //订单列表
     .controller('OrderListCtrl', ['$rootScope','$scope', '$state','WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
@@ -908,6 +915,11 @@
                     }
                     break;
             }
+        }
+        $scope.previewImg=function(src){
+            var imgArray = [];
+            imgArray.push(src);
+            WeiXinService.wxpreviewImage(src,imgArray);
         }
     }])
     //退货

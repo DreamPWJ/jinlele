@@ -45,6 +45,18 @@ public class OrderController {
     }
 
     /**
+     * 获取用户加入购车商品总数量
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getCartTotalNum/{userId}")
+    public Map<String, Object> getCartTotalNum(@PathVariable int userId) {
+        Map<String, Object> resultMap = new HashedMap();
+        int totalnum = shoppingCartService.getShopcharTotalNum(userId);
+        resultMap.put("totalnum" , totalnum);
+        return resultMap;
+    }
+
+    /**
      * 更新或添加购物车
      * @param cart  购物车
      * @return   购物车商品数量

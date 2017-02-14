@@ -458,6 +458,20 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
+            //获取购物车中商品数量
+            getCartTotalNum: function (params) { //商品
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/order/getCartTotalNum/" + params.userid
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
             //删除购物车数据
             deleteCart:function(params){//商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
@@ -895,7 +909,7 @@ angular.module('starter.services', [])
                     timestamp: timestamp, // 必填，生成签名的时间戳
                     nonceStr: nonceStr, // 必填，生成签名的随机串
                     signature: signature,// 必填，签名，见附录1
-                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    jsApiList: ['checkJsApi', 'chooseImage', 'uploadImage', 'openAddress', 'getLocation', 'scanQRCode', 'onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareQZone','previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 });
             },
             wxcheckJsApi: function () { //判断当前客户端版本是否支持指定微信 JS SDK接口
@@ -905,6 +919,12 @@ angular.module('starter.services', [])
                         // 以键值对的形式返回，可用的api值true，不可用为false
                         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
                     }
+                });
+            },
+            wxpreviewImage:function(currentSrc,srcs){
+                wx.previewImage({
+                    current: currentSrc, // 当前显示图片的http链接
+                    urls: srcs // 需要预览的图片http链接列表
                 });
             },
             wxchooseImage: function (callback,count) { //拍照或从手机相册中选图接口

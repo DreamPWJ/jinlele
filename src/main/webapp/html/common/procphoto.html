@@ -244,11 +244,11 @@
             </dd>
             <dd>
                 <em>数量：</em>
-                <span><input placeholder="数量" type="text" ng-model="product.num" ng-blur="numblur()" check-form ng-change="checkForm(product.num,'数量填写有误','positivenumber','')" required></span>
+                <span><input placeholder="数量" type="number" ng-model="product.num" ng-blur="numblur()" check-form ng-change="checkForm(product.num,'数量填写有误','positivenumber','')" required></span>
             </dd>
             <dd>
                 <em>备注：</em>
-                <span><input placeholder="备注内容..." type="text" ng-model="product.memo" required></span>
+                <span><input placeholder="备注内容..." type="text" ng-model="product.memo"></span>
             </dd>
         </dl>
     </div>

@@ -312,11 +312,11 @@
         </dd>
         <dd>
             <em>数量：</em>
-            <span><input placeholder="数量" type="text" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')"   required></span>
+            <span><input placeholder="数量" type="number" ng-model="product.num[$index]" ng-blur="numblur()" check-form ng-change="checkForm(product.num[$index],'数量填写有误','positivenumber','')"   required></span>
         </dd>
         <dd>
             <em>备注：</em>
-            <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]" required></span>
+            <span><input placeholder="备注内容..." type="text" ng-model="product.memo[$index]"></span>
         </dd>
     </dl>
     </div>
@@ -327,7 +327,6 @@
 
     <section class="prompt_tisi">
         <p>以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
-
         <p>免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
     </section>
 </main>
