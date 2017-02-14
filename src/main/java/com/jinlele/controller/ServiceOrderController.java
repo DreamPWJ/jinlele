@@ -80,13 +80,12 @@ public class ServiceOrderController {
     }
 
     /**
-     * 更新维修订单和维修服务信息
+     * 更新维修订单
      */
     @ResponseBody
-    @RequestMapping(value = "/updateServiceOrder" ,method = RequestMethod.POST)
-    public  Map<String,Object> updateServiceOrder(@RequestBody List<Map<String,Object>> list) {
-        System.out.print("1111111111sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss======================");
-        return serviceOrderService.updateRepair(list);
+    @RequestMapping(value = "/updateRepairOrder" ,method = RequestMethod.POST)
+    public  Map<String,Object> updateRepairOrder(@RequestBody List<Map<String,Object>> list) {
+        return serviceOrderService.updateRepairOrder(list);
     }
 
 

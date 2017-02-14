@@ -162,7 +162,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
 
 
     @Override
-    public Map<String, Object> updateRepair(List<Map<String, Object>> list) {
+    public Map<String, Object> updateRepairOrder(List<Map<String, Object>> list) {
         Map<String, Object> resultMap = new HashedMap();
         //一条总数据
         for (Map<String, Object> confirmInfo : list) {

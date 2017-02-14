@@ -1315,7 +1315,6 @@
                 });
                 break;
             case "repair"://维修
-                $scope.secondcatagories = [];
                 $scope.product = {
                     firstCatogoryId: "",//一级分类id
                     secondCatogoryId: "", //二级分类id
@@ -1505,15 +1504,6 @@
         $scope.sendwayValue = ['001', '002'];//寄件取件方式值
         $scope.getwayValue = ['001', '002'];//寄件取件方式值
 
-        $scope.secondcatagories = [];
-        $scope.productArr = [];
-        $scope.product = {
-            firstCatogoryId: [],//一级分类id
-            secondCatogoryId: [], //二级分类id
-            num: [],
-            memo: []
-        };
-
         //从数据库获取地址
         AddressService.getlatestinfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.address = data;
@@ -1530,44 +1520,85 @@
                 WeiXinService.wxopenAddress($scope);
             })
         }
-        //遍历门店
+        //门店
+        $scope.storeConfig= {
+            data: [],
+            minimumResultsForSearch:-1
+        };
+        //所有门店数据
         ProcCommitOrderService.findAllStores().success(function (data) {
             $scope.stores = data;
-            console.log(JSON.stringify(data));
+            angular.forEach(data,function(item,index){
+                var obj={};
+                obj.id=item.id;
+                obj.text=item.name;
+                $scope.storeConfig.data.push(obj);
+                if(index==0){
+                    $scope.order.storeId=item.id;
+                }
+            });
         });
-
-        //遍历一级分类
+        $scope.product = {
+            firstCatogoryId: "",//一级分类id
+            secondCatogoryId: "", //二级分类id
+            num: "",
+            memo: ""
+        };
+        //产品材质
+        $scope.stuffConfig= {
+            data: [],
+            minimumResultsForSearch:-1
+        };
+        //产品类别
+        $scope.typeConfig= {
+            data: [],
+            minimumResultsForSearch:-1
+        };
+        //一级分类
         CategoryService.getCategories().success(function (data) {
-            $scope.firstCatogories = data.firstList;
-            console.log(JSON.stringify($scope.firstCatogories))
+            console.log(JSON.stringify(data.firstList));
+            angular.forEach(data.firstList,function(item,index){
+                var obj={};
+                obj.id=item.id;
+                obj.text=item.name;
+                $scope.stuffConfig.data.push(obj);
+                if(index==0){
+                    $scope.product.firstCatogoryId=item.id;
+                }
+            });
+            CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId).success(function (data) {
+                $scope.typeConfig.data = [];
+                angular.forEach(data, function (item, index) {
+                    var obj = {};
+                    obj.id = item.id;
+                    obj.text = item.name;
+                    $scope.typeConfig.data.push(obj);
+                    if(index==0){
+                        $scope.product.secondCatogoryId=item.id;
+                    }
+                })
+            });
         });
-        //根据一级分类遍历二级分类
-        $scope.getSecondCatogories = function (index) {
-            console.log("index==" + index);
-            CategoryService.getSecondCatogByPid($scope.product.firstCatogoryId[index]).success(function (data) {
-                $scope.secondcatagories["s"+index]= data;
+        //根据一级分类获取二级分类
+        $scope.getSecondCategories = function (firstCatogoryId) {
+            CategoryService.getSecondCatogByPid(firstCatogoryId).success(function (data) {
+                $scope.typeConfig.data = [];
+                angular.forEach(data, function (item, index) {
+                    var obj = {};
+                    obj.id = item.id;
+                    obj.text = item.name;
+                    $scope.typeConfig.data.push(obj);
+                    if(index==0){
+                        $scope.product.secondCatogoryId=item.id;
+                    }
+                })
             });
         }
-        //添加产品
-        var i = 0;
-        $scope.addProduct = function () {
-            $scope.productArr.push(i++);
-        }
-        //计算总数量和总价格
+        //计算总价格
         $scope.numblur = function () {
-            //遍历
-            $scope.totalnum = 0;
-            if ($scope.product.num.length > 0) {
-                for (var i = 0, len = $scope.product.num.length; i < len; i++) {
-                    $scope.totalnum += $scope.product.num[i] * 1;
-                }
-            }
-            var price = $scope.aturalprice;
-
-            $scope.totalprice = $scope.totalnum * price;
+            $scope.totalprice = $scope.product.num * $scope.aturalprice;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         }
-
         //生成订单并付款
         $scope.procreceive = function (flag) {
             if($scope.type.code!='002'&&!flag){ //如果是翻新 检测 回收  换款
@@ -1673,7 +1704,7 @@
                 $scope.confirminfo.push(obj);
                 console.log(JSON.stringify($scope.confirminfo));
                 //保存订单 并去支付订单
-                ProcCommitOrderService.updateRepair($scope.confirminfo).success(function (data) {
+                ProcCommitOrderService.updateRepairOrder($scope.confirminfo).success(function (data) {
                     console.log('data='+JSON.stringify(data))
                     if (data) {
                         //调用支付接口

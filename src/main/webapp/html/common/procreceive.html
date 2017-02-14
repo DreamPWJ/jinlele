@@ -234,8 +234,8 @@
             </span>
         </section>
         <section id="tad" class="numbers_button">
-            <span ng-click="showwuliuInfo(0)" ng-class="{hover:jinflag}"><a href="javascript:">金乐乐物流</a></span>
-            <span ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">我的物流 </a></span>
+            <span ng-click="showwuliuInfo(0)" ng-class="{hover:jinflag}"><a href="javascript:">收货物流</a></span>
+            <span ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">发货物流 </a></span>
         </section>
     </section>
     <!-- 我的物流 -->
@@ -250,7 +250,7 @@
             </a>
         </section>
         <section class="logistics" ng-if="initData.userlogisticsno != null">
-            <span class="title">物流详情</span>
+            <span class="title"><a>物流详情</a><a style="float:right;padding-right: 10px;" ng-href="#/orderlist">我的订单</a></span>
             <ul>
                 <li ng-if="userLogistc == null"> 暂无物流信息</li>
                 <li ng-if="userLogistc != null"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >

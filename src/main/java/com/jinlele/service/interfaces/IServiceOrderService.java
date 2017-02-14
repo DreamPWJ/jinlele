@@ -17,7 +17,7 @@ public interface IServiceOrderService {
     /**
      * 更新维修订单
      */
-    Map<String , Object> updateRepair(List<Map<String,Object>> list);
+    Map<String , Object> updateRepairOrder(List<Map<String,Object>> list);
     /**
      * 创建服务订单
      */

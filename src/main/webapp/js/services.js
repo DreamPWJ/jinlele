@@ -390,13 +390,13 @@ angular.module('starter.services', [])
                 }
                 return type;
             },
-            //去更新维修订单信息
-            updateRepair:function(params){
+            //更新维修订单
+            updateRepairOrder:function(params){
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
                     method: 'POST',
-                    url: JinLeLe.api + "/serviceOrder/updateServiceOrder",
+                    url: JinLeLe.api + "/serviceOrder/updateRepairOrder",
                     data:params
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
@@ -921,10 +921,10 @@ angular.module('starter.services', [])
                     }
                 });
             },
-            wxpreviewImage:function(currentSrc,srcs){
+            wxpreviewImage:function(curSrc, srcList){//调用微信图片浏览器
                 wx.previewImage({
-                    current: currentSrc, // 当前显示图片的http链接
-                    urls: srcs // 需要预览的图片http链接列表
+                    current: curSrc, // 当前显示图片的http链接
+                    urls: srcList // 需要预览的图片http链接列表
                 });
             },
             wxchooseImage: function (callback,count) { //拍照或从手机相册中选图接口
