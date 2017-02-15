@@ -666,12 +666,12 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            cancleOrder:function(params){
+            cancelOrder:function(params){
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/order/cancleOrder/" + params.orderno
+                    url: JinLeLe.api + "/order/cancelOrder/" + params.orderno+"/"+params.typeCode
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

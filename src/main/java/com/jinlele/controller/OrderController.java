@@ -130,9 +130,9 @@ public class OrderController {
      * 更改订单状态
      */
     @ResponseBody
-    @RequestMapping(value = "/cancleOrder/{orderno}", method = RequestMethod.GET)
-    public Map<String, Object> modifyOrder(@PathVariable String orderno) {
-        return orderService.modifyOrder(orderno);
+    @RequestMapping(value = "/cancelOrder/{orderno}/{typeCode}", method = RequestMethod.GET)
+    public Map<String, Object> modifyOrder(@PathVariable String orderno,@PathVariable String typeCode) {
+        return orderService.modifyOrder(orderno,typeCode);
     }
 
     /**

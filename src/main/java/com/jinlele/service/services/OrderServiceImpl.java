@@ -276,20 +276,35 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> modifyOrder(String orderno) {
+    public Map<String, Object> modifyOrder(String orderno, String typeCode) {
         Map<String, Object> paramMap = new HashMap<>();
-        //增加订单明细中商品原有库存数量
-        List<Map<String,Object>> detaillists = shopOrderGoodMapper.selectOrderDetailByOrderno(orderno);
-        for (int i=0;i<detaillists.size();i++){
-            Integer goodchildId = Integer.valueOf(detaillists.get(i).get("gcid").toString());
-            Integer buynum = Integer.valueOf(detaillists.get(i).get("buynum").toString());
-            GoodChild goodChild=goodChildMapper.selectByPrimaryKey(goodchildId);
-            goodChild.setStocknumber(goodChild.getStocknumber()+buynum);
-            goodChildMapper.updateByPrimaryKeySelective(goodChild);
-        }
-        //更改订单状态--取消
         ShopOrder shopOrder=new ShopOrder();
-        shopOrder.setShoporderstatuscode("006");
+        switch (typeCode){
+            case "001"://翻新
+            case "003"://检测
+                shopOrder.setShoporderstatuscode(typeCode+"010");
+                break;
+            case "002"://维修
+            case "004"://回收
+                shopOrder.setShoporderstatuscode(typeCode+"011");
+                break;
+            case "005"://换款
+                shopOrder.setShoporderstatuscode(typeCode+"008");
+                break;
+            case "006":
+                //增加订单明细中商品原有库存数量
+                List<Map<String,Object>> detaillists = shopOrderGoodMapper.selectOrderDetailByOrderno(orderno);
+                for (int i=0;i<detaillists.size();i++){
+                    Integer goodchildId = Integer.valueOf(detaillists.get(i).get("gcid").toString());
+                    Integer buynum = Integer.valueOf(detaillists.get(i).get("buynum").toString());
+                    GoodChild goodChild=goodChildMapper.selectByPrimaryKey(goodchildId);
+                    goodChild.setStocknumber(goodChild.getStocknumber()+buynum);
+                    goodChildMapper.updateByPrimaryKeySelective(goodChild);
+                }
+                //更改商城订单状态--取消
+                shopOrder.setShoporderstatuscode("006");
+                break;
+        }
         shopOrder.setOrderno(orderno);
         paramMap.put("resultnumber",orderMapper.updateByPrimaryKeySelective(shopOrder));
         return paramMap;

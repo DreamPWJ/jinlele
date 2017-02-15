@@ -719,10 +719,12 @@
 
         $scope.getOrderLists();
 
-        $scope.cancleorder = function (orderno) {
+        $scope.cancelOrder = function (orderno,typeCode) {
             //修改后，重新请求数据
-            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
+            OrderService.cancelOrder({orderno: orderno, typeCode: typeCode}).success(function (data) {
                 if (parseInt(data.resultnumber) > 0) {
+                    CommonService.toolTip("取消成功", "tool-tip-message");
+                    $scope.type = typeCode;
                     $scope.getOrderLists();
                 }
             });
@@ -916,6 +918,7 @@
                     break;
             }
         }
+        //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
             imgArray.push(src);
@@ -1267,7 +1270,7 @@
     //商品详情
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         $rootScope.commonService = CommonService;
-
+        $scope.rightFlag=false;
         var swiper = new Swiper('.banner', {
             pagination: '.spot',
             paginationClickable: true,

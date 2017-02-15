@@ -42,7 +42,7 @@ public interface IOrderService {
     /**
      *取消订单
      */
-    Map<String, Object> modifyOrder(String orderno);
+    Map<String, Object> modifyOrder(String orderno, String typeCode);
 
     /**
      *更新订单

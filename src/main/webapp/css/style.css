@@ -407,6 +407,14 @@ header.show section.user_bg, header.show section.user {
     display: block;
 }
 
+section.btn_change{
+    width: 68px;display: block;position: fixed;right: 5px;z-index: 10;border: 3px solid #F5D000;border-radius: 5px;padding:5px 5px 5px 10px;
+}
+section.up_change{
+    bottom: 365px;
+}section.down_change{
+     bottom: 96px;
+ }
 /* 旋转菜单 --------------- */
 section.menu_bg {
     width: 38px;
