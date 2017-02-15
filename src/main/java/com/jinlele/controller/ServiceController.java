@@ -2,16 +2,15 @@ package com.jinlele.controller;
 
 import com.jinlele.model.ReceiptAddress;
 import com.jinlele.service.interfaces.IDayPriceService;
+import com.jinlele.service.interfaces.IMetalCalculationService;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,6 +28,9 @@ public class ServiceController {
 
     @Resource
     IDayPriceService dayPriceService;
+
+    @Resource
+    IMetalCalculationService metalCalculationService;
 
    //②后台处理:拿到mediaId去后台上传图片传到服务器本地路径
    // 然后将本地图片上传到七牛并返回七牛图片url,在后台保存数据到翻新服务表 ，照片表 ，翻新服务_照片中间表
@@ -95,5 +97,19 @@ public class ServiceController {
     @RequestMapping("/getCurrentPrice")
     public Map<String, Object>  getCurrentPrice(){
         return dayPriceService.getCurrentPrice();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getPurity/{pid}", method = RequestMethod.GET)
+    public Map<String, Object>  getPurity(@PathVariable Integer pid){
+        HashMap<String,Object> result= new HashMap<>();
+        result.put("purity",metalCalculationService.getPurity(pid));
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getEstimatePrice/{purity}/{weight}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getEstimatePrice(@PathVariable String purity,@PathVariable  Double weight) {
+        return metalCalculationService.getEstimatePrice(purity,weight);
     }
 }

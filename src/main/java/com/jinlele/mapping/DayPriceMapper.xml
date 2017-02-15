@@ -103,7 +103,7 @@
       deleteCode = #{deletecode,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getCurrentPrice" resultType="Map">
+  <select id="getCurrentPrice" resultType="com.jinlele.model.DayPrice">
     SELECT * from dayprice p WHERE p.deleteCode='001'
   </select>
 </mapper>

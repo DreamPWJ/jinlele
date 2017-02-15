@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.MetalCalculationMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.MetalCalculation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="series" property="series" jdbcType="VARCHAR" />
+    <result column="ratio" property="ratio" jdbcType="DOUBLE" />
+    <result column="added" property="added" jdbcType="DOUBLE" />
+    <result column="depreciation" property="depreciation" jdbcType="DOUBLE" />
+    <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, series, ratio, added, depreciation, deleteCode, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from metal_calculation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from metal_calculation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.MetalCalculation" >
+    insert into metal_calculation (id, type, series, 
+      ratio, added, depreciation, 
+      deleteCode, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=CHAR}, #{series,jdbcType=VARCHAR}, 
+      #{ratio,jdbcType=DOUBLE}, #{added,jdbcType=DOUBLE}, #{depreciation,jdbcType=DOUBLE}, 
+      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.MetalCalculation" >
+    insert into metal_calculation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="series != null" >
+        series,
+      </if>
+      <if test="ratio != null" >
+        ratio,
+      </if>
+      <if test="added != null" >
+        added,
+      </if>
+      <if test="depreciation != null" >
+        depreciation,
+      </if>
+      <if test="deletecode != null" >
+        deleteCode,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="series != null" >
+        #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null" >
+        #{ratio,jdbcType=DOUBLE},
+      </if>
+      <if test="added != null" >
+        #{added,jdbcType=DOUBLE},
+      </if>
+      <if test="depreciation != null" >
+        #{depreciation,jdbcType=DOUBLE},
+      </if>
+      <if test="deletecode != null" >
+        #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.MetalCalculation" >
+    update metal_calculation
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="series != null" >
+        series = #{series,jdbcType=VARCHAR},
+      </if>
+      <if test="ratio != null" >
+        ratio = #{ratio,jdbcType=DOUBLE},
+      </if>
+      <if test="added != null" >
+        added = #{added,jdbcType=DOUBLE},
+      </if>
+      <if test="depreciation != null" >
+        depreciation = #{depreciation,jdbcType=DOUBLE},
+      </if>
+      <if test="deletecode != null" >
+        deleteCode = #{deletecode,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.MetalCalculation" >
+    update metal_calculation
+    set type = #{type,jdbcType=CHAR},
+      series = #{series,jdbcType=VARCHAR},
+      ratio = #{ratio,jdbcType=DOUBLE},
+      added = #{added,jdbcType=DOUBLE},
+      depreciation = #{depreciation,jdbcType=DOUBLE},
+      deleteCode = #{deletecode,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUQ"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from metal_calculation
+    where deleteCode='001' and  type = #{0} and series=#{1}
+  </select>
+  <select id="getPurity" resultType="Map">
+    select * from vw_dictdetail where eng='metalCode' and pid=#{0}
+  </select>
+</mapper>

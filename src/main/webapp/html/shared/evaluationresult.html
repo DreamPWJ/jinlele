@@ -101,11 +101,11 @@
     	<span class="title">您的物品预估价格</span>
         <span class="cash_title">变现公式</span>
         <ul>
-        	<li>200.00</li>
+        	<li>{{result.price|number:2}}</li>
         	<li>*</li>
-        	<li>150.00</li>
+        	<li>{{result.weight|number:2}}</li>
         	<li>-</li>
-        	<li>10.00</li>
+        	<li>{{result.depreciation|number:2}}</li>
         </ul>
         <ul>
         	<li>金价</li>
@@ -115,7 +115,7 @@
         	<li>折旧费</li>
         </ul>
         <span class="cash_title">参考估值</span>
-        <span class="cash_price">￥5000.00元</span>
+        <span class="cash_price">{{result.result|currency:"￥"}}元</span>
         <section class="load" ng-switch on="pagetheme">
             <a ng-switch-when="recycle" ng-href="#/procphoto/recycle" >立即变现</a>
             <a ng-switch-when="exchange" ng-href="#/procphoto/exchange" >立即换款</a>

@@ -159,7 +159,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'EvaluateCtrl'
             })
             .state('evaluationresult', {  //估计结果(回收、换款)
-                url: '/{name}evaluationresult/:orderno',
+                url: '/{name}evaluationresult/:result',
                 templateUrl: 'html/shared/evaluationresult.html',
                 controller: 'EvaluationResultCtrl'
             })

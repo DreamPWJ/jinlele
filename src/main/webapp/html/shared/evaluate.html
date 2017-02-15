@@ -113,11 +113,6 @@
                 <dl class="parameter">
                     <dt>请输入贵金属参数</dt>
                     <dd>
-                        <u>克重：</u>
-                        <span><input ng-model="goldWeight" placeholder="请填写" type="text"/></span>
-                        <em>克</em>
-                    </dd>
-                    <dd>
                         <u>类型：</u>
                         <span>
                             <input select2 ng-model="goldType" select2-model="selectedGoldType" config="goldTypeConfig" class="form-control" type="text" ng-change="getGoldPurity(goldType)"/>
@@ -129,9 +124,14 @@
                             <input select2 ng-model="goldPurity" select2-model="selectedGoldPurity" config="goldPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input ng-model="goldWeight" placeholder="请填写" type="number"/></span>
+                        <em>克</em>
+                    </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-click="appraise(0)">估价</a>
+                    <a ng-click="estimatePrice(1)">估价</a>
                     <!--<a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>-->
                 </section>
             </section>
@@ -141,19 +141,19 @@
                 <dl class="parameter">
                     <dt>请输入贵金属参数</dt>
                     <dd>
-                        <u>克重：</u>
-                        <span><input placeholder="请填写" type="text"></span>
-                        <em>克</em>
-                    </dd>
-                    <dd>
                         <u>纯度：</u>
                         <span>
                             <input select2 ng-model="boPurity" select2-model="selectedBoPurity" config="boPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input ng-model="boWeight" placeholder="请填写" type="number"></span>
+                        <em>克</em>
+                    </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
+                    <a ng-click="estimatePrice(2)">估价</a>
                 </section>
             </section>
 
@@ -162,19 +162,19 @@
                 <dl class="parameter">
                     <dt>请输入贵金属参数</dt>
                     <dd>
-                        <u>克重：</u>
-                        <span><input placeholder="请填写" type="text"></span>
-                        <em>克</em>
-                    </dd>
-                    <dd>
                         <u>纯度：</u>
                         <span>
                             <input select2 ng-model="kPurity" select2-model="selectedKPurity" config="kPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input ng-model="kWeight" placeholder="请填写" type="number"></span>
+                        <em>克</em>
+                    </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
+                    <a ng-click="estimatePrice(3)">估价</a>
                 </section>
 
             </section>
@@ -184,19 +184,19 @@
                 <dl class="parameter">
                     <dt>请输入贵金属参数</dt>
                     <dd>
-                        <u>克重：</u>
-                        <span><input placeholder="请填写" type="text"></span>
-                        <em>克</em>
-                    </dd>
-                    <dd>
                         <u>纯度：</u>
                         <span>
                             <input select2 ng-model="baPurity" select2-model="selectedBaPurity" config="baPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input ng-model="baWeight" placeholder="请填写" type="number"></span>
+                        <em>克</em>
+                    </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
+                    <a ng-click="estimatePrice(4)">估价</a>
                 </section>
             </section>
 
@@ -205,14 +205,9 @@
                 <dl class="parameter">
                     <dt>请输入贵金属参数</dt>
                     <dd>
-                        <u>克重：</u>
-                        <span><input placeholder="请填写" type="text"></span>
-                        <em>克</em>
-                    </dd>
-                    <dd>
                         <u>类型：</u>
                         <span>
-                            <input select2 ng-model="silverType" select2-model="selectedSilverType" config="silverTypeConfig" class="form-control" type="text" ng-change="getSilverType(silverType)"/>
+                            <input select2 ng-model="silverType" select2-model="selectedSilverType" config="silverTypeConfig" class="form-control" type="text" ng-change="getSilverPurity(silverType)"/>
                         </span>
                     </dd>
                     <dd>
@@ -221,9 +216,14 @@
                             <input select2 ng-model="silverPurity" select2-model="selectedSilverPurity" config="silverPurityConfig" class="form-control" type="text"/>
                         </span>
                     </dd>
+                    <dd>
+                        <u>克重：</u>
+                        <span><input ng-model="silverWeight" placeholder="请填写" type="number"></span>
+                        <em>克</em>
+                    </dd>
                 </dl>
                 <section class="load parameter_buttom">
-                    <a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>
+                    <a ng-click="estimatePrice(5)">估价</a>
                 </section>
             </section>
         </section>
@@ -246,7 +246,7 @@
             <dt>请输入钻石产品参数</dt>
             <dd>
                 <u>主石：</u>
-                <span><input placeholder="请填写" type="text"></span>
+                <span><input placeholder="请填写" type="number"></span>
                 <em>克拉</em>
             </dd>
             <dd  ng-switch-when="exchange">
@@ -316,7 +316,7 @@
             </dd>
             <dd>
                 <u>产品总重：</u>
-                <span><input placeholder="请填写" type="text"></span>
+                <span><input placeholder="请填写" type="number"></span>
             </dd>
         </dl>
         <section class="load parameter_buttom">

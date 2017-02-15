@@ -2370,7 +2370,7 @@
 
     }])
     //估价(回收、换款)
-    .controller('EvaluateCtrl', ['$scope','$stateParams','ProcCommitOrderService',function ($scope ,$stateParams,ProcCommitOrderService) {
+    .controller('EvaluateCtrl', ['$scope','$state','$stateParams','EvaluateService',function ($scope ,$state,$stateParams,EvaluateService) {
         $scope.pagetheme = $stateParams.name;
         $scope.orderno = $stateParams.orderno;
         var mySwiper = new Swiper('.metal', {
@@ -2400,73 +2400,126 @@
                 return '<a href="javascript:" class="' + className + '">' + name + '</a>';
             }
         });
-        ProcCommitOrderService.getCurrentPrice().success(function(data){
+        EvaluateService.getCurrentPrice().success(function(data){
             $scope.dayprice=data.dayprice;
         });
         //黄金
         $scope.goldTypeConfig = {
-            data: [{id: '001', text: '首饰'}, {id: '002', text: '金条'}],
+            data: [{id: 120, text: '首饰'}, {id: 125, text: '金条'}],
             minimumResultsForSearch: -1
         };
-        $scope.goldType='001';
+        $scope.goldType=120;
         $scope.goldPurityConfig = {
-            data: [{id: '001', text: '万足金'},{id: '002', text: '千足金'},{id: '003', text: '足金'}],
-            placeholder: '请选择',
+            data: [],
             minimumResultsForSearch:-1
         };
+        EvaluateService.getPurity({pid:$scope.goldType}).success(function(data){
+            angular.forEach(data.purity,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.goldPurityConfig.data.push(obj);
+                if(index==0){
+                    $scope.goldPurity=item.codevalue;
+                }
+            })
+        })
         $scope.getGoldPurity=function(type){
-            switch (type){
-                case '001':
-                    $scope.goldPurityConfig.data=[{id: '001', text: '万足金'},{id: '002', text: '千足金'},{id: '003', text: '足金'}];
-                    $scope.goldPurity="";//重置数据
-                    break;
-                case '002':
-                    $scope.goldPurityConfig.data=[{id: '002', text: '千足金'},{id: '003', text: '足金'}];
-                    $scope.goldPurity="";//重置数据
-                    break;
-            }
+            EvaluateService.getPurity({pid:type}).success(function(data){
+                $scope.goldPurityConfig.data=[];
+                angular.forEach(data.purity,function(item,index){
+                    var obj={};
+                    obj.id=item.codevalue;
+                    obj.text=item.dictname;
+                    $scope.goldPurityConfig.data.push(obj);
+                    if(index==0){
+                        $scope.goldPurity=item.codevalue;
+                    }
+                })
+            })
         }
         //铂金
         $scope.boPurityConfig = {
-            data: [{id: '001', text: 'Pt999'},{id: '002', text: 'Pt990'},{id: '003', text: 'Pt950'},{id: '004', text: 'Pt900'}],
-            placeholder: '请选择',
+            data: [],
             minimumResultsForSearch:-1
         };
+        EvaluateService.getPurity({pid:121}).success(function(data){
+            angular.forEach(data.purity,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.boPurityConfig.data.push(obj);
+                if(index==0){
+                    $scope.boPurity=item.codevalue;
+                }
+            })
+        })
         //K金
         $scope.kPurityConfig = {
-            data:  [{id: '001', text: '22K'},{id: '002', text: '18K'},{id: '003', text: '14K'},{id: '004', text: '9K'}],
-            placeholder: '请选择',
+            data:  [],
             minimumResultsForSearch:-1
         };
+        EvaluateService.getPurity({pid:122}).success(function(data){
+            angular.forEach(data.purity,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.kPurityConfig.data.push(obj);
+                if(index==0){
+                    $scope.kPurity=item.codevalue;
+                }
+            })
+        })
         //钯金
         $scope.baPurityConfig = {
-            data: [{id: '001', text: 'Pd999'},{id: '002', text: 'Pd990'},{id: '003', text: 'Pd950'},{id: '004', text: 'Pd900'}],
-            placeholder: '请选择',
+            data: [],
             minimumResultsForSearch:-1
         };
+        EvaluateService.getPurity({pid:123}).success(function(data){
+            angular.forEach(data.purity,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.baPurityConfig.data.push(obj);
+                if(index==0){
+                    $scope.baPurity=item.codevalue;
+                }
+            })
+        })
         //白银
         $scope.silverTypeConfig = {
-            data: [{id: '001', text: '首饰'}, {id: '002', text: '银条'}],
-            placeholder: '请选择',
+            data: [{id: 124, text: '首饰'}, {id: 126, text: '银条'}],
             minimumResultsForSearch: -1
         };
-        $scope.silverType='001';
+        $scope.silverType=124;
         $scope.silverPurityConfig = {
-            data: [{id: '001', text: '千足银'},{id: '002', text: '足银'},{id: '003', text: '925银'}],
-            placeholder: '请选择',
+            data: [],
             minimumResultsForSearch:-1
         };
-        $scope.getSilverType=function(type){
-            switch (type){
-                case '001':
-                    $scope.silverPurityConfig.data= [{id: '001', text: '千足银'},{id: '002', text: '足银'},{id: '003', text: '925银'}];
-                    $scope.silverPurity="";//重置数据
-                    break;
-                case '002':
-                    $scope.silverPurityConfig.data= [{id: '001', text: '千足银'},{id: '002', text: '足银'}]
-                    $scope.silverPurity="";//重置数据
-                    break;
-            }
+        EvaluateService.getPurity({pid:$scope.silverType}).success(function(data){
+            angular.forEach(data.purity,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.silverPurityConfig.data.push(obj);
+                if(index==0){
+                    $scope.silverPurity=item.codevalue;
+                }
+            })
+        })
+        $scope.getSilverPurity=function(type){
+            EvaluateService.getPurity({pid:type}).success(function(data){
+                $scope.silverPurityConfig.data=[];
+                angular.forEach(data.purity,function(item,index){
+                    var obj={};
+                    obj.id=item.codevalue;
+                    obj.text=item.dictname;
+                    $scope.silverPurityConfig.data.push(obj);
+                    if(index==0){
+                        $scope.silverPurity=item.codevalue;
+                    }
+                })
+            })
         }
         //钻石
         $scope.certificateConfig = {
@@ -2479,12 +2532,44 @@
             placeholder: '请选择',
             minimumResultsForSearch: -1
         };
-
+        $scope.estimatePrice=function(metalType) {
+            var obj={};
+            switch (metalType) {
+                case 1:
+                    obj.purity=$scope.goldPurity;
+                    obj.weight=$scope.goldWeight;
+                    break;
+                case 2:
+                    obj.purity=$scope.boPurity;
+                    obj.weight=$scope.boWeight;
+                    break;
+                case 3:
+                    obj.purity=$scope.kPurity;
+                    obj.weight=$scope.kWeight;
+                    break;
+                case 4:
+                    obj.purity=$scope.baPurity;
+                    obj.weight=$scope.baWeight;
+                    break;
+                case 5:
+                    obj.purity=$scope.silverPurity;
+                    obj.weight=$scope.silverWeight;
+                    break;
+            }
+            console.log(JSON.stringify(obj));
+            EvaluateService.getEstimatePrice({purity:obj.purity,weight:obj.weight}).success(function(data){
+console.log(JSON.stringify(data));
+                if(data){
+                    $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                }
+            });
+        }
 
     }])
     //回收--估价结果页面
     .controller('EvaluationResultCtrl' , function ($scope , $stateParams) {
         $scope.pagetheme = $stateParams.name;
+        $scope.result=JSON.parse($stateParams.result);
         //这里要带入的是 估价价格，需要保存的奥  暂时写死
         $scope.evaluationPrice = 5000;
         localStorage.setItem("evaluationPrice" , $scope.evaluationPrice);

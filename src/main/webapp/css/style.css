@@ -408,13 +408,9 @@ header.show section.user_bg, header.show section.user {
 }
 
 section.btn_change{
-    width: 68px;display: block;position: fixed;right: 5px;z-index: 10;border: 3px solid #F5D000;border-radius: 5px;padding:5px 5px 5px 10px;
+    width: 52px;display: block;position: fixed;
+    bottom: 56px;right: 52px;z-index: 10;border: 3px solid #F5D000;border-radius: 5px;padding:5px 5px 5px 10px;
 }
-section.up_change{
-    bottom: 365px;
-}section.down_change{
-     bottom: 96px;
- }
 /* 旋转菜单 --------------- */
 section.menu_bg {
     width: 38px;
@@ -4886,6 +4882,16 @@ section.metal dl.parameter dd span {
     display: block;
     overflow: hidden;
     padding: 4px 0;
+}
+section.metal dl.parameter dd span input[type="number"] {
+    width: 100%;
+    height: 32px;
+    float: left;
+    line-height: 32px;
+    font-size: 80%;
+    border:1px solid #ccc;
+    padding-left: 10px;
+    border-radius: 4px;
 }
 
 section.metal dl.parameter dd span input[type="text"] {
