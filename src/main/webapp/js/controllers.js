@@ -1037,10 +1037,12 @@
               $scope.balance = data.balance;
         });
         $scope.cashApply = function () {
+
             if(!$scope.balance){
                 CommonService.toolTip("您没有可提现的金额", "");
                 return;
             }
+
             $state.go('cashApply',{balance:$scope.balance});
 
         }
@@ -1062,9 +1064,17 @@
         $scope.balance = $stateParams.balance;
         $scope.applyMoney = '';
         $scope.submit = function () {
+            if(!$scope.applyMoney){
+                CommonService.toolTip("提现金额不能为空", "");
+                return;
+            }
             if($scope.applyMoney > $scope.balance){
-                 CommonService.toolTip("提现金额不能超过余额", "");
-                 return;
+                CommonService.toolTip("提现金额不能超过余额", "");
+                return;
+            }
+            if($scope.applyMoney <1){
+                CommonService.toolTip("提现金额不能低于1元", "");
+                return;
             }
             WalletService.saveCashApply({userId:localStorage.getItem("jinlele_userId"),applyMoney:$scope.applyMoney})
                 .success(function (data) {
