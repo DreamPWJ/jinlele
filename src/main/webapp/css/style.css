@@ -408,8 +408,9 @@ header.show section.user_bg, header.show section.user {
 }
 
 section.btn_change{
-    width: 52px;display: block;position: fixed;
-    bottom: 56px;right: 52px;z-index: 10;border: 3px solid #F5D000;border-radius: 5px;padding:5px 5px 5px 10px;
+    width: 52px;display: block;position: fixed;color:#fff;
+    bottom: 56px;right: 52px;z-index: 10;border: 1px solid rgba(255, 255, 255, 0.50);
+    background: #F5D000;border-radius: 5px;padding:5px 5px 5px 10px;
 }
 /* 旋转菜单 --------------- */
 section.menu_bg {
