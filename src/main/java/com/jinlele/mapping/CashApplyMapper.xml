@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jinlele.model.CashApply" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="opname" property="opname" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="dealCode" property="dealcode" jdbcType="VARCHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -11,7 +12,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, money, user_id, dealCode, deleteCode, create_time, update_time
+    id, money, opname, user_id, dealCode, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,12 +25,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.CashApply" >
-    insert into cash_apply (id, money, user_id, 
-      dealCode, deleteCode, create_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, 
-      #{dealcode,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    insert into cash_apply (id, money, opname, 
+      user_id, dealCode, deleteCode, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{opname,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{dealcode,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.CashApply" >
     insert into cash_apply
@@ -39,6 +40,9 @@
       </if>
       <if test="money != null" >
         money,
+      </if>
+      <if test="opname != null" >
+        opname,
       </if>
       <if test="userId != null" >
         user_id,
@@ -63,6 +67,9 @@
       <if test="money != null" >
         #{money,jdbcType=DOUBLE},
       </if>
+      <if test="opname != null" >
+        #{opname,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
@@ -86,6 +93,9 @@
       <if test="money != null" >
         money = #{money,jdbcType=DOUBLE},
       </if>
+      <if test="opname != null" >
+        opname = #{opname,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
@@ -107,6 +117,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.CashApply" >
     update cash_apply
     set money = #{money,jdbcType=DOUBLE},
+      opname = #{opname,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       dealCode = #{dealcode,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
@@ -117,13 +128,12 @@
 
   <!--查询所有的提现记录-->
   <select id="getAllRecords" resultType="Map" parameterType="java.lang.Integer" >
-     select
-		money ,
-		dealCode ,
-		(select dictname from vw_dictdetail where eng = 'cashapplyCode' and  codevalue = dealCode) as  dealname,
-		create_time as createTime
-     from cash_apply
-     where user_id = #{userId}
+    select
+    money ,
+    dealCode ,
+    (select dictname from vw_dictdetail where eng = 'cashapplyCode' and  codevalue = dealCode) as  dealname,
+    create_time as createTime
+    from cash_apply
+    where user_id = #{userId}
   </select>
-
 </mapper>

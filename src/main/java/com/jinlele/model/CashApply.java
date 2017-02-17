@@ -7,6 +7,8 @@ public class CashApply {
 
     private Double money;
 
+    private String opname;
+
     private Integer userId;
 
     private String dealcode;
@@ -29,6 +31,7 @@ public class CashApply {
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -39,6 +42,14 @@ public class CashApply {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public String getOpname() {
+        return opname;
+    }
+
+    public void setOpname(String opname) {
+        this.opname = opname == null ? null : opname.trim();
     }
 
     public Integer getUserId() {

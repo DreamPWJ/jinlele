@@ -1037,12 +1037,10 @@
               $scope.balance = data.balance;
         });
         $scope.cashApply = function () {
-
             if(!$scope.balance){
                 CommonService.toolTip("您没有可提现的金额", "");
                 return;
             }
-
             $state.go('cashApply',{balance:$scope.balance});
 
         }
