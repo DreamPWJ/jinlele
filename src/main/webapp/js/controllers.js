@@ -1746,7 +1746,7 @@
                 var obj = {};
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
-                obj.storeId = 1;//后续需要根据客户选择传入
+                obj.storeId = $scope.order.storeId;//后续需要根据客户选择传入
                 obj.sendWay=$scope.order.sendway;     //送货方式
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.totalprice = $scope.totalprice;//总价格
@@ -1818,7 +1818,7 @@
                 var obj = {};
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
-                obj.storeId = 1;//后续需要根据客户选择传入
+                obj.storeId = $scope.order.storeId;//后续需要根据客户选择传入
                 obj.sendWay=$scope.order.sendway;     //送货方式
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.totalprice = $scope.totalprice;//总价格
@@ -1911,7 +1911,7 @@
             data: [],
             placeholder: '请选择物流公司'
         };
-        //去后台查询请求数据
+        //去后台查询物流数据
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
             $scope.initData = data.order;
             angular.forEach(data.express,function(item,index){
@@ -1922,10 +1922,14 @@
             })
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
-        //客户填写物流单号保存
+        //保存客户填写的物流信息
         $scope.saveExpress = function () {
+            if (!$scope.order.userlogisticsnoComp) {
+                CommonService.toolTip("请选择物流公司", "");
+                return;
+            }
             if (!$scope.order.userlogisticsno) {
-                CommonService.toolTip("请填写物流单号", "");
+                CommonService.toolTip("请填写快递单号", "");
                 return;
             }
             //根据业务类型判断订单状态
@@ -1948,11 +1952,18 @@
                 userlogisticsno: $scope.order.userlogisticsno,
                 shoporderstatuscode:$scope.order.orderstatus
             }).success(function (data) {
-                console.log("data==" + JSON.stringify(data));
                 if (data.n == 1) {
-                    $scope.initData.userlogisticsno = $scope.order.userlogisticsno;
+                    //重新更新数据
+                    OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+                        $scope.initData = data.order;
+                        if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+                    });
                 }
             });
+        }
+        //修改物流信息
+        $scope.editUsrLogisticsInfo=function(){
+            $scope.initData.userlogisticsno=null;
         }
     })
     //流程-检测(五大类服务检测报告)
