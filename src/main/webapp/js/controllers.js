@@ -704,6 +704,7 @@
             $scope.noDataFlag = false;
             //分页显示
             OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+                console.log(data);
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
                 })
@@ -921,8 +922,15 @@
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
-            imgArray.push(src);
-            WeiXinService.wxpreviewImage(src,imgArray);
+            if(angular.isArray(src)){
+                angular.forEach(src,function(item,index){
+                    imgArray.push(item.url);
+                });
+                WeiXinService.wxpreviewImage(imgArray[0],imgArray);
+            }else {
+                imgArray.push(src);
+                WeiXinService.wxpreviewImage(src, imgArray);
+            }
         }
     }])
     //退货
@@ -1956,6 +1964,12 @@
                     //重新更新数据
                     OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
                         $scope.initData = data.order;
+                        angular.forEach(data.express,function(item,index){
+                            var obj={};
+                            obj.id=item.number;
+                            obj.text=item.company;
+                            $scope.userlogisticsnoConfig.data.push(obj);
+                        })
                         if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
                     });
                 }

@@ -161,4 +161,10 @@
       repairitem = #{repairitem,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getServiceOrderProductsInfoByOrderno" resultType="Map">
+    select (select g.name from goodcatogory as g where  id =p.catogory_id) as categoryName,num,p.memo
+    from product as p
+    join service as s on p.service_id=s.id
+    where s.deleteCode='001' and p.deleteCode='001' and s.order_no=#{0}
+  </select>
 </mapper>

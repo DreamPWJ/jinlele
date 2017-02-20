@@ -59,6 +59,12 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     PaymentdetailMapper paymentdetailMapper;
 
+    @Resource
+    ProductMapper productMapper;
+
+    @Resource
+    PictureMapper pictureMapper;
+
     @Override
     public ShopOrder selectByPrimaryKey(String orderno) {
         return orderMapper.selectByPrimaryKey(orderno);
@@ -162,9 +168,15 @@ public class OrderServiceImpl implements IOrderService {
                 List<Map<String, Object>> orderDetailLists = shopOrderGoodMapper.selectOrderDetailByOrderno(orders.get(i).get("orderno").toString());
                 orders.get(i).put("child", orderDetailLists);
             }else{
-                //根据订单得到订单详情  服务类订单
-                Map<String, Object> orderDetailLists = shopOrderGoodMapper.selectServiceOrderDetailByOrderno(orders.get(i).get("orderno").toString());
-                orders.get(i).put("child", orderDetailLists);
+                //根据订单号获得产品详情
+                List products =productMapper.getServiceOrderProductsInfoByOrderno(orders.get(i).get("orderno").toString());
+                orders.get(i).put("products", products);
+                //根据订单号获得图片组
+                List pictures = pictureMapper.getServiceOrderPicturesInfoByOrderno(orders.get(i).get("orderno").toString());
+                orders.get(i).put("pictures", pictures);
+
+//                Map<String, Object> orderDetailLists = shopOrderGoodMapper.selectServiceOrderDetailByOrderno(orders.get(i).get("orderno").toString());
+//                orders.get(i).put("child", orderDetailLists);
             }
             orderLists.add(orders.get(i));
         }

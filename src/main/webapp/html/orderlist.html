@@ -41,12 +41,12 @@
                 <!--服务类订单-->
                 <section class="product_list" ng-if="item.type != '006'">
                     <section class="product">
-                        <span class="pic"><a ng-href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}"><img ng-src="{{item.child.url}}"></a></span>
-                        <section class="text">
-                            <p><a ng-href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">{{item.child.descrip}}</a></p>
+                        <span class="pic"><a  ng-click="previewImg(item.pictures)" ng-repeat="imgurl in item.pictures"><img ng-src="{{imgurl.url}}" ng-if="$index==0"></a></span>
+                        <section class="text" ng-repeat="subitem in item.products">
+                            <span style="font-size: 86%;color: #393939;padding-top: 0;"><a ng-href="#/procreceive/{{item.type}}/{{item.orderno}}/{{item.create_time}}">{{subitem.categoryName}}</a></span>
+                            <p style="font-size: 76%;color: #6E6E6E;" ng-if="subitem.memo">备注：{{subitem.memo}}</p>
                         </section>
                         <section class="price_1">
-                            <em>{{item.child.aturalprice | currency:'￥'}}</em>
                             <i>X {{item.totalnum}}</i>
                         </section>
                     </section>
