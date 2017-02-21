@@ -250,7 +250,7 @@
             <span class="title"><a>运单编号：</a><a>{{initData.userlogisticsno}}</a> <a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
             <ul>
                 <li ng-if="userLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
-                <li ng-if="userLogistc != null"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                <li ng-if="userLogistc.length != 0"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
                     <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
                 </li>
@@ -294,7 +294,7 @@
 </main>
 
 
-<script type="text/javascript" language="javascript"> 
+<script type="text/javascript" language="javascript">
 function test_item(n){
 	var menu = document.getElementById("tad");
 	var menuli = menu.getElementsByTagName("span");

@@ -37,9 +37,9 @@
         <section class="qr_code">
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
-        <section class="check_main">
-        	<a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>
-        </section>
+        <!--<section class="check_main">-->
+        	<!--<a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>-->
+        <!--</section>-->
     </section>
     
     <section class="order_xq">
@@ -53,11 +53,13 @@
     </section>
     
     <!-- 物流详情 -->
-    <section class="logistics" ng-if="orderinfo.shoporderstatusCode!='001'">
+    <section class="logistics"  ng-if="orderinfo.logisticsno != null&&orderinfo.logisticsno.length!=0">
     	<span class="title">物流详情</span>
+        <span  class="title"><a>承运公司：</a><a>{{orderinfo.logisticsCompany}}</a></span>
+        <span  class="title"><a>运单编号：</a><a>{{orderinfo.logisticsno}}</a></span>
         <ul>
-            <li ng-if="sellerLogistc == null"><em>暂无物流信息</em></li>
-            <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+            <li ng-if="sellerLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
+            <li ng-if="sellerLogistc.length != 0"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                 <i></i>
                 <em>{{item.AcceptTime}}&nbsp;{{item.AcceptStation}}</em>
             </li>

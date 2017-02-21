@@ -35,9 +35,11 @@
     where orderno = #{orderno,jdbcType=VARCHAR}
   </select>
   <select id="selectOrderInfoByOrderno" resultType="map" parameterType="java.lang.String" >
-    select
-     orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
-    user_id, store_id, type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,(select dictname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showuserstatus,(select shortname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showplatstatus
+    select orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
+(select e.company from express_company as e where e.number=logisticsnoComp) as logisticsCompany,user_id, store_id,
+type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,
+(select dictname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showuserstatus,
+(select shortname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showplatstatus
     from shoporder
     where orderno = #{orderno,jdbcType=VARCHAR}
   </select>
