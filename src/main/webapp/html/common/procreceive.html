@@ -278,31 +278,17 @@
         <section class="address">
             <a href="javascript:">
                 <span class="title">
-                    <em>金乐乐店地址</em>
-                    <em>15260001234</em>
+                    <em>{{initData.name}}</em>
+                    <em>{{initData.phone}}</em>
                 </span>
-                <p>收货地址：深圳市罗湖区田贝四路水贝国际珠宝交易中心明月阁2208</p>
+                <p>收货地址：{{initData.address}}</p>
             </a>
         </section>
         <section class="logistics">
             <span class="title">物流详情</span>
             <ul>
-                <li><em>暂无物流信息</em></li>
+                <li><i></i><em>暂无物流信息</em></li>
             </ul>
         </section>
     </section>
 </main>
-
-
-<script type="text/javascript" language="javascript">
-function test_item(n){
-	var menu = document.getElementById("tad");
-	var menuli = menu.getElementsByTagName("span");
-	for(var i = 0; i< menuli.length;i++){
-		menuli[i].className= "";
-		menuli[n].className="hover";
-		document.getElementById("test"+ i).className = "hide";
-		document.getElementById("test"+ n).className = "retrofit";
-	}
-}
-</script>
