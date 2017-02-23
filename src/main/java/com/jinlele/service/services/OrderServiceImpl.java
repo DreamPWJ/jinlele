@@ -11,6 +11,7 @@ import com.jinlele.util.rqcode.MatrixToImageWriter;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.jdom.JDOMException;
+import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -201,7 +202,11 @@ public class OrderServiceImpl implements IOrderService {
                 break;
         }
         resultMap.put("order",orderinfo);
-        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
+        if(StringUtil.isBlank(orderinfo.get("receipt_address_id").toString())){
+            resultMap.put("address","");
+        }else {
+            resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
+        }
         return resultMap;
     }
 
@@ -222,7 +227,11 @@ public class OrderServiceImpl implements IOrderService {
                 break;
         }
         resultMap.put("order",orderinfo);
-        resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
+        if(orderinfo.get("receipt_address_id")==null){
+            resultMap.put("address","");
+        }else {
+            resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
+        }
         return resultMap;
     }
 

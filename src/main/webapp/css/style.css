@@ -2184,7 +2184,7 @@ section.oddnumbers i {
 section.check {
     width: 100%;
     float: left;
-    margin: 0 0 10px 0;
+    margin: 0;
 }
 
 section.object {
@@ -3117,7 +3117,6 @@ section.qr_code {
     width: 100%;
     float: left;
     padding: 15px 0;
-    margin: 10px 0 0 0;
     background: #FFF;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
 }

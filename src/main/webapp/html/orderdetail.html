@@ -67,8 +67,8 @@
     </section>
 </main>
 
-<section class="button">
+<section class="button" ng-switch on="orderinfo.shoporderstatusCode">
     <span><a ng-href="#/orderlist">订单列表</a></span>
-    <span ng-if="orderinfo.shoporderstatusCode=='001'"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
-	<span ng-if="orderinfo.shoporderstatusCode!='001'"><a href="#/category/1">前往商城&nbsp;<i class="icon" style="color: #fff;">&#xe722;</i></a></span>
+    <span ng-switch-when="001"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
+	<span ng-switch-default><a href="#/category/1">前往商城&nbsp;<i class="icon" style="color: #fff;">&#xe722;</i></a></span>
 </section>

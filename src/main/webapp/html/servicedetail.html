@@ -1,13 +1,11 @@
-
 <main class="content bottom">
-
 	<section class="oddnumbers">
     	<em>订单编号：{{orderinfo.orderno}}</em>
     	<i>{{orderinfo.showuserstatus}}</i>
     </section>
     
     <!-- 添加地址 -->
-	<section class="address add">
+	<section class="address add" ng-if="address.length!=0">
         <i class="icon">&#xe617;</i>
         <a href="javascript:">
     	<span class="title">
@@ -17,39 +15,37 @@
         <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
         </a>
     </section>
-
-    <section class=" photograph">
-        <ul>
-            <li ng-repeat="item in pictures">
-                <span>
-                    <img ng-src="{{item.url}}">
-                </span>
-            </li>
-        </ul>
-        <p>描述信息:{{pictures[0].descrip}}</p>
-    </section>
-
     <!-- 商品列表 -->
-    <section class="check object">
-        <span class="title">服务产品列表</span>
+    <section class="check">
+        <span class="title">服务产品</span>
         <section class="product_list">
             <section class="product" ng-repeat="item in products">
                 <section class="text">
-                    <p>分类:{{item.name}}</a></p>
-                    <span>材质：{{item.pname}}</span>
+                    <p>产品类别：{{item.name}}</a></p>
+                    <span>产品材质：{{item.pname}}</span>
                 </section>
                 <section class="price_1">
-                    <em>{{item.aturalprice|currency:'￥'}}</em>
                     <i>X {{item.num}}</i>
+                    <em>{{item.aturalprice|currency:'￥'}}</em>
                 </section>
             </section>
+        </section>
+        <section class=" photograph">
+            <ul>
+                <li ng-repeat="item in pictures">
+                <span>
+                    <img ng-src="{{item.url}}">
+                </span>
+                </li>
+            </ul>
+            <p>描述信息：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'暂无':pictures[0].descrip}}</p>
         </section>
         <section class="qr_code">
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
-        <section class="check_main">
-            <a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>
-        </section>
+        <!--<section class="check_main">-->
+            <!--<a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>-->
+        <!--</section>-->
     </section>
 
     <section class="order_xq">
@@ -61,21 +57,21 @@
             <li><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>
     </section>
-    
     <!-- 物流信息 -->
-    <section class="logistics" ng-if="orderinfo.shoporderstatusCode!='001'">
-    	<span class="title">物流信息</span>
-    	<ul>
-        	<li class="hover"> 
-            	<i></i>
-            	<em>请把产品送到店做下一步检测为您尽快完成服务</em>
-            </li>
-        </ul>
+    <section class="logistics" ng-if="orderinfo.shoporderstatusCode=='001002'||orderinfo.shoporderstatusCode=='002004'||orderinfo.shoporderstatusCode=='003002'||orderinfo.shoporderstatusCode=='004001'">
+        <span class="title">友情提示：</span>
+    	<span class="title">请尽快完善您发货的物流信息，以便平台及时提供服务</span>
     </section>
 </main>
 
-<section class="button">
-    <span><a href="#/orderlist">返回订单列表</a></span>
-    <span ng-if="orderinfo.shoporderstatusCode=='001'"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
-	<span ng-if="orderinfo.shoporderstatusCode!='001'"><a  ng-click="procreceive()">下一步</a></span>
+<section class="button" ng-switch on="orderinfo.shoporderstatusCode">
+    <span><a href="#/orderlist">订单列表</a></span>
+    <span ng-switch-when="001001"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
+    <span ng-switch-when="002003"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
+    <span ng-switch-when="003001"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
+	<span ng-switch-when="001002"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
+    <span ng-switch-when="002004"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
+    <span ng-switch-when="003002"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
+    <span ng-switch-when="004001"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
+    <span ng-switch-default><a ng-click="traceProgress(order.orderType,order.orderno,orderinfo.create_time,order.orderStatus,orderinfo.totalprice)">处理进度</a></span>
 </section>

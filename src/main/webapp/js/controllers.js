@@ -407,12 +407,44 @@
             OrderService.queryWxPutOrder({orderno:$scope.order.orderno, type:$scope.order.orderType,payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
-                switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                var len =  $scope.orderinfo.shoporderstatusCode.length;
+                var status ="";
+                if(len>3){
+                    status = $scope.orderinfo.shoporderstatusCode.substring(len-3,len);
+                }
+                switch($scope.order.orderType){
                     case "001":
-                        $scope.process = [{value: "等待买家付款", len: 1}];
+                    case "003":
+                        switch (status) {//自定义支付进度展示
+                            case "001":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "002":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
                         break;
                     case "002":
-                        $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                        switch (status) {//自定义支付进度展示
+                            case "003":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "004":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
+                        break;
+                    case "006":
+                        switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                            case "001":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "002":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
+                        break;
+                    default :
                         break;
                 }
             });
@@ -422,35 +454,67 @@
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//地址信息
                 var len =  $scope.orderinfo.shoporderstatusCode.length;
-                var status = $scope.orderinfo.shoporderstatusCode.substring(len-3,len);
-                switch (status) {//自定义支付进度展示
+                var status ="";
+                if(len>3){
+                    status = $scope.orderinfo.shoporderstatusCode.substring(len-3,len);
+                }
+                switch($scope.order.orderType){
                     case "001":
-                        $scope.process = [{value: "等待买家付款", len: 1}];
+                    case "003":
+                        switch (status) {//自定义支付进度展示
+                            case "001":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "002":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
                         break;
                     case "002":
-                        $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                        switch (status) {//自定义支付进度展示
+                            case "003":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "004":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
+                        break;
+                    case "006":
+                        switch ($scope.orderinfo.shoporderstatusCode) {//自定义支付进度展示
+                            case "001":
+                                $scope.process = [{value: "等待买家付款", len: 1}];
+                                break;
+                            case "002":
+                                $scope.process = [{value: "等待买家付款", len: 1}, {value: "买家已付款", len: 2}];
+                                break;
+                        }
+                        break;
+                    default :
                         break;
                 }
             });
         }
-
-        //跳转到商城订单详情页
+        //跳转到订单详情页
         $scope.orderdetail = function (orderno , orderType ,shoporderstatusCode) {
             var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
-            console.log('orderdetail==='+JSON.stringify(order));
-            $state.go("orderdetail", {order: JSON.stringify(order)});
+            console.log('detail==='+JSON.stringify(order));
+            switch (orderType){
+                case '006':
+                    $state.go("orderdetail", {order: JSON.stringify(order)});
+                    break;
+                default :
+                    $state.go("servicedetail", {order: JSON.stringify(order)});
+                    break;
+            }
         }
     }])
-
     //服务订单详情
     .controller('ServiceDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
         $rootScope.commonService=CommonService;
         $scope.order = JSON.parse($stateParams.order);
         console.log($stateParams.order);
-        if($scope.order.orderStatus){
-            $scope.order.orderStatus = $scope.order.orderStatus.substring(3,6);//截取后3位
-        }
-        if (sessionStorage.getItem($scope.order.orderno) == "ok" || $scope.order.orderStatus == '002') {
+        if (sessionStorage.getItem($scope.order.orderno) == "ok") {
             OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 console.log(JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
@@ -476,7 +540,7 @@
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
-                orderType:JSON.stringify({type:'006'})
+                orderType:JSON.stringify({type:$scope.order.orderType})
             }
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
@@ -490,10 +554,9 @@
                                 case "get_brand_wcpay_request:ok":
                                     CommonService.toolTip("支付成功","tool-tip-message-success");
                                     //调用支付后，跳转订单详情
-                                    sessionStorage.setItem(orderno,"ok");
-                                    $state.go("payresult", {orderno: orderno});
-
-
+                                    sessionStorage.setItem(orderno,"");
+                                    var order = {orderno:orderno ,orderType:$scope.order.orderType ,orderStatus:""};
+                                    $state.go("payresult", {order: JSON.stringify(order)});
                                     break;
                                 default :
                                     //取消或失败，停留此页面
@@ -503,8 +566,8 @@
                 });
             })
         }
-
-        $scope.procreceive = function () {
+        //物流页面
+        $scope.addLogisticsInfo = function () {
             var obj = {
                 type: $scope.order.orderType,
                 orderNo: $scope.order.orderno,
@@ -513,18 +576,121 @@
             console.log('procreceive===' + JSON.stringify(obj));
             $state.go('procreceive', obj);
         }
-
-        $scope.cancleorder=function(orderno){
-            //修改后，重新请求数据
-            OrderService.cancleOrder({orderno: orderno}).success(function (data) {
-                if (parseInt(data.resultnumber) > 0) {
-                    CommonService.toolTip("取消成功", "tool-tip-message-success");
-                    $state.go("orderlist");
-                }
-            });
+        //服务追踪
+        $scope.traceProgress = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
+            console.log('type=='+type);
+            console.log('orderno=='+orderno);
+            console.log('createTime=='+createTime);
+            console.log('shoporderstatusCode=='+shoporderstatusCode);
+            console.log('totalprice=='+totalprice);
+            //分类型=>分状态=>确定进度
+            switch(type){
+                case "001"://翻新
+                    switch (shoporderstatusCode) {
+                        case "001002":
+                        case "001003":
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "001004":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "001005":
+                            $state.go('procrefurbish', {name: 'refurbish', orderNo: orderno, orderTime: createTime});//翻新
+                            break;
+                        case "001006":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+                            break;
+                        case "001007":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "001008":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                case "002"://维修
+                    switch (shoporderstatusCode){
+                        case "002001":
+                        case "002002":
+                            $state.go('procfixprice', {name: type, orderno: orderno});
+                            break;
+                        case "002003"://确认维修(待付款)
+                            sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+                            sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
+                            sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
+                            $state.go('proccommitorder');
+                            break;
+                        case "002004"://客户发货
+                        case "002012":
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "002005":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "002006":
+                            $state.go('procrepair', {name: 'repair', orderno: orderno, orderTime: createTime});//维修
+                            break;
+                        case "002007":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+                            break;
+                        case "002008":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "002009":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                case "003"://检测
+                    switch (shoporderstatusCode){
+                        case "003002":
+                        case "003003":
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "003004":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "003006":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+                            break;
+                        case "003007":
+                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+                            break;
+                        case "003008":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                case "004"://回收
+                    switch (shoporderstatusCode){
+                        case "004001":
+                        case "004002":
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "004003":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "004004":
+                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
+                            break;
+                        case "004005":
+                        case "004006":
+                            $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+                            break;
+                        case "004007":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                    }
+                    break;
+                default://换款
+                    switch (shoporderstatusCode){
+                        case "":
+                            break;
+                    }
+                    break;
+            }
         }
     }])
-
     //商城订单详情
     .controller('OrderDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
         $rootScope.commonService=CommonService;
@@ -534,10 +700,7 @@
         OrderService.findReceiptServiceByOrderno({orderNo:$scope.order.orderno}).success(function (data) {
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
-        if($scope.order.orderStatus){
-            $scope.order.orderStatus = $scope.order.orderStatus.substring(3,6);//截取后3位
-        }
-        if (sessionStorage.getItem($scope.orderno) == "ok" || $scope.order.orderStatus == '002') {
+        if (sessionStorage.getItem($scope.orderno) == "ok") {
             OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
@@ -688,7 +851,7 @@
             placeholder: '商城订单',
             minimumResultsForSearch:-1
         };
-        $scope.type = 'ALL';
+        $scope.type = localStorage.getItem("orderListType")? localStorage.getItem("orderListType") : 'ALL';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
@@ -702,6 +865,7 @@
             $scope.page++;
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
+            localStorage.setItem("orderListType",$scope.type);
             //分页显示
             OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
                 console.log(data);
@@ -805,120 +969,6 @@
             console.log('servicedetail==='+JSON.stringify(order));
             $state.go("servicedetail", {order: JSON.stringify(order)});
         }
-        //服务订单追踪
-        $scope.procreceive = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
-            console.log('type=='+type);
-            console.log('orderno=='+orderno);
-            console.log('createTime=='+createTime);
-            console.log('shoporderstatusCode=='+shoporderstatusCode);
-            console.log('totalprice=='+totalprice);
-            //分类型=>分状态=>确定进度
-            switch(type){
-                case "001"://翻新
-                    switch (shoporderstatusCode) {
-                        case "001002":
-                        case "001003":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
-                            break;
-                        case "001004":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
-                            break;
-                        case "001005":
-                            $state.go('procrefurbish', {name: 'refurbish', orderNo: orderno, orderTime: createTime});//翻新
-                            break;
-                        case "001006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "001007":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "001008":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                    }
-                    break;
-                case "002"://维修
-                    switch (shoporderstatusCode){
-                        case "002001":
-                        case "002002":
-                            $state.go('procfixprice', {name: type, orderno: orderno});
-                            break;
-                        case "002003"://确认维修(待付款)
-                            sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
-                            sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
-                            sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
-                            $state.go('proccommitorder');
-                            break;
-                        case "002004"://客户发货
-                        case "002012":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
-                            break;
-                        case "002005":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
-                            break;
-                        case "002006":
-                            $state.go('procrepair', {name: 'repair', orderno: orderno, orderTime: createTime});//维修
-                            break;
-                        case "002007":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "002008":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "002009":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                    }
-                    break;
-                case "003"://检测
-                    switch (shoporderstatusCode){
-                        case "003002":
-                        case "003003":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
-                            break;
-                        case "003004":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
-                            break;
-                        case "003006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "003007":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "003008":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                    }
-                    break;
-                case "004"://回收
-                    switch (shoporderstatusCode){
-                        case "004001":
-                        case "004002":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
-                            break;
-                        case "004003":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
-                            break;
-                        case "004004":
-                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
-                            break;
-                        case "004005":
-                        case "004006":
-                            $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
-                            break;
-                        case "004007":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                    }
-                    break;
-                default://换款
-                    switch (shoporderstatusCode){
-                        case "":
-                            break;
-                    }
-                    break;
-            }
-        }
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
@@ -940,7 +990,6 @@
             console.log($scope.returnApply);
         }
     })
-
     //虚拟账户明细
     .controller('WalletdetailCtrl', function ($scope, WalletService) {
         console.log(1);
@@ -966,7 +1015,6 @@
         }
         $scope.getData();
     })
-
     //充值成功页面
     .controller('RechargeOKCtrl', function ($scope, $stateParams, $rootScope, CommonService, WalletService) {
             $scope.resultFlag = false;//充值结果
