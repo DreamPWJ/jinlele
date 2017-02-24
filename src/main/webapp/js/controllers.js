@@ -606,6 +606,12 @@
                         case "001008":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
+                        case "001009":
+                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "001010":
+                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+                            break;
                     }
                     break;
                 case "002"://维修
@@ -621,7 +627,7 @@
                             $state.go('proccommitorder');
                             break;
                         case "002004"://客户发货
-                        case "002012":
+                        case "002012"://平台收货
                             $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
                             break;
                         case "002005":
@@ -638,6 +644,12 @@
                             break;
                         case "002009":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                        case "002010":
+                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "002011":
+                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
                             break;
                     }
                     break;
@@ -659,6 +671,12 @@
                         case "003008":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
+                        case "003009":
+                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "003010":
+                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+                            break;
                     }
                     break;
                 case "004"://回收
@@ -679,6 +697,12 @@
                             break;
                         case "004007":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                        case "004008":
+                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "004011":
+                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
                             break;
                     }
                     break;
