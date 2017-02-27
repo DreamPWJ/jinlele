@@ -49,7 +49,7 @@
                     <a ng-href="#/gooddetail/{{item.id}}">
                         <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
                         <span class="text">{{item.title}}</span>
-                        <em>{{item.saleprice | currency:'￥'}}</em>
+                        <em>{{item.price | currency:'￥'}}</em>
                         <i class="icon">&#xe68d;</i>
                     </a>
                 </li>
@@ -60,12 +60,12 @@
         <main class="list">
             <section class="list_main" ng-repeat="item in newProductsinfo">
                 <a ng-href="#/gooddetail/{{item.id}}">
-                    <span class="pic"><img ng-src="{{item.bannerurl}}"></span>
+                    <span class="pic"><img ng-src="{{item.hotimgurl}}"></span>
                     <span class="text">{{item.title}}</span>
                     <p>{{item.shortinfo}}</p>
                     <span class="price">
-                        <em>现价：{{item.saleprice}}</em>
-                        <em>原价：{{item.discprice}}</em>
+                        <em>现价：{{item.price}}</em>
+                        <em>原价：{{item.oldprice}}</em>
                         <i class="icon">&#xe68d;</i>
                     </span>
                 </a>

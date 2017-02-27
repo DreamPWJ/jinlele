@@ -7,35 +7,25 @@ public class Good {
 
     private String title;
 
-    private Double saleprice;
-
     private String bannerurl;
 
-    private Integer categoryId;
-
-    private Integer salesvol;
+    private String hotimgurl;
 
     private String shortinfo;
 
-    private Double weight;
+    private Double price;
 
-    private String purity;
+    private Double oldprice;
 
-    private String material;
+    private Integer salesvol;
 
     private Integer canchange;
 
-    private String kind;
-
     private Integer stocknum;
 
-    private Double discprice;
+    private Integer position;
 
     private Integer comments;
-
-    private Double price;
-
-    private String colorcode;
 
     private String ishotcode;
 
@@ -65,14 +55,6 @@ public class Good {
         this.title = title == null ? null : title.trim();
     }
 
-    public Double getSaleprice() {
-        return saleprice;
-    }
-
-    public void setSaleprice(Double saleprice) {
-        this.saleprice = saleprice;
-    }
-
     public String getBannerurl() {
         return bannerurl;
     }
@@ -81,20 +63,12 @@ public class Good {
         this.bannerurl = bannerurl == null ? null : bannerurl.trim();
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public String getHotimgurl() {
+        return hotimgurl;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Integer getSalesvol() {
-        return salesvol;
-    }
-
-    public void setSalesvol(Integer salesvol) {
-        this.salesvol = salesvol;
+    public void setHotimgurl(String hotimgurl) {
+        this.hotimgurl = hotimgurl == null ? null : hotimgurl.trim();
     }
 
     public String getShortinfo() {
@@ -105,28 +79,28 @@ public class Good {
         this.shortinfo = shortinfo == null ? null : shortinfo.trim();
     }
 
-    public Double getWeight() {
-        return weight;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setWeight(Double weight) {
-        this.weight = weight;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public String getPurity() {
-        return purity;
+    public Double getOldprice() {
+        return oldprice;
     }
 
-    public void setPurity(String purity) {
-        this.purity = purity == null ? null : purity.trim();
+    public void setOldprice(Double oldprice) {
+        this.oldprice = oldprice;
     }
 
-    public String getMaterial() {
-        return material;
+    public Integer getSalesvol() {
+        return salesvol;
     }
 
-    public void setMaterial(String material) {
-        this.material = material == null ? null : material.trim();
+    public void setSalesvol(Integer salesvol) {
+        this.salesvol = salesvol;
     }
 
     public Integer getCanchange() {
@@ -137,14 +111,6 @@ public class Good {
         this.canchange = canchange;
     }
 
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind == null ? null : kind.trim();
-    }
-
     public Integer getStocknum() {
         return stocknum;
     }
@@ -153,12 +119,12 @@ public class Good {
         this.stocknum = stocknum;
     }
 
-    public Double getDiscprice() {
-        return discprice;
+    public Integer getPosition() {
+        return position;
     }
 
-    public void setDiscprice(Double discprice) {
-        this.discprice = discprice;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public Integer getComments() {
@@ -167,22 +133,6 @@ public class Good {
 
     public void setComments(Integer comments) {
         this.comments = comments;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getColorcode() {
-        return colorcode;
-    }
-
-    public void setColorcode(String colorcode) {
-        this.colorcode = colorcode == null ? null : colorcode.trim();
     }
 
     public String getIshotcode() {

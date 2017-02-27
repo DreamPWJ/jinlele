@@ -81,11 +81,11 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
      */
     public Map<String, Object> getGoodsByCidPaging(int pagenow, int catogoryId){
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " good ");
-        paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
+        paramMap.put("tableName", " good g join g_category gc on g.id=gc.good_id ");
+        paramMap.put("fields", " g.id,g.title,g.hotimgurl,g.price,g.oldprice,g.description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", "category_id = " + catogoryId + " and deleteCode = '001' ");
+        paramMap.put("wherecase", "gc.category_id = " + catogoryId + " and g.deleteCode = '001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);

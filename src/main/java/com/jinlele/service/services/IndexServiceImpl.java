@@ -63,7 +63,7 @@ public class IndexServiceImpl implements IIndexService {
         }
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " good ");
-        paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description,shortinfo ");
+        paramMap.put("fields", " id ,title,hotimgurl,price,oldprice,description,shortinfo ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
         paramMap.put("wherecase", wherecase.toString());

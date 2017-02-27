@@ -4,21 +4,16 @@
   <resultMap id="BaseResultMap" type="com.jinlele.model.Good" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="saleprice" property="saleprice" jdbcType="DOUBLE" />
     <result column="bannerurl" property="bannerurl" jdbcType="VARCHAR" />
-    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
-    <result column="salesvol" property="salesvol" jdbcType="INTEGER" />
+    <result column="hotimgUrl" property="hotimgurl" jdbcType="VARCHAR" />
     <result column="shortinfo" property="shortinfo" jdbcType="VARCHAR" />
-    <result column="weight" property="weight" jdbcType="DOUBLE" />
-    <result column="purity" property="purity" jdbcType="VARCHAR" />
-    <result column="material" property="material" jdbcType="VARCHAR" />
-    <result column="canchange" property="canchange" jdbcType="INTEGER" />
-    <result column="kind" property="kind" jdbcType="VARCHAR" />
-    <result column="stocknum" property="stocknum" jdbcType="INTEGER" />
-    <result column="discprice" property="discprice" jdbcType="DOUBLE" />
-    <result column="comments" property="comments" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="colorCode" property="colorcode" jdbcType="CHAR" />
+    <result column="oldprice" property="oldprice" jdbcType="DOUBLE" />
+    <result column="salesvol" property="salesvol" jdbcType="INTEGER" />
+    <result column="canchange" property="canchange" jdbcType="INTEGER" />
+    <result column="stocknum" property="stocknum" jdbcType="INTEGER" />
+    <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="comments" property="comments" jdbcType="INTEGER" />
     <result column="ishotCode" property="ishotcode" jdbcType="CHAR" />
     <result column="showCode" property="showcode" jdbcType="CHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -29,9 +24,8 @@
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, saleprice, bannerurl, category_id, salesvol, shortinfo, weight, purity, 
-    material, canchange, kind, stocknum, discprice, comments, price, colorCode, ishotCode, 
-    showCode, deleteCode, create_time, update_time
+    id, title, bannerurl, hotimgUrl, shortinfo, price, oldprice, salesvol, canchange, 
+    stocknum, position, comments, ishotCode, showCode, deleteCode, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     description
@@ -49,22 +43,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Good" >
-    insert into good (id, title, saleprice, 
-      bannerurl, category_id, salesvol, 
-      shortinfo, weight, purity, 
-      material, canchange, kind, 
-      stocknum, discprice, comments, 
-      price, colorCode, ishotCode, 
-      showCode, deleteCode, create_time, 
-      update_time, description)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{saleprice,jdbcType=DOUBLE}, 
-      #{bannerurl,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{salesvol,jdbcType=INTEGER}, 
-      #{shortinfo,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, #{purity,jdbcType=VARCHAR}, 
-      #{material,jdbcType=VARCHAR}, #{canchange,jdbcType=INTEGER}, #{kind,jdbcType=VARCHAR}, 
-      #{stocknum,jdbcType=INTEGER}, #{discprice,jdbcType=DOUBLE}, #{comments,jdbcType=INTEGER}, 
-      #{price,jdbcType=DOUBLE}, #{colorcode,jdbcType=CHAR}, #{ishotcode,jdbcType=CHAR}, 
-      #{showcode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR})
+    insert into good (id, title, bannerurl, 
+      hotimgUrl, shortinfo, price, 
+      oldprice, salesvol, canchange, 
+      stocknum, position, comments, 
+      ishotCode, showCode, deleteCode, 
+      create_time, update_time, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{bannerurl,jdbcType=VARCHAR}, 
+      #{hotimgurl,jdbcType=VARCHAR}, #{shortinfo,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{oldprice,jdbcType=DOUBLE}, #{salesvol,jdbcType=INTEGER}, #{canchange,jdbcType=INTEGER}, 
+      #{stocknum,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER}, 
+      #{ishotcode,jdbcType=CHAR}, #{showcode,jdbcType=CHAR}, #{deletecode,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Good" >
     insert into good
@@ -75,50 +67,35 @@
       <if test="title != null" >
         title,
       </if>
-      <if test="saleprice != null" >
-        saleprice,
-      </if>
       <if test="bannerurl != null" >
         bannerurl,
       </if>
-      <if test="categoryId != null" >
-        category_id,
-      </if>
-      <if test="salesvol != null" >
-        salesvol,
+      <if test="hotimgurl != null" >
+        hotimgUrl,
       </if>
       <if test="shortinfo != null" >
         shortinfo,
       </if>
-      <if test="weight != null" >
-        weight,
+      <if test="price != null" >
+        price,
       </if>
-      <if test="purity != null" >
-        purity,
+      <if test="oldprice != null" >
+        oldprice,
       </if>
-      <if test="material != null" >
-        material,
+      <if test="salesvol != null" >
+        salesvol,
       </if>
       <if test="canchange != null" >
         canchange,
       </if>
-      <if test="kind != null" >
-        kind,
-      </if>
       <if test="stocknum != null" >
         stocknum,
       </if>
-      <if test="discprice != null" >
-        discprice,
+      <if test="position != null" >
+        position,
       </if>
       <if test="comments != null" >
         comments,
-      </if>
-      <if test="price != null" >
-        price,
-      </if>
-      <if test="colorcode != null" >
-        colorCode,
       </if>
       <if test="ishotcode != null" >
         ishotCode,
@@ -146,50 +123,35 @@
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="saleprice != null" >
-        #{saleprice,jdbcType=DOUBLE},
-      </if>
       <if test="bannerurl != null" >
         #{bannerurl,jdbcType=VARCHAR},
       </if>
-      <if test="categoryId != null" >
-        #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="salesvol != null" >
-        #{salesvol,jdbcType=INTEGER},
+      <if test="hotimgurl != null" >
+        #{hotimgurl,jdbcType=VARCHAR},
       </if>
       <if test="shortinfo != null" >
         #{shortinfo,jdbcType=VARCHAR},
       </if>
-      <if test="weight != null" >
-        #{weight,jdbcType=DOUBLE},
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
       </if>
-      <if test="purity != null" >
-        #{purity,jdbcType=VARCHAR},
+      <if test="oldprice != null" >
+        #{oldprice,jdbcType=DOUBLE},
       </if>
-      <if test="material != null" >
-        #{material,jdbcType=VARCHAR},
+      <if test="salesvol != null" >
+        #{salesvol,jdbcType=INTEGER},
       </if>
       <if test="canchange != null" >
         #{canchange,jdbcType=INTEGER},
       </if>
-      <if test="kind != null" >
-        #{kind,jdbcType=VARCHAR},
-      </if>
       <if test="stocknum != null" >
         #{stocknum,jdbcType=INTEGER},
       </if>
-      <if test="discprice != null" >
-        #{discprice,jdbcType=DOUBLE},
+      <if test="position != null" >
+        #{position,jdbcType=INTEGER},
       </if>
       <if test="comments != null" >
         #{comments,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="colorcode != null" >
-        #{colorcode,jdbcType=CHAR},
       </if>
       <if test="ishotcode != null" >
         #{ishotcode,jdbcType=CHAR},
@@ -217,50 +179,35 @@
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="saleprice != null" >
-        saleprice = #{saleprice,jdbcType=DOUBLE},
-      </if>
       <if test="bannerurl != null" >
         bannerurl = #{bannerurl,jdbcType=VARCHAR},
       </if>
-      <if test="categoryId != null" >
-        category_id = #{categoryId,jdbcType=INTEGER},
-      </if>
-      <if test="salesvol != null" >
-        salesvol = #{salesvol,jdbcType=INTEGER},
+      <if test="hotimgurl != null" >
+        hotimgUrl = #{hotimgurl,jdbcType=VARCHAR},
       </if>
       <if test="shortinfo != null" >
         shortinfo = #{shortinfo,jdbcType=VARCHAR},
       </if>
-      <if test="weight != null" >
-        weight = #{weight,jdbcType=DOUBLE},
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
       </if>
-      <if test="purity != null" >
-        purity = #{purity,jdbcType=VARCHAR},
+      <if test="oldprice != null" >
+        oldprice = #{oldprice,jdbcType=DOUBLE},
       </if>
-      <if test="material != null" >
-        material = #{material,jdbcType=VARCHAR},
+      <if test="salesvol != null" >
+        salesvol = #{salesvol,jdbcType=INTEGER},
       </if>
       <if test="canchange != null" >
         canchange = #{canchange,jdbcType=INTEGER},
       </if>
-      <if test="kind != null" >
-        kind = #{kind,jdbcType=VARCHAR},
-      </if>
       <if test="stocknum != null" >
         stocknum = #{stocknum,jdbcType=INTEGER},
       </if>
-      <if test="discprice != null" >
-        discprice = #{discprice,jdbcType=DOUBLE},
+      <if test="position != null" >
+        position = #{position,jdbcType=INTEGER},
       </if>
       <if test="comments != null" >
         comments = #{comments,jdbcType=INTEGER},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="colorcode != null" >
-        colorCode = #{colorcode,jdbcType=CHAR},
       </if>
       <if test="ishotcode != null" >
         ishotCode = #{ishotcode,jdbcType=CHAR},
@@ -286,21 +233,16 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jinlele.model.Good" >
     update good
     set title = #{title,jdbcType=VARCHAR},
-      saleprice = #{saleprice,jdbcType=DOUBLE},
       bannerurl = #{bannerurl,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      salesvol = #{salesvol,jdbcType=INTEGER},
+      hotimgUrl = #{hotimgurl,jdbcType=VARCHAR},
       shortinfo = #{shortinfo,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=DOUBLE},
-      purity = #{purity,jdbcType=VARCHAR},
-      material = #{material,jdbcType=VARCHAR},
-      canchange = #{canchange,jdbcType=INTEGER},
-      kind = #{kind,jdbcType=VARCHAR},
-      stocknum = #{stocknum,jdbcType=INTEGER},
-      discprice = #{discprice,jdbcType=DOUBLE},
-      comments = #{comments,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
-      colorCode = #{colorcode,jdbcType=CHAR},
+      oldprice = #{oldprice,jdbcType=DOUBLE},
+      salesvol = #{salesvol,jdbcType=INTEGER},
+      canchange = #{canchange,jdbcType=INTEGER},
+      stocknum = #{stocknum,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      comments = #{comments,jdbcType=INTEGER},
       ishotCode = #{ishotcode,jdbcType=CHAR},
       showCode = #{showcode,jdbcType=CHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
@@ -312,21 +254,16 @@
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.Good" >
     update good
     set title = #{title,jdbcType=VARCHAR},
-      saleprice = #{saleprice,jdbcType=DOUBLE},
       bannerurl = #{bannerurl,jdbcType=VARCHAR},
-      category_id = #{categoryId,jdbcType=INTEGER},
-      salesvol = #{salesvol,jdbcType=INTEGER},
+      hotimgUrl = #{hotimgurl,jdbcType=VARCHAR},
       shortinfo = #{shortinfo,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=DOUBLE},
-      purity = #{purity,jdbcType=VARCHAR},
-      material = #{material,jdbcType=VARCHAR},
-      canchange = #{canchange,jdbcType=INTEGER},
-      kind = #{kind,jdbcType=VARCHAR},
-      stocknum = #{stocknum,jdbcType=INTEGER},
-      discprice = #{discprice,jdbcType=DOUBLE},
-      comments = #{comments,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
-      colorCode = #{colorcode,jdbcType=CHAR},
+      oldprice = #{oldprice,jdbcType=DOUBLE},
+      salesvol = #{salesvol,jdbcType=INTEGER},
+      canchange = #{canchange,jdbcType=INTEGER},
+      stocknum = #{stocknum,jdbcType=INTEGER},
+      position = #{position,jdbcType=INTEGER},
+      comments = #{comments,jdbcType=INTEGER},
       ishotCode = #{ishotcode,jdbcType=CHAR},
       showCode = #{showcode,jdbcType=CHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
@@ -334,21 +271,18 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-    <!-- 获取首页新品推荐 -->
-    <select id="getNewProducts" resultType="map">
-    select id ,title,bannerurl,saleprice FROM good  WHERE  ishotCode='001' and deleteCode='001' ORDER BY create_time DESC LIMIT 0,3
+  <!-- 获取首页新品推荐 -->
+  <select id="getNewProducts" resultType="map">
+    select id ,title,bannerurl,price FROM good  WHERE  ishotCode='001' and deleteCode='001' ORDER BY create_time DESC LIMIT 0,3
   </select>
 
-    <!-- 获取产品详情 -->
-    <select id="getGoodDetail" resultType="map">
-        select  g.id as goodid,g.title,g.bannerurl,g.description,g.weight,g.stocknum,g.saleprice,g.discprice FROM good g WHERE  g.id=#{gooodId}
-    </select>
+  <!-- 获取产品详情 -->
+  <select id="getGoodDetail" resultType="map">
+    select  g.id as goodid,g.title,g.bannerurl,g.description,g.weight,g.stocknum,g.saleprice,g.discprice FROM good g WHERE  g.id=#{gooodId}
+  </select>
 
-    <!--根据商品的id 查询所有的子商品信息-->
-    <select id="getGoodChildsByGoodId" resultType="map">
-          SELECT id , color , stocknumber,imgurl, good_id as goodId  FROM goodchild WHERE good_id =#{gooodId}
-    </select>
-
+  <!--根据商品的id 查询所有的子商品信息-->
+  <select id="getGoodChildsByGoodId" resultType="map">
+    SELECT id , color , stocknumber,imgurl, good_id as goodId  FROM goodchild WHERE good_id =#{gooodId}
+  </select>
 </mapper>
