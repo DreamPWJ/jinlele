@@ -44,16 +44,16 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
     public Map<String, Object> getGoodListPaging(int pagenow, String categoryname, int querytype , int flag) {
         String orderKey = "";
         if(querytype == 2){
-            orderKey = " saleprice ";
+            orderKey = " price ";
         }else {
             orderKey = " create_time ";
         }
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " good ");
-        paramMap.put("fields", " id ,title,bannerurl,saleprice,discprice,description ");
+        paramMap.put("tableName", " good g join g_category gc ON gc.good_id=g.id ");
+        paramMap.put("fields", " distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
+        paramMap.put("wherecase", " gc.category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
         paramMap.put("orderField",  orderKey );
         paramMap.put("orderFlag", flag);
         this.baseMapper.getPaging(paramMap);
