@@ -3,7 +3,6 @@
 <main class="banner">
 	<!--<ul class="swiper-wrapper">-->
 	<ul class="swiper-wrapper" >
-    	<li class=""><img ng-src="{{bannerurl}}"></li>
    	<!--<li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>-->
 
   	</ul>
@@ -14,8 +13,8 @@
 <section class="essential">
 	<h1>{{goodDetail.title}} </h1>
 	<section class="essential_main">
-    	<em>{{goodDetail.saleprice | currency:'￥'}}</em>
-    	<em>{{goodDetail.discprice | currency:'￥'}}</em>
+    	<em>{{goodDetail.price | currency:'￥'}}</em>
+    	<em>{{goodDetail.oldprice | currency:'￥'}}</em>
         <span>
         	<i>评价({{goodcommentcount}})</i>
         	<i>库存({{stocknum}})</i>
@@ -36,7 +35,7 @@
         	<em>数量：</em>
            	<span class="amount">
             	<a class="icon" href="" ng-click="minusNum()">&#xe603;</a>
-                <input  type="text" ng-model="gooddetail.num" ng-change="changeNum(gooddetail.num)">
+                <input  type="text" ng-model="gooddetail.num" ng-change="changeNum()">
                 <a class="iconfont icon-add" href="" ng-click="addNum()"></a>
            	</span>
         </li>

@@ -30,6 +30,8 @@ public class GoodController {
     IFavouriteService favouriteService;
     @Resource
     ICommentService commentService;
+    @Resource
+    IGoodPictureService goodPictureService;
 
     /**
      * 获取一级分类
@@ -62,11 +64,13 @@ public class GoodController {
     public Map<String, Object> getGoodDetail(@PathVariable int goodId,@PathVariable int userId) {
         Map<String, Object> newMap = new HashedMap();
         Map<String, Object> goodmap = goodService.getGoodDetail(goodId);   //获得商品详情信息
+        List imgurls = goodPictureService.getGoodPicture(goodId);//获取图片集合
         int totalnum = shoppingCartService.getShopcharTotalNum(userId);  //初始页面时，获得该用户加入购车商品总数量
         List<Map<String, Object>>  goodchilds = goodService.getGoodChildsByGoodId(goodId);
         Favourite favourite = new Favourite(userId , goodId);
         List<Map<String, Object>> favourites = favouriteService.selectByuserIdAndGoodId(favourite); //查询是否收藏
         newMap.put("good" , goodmap);
+        newMap.put("imgurls" , imgurls);
         newMap.put("goodchilds" , goodchilds);
         newMap.put("totalnum" , totalnum);
         newMap.put("favourites" , favourites);

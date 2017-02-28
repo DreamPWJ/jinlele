@@ -29,15 +29,13 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     @Override
     public Map<String, Object> getShoppingCartPaging(int pagenow, int userId) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " (\n" +
-                "select s.goodchild_id as gcid,g.title,g.saleprice, s.id as cartId ,s.create_time,\n" +
-                "s.user_id as userId, s.num ,g.id as goodId  ,\n" +
-                "s.deleteCode as sdelCode , g.deleteCode as gdelCode\n" +
-                "from  shoppingcart s \n" +
-                "LEFT JOIN good g on s.good_id = g.id order by s.id\n" +
-                ")as m\n" +
-                "left join goodchild  c on m.gcid = c.id ");
-        paramMap.put("fields", " m.* ,c.imgurl,c.color,c.stocknumber  ");
+        paramMap.put("tableName", " (select s.goodchild_id as gcid,g.title,g.price, s.id as cartId ,\n" +
+                "s.create_time,s.user_id as userId, s.num ,g.id as goodId,\n" +
+                "s.deleteCode as sdelCode , g.deleteCode as gdelCode,g.bannerurl \n" +
+                "from  shoppingcart s\n" +
+                "LEFT JOIN good g on s.good_id = g.id order by s.id) as m\n" +
+                "left join goodchild c on m.gcid = c.id ");
+        paramMap.put("fields", " m.* ,c.color,c.stocknumber  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 100);
         paramMap.put("wherecase", " m.sdelCode='001' AND m.gdelCode='001' AND m.userId= "+userId);

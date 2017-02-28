@@ -103,4 +103,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 获取商品详情图片 -->
+  <select id="getGoodPicture" resultType="map">
+    select g.imgurl from good_picture g
+    where  g.deleteCode='001' and g.good_id=#{gooodId}
+  </select>
 </mapper>

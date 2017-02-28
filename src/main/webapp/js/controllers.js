@@ -13,7 +13,6 @@
              var html = "";
              if(arr){
                  for(var i=0,len=arr.length;i<len;i++){
-                     console.log(arr[i]);
                      html += "<li class='swiper-slide'><a href=''><img src='"+arr[i].imgurl+"'  height='188'></a></li>";
                  }
              }
@@ -34,7 +33,7 @@
             $scope.indexinfo = data;
             getBanners(data.banners);
             // console.log(JSON.stringify(data));
-            console.log(JSON.stringify(data.banners));
+            //console.log(JSON.stringify(data.banners));
             localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
             localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
@@ -173,7 +172,7 @@
                     $scope.m[data.gcid] = true;
                     $scope.checkedinfo.push(data);
                     $scope.totalnum += parseInt(data.num);
-                    $scope.totalprice += parseInt(data.num) * data.saleprice;
+                    $scope.totalprice += parseInt(data.num) * data.price;
                 })
                 $('#' + choseall.id).siblings("label").addClass("on");
                 angular.forEach($scope.checkedGcIds, function (i, index) {
@@ -218,7 +217,7 @@
                 if (data && f !== -1) {
                     $scope.checkedinfo.push(data);
                     $scope.totalnum += parseInt(data.num);
-                    $scope.totalprice += parseInt(data.num) * data.saleprice;
+                    $scope.totalprice += parseInt(data.num) * data.price;
                 }
             })
             $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
@@ -271,7 +270,7 @@
                 if (item && f !== -1) {
                     $scope.checkedinfo.push(item);
                     $scope.totalnum += parseInt(item.num);
-                    $scope.totalprice += parseInt(item.num) * item.saleprice;
+                    $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
         }
@@ -294,7 +293,7 @@
                 if (item && f !== -1) {
                     $scope.checkedinfo.push(item);
                     $scope.totalnum += parseInt(item.num);
-                    $scope.totalprice += parseInt(item.num) * item.saleprice;
+                    $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
         }
@@ -318,7 +317,7 @@
         $scope.show = false;
         for (var i = 0; i < $scope.selectinfo.length; i++) {
             $scope.totalnum += parseInt($scope.selectinfo[i].num);
-            $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].saleprice;
+            $scope.totalprice += parseInt($scope.selectinfo[i].num) * $scope.selectinfo[i].price;
         }
         //从数据库获取最新地址展示
         AddressService.getlatestinfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
@@ -1331,7 +1330,6 @@
             //获取产品列表
             GoodService.getGoodList({pagenow: 1, categoryname: $stateParams.name, querytype:querytype , flag:flag}).success(function (data) {
                 $scope.goodList = data;
-                console.log(data);
             })
         }
 
@@ -1346,7 +1344,6 @@
             }
             if(index == 2){
                 $scope.priceFlag = $scope.priceFlag == 1 ? 0 : 1;
-                console.log("==="+$scope.priceFlag);
                 getData(index , $scope.priceFlag);
             }
         }
@@ -1359,11 +1356,20 @@
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         $rootScope.commonService = CommonService;
         $scope.rightFlag=false;
-        var swiper = new Swiper('.banner', {
-            pagination: '.spot',
-            paginationClickable: true,
-            autoplay: 3000
-        });
+        function getBanners(arr) {
+            var html = "";
+            if(arr){
+                for(var i=0,len=arr.length;i<len;i++){
+                    html += "<li class='swiper-slide'><img src='"+arr[i].imgurl+"'></li>";
+                }
+            }
+            $(".banner .swiper-wrapper").html(html);
+            var swiper = new Swiper('.banner', {
+                pagination: '.spot',
+                paginationClickable: true,
+                autoplay: false
+            });
+        }
         //初始化参数
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
@@ -1381,7 +1387,9 @@
             $scope.goodChilds = data.goodchilds;
             $scope.favourites = data.favourites;
             $scope.totalnum = data.totalnum;
-            $scope.bannerurl = $scope.goodChilds[0].imgurl;
+            $scope.bannerurl =data.imgurls;
+            $scope.bannerurl.splice(0,0,{"imgurl":data.good.bannerurl});
+            getBanners($scope.bannerurl);
             $scope.stocknum = $scope.goodChilds[0].stocknumber;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
                 angular.forEach($scope.goodChilds, function (item) {
@@ -1403,10 +1411,10 @@
         });
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
-                CommonService.toolTip("请选择颜色分类", "tool-tip-message");
+                CommonService.toolTip("请选择商品颜色", "tool-tip-message");
                 return;
             }
-            $scope.changeNum();
+            $scope.totalnum += parseInt($scope.gooddetail.num || 0);
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function (data) {
                     console.log('data===' + data);
@@ -1415,7 +1423,12 @@
             )
         }
         $scope.changeNum = function () {
-            $scope.totalnum =  $scope.totalnum + parseInt($scope.gooddetail.num || 0);
+            if (!/^\+?[1-9][0-9]*$/.test($scope.gooddetail.num)) {
+                $scope.gooddetail.num = 1;
+            }
+            if($scope.gooddetail.num>$scope.stocknum){
+                $scope.gooddetail.num=$scope.stocknum;
+            }
         }
         $scope.addNum = function () {
             if($scope.gooddetail.num<$scope.stocknum){
