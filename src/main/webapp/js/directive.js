@@ -118,7 +118,7 @@ angular.module('starter.directive', [])
         scope:{
             eObj:'=',
             stockNum:'=',
-            bannerUrl:'=',
+            price:'=',
             goodchildId:'=',
             gooddetailNum:'='
         },
@@ -133,10 +133,10 @@ angular.module('starter.directive', [])
                         });
                         scope.eObj[index].flag=true;
                         scope.stockNum = scope.eObj[index].stocknumber;
-                        scope.bannerUrl = scope.eObj[index].imgurl;
+                        scope.price = scope.eObj[index].price;
                         scope.goodchildId = scope.eObj[index].id;
                         scope.gooddetailNum = 1;
-                        console.log(scope.goodchildId);
+                        //console.log(scope.goodchildId);console.log(JSON.stringify(scope.eObj[index]));
                         scope.$apply();
                         return;
                     } else {

@@ -283,6 +283,6 @@
 
   <!--根据商品的id 查询所有的子商品信息-->
   <select id="getGoodChildsByGoodId" resultType="map">
-    SELECT id , color , stocknumber,imgurl, good_id as goodId,price  FROM goodchild WHERE good_id =#{gooodId}
+    select id,good_id as goodId,color,weight,material,mainstorespec,handsize,necklace_len,bracelet_len,stocknumber,price  from goodchild where good_id =#{gooodId} and deletecode='001'
   </select>
 </mapper>

@@ -1390,6 +1390,7 @@
             $scope.bannerurl =data.imgurls;
             $scope.bannerurl.splice(0,0,{"imgurl":data.good.bannerurl});
             getBanners($scope.bannerurl);
+            $scope.price = $scope.goodChilds[0].price;
             $scope.stocknum = $scope.goodChilds[0].stocknumber;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
                 angular.forEach($scope.goodChilds, function (item) {
@@ -1411,7 +1412,7 @@
         });
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
-                CommonService.toolTip("请选择商品颜色", "tool-tip-message");
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
             $scope.totalnum += parseInt($scope.gooddetail.num || 0);
