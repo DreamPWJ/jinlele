@@ -27,13 +27,13 @@
                 <!--商城订单-->
                 <section class="product_list" ng-repeat="subitem in item.child" ng-if="item.type == '006'">  <!--商城订单-->
                     <section class="product">
-                        <span class="pic"><a  ng-click="previewImg(subitem.imgurl)"><img ng-src="{{subitem.imgurl}}"></a></span>
+                        <span class="pic"><a  ng-click="previewImg(subitem.bannerurl)"><img ng-src="{{subitem.bannerurl}}"></a></span>
                         <section class="text" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">
                             <p><a>{{subitem.title}}</a></p>
                             <span>颜色分类：{{subitem.color}}</span>
                         </section>
                         <section class="price_1" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">
-                            <em>{{subitem.saleprice | currency:'￥'}}</em>
+                            <em>{{subitem.price | currency:'￥'}}</em>
                             <i>X {{subitem.buynum}}</i>
                         </section>
                     </section>

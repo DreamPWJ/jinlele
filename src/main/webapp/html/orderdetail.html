@@ -23,13 +23,13 @@
         <span class="title">订单明细</span>
         <section class="product_list">
             <section class="product" ng-repeat="item in orderdetail.info">
-                <span class="pic"><a href=""><img ng-src="{{item.imgurl}}"></a></span>
+                <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                 <section class="text">
                     <p><a href="#/gooddetail/{{item.goodid}}">{{item.title}}</a></p>
                     <span>颜色分类：{{item.color}}</span>
                 </section>
                 <section class="price_1">
-                    <em>{{item.saleprice|currency:'￥'}}</em>
+                    <em>{{item.price|currency:'￥'}}</em>
                     <i>X {{item.buynum}}</i>
                 </section>
             </section>
