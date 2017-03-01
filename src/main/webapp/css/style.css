@@ -9,6 +9,9 @@
     font-family: "Microsoft YaHei";
     list-style-type: none;
 }
+.scroll-bar-indicator ,.scroll-bar-fade-out{
+    height: 0 !important ;
+}
 
 a {
     color: #393939;
