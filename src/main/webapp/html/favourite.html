@@ -15,8 +15,8 @@
                     <section class="text">
                         <h2 class="txt-ellipsis" ng-click="detail(item.gid)"><a href="">{{item.title}}</a></h2>
                         <span class="price">
-                                    <em>￥{{item.saleprice | number : 2}} </em>
-                                    <a class="icon" href="" ng-click="del(item.fid,$index)">&#xe721;</a>
+                                    <em>{{item.price | currency:'￥'}} </em>
+                                    <a class="icon"  ng-click="del(item.fid,$index)">&#xe721;</a>
                                 </span>
                     </section>
                 </section>

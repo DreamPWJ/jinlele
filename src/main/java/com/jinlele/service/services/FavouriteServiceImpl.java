@@ -44,7 +44,7 @@ public class FavouriteServiceImpl implements IFavouriteService{
     public Map<String, Object> getFavsByUidPaging(int pagenow, int userId) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " favourite f left join good g on g.id = f.good_id  ");
-        paramMap.put("fields", " f.id as fid , g.id as gid, g.title ,g.saleprice,g.discprice ,g.bannerurl ");
+        paramMap.put("fields", " f.id as fid , g.id as gid, g.title ,g.price,g.oldprice ,g.bannerurl ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 6);   //SysConstants.PAGESIZE
         paramMap.put("wherecase",  "user_id = " + userId + " and f.deleteCode = '001' ");
