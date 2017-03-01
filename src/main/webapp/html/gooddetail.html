@@ -66,13 +66,13 @@
 <!-- FOOTER -->
 <footer class="add_submit">
 	<span class="check">
-        <a class="hover" href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
-         <a href="" ng-click="fav()"   ng-class="{favcolor:favcontent=='已收藏'}"> <i class="iconfont icon-wodeshoucang"></i><em >{{favcontent}}</em></a>
-        <a href="#/shoppingcart">
+        <a class="hover" ng-style="menuWidth" href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
+         <a ng-click="fav()"   ng-class="{favcolor:favcontent=='已收藏'}" ng-style="menuWidth"> <i class="iconfont icon-wodeshoucang"></i><em >{{favcontent}}</em></a>
+        <a href="#/shoppingcart" ng-style="menuWidth">
 			<i class="icon">&#xe68d;</i><em>购物车</em>
 			<u>{{totalnum}}</u>
 		</a>
-        <a href="#/exchange" style="line-height: 50px;background: #F5D000;color: #fff;text-align: center;">换此款</a>
+        <a ng-if="goodDetail.canchange==0" href="#/exchange" style="line-height: 50px;background: #F5D000;color: #fff;text-align: center;">换此款</a>
     </span>
 	<a class="cart" ng-click="addtocart()">加入购物车</a>
 </footer>

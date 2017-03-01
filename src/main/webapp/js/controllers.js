@@ -141,7 +141,7 @@
         };
         $scope.delstyle = {display: 'none'};
         CartService.getcartinfo($scope.init).success(function (data) {
-            console.log(data);
+            //console.log(data);
             $scope.isNotData = false;
             if (data.pagingList.length == 0) {
                 $scope.isNotData = true;
@@ -1355,12 +1355,12 @@
     //商品详情
     .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         $rootScope.commonService = CommonService;
-        $scope.rightFlag=false;
+        $scope.rightFlag = false;
         function getBanners(arr) {
             var html = "";
-            if(arr){
-                for(var i=0,len=arr.length;i<len;i++){
-                    html += "<li class='swiper-slide'><img src='"+arr[i].imgurl+"'></li>";
+            if (arr) {
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "'></li>";
                 }
             }
             $(".banner .swiper-wrapper").html(html);
@@ -1370,11 +1370,12 @@
                 autoplay: false
             });
         }
+
         //初始化参数
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
         $scope.favouriteId = "";   //收藏后的id
-
+        $scope.menuWidth = {"width": "33.333%"};
         $scope.gooddetail = {
             userId: localStorage.getItem("jinlele_userId"),
             goodId: $stateParams.id,
@@ -1382,33 +1383,36 @@
             num: 1
         };
         GoodService.getGoodDetail({goodId: $stateParams.id, userId: $scope.gooddetail.userId}).success(function (data) {
-            console.log("getGoodDetail=="+JSON.stringify(data));
+            console.log("getGoodDetail==" + JSON.stringify(data));
             $scope.goodDetail = data.good;
             $scope.goodChilds = data.goodchilds;
             $scope.favourites = data.favourites;
             $scope.totalnum = data.totalnum;
-            $scope.bannerurl =data.imgurls;
-            $scope.bannerurl.splice(0,0,{"imgurl":data.good.bannerurl});
+            $scope.bannerurl = data.imgurls;
+            $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
             getBanners($scope.bannerurl);
             $scope.price = $scope.goodChilds[0].price;
             $scope.stocknum = $scope.goodChilds[0].stocknumber;
+            if (data.good.canchange == 0) {
+                $scope.menuWidth = {"width": "25%"};
+            }
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
                 angular.forEach($scope.goodChilds, function (item) {
                     item.flag = false;
                 });
             }
-            if($scope.favourites && $scope.favourites.length>0){
+            if ($scope.favourites && $scope.favourites.length > 0) {
                 $scope.favouriteId = $scope.favourites[0].id;
             }
             $scope.favcontent = $scope.favouriteId ? '已收藏' : '加入收藏';
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
 
         });
-        GoodService.getGoodCommentCount({goodId: $stateParams.id}).success(function(data){
-            $scope.goodcommentcount=data.total;
+        GoodService.getGoodCommentCount({goodId: $stateParams.id}).success(function (data) {
+            $scope.goodcommentcount = data.total;
         });
-        GoodService.getGoodComments({goodId: $stateParams.id, pagenow: 1}).success(function(data){
-            $scope.goodcomments=data.comments;
+        GoodService.getGoodComments({goodId: $stateParams.id, pagenow: 1}).success(function (data) {
+            $scope.goodcomments = data.comments;
         });
         $scope.addtocart = function () {
             if (!$scope.gooddetail.goodchildId) {
@@ -1427,12 +1431,12 @@
             if (!/^\+?[1-9][0-9]*$/.test($scope.gooddetail.num)) {
                 $scope.gooddetail.num = 1;
             }
-            if($scope.gooddetail.num>$scope.stocknum){
-                $scope.gooddetail.num=$scope.stocknum;
+            if ($scope.gooddetail.num > $scope.stocknum) {
+                $scope.gooddetail.num = $scope.stocknum;
             }
         }
         $scope.addNum = function () {
-            if($scope.gooddetail.num<$scope.stocknum){
+            if ($scope.gooddetail.num < $scope.stocknum) {
                 $scope.gooddetail.num++;
             }
         }
@@ -1442,22 +1446,25 @@
             }
         }
 
-        $scope.fav =  function () {
+        $scope.fav = function () {
             //去后台收藏表 保存或删除数据
-            if($scope.favouriteId){  //
-                GoodService.delFavourite({fid:$scope.favouriteId}).success(function (data) {
-                    if(data && data.n == 1 ){
-                        $scope.favouriteId =  "";
+            if ($scope.favouriteId) {  //
+                GoodService.delFavourite({fid: $scope.favouriteId}).success(function (data) {
+                    if (data && data.n == 1) {
+                        $scope.favouriteId = "";
                         CommonService.toolTip("已取消收藏", "");
-                        $scope.favcontent =  '加入收藏';
+                        $scope.favcontent = '加入收藏';
                     }
                 })
-            }else{
-                GoodService.saveFavourite({goodId:$stateParams.id , userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
-                    if(data && data.favouriteId ){
-                        $scope.favouriteId =  data.favouriteId;
+            } else {
+                GoodService.saveFavourite({
+                    goodId: $stateParams.id,
+                    userId: localStorage.getItem("jinlele_userId")
+                }).success(function (data) {
+                    if (data && data.favouriteId) {
+                        $scope.favouriteId = data.favouriteId;
                         CommonService.toolTip("收藏成功", "");
-                        $scope.favcontent =  '已收藏';
+                        $scope.favcontent = '已收藏';
                     }
                 })
             }
