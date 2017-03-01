@@ -146,7 +146,7 @@
   </update>
 
   <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
-    select g.id as goodid,gc.id as gcid,g.title,g.bannerurl,gc.color,g.price,m.num as buynum
+    select g.id as goodid,gc.id as gcid,g.title,g.bannerurl,gc.color,gc.price,m.num as buynum
     from shoporder_good m
     join good g on g.id=m.good_id
     join goodchild gc on gc.id=m.goodchild_id
