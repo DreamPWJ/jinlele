@@ -11,6 +11,8 @@ public class ShopOrderGood {
 
     private Integer goodId;
 
+    private Double unitprice;
+
     private Integer num;
 
     private Integer commentId;
@@ -24,10 +26,11 @@ public class ShopOrderGood {
     public ShopOrderGood() {
     }
 
-    public ShopOrderGood(String shoporderNo, Integer goodchildId, Integer goodId, Integer num, String deletecode) {
+    public ShopOrderGood(String shoporderNo, Integer goodchildId, Integer goodId,Double unitprice, Integer num, String deletecode) {
         this.shoporderNo = shoporderNo;
         this.goodchildId = goodchildId;
         this.goodId = goodId;
+        this.unitprice = unitprice;
         this.num = num;
         this.deletecode = deletecode;
     }
@@ -62,6 +65,14 @@ public class ShopOrderGood {
 
     public void setGoodId(Integer goodId) {
         this.goodId = goodId;
+    }
+
+    public Double getUnitprice() {
+        return unitprice;
+    }
+
+    public void setUnitprice(Double unitprice) {
+        this.unitprice = unitprice;
     }
 
     public Integer getNum() {

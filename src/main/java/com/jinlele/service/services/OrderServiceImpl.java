@@ -128,9 +128,10 @@ public class OrderServiceImpl implements IOrderService {
                     Integer goodId = Integer.valueOf(detailInfo.get("goodId").toString());
                     Integer cartId = Integer.valueOf(detailInfo.get("cartId").toString());
                     Integer goodchildId = Integer.valueOf(detailInfo.get("gcid").toString());
+                    Double price = Double.valueOf(detailInfo.get("price").toString());
                     Integer num = Integer.valueOf(detailInfo.get("num").toString());
                     descrip = descrip + "&" + detailInfo.get("title").toString();
-                    ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId, num, "001");
+                    ShopOrderGood ordergood = new ShopOrderGood(orderno, goodchildId, goodId,price, num, "001");
                     //订单_商品中间表保存数据
                     shopOrderGoodMapper.insertSelective(ordergood);
                     //删除购物车中下单的数据

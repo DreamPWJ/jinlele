@@ -6,6 +6,7 @@
     <result column="shoporder_no" property="shoporderNo" jdbcType="VARCHAR" />
     <result column="goodchild_id" property="goodchildId" jdbcType="INTEGER" />
     <result column="good_id" property="goodId" jdbcType="INTEGER" />
+    <result column="unitPrice" property="unitprice" jdbcType="DOUBLE" />
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="comment_id" property="commentId" jdbcType="INTEGER" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -13,8 +14,8 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, shoporder_no, goodchild_id, good_id, num, comment_id, deleteCode, create_time, 
-    update_time
+    id, shoporder_no, goodchild_id, good_id, unitPrice, num, comment_id, deleteCode, 
+    create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,13 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.ShopOrderGood" >
     insert into shoporder_good (id, shoporder_no, goodchild_id, 
-      good_id, num, comment_id, 
-      deleteCode, create_time, update_time
-      )
+      good_id, unitPrice, num, 
+      comment_id, deleteCode, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{shoporderNo,jdbcType=VARCHAR}, #{goodchildId,jdbcType=INTEGER}, 
-      #{goodId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{commentId,jdbcType=INTEGER}, 
-      #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{goodId,jdbcType=INTEGER}, #{unitprice,jdbcType=DOUBLE}, #{num,jdbcType=INTEGER}, 
+      #{commentId,jdbcType=INTEGER}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.ShopOrderGood" >
     insert into shoporder_good
@@ -50,6 +51,9 @@
       </if>
       <if test="goodId != null" >
         good_id,
+      </if>
+      <if test="unitprice != null" >
+        unitPrice,
       </if>
       <if test="num != null" >
         num,
@@ -80,6 +84,9 @@
       <if test="goodId != null" >
         #{goodId,jdbcType=INTEGER},
       </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=DOUBLE},
+      </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
       </if>
@@ -109,6 +116,9 @@
       <if test="goodId != null" >
         good_id = #{goodId,jdbcType=INTEGER},
       </if>
+      <if test="unitprice != null" >
+        unitPrice = #{unitprice,jdbcType=DOUBLE},
+      </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
       </if>
@@ -132,6 +142,7 @@
     set shoporder_no = #{shoporderNo,jdbcType=VARCHAR},
       goodchild_id = #{goodchildId,jdbcType=INTEGER},
       good_id = #{goodId,jdbcType=INTEGER},
+      unitPrice = #{unitprice,jdbcType=DOUBLE},
       num = #{num,jdbcType=INTEGER},
       comment_id = #{commentId,jdbcType=INTEGER},
       deleteCode = #{deletecode,jdbcType=CHAR},
@@ -139,30 +150,17 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByOrderNoGcid" parameterType="com.jinlele.model.ShopOrderGood">
-    update shoporder_good
-    set comment_id = #{commentId,jdbcType=INTEGER}
-    where shoporder_no = #{shoporderNo,jdbcType=VARCHAR} and goodchild_id = #{goodchildId,jdbcType=INTEGER}
-  </update>
-
   <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
-    select g.id as goodid,gc.id as gcid,g.title,g.bannerurl,gc.color,gc.price,m.num as buynum
+    select m.good_id as goodid,m.goodchild_id as gcid,g.title,g.bannerurl,gc.color,m.unitprice as dealprice,m.num as buynum
     from shoporder_good m
     join good g on g.id=m.good_id
     join goodchild gc on gc.id=m.goodchild_id
     where m.deleteCode='001' and m.shoporder_no=#{orderno};
   </select>
 
-  <!--根据订单号查询服务类订单的详情 如:翻新订单等-->
-  <select id="selectServiceOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
-     SELECT s.price ,s.aturalprice ,s.descrip ,p.url from service  s
-        RIGHT JOIN shoporder o on o.orderno = s.order_no
-        left join service_picture sp on sp.service_id = s.id
-        INNER JOIN picture p on  p.id = sp.picture_id
-        where o.orderno = #{orderno}
-        order by p.create_time
-        limit 1
-  </select>
-
-
+  <update id="updateByOrderNoGcid" parameterType="com.jinlele.model.ShopOrderGood">
+    update shoporder_good
+    set comment_id = #{commentId,jdbcType=INTEGER}
+    where shoporder_no = #{shoporderNo,jdbcType=VARCHAR} and goodchild_id = #{goodchildId,jdbcType=INTEGER}
+  </update>
 </mapper>
