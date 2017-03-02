@@ -72,7 +72,7 @@
 			<i class="icon">&#xe68d;</i><em>购物车</em>
 			<u>{{totalnum}}</u>
 		</a>
-        <a ng-if="goodDetail.canchange==0" href="#/exchange" style="line-height: 50px;background: #F5D000;color: #fff;text-align: center;">换此款</a>
+        <a ng-if="goodDetail.canchange==0" href="#/exchange" ng-href="#/evaluate/exchange/{{gooddetail.goodId}}" style="line-height: 50px;background: #F5D000;color: #fff;text-align: center;">换此款</a>
     </span>
 	<a class="cart" ng-click="addtocart()">加入购物车</a>
 </footer>

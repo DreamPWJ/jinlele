@@ -2498,7 +2498,7 @@
     //估价(回收、换款)
     .controller('EvaluateCtrl', ['$scope','$state','$stateParams','EvaluateService',function ($scope ,$state,$stateParams,EvaluateService) {
         $scope.pagetheme = $stateParams.name;
-        $scope.orderno = $stateParams.orderno;
+        localStorage.setItem("toExchangeGoodId",$stateParams.id);
         var mySwiper = new Swiper('.metal', {
             pagination: '.product_tab',
             paginationClickable: true,

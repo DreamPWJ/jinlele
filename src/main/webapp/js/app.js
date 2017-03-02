@@ -154,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ProcRepairCtrl'
             })
             .state('evaluate', {  //估价(回收、换款)
-                url: '/evaluate/:name',
+                url: '/evaluate/:name/:id',
                 templateUrl: 'html/shared/evaluate.html',
                 controller: 'EvaluateCtrl'
             })
