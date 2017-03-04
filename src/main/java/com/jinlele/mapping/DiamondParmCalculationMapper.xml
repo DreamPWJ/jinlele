@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jinlele.model.DiamondParmCalculation" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="CHAR" />
-    <result column="spec" property="spec" jdbcType="CHAR" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
     <result column="rate" property="rate" jdbcType="DOUBLE" />
     <result column="dc_id" property="dcId" jdbcType="INTEGER" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
@@ -28,7 +28,7 @@
     insert into diamond_parm_calculation (id, type, spec, rate, 
       dc_id, deleteCode, create_time, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=CHAR}, #{spec,jdbcType=CHAR}, #{rate,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=CHAR}, #{spec,jdbcType=VARCHAR}, #{rate,jdbcType=DOUBLE},
       #{dcId,jdbcType=INTEGER}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -68,7 +68,7 @@
         #{type,jdbcType=CHAR},
       </if>
       <if test="spec != null" >
-        #{spec,jdbcType=CHAR},
+        #{spec,jdbcType=VARCHAR},
       </if>
       <if test="rate != null" >
         #{rate,jdbcType=DOUBLE},
@@ -94,7 +94,7 @@
         type = #{type,jdbcType=CHAR},
       </if>
       <if test="spec != null" >
-        spec = #{spec,jdbcType=CHAR},
+        spec = #{spec,jdbcType=VARCHAR},
       </if>
       <if test="rate != null" >
         rate = #{rate,jdbcType=DOUBLE},
