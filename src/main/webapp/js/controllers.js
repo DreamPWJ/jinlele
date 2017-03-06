@@ -2539,8 +2539,8 @@
             data: [],
             minimumResultsForSearch:-1
         };
-        EvaluateService.getPurity({pid:$scope.goldType}).success(function(data){
-            angular.forEach(data.purity,function(item,index){
+        EvaluateService.getSubSet({category:"metalCode",pid:$scope.goldType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
                 var obj={};
                 obj.id=item.codevalue;
                 obj.text=item.dictname;
@@ -2551,9 +2551,9 @@
             })
         })
         $scope.getGoldPurity=function(type){
-            EvaluateService.getPurity({pid:type}).success(function(data){
+            EvaluateService.getSubSet({category:"metalCode",pid:type}).success(function(data){
                 $scope.goldPurityConfig.data=[];
-                angular.forEach(data.purity,function(item,index){
+                angular.forEach(data.result,function(item,index){
                     var obj={};
                     obj.id=item.codevalue;
                     obj.text=item.dictname;
@@ -2569,8 +2569,8 @@
             data: [],
             minimumResultsForSearch:-1
         };
-        EvaluateService.getPurity({pid:121}).success(function(data){
-            angular.forEach(data.purity,function(item,index){
+        EvaluateService.getSubSet({category:"metalCode",pid:121}).success(function(data){
+            angular.forEach(data.result,function(item,index){
                 var obj={};
                 obj.id=item.codevalue;
                 obj.text=item.dictname;
@@ -2585,8 +2585,8 @@
             data:  [],
             minimumResultsForSearch:-1
         };
-        EvaluateService.getPurity({pid:122}).success(function(data){
-            angular.forEach(data.purity,function(item,index){
+        EvaluateService.getSubSet({category:"metalCode",pid:122}).success(function(data){
+            angular.forEach(data.result,function(item,index){
                 var obj={};
                 obj.id=item.codevalue;
                 obj.text=item.dictname;
@@ -2601,8 +2601,8 @@
             data: [],
             minimumResultsForSearch:-1
         };
-        EvaluateService.getPurity({pid:123}).success(function(data){
-            angular.forEach(data.purity,function(item,index){
+        EvaluateService.getSubSet({category:"metalCode",pid:123}).success(function(data){
+            angular.forEach(data.result,function(item,index){
                 var obj={};
                 obj.id=item.codevalue;
                 obj.text=item.dictname;
@@ -2622,8 +2622,8 @@
             data: [],
             minimumResultsForSearch:-1
         };
-        EvaluateService.getPurity({pid:$scope.silverType}).success(function(data){
-            angular.forEach(data.purity,function(item,index){
+        EvaluateService.getSubSet({category:"metalCode",pid:$scope.silverType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
                 var obj={};
                 obj.id=item.codevalue;
                 obj.text=item.dictname;
@@ -2632,11 +2632,11 @@
                     $scope.silverPurity=item.codevalue;
                 }
             })
-        })
+        });
         $scope.getSilverPurity=function(type){
-            EvaluateService.getPurity({pid:type}).success(function(data){
+            EvaluateService.getSubSet({category:"metalCode",pid:type}).success(function(data){
                 $scope.silverPurityConfig.data=[];
-                angular.forEach(data.purity,function(item,index){
+                angular.forEach(data.result,function(item,index){
                     var obj={};
                     obj.id=item.codevalue;
                     obj.text=item.dictname;
@@ -2647,18 +2647,8 @@
                 })
             })
         }
-        //钻石
-        $scope.certificateConfig = {
-            data: [{id: '001', text: 'GIA'}, {id: '002', text: 'IGI'}, {id: '003', text: 'HRD'}, {id: '004', text: 'NGTG'}, {id: '005', text: 'EGL'}, {id: '006', text: '其他'}],
-            placeholder: '请选择',
-            minimumResultsForSearch: -1
-        };
-        $scope.colorConfig = {
-            data: [{id: '001', text: 'D'}, {id: '002', text: 'E'}, {id: '003', text: 'F'}, {id: '004', text: 'G'}, {id: '005', text: 'H'}, {id: '006', text: 'I'},{id: '007', text: 'J'}, {id: '008', text: 'K'}, {id: '009', text: 'L'}, {id: '010', text: 'M'}, {id: '011', text: 'N'}],
-            placeholder: '请选择',
-            minimumResultsForSearch: -1
-        };
-        $scope.estimatePrice=function(metalType) {
+        //贵金属估价
+        $scope.calcMaterialPrice=function(metalType) {
             var obj={};
             switch (metalType) {
                 case 1:
@@ -2682,23 +2672,217 @@
                     obj.weight=$scope.silverWeight;
                     break;
             }
-            console.log(JSON.stringify(obj));
             EvaluateService.getEstimatePrice({purity:obj.purity,weight:obj.weight}).success(function(data){
-console.log(JSON.stringify(data));
                 if(data){
                     $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
                 }
             });
         }
+        //钻石
+        $scope.certificateType=217;
+        $scope.certificateConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.certificateType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.certificateConfig.data.push(obj);
+                if(index==0){
+                    $scope.certificate=item.codevalue;
+                }
+            })
+        });
+        $scope.colorType=218;
+        $scope.colorConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.colorType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.colorConfig.data.push(obj);
+                if(index==0){
+                    $scope.color=item.codevalue;
+                }
+            })
+        });
+        $scope.cleanessType=219;
+        $scope.cleanessConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.cleanessType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.cleanessConfig.data.push(obj);
+                if(index==0){
+                    $scope.cleaness=item.codevalue;
+                }
+            })
+        });
+        $scope.florescenceType=223;
+        $scope.florescenceConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.florescenceType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.florescenceConfig.data.push(obj);
+                if(index==0){
+                    $scope.florescence=item.codevalue;
+                }
+            })
+        });
+        $scope.cutType=220;
+        $scope.cutConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.cutType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.cutConfig.data.push(obj);
+                if(index==0){
+                    $scope.cut=item.codevalue;
+                }
+            })
+        });
+        $scope.symmetryType=222;
+        $scope.symmetryConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.symmetryType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.symmetryConfig.data.push(obj);
+                if(index==0){
+                    $scope.symmetry=item.codevalue;
+                }
+            })
+        });
+        $scope.polishType=221;
+        $scope.polishConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getSubSet({category:"dwparam",pid:$scope.polishType}).success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.polishConfig.data.push(obj);
+                if(index==0){
+                    $scope.polish=item.codevalue;
+                }
+            })
+        });
+        $scope.materialConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getMaterial().success(function(data){
+            angular.forEach(data.result,function(item,index){
+                if(item.dictname=="Pt950"||item.dictname=="Pt900"||item.dictname=="Pd950"||item.dictname=="Pd900"||item.dictname=="18K"||item.dictname=="14K"||item.dictname=="9K") {
+                    var obj = {};
+                    obj.id = item.codevalue;
+                    obj.text = item.dictname;
+                    $scope.materialConfig.data.push(obj);
+                    $scope.material = $scope.materialConfig.data[0].id;
+                }
+            })
+        });
+        $scope.qualityConfig = {
+            data: [],
+            minimumResultsForSearch: -1
+        };
+        EvaluateService.getQuality().success(function(data){
+            angular.forEach(data.result,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.qualityConfig.data.push(obj);
+                if(index==0){
+                    $scope.quality=item.codevalue;
+                }
+            })
+        });
+        $scope.choice=true;
+        $scope.change=function ($event) {
+            var choose = $event.target;
+            $("input[name='"+choose.name+"']").siblings("label").removeClass("on");
+            $("#"+choose.id).siblings("label").addClass("on");
+            switch (choose.value){
+                case "1":
+                    $scope.choice=true;
+                    break;
+                case "2":
+                    $scope.choice=false;
+                    break;
+            }
+        }
+        //钻石估价
+        $scope.calcDiamondPrice=function(){
+            $scope.paras=[];
+            if($scope.choice){
+                //主石+副石+镶嵌材质
+                var obj={};
+                obj.mainWeight=$scope.mainWeight;
+                obj.certificate=$scope.certificate;
+                obj.color=$scope.color;
+                obj.cleaness=$scope.cleaness;
+                obj.florescence=$scope.florescence;
+                obj.cut=$scope.cut;
+                obj.symmetry=$scope.symmetry;
+                obj.polish=$scope.polish;
+                obj.material=$scope.material;
+                obj.secWeight=$scope.secWeight;
+                obj.quality=$scope.quality;
+                obj.totalWeight=$scope.totalWeight;
+                obj.flag=$scope.choice;
+                $scope.paras.push(obj);
+                EvaluateService.getDiamondPrice($scope.paras).success(function(data){
+
+                });
+            }else{
+                //副石+镶嵌材质
+                var obj={};
+                obj.mainWeight=$scope.mainWeight;
+                obj.material=$scope.material;
+                obj.secWeight=$scope.secWeight;
+                obj.quality=$scope.quality;
+                obj.totalWeight=$scope.totalWeight;
+                obj.flag=$scope.choice;
+                $scope.paras.push(obj);
+                EvaluateService.getDiamondPrice($scope.paras).success(function(data){
+
+                });
+            }
+        }
+
+
 
     }])
     //回收--估价结果页面
     .controller('EvaluationResultCtrl' , function ($scope , $stateParams) {
         $scope.pagetheme = $stateParams.name;
         $scope.result=JSON.parse($stateParams.result);
-        //这里要带入的是 估价价格，需要保存的奥  暂时写死
-        $scope.evaluationPrice = 5000;
-        localStorage.setItem("evaluationPrice" , $scope.evaluationPrice);
+        //这里要带入的是 估价价格
+        localStorage.setItem("evaluationPrice" , $scope.result.result);
         console.log('$scope.name ==' + $scope.pagetheme);
     })
     //实际定价

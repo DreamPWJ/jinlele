@@ -14,4 +14,6 @@ public interface DiamondSideCalulationMapper {
     int updateByPrimaryKeySelective(DiamondSideCalulation record);
 
     int updateByPrimaryKey(DiamondSideCalulation record);
+
+    Double getDiamondSidePrice(String quality);
 }

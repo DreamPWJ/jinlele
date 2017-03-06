@@ -103,4 +103,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getDiamondSidePrice" resultType="java.lang.Double">
+  select price from diamond_side_calulation where quality=#{0} and deleteCode='001'
+  </select>
 </mapper>

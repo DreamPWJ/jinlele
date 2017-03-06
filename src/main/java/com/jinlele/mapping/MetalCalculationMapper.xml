@@ -144,7 +144,13 @@
     from metal_calculation
     where deleteCode='001' and  type = #{0} and series=#{1}
   </select>
-  <select id="getPurity" resultType="Map">
-    select * from vw_dictdetail where eng='metalCode' and pid=#{0}
+  <select id="getSubSet" resultType="Map">
+    select * from vw_dictdetail where eng=#{0} and pid=#{1}
+  </select>
+  <select id="getMaterial" resultType="Map">
+    select * from vw_dictdetail where eng='metalCode' and pid is not null;
+  </select>
+  <select id="getQuality" resultType="Map">
+    select * from vw_dictdetail where eng='qualityCode' and pid is null;
   </select>
 </mapper>

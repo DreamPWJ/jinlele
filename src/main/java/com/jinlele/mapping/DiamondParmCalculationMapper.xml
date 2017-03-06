@@ -125,4 +125,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getRate" resultType="java.lang.Double">
+    select rate from diamond_parm_calculation where type=#{0} and spec=#{1} and dc_id=#{2} and deleteCode='001'
+  </select>
 </mapper>

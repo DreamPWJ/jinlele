@@ -31,3 +31,5 @@ section.case ul.detect li:last-child{
 .mar{
    margin-top:0.2rem;
 }
+.show{display: block !important;}
+.hide{display: none !important;}

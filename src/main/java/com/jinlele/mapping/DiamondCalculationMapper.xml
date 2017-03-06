@@ -103,4 +103,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getMainPriceInfo" resultType="map">
+    select id,price from diamond_calculation where weightlevel=#{0} and deleteCode='001'
+  </select>
 </mapper>

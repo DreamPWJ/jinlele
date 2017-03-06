@@ -14,4 +14,6 @@ public interface DiamondParmCalculationMapper {
     int updateByPrimaryKeySelective(DiamondParmCalculation record);
 
     int updateByPrimaryKey(DiamondParmCalculation record);
+
+    Double getRate(String type,String spec, Integer dcid);
 }
