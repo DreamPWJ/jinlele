@@ -705,9 +705,30 @@
                             break;
                     }
                     break;
-                default://换款
+                case "005"://换款
                     switch (shoporderstatusCode){
-                        case "":
+                        case "005001":
+                        case "005002":
+                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            break;
+                        case "005003":
+                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            break;
+                        case "005004":
+                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
+                            break;
+                        //case "004005":
+                        //case "004006":
+                        //    $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+                        //    break;
+                        case "005013":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                        case "005014":
+                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "005008":
+                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
                             break;
                     }
                     break;
@@ -1717,7 +1738,6 @@
         $scope.getwayFlag = false; //取件方式切换
         $scope.sendwayValue = ['001', '002'];//寄件取件方式值
         $scope.getwayValue = ['001', '002'];//寄件取件方式值
-
         //从数据库获取地址
         AddressService.getlatestinfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.address = data;
@@ -1739,7 +1759,6 @@
             data: [],
             minimumResultsForSearch:-1
         };
-
         //所有门店数据
         ProcCommitOrderService.findAllStores({latitude:angular.isString(localStorage.getItem('latitude'))?localStorage.getItem('latitude'):0,longitude:angular.isString(localStorage.getItem('longitude'))?localStorage.getItem('longitude'):0}).success(function (data) {
             $scope.stores = data;
@@ -1821,6 +1840,7 @@
         //计算总价格
         $scope.numblur = function () {
             $scope.totalprice = $scope.product.num * $scope.aturalprice;
+            $scope.totalnum = $scope.product.num;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         }
         //生成订单并付款
@@ -1833,6 +1853,8 @@
             $scope.confirminfo = [];
             //地址信息
             $scope.addressinfo = [];
+            //产品信息
+            $scope.products = [];
             if($scope.type.code == '001' || $scope.type.code == '003' || $scope.type.code == '004' || $scope.type.code == '005'){  //如果是翻新和检测需要传入产品信息
                 var address = {};
                 address.userName = $scope.address.userName;
@@ -1844,6 +1866,7 @@
                 address.nationalCode = $scope.address.nationalCode;
                 address.telNumber = $scope.address.telNumber;
                 $scope.addressinfo.push(address);
+                $scope.products.push($scope.product);
                 var obj = {};
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
@@ -1854,7 +1877,7 @@
                 obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = $scope.serviceId;//服务id
                 obj.totalnum = $scope.totalnum;//总数量
-                obj.products = $scope.product;//产品集合
+                obj.products = $scope.products;//产品集合
                 $scope.confirminfo.push(obj);
                 console.log(JSON.stringify($scope.confirminfo));
                 //保存订单 并去支付订单
@@ -2882,13 +2905,13 @@
         }
     }])
     //回收--估价结果页面
-    .controller('EvaluationResultCtrl' , function ($scope , $stateParams) {
+    .controller('EvaluationResultCtrl' , ['$scope' , '$stateParams',function ($scope , $stateParams) {
         $scope.pagetheme = $stateParams.name;
         $scope.result=JSON.parse($stateParams.result);
         //这里要带入的是 估价价格
         localStorage.setItem("evaluationPrice" , $scope.result.result);
         console.log('$scope.name ==' + $scope.pagetheme);
-    })
+    }])
     //实际定价
     .controller('ActualPriceCtrl',['$scope' , '$stateParams',function ($scope , $stateParams) {
         switch ($stateParams.type){

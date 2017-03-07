@@ -47,6 +47,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 weightLevel="004";
             }else if(mainWeight>=0.3&&mainWeight<0.4){
                 weightLevel="005";
+            }else if(mainWeight>=0.3&&mainWeight<0.4){
             }else if(mainWeight>=0.4&&mainWeight<0.5){
                 weightLevel="006";
             }else if(mainWeight>=0.5&&mainWeight<0.6){
@@ -70,7 +71,6 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
             Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();//材质总价格
             if (flag||"recycle".equals(src)) {
                 //主石+镶嵌材质+副石
-                //根据weightLevel的id，类型及spec查询rate
                 String certificate = paras.get("certificate").toString();//证书
                 String color = paras.get("color").toString();//颜色
                 String cleaness = paras.get("cleaness").toString();//净度
@@ -78,6 +78,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 String cut = paras.get("cut").toString();//切工
                 String symmetry = paras.get("symmetry").toString();//对称
                 String polish = paras.get("polish").toString();//抛光
+                //根据weightLevel的id，类型及spec查询rate
                 Double certificateRate = diamondParmCalculationMapper.getRate(certificate.substring(0, 3), certificate, dcid);
                 Double colorRate = diamondParmCalculationMapper.getRate(color.substring(0, 3), color, dcid);
                 Double cleanessRate = diamondParmCalculationMapper.getRate(cleaness.substring(0, 3), cleaness, dcid);
