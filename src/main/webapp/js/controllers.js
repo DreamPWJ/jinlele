@@ -2648,7 +2648,7 @@
             })
         }
         //贵金属估价
-        $scope.calcMaterialPrice=function(metalType) {
+        $scope.calcPMPrice=function(metalType) {
             var obj={};
             switch (metalType) {
                 case 1:
@@ -2672,7 +2672,7 @@
                     obj.weight=$scope.silverWeight;
                     break;
             }
-            EvaluateService.getEstimatePrice({purity:obj.purity,weight:obj.weight}).success(function(data){
+            EvaluateService.getPMPrice({purity:obj.purity,weight:obj.weight}).success(function(data){
                 if(data){
                     $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
                 }
@@ -2854,9 +2854,13 @@
                 obj.quality=$scope.quality;
                 obj.totalWeight=$scope.totalWeight;
                 obj.flag=$scope.choice;
+                obj.src=$stateParams.name;
                 $scope.paras.push(obj);
                 EvaluateService.getDiamondPrice($scope.paras).success(function(data){
-
+                    console.log(data);
+                    if(data){
+                        $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                    }
                 });
             }else{
                 //副石+镶嵌材质
@@ -2869,13 +2873,13 @@
                 obj.flag=$scope.choice;
                 $scope.paras.push(obj);
                 EvaluateService.getDiamondPrice($scope.paras).success(function(data){
-
+                    console.log(data);
+                    if(data){
+                        $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                    }
                 });
             }
         }
-
-
-
     }])
     //回收--估价结果页面
     .controller('EvaluationResultCtrl' , function ($scope , $stateParams) {

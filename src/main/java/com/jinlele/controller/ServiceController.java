@@ -130,17 +130,15 @@ public class ServiceController {
     @ResponseBody
     @RequestMapping(value = "/getDiamondPrice" ,method = RequestMethod.POST)
     public  Map<String,Object> getDiamondPrice(@RequestBody List<Map<String,Object>> list) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("row", diamondCalculationService.getDiamondPrice(list));
-        return map;
+        return diamondCalculationService.getDiamondPrice(list);
     }
 
     /**
      * 贵金属估价
      */
     @ResponseBody
-    @RequestMapping(value = "/getEstimatePrice/{purity}/{weight}" ,method = RequestMethod.GET)
-    public  Map<String,Object> getEstimatePrice(@PathVariable String purity,@PathVariable  Double weight) {
-        return metalCalculationService.getEstimatePrice(purity,weight);
+    @RequestMapping(value = "/getPMPrice/{purity}/{weight}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getPMPrice(@PathVariable String purity,@PathVariable  Double weight) {
+        return metalCalculationService.getPMPrice(purity,weight);
     }
 }

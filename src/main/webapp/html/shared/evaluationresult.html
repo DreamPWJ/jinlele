@@ -99,22 +99,22 @@
 	<!--  -->
     <section class="cash">
     	<span class="title">您的物品预估价格</span>
-        <span ng-switch-when="recycle" class="cash_title">变现公式</span>
-        <ul ng-switch-when="recycle">
+        <span ng-if="result.showFormula" class="cash_title">变现公式</span>
+        <ul ng-if="result.showFormula">
         	<li>{{result.price|number:2}}</li>
         	<li>*</li>
         	<li>{{result.weight|number:2}}</li>
         	<li>-</li>
         	<li>{{result.depreciation|number:2}}</li>
         </ul>
-        <ul ng-switch-when="recycle">
+        <ul ng-if="result.showFormula">
         	<li>金价</li>
         	<li></li>
         	<li>克重</li>
         	<li></li>
         	<li>折旧费</li>
         </ul>
-        <span ng-switch-when="recycle" class="cash_title">参考估值</span>
+        <span ng-if="result.showFormula" class="cash_title">参考估值</span>
         <span class="cash_price">{{result.result|currency:"￥"}}元</span>
         <section class="load" ng-switch on="pagetheme">
             <a ng-switch-when="recycle" ng-href="#/procphoto/recycle" >立即变现</a>

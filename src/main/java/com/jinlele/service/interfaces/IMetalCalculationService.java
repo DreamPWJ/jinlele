@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public interface IMetalCalculationService {
     //获取估价结果
-    Map<String, Object> getEstimatePrice(String purity, Double weight);
+    Map<String, Object> getPMPrice(String purity, Double weight);
 
     //查询子集
     List getSubSet(String category, Integer pid);

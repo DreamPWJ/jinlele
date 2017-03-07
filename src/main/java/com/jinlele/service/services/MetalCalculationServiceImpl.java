@@ -40,7 +40,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     }
 
     @Override
-    public Map<String, Object> getEstimatePrice(String purity, Double weight) {
+    public Map<String, Object> getPMPrice(String purity, Double weight) {
         Map<String, Object> resultMap = new HashMap<>();
         List<DayPrice> list = dayPriceMapper.getCurrentPrice();
         Double goldPrice = 0.0;
@@ -86,6 +86,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
         Double totalprice = weight * price;
         Double result = totalprice - depreciation;
         //金价  重量   折旧费  结果
+        resultMap.put("showFormula",true);
         resultMap.put("price", price);
         resultMap.put("weight", weight);
         resultMap.put("depreciation", depreciation);
