@@ -133,11 +133,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/common/procaddcmt.html',
                 controller: 'ProcAddCmtCtrl'
             })
-            .state('procpricing', {  //流程-估价结果
-                url: '/procpricing/:name',
-                templateUrl: 'html/common/procpricing.html',
-                controller: 'ProcPricingCtrl'
-            })
             .state('procrefurbish', {  //翻新
                 url: '/procrefurbish/:name/:orderNo/:orderTime',
                 templateUrl: 'html/refurbish/procrefurbish.html',

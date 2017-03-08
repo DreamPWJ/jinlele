@@ -1647,10 +1647,8 @@
                     $scope.service.price = data.code_value;
                 });
                 break;
-            case "recycle"://回收
+            default ://回收或换款
                 $scope.service.price = localStorage.getItem("evaluationPrice");
-                break;
-            default :
                 break;
         }
         //进入提交订单的页面
@@ -1714,10 +1712,10 @@
     //流程- 提交订单(翻新，检测，回收业务生成订单并付款，维修业务更新订单信息)
     .controller('ProcCommitOrderCtrl', function ( $rootScope,$scope, $state, AddressService, OrderService, $stateParams, $window, ProcCommitOrderService, WeiXinService, CategoryService ,CommonService) {
         WeiXinService.wxgetLocation();
-        console.log('latitude:'+localStorage.getItem('latitude'));
-        console.log('longitude:'+localStorage.getItem('longitude'));
-        console.log(typeof localStorage.getItem('latitude'));
-        console.log(typeof localStorage.getItem('longitude'));
+        //console.log('latitude:'+localStorage.getItem('latitude'));
+        //console.log('longitude:'+localStorage.getItem('longitude'));
+        //console.log(typeof localStorage.getItem('latitude'));
+        //console.log(typeof localStorage.getItem('longitude'));
         $scope.pagetheme = sessionStorage.getItem("jinlele_procphoto_pathname");
         $scope.serviceId = sessionStorage.getItem("jinlele_procphoto_serviceId");
         $scope.aturalprice = sessionStorage.getItem("jinlele_procphoto_aturalprice") || 0;
@@ -2376,22 +2374,6 @@
             }
         }
     }])
-    //估价结果(回收、换款)
-    .controller('ProcPricingCtrl', function ($scope, $stateParams, $location) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        $scope.decide = false;
-        switch ($stateParams.name) {
-            case "recycle":
-                $scope.decide = true;
-                break;
-            case "exchange":
-                break;
-            default :
-                $location.path("/");
-                break;
-        }
-    })
     //翻新-翻新
     .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService', function ($scope, $stateParams, $location,OrderService,MemberService) {
         console.log($stateParams.name);
@@ -2920,7 +2902,7 @@
             }
         }
     }])
-    //回收--估价结果页面
+    //估价结果(回收、换款)
     .controller('EvaluationResultCtrl' , ['$scope' , '$stateParams',function ($scope , $stateParams) {
         $scope.pagetheme = $stateParams.name;
         $scope.result=JSON.parse($stateParams.result);

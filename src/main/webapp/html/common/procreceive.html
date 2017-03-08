@@ -246,8 +246,8 @@
         </section>
         <section class="logistics" ng-if="initData.userlogisticsno != null&&initData.userlogisticsno.length!=0">
             <span class="title"><a>物流详情</a><a style="float:right;padding-right: 10px;" ng-href="#/orderlist">我的订单</a></span>
-            <span class="title"><a>承运公司：</a><a>{{initData.usrLogisticsCompName}}</a></span>
-            <span class="title"><a>运单编号：</a><a>{{initData.userlogisticsno}}</a> <a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
+            <span class="title"><a>承运公司：</a><a>{{initData.usrLogisticsCompName}}</a><a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
+            <span class="title"><a>运单编号：</a><a>{{initData.userlogisticsno}}</a> </span>
             <ul>
                 <li ng-if="userLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
                 <li ng-if="userLogistc.length != 0"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
