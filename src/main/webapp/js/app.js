@@ -169,9 +169,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'ActualPriceCtrl'
             })
             .state('cfmrecycle', {  //回收-确认回收
-                url: '/cfmrecycle/:type/:orderno/:orderstatus',
-                templateUrl: 'html/shared/cfmrecycle.html',
+                url: '/cfmrecycle/:orderno/:orderstatus',
+                templateUrl: 'html/recycle/cfmrecycle.html',
                 controller: 'CfmRecycleCtrl'
+            })
+            .state('cfmexchange', {  //换款-确认换款
+                url: '/cfmexchange/:orderno/:orderstatus',
+                templateUrl: 'html/exchange/cfmexchange.html',
+                controller: 'CfmExchangeCtrl'
             })
             .state('morestyle', {  //换款-更多款式
                 url: '/morestyle',

@@ -1,13 +1,9 @@
 <!-- title -->
-<section class="process_title"ng-switch on="pagetheme">
-    <i ng-switch-when="recycle">产品回收</i>
-    <i ng-switch-when="exchange">产品换款</i>
+<section class="process_title">
+    <i>产品回收</i>
 </section>
-
-<main class="content" ng-switch on="pagetheme">
-
-    <!-- 回收流程 -->
-    <section class="process" ng-switch-when="recycle">
+<main class="content">
+    <section class="process">
         <b class="right huan"></b>
         <b class="left"></b>
         <ul>
@@ -45,68 +41,17 @@
             </li>
         </ul>
     </section>
-
-    <!--换款流程 -->
-    <section class="process fanx" ng-switch-when="exchange">
-        <b class="right huan"></b>
-        <b class="left seu"></b>
-        <b class="muye"></b>
-        <b class="kuen"></b>
-        <ul>
-            <li class="hover">
-                <span><i class="t13"></i></span>
-                <em>估价</em>
-            </li>
-            <li class="hover">
-                <span><i class="t01"></i></span>
-                <em>拍照</em>
-            </li>
-            <li class="hover">
-                <span><i class="t09"></i></span>
-                <em>提交订单</em>
-            </li>
-            <li class="hover">
-                <span><i class="t03"></i></span>
-                <em>平台收货</em>
-            </li>
-            <li>
-                <span><i class="t07"></i></span>
-                <em>收货验收</em>
-            </li>
-            <li>
-                <span><i class="t06"></i></span>
-                <em>邮寄</em>
-            </li>
-            <li class="hover">
-                <span><i class="t10"></i></span>
-                <em>实际定价</em>
-            </li>
-            <li class="hover">
-                <span><i class="t04"></i></span>
-                <em>检测</em>
-            </li>
-            <li>
-                <span><i class="t11"></i></span>
-                <em>确认换款</em>
-            </li>
-            <li>
-                <span><i class="t08"></i></span>
-                <em>评价换款</em>
-            </li>
-        </ul>
-    </section>
-
     <!-- 定价 -->
     <section class="price" ng-if="orderstatus == '004005'">
-        <i>您的产品实际回收价格</i>
-        <em ng-if="fixPrice == 0">平台定价中,请耐心等待...</em>
-        <em ng-if="fixPrice != 0">&yen;&nbsp;{{fixPrice}}</em>
+        <span class="title icon">回收结果&#xe722;</span>
+        <i>产品的实际回收价格约为</i>
+        <em>{{fixPrice|currency:'￥'}}</em>
     </section>
-    <section class="price_button" ng-if="showbtn == 1">
-        <span><a  ng-click="commit()">确认变现</a></span>
-        <span><a  ng-click="drop()">放弃变现</a></span>
+    <section class="price_button" ng-if="orderstatus == '004005'">
+        <span><a  ng-click="confirmCash()">确认变现</a></span>
+        <span><a  ng-click="dropCash()">放弃变现</a></span>
     </section>
-    <section class="price" ng-if="orderstatus == '004006'">
+    <section class="price" ng-style="{'margin-bottom':'10px'}" ng-if="orderstatus == '004006'">
         <em>您的变现申请已提交，请耐心等待...</em>
     </section>
     <!-- 免费换 -->

@@ -692,13 +692,16 @@
                             break;
                         case "004005":
                         case "004006":
-                            $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+                            $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
                             break;
                         case "004007":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
                         case "004008":
                             CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            break;
+                        case "004009":
+                            CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
                             break;
                         case "004011":
                             CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
@@ -717,17 +720,30 @@
                         case "005004":
                             $state.go('actualprice', {type: type, orderno: orderno});//实际定价
                             break;
-                        //case "004005":
-                        //case "004006":
-                        //    $state.go('cfmrecycle', {type: type, orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
-                        //    break;
+                        case "005005":
+                            $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
+                            break;
+                        case "005006":
+                            $state.go('morestyle');//换款列表
+                            break;
                         case "005013":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
+                        case "004005":
+                        case "004006":
+                            $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+                            break;
+                        case "004007":
+                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+                            break;
+                        case "004009":
+                            CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
+                            break;
+                        case "004008":
                         case "005014":
                             CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
                             break;
-                        case "005008":
+                        case "004011":
                             CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
                             break;
                     }
@@ -2912,8 +2928,8 @@
         localStorage.setItem("evaluationPrice" , $scope.result.result);
         console.log('$scope.name ==' + $scope.pagetheme);
     }])
-    //实际定价
-    .controller('ActualPriceCtrl',['$scope' , '$stateParams',function ($scope , $stateParams) {
+    //实际定价(回收、换款)
+    .controller('ActualPriceCtrl',['$scope','$state','$stateParams','OrderService',function ($scope,$state, $stateParams,OrderService) {
         switch ($stateParams.type){
             case '004':
                 $scope.pagetheme = 'recycle';
@@ -2921,55 +2937,103 @@
             case '005':
                 $scope.pagetheme = 'exchange';
                 break;
+            default :
+                $state.go("main");
+                break;
         }
+        //检测报告
+        OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
+            console.log(data);
+            if(data.checkreport) {
+                $scope.report = data;
+            }else{
+                $scope.report = null;
+            }
+        });
     }])
     //确认回收
     .controller('CfmRecycleCtrl', ['$scope' ,'$state','$stateParams','OrderService','CommonService',function ($scope ,$state, $stateParams,OrderService,CommonService) {
-        switch ($stateParams.type){
-            case '004':
-                $scope.hide = true;
-                $scope.pagetheme = 'recycle';
-                break;
-            case '005':
-                $scope.pagetheme = 'exchange';
-                break;
-        }
-        $scope.orderstatus=$stateParams.orderstatus;
-        $scope.fixPrice = 0;
-        $scope.showbtn = 0;
+        $scope.orderstatus = $stateParams.orderstatus;
         switch ($scope.orderstatus){
             case '004005':
-                //根据订单号查询是否已经定价
+                //根据订单号查询实际定价金额
                 OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
                     if(data && data.fixPrice){
                         $scope.fixPrice = data.fixPrice;
-                        $scope.showbtn=1;
                     }
                 });
                 break;
             case '004006':
-                $scope.showbtn=0;
+                break;
+            default:
+                $state.go("main");
+                break;
         }
-        console.log($scope.showbtn);
-        //确认回收
-        $scope.commit = function () {
-            $scope.orderstatus='004006';//待审核
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:$scope.orderstatus}).success(function (data) {
-                if(data && data.n==1){
+        //确认变现
+        $scope.confirmCash = function () {
+            $scope.orderstatus = '004006';//待审核
+            OrderService.update({
+                orderno: $stateParams.orderno,
+                shoporderstatuscode: $scope.orderstatus
+            }).success(function (data) {
+                if (data && data.n == 1) {
                     setTimeout(function () {
                         $state.go('orderlist');
-                    },1000);
+                    }, 1000);
                 }
             });
         }
-        //放弃回收
-        $scope.drop = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'004011'}).success(function (data) {
-                if(data && data.n==1){
-                    CommonService.toolTip('订单取消成功','');
+        //放弃变现
+        $scope.dropCash = function () {
+            OrderService.update({
+                orderno: $stateParams.orderno,
+                shoporderstatuscode: '004009'
+            }).success(function (data) {
+                if (data && data.n == 1) {
+                    CommonService.toolTip('订单取消成功', '');
                     setTimeout(function () {
                         $state.go('orderlist');
-                    },1000);
+                    }, 1000);
+                }
+            });
+        }
+    }])
+    //确认换款
+    .controller('CfmExchangeCtrl', ['$scope','$state','$stateParams','OrderService',function ($scope,$state,$stateParams,OrderService) {
+        $scope.orderstatus=$stateParams.orderstatus;
+        switch ($scope.orderstatus){
+            case '005005':
+                //根据订单号查询实际定价金额
+                OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+                    if(data && data.fixPrice){
+                        $scope.fixPrice = data.fixPrice;
+                    }
+                });
+                break;
+            default:
+                $state.go("main");
+                break;
+        }
+        //确认换款
+        $scope.confirmBarter = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005006'}).success(function (data) {
+                if(data && data.n==1){
+                    switch(localStorage.getItem("toExchangeGoodId").length){
+                        case 0://换款列表
+                            $state.go('');
+                            break;
+                        default ://具体商品详情
+                            $state.go('');
+                            break;
+                    }
+                }
+            });
+        }
+        //放弃换款
+        $scope.dropBarter = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'004005'}).success(function (data) {
+                if(data && data.n==1){
+                    $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'004005'});
                 }
             });
         }

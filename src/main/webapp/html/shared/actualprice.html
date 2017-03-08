@@ -5,7 +5,6 @@
 </section>
 
 <main class="content" ng-switch on="pagetheme">
-
     <!-- 回收流程 -->
     <section class="process" ng-switch-when="recycle">
         <b class="right huan"></b>
@@ -45,7 +44,6 @@
             </li>
         </ul>
     </section>
-
     <!--换款流程 -->
     <section class="process fanx" ng-switch-when="exchange">
         <b class="right huan"></b>
@@ -71,11 +69,11 @@
             </li>
             <li>
                 <span><i class="t07"></i></span>
-                <em>收货验收</em>
+                <em>邮寄</em>
             </li>
             <li>
                 <span><i class="t06"></i></span>
-                <em>邮寄</em>
+                <em>确认换款</em>
             </li>
             <li class="hover">
                 <span><i class="t10"></i></span>
@@ -87,29 +85,29 @@
             </li>
             <li>
                 <span><i class="t11"></i></span>
-                <em>确认换款</em>
+                <em>收货验收</em>
             </li>
             <li>
                 <span><i class="t08"></i></span>
-                <em>评价换款</em>
+                <em>评价</em>
             </li>
         </ul>
     </section>
-
     <!-- 定价 -->
     <section class="price">
-        <i>您的产品实际回收价格</i>
-        <em>平台定价中,请耐心等待...</em>
+        <i>您的产品的实际预估金额</i>
+        <em>平台定价中，请耐心等待...</em>
     </section>
-    <!-- 定价 -->
-  	<!--<section class="price">-->
-    	<!--<span class="title">您的产品黄金戒指</span>-->
-    	<!--<i>产品定价为</i>-->
-    	<!--<em>￥1688.00</em>-->
-    <!--</section>-->
-    <!--<section class="price_button">-->
-    	<!--<span><a href="evaluationresult.html">确认变现</a></span>-->
-    	<!--<span><a href="../../index.html">放弃变现</a></span>-->
-    <!--</section>-->
-
+    <!-- 检测报告 -->
+    <section class="report">
+        <span class="title">检测报告</span>
+        <section class="report_mian" ng-if="report!=null">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
+            <p ng-style="{'text-align' : 'center'}">以上检测报告内容仅供平台参考，不具备法律效力！</p>
+        </section>
+        <section class="empty" ng-if="report==null">
+            <i class="icon">&#xe639;</i>
+            <em>检测还没结果，请耐心等待~</em>
+        </section>
+    </section>
 </main>
