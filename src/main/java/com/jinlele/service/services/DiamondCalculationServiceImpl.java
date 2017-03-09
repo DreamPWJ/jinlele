@@ -62,13 +62,13 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
             Double secWeight = Double.valueOf((null== paras.get("secWeight")|| paras.get("secWeight").toString().length()==0)? "0" : paras.get("secWeight").toString());//副石重量
             String quality = paras.get("quality").toString();//副石品质
             Double secPrice=diamondSideCalulationMapper.getDiamondSidePrice(quality);//副石价格
-            Double totalSecPrice = (new BigDecimal(secPrice * secWeight)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();//副石总价格
+            Double totalSecPrice = (new BigDecimal(secPrice * secWeight)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//副石总价格
 
             Double totalWeight = Double.valueOf((null== paras.get("totalWeight")|| paras.get("totalWeight").toString().length()==0)? "0" : paras.get("totalWeight").toString());//副石重量
             String material = paras.get("material").toString();//镶嵌材质
-            Double materialWeight = (new BigDecimal(totalWeight - (mainWeight +secWeight)*0.2)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            Double materialWeight = (new BigDecimal(totalWeight - (mainWeight +secWeight)*0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             Map<String,Object> metalMap =  metalCalculationService.getPMPrice(material, materialWeight);
-            Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();//材质总价格
+            Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//材质总价格
             if (flag||"recycle".equals(src)) {
                 //主石+镶嵌材质+副石
                 String certificate = paras.get("certificate").toString();//证书
@@ -86,7 +86,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 Double cutRate = diamondParmCalculationMapper.getRate(cut.substring(0, 3), cut, dcid);
                 Double symmetryRate = diamondParmCalculationMapper.getRate(symmetry.substring(0, 3), symmetry, dcid);
                 Double polishRate = diamondParmCalculationMapper.getRate(polish.substring(0, 3), polish, dcid);
-                Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();//主石总价格
+                Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//主石总价格
                 result = totalMainPrice+totalSecPrice+totalMetalPrice;
                 resultMap.put("result",result);
             }else {

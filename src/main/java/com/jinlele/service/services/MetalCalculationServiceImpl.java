@@ -64,7 +64,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
         String type = purity.substring(0, 3);
         MetalCalculation metalCalculation = metalCalculationMapper.selectByUQ(type, purity);
         Double price = 0.0;//相应贵金属价格
-        Double depreciation = (new BigDecimal(weight * metalCalculation.getDepreciation())).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();//折旧费
+        Double depreciation = (new BigDecimal(weight * metalCalculation.getDepreciation())).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//折旧费
         switch (type) {
             case "001":
             case "003":
@@ -82,7 +82,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
                 price = silverPrice * metalCalculation.getRatio() / 100 - metalCalculation.getAdded();
                 break;
         }
-        price = (new BigDecimal(price)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        price = (new BigDecimal(price)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
         Double totalprice = weight * price;
         Double result = totalprice - depreciation;
         //金价  重量   折旧费  结果
