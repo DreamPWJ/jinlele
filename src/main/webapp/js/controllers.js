@@ -3002,10 +3002,10 @@
                 if(data && data.n==1){
                     switch(localStorage.getItem("toExchangeGoodId").length){
                         case 0://换款列表
-                            $state.go('');
+                            $state.go('barterlist');
                             break;
                         default ://具体商品详情
-                            $state.go('');
+                            $state.go('barterdetail',{goodId:localStorage.getItem("toExchangeGoodId")});
                             break;
                     }
                 }
@@ -3020,7 +3020,11 @@
             });
         }
     }])
-    //换款
-    .controller('MoreStyleCtrl', function ($scope) {
+    //换款列表
+    .controller('BarterListCtrl', function ($scope) {
 
     })
+    //换款详情
+    .controller('BarterDetailCtrl', ['$scope','$stateParams',function ($scope,$stateParams) {
+
+    }])

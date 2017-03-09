@@ -173,10 +173,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/exchange/cfmexchange.html',
                 controller: 'CfmExchangeCtrl'
             })
-            .state('morestyle', {  //换款-更多款式
-                url: '/morestyle',
-                templateUrl: 'html/exchange/morestyle.html',
-                controller: 'MoreStyleCtrl'
+            .state('barterlist', {  //换款列表
+                url: '/barterlist',
+                templateUrl: 'html/exchange/barterList.html',
+                controller: 'BarterListCtrl'
+            })
+            .state('barterdetail', {  //换款详情
+                url: '/barterlist/:goodId',
+                templateUrl: 'html/exchange/barterDetail.html',
+                controller: 'BarterDetailCtrl'
             })
             .state('recharge', {  //换款-更多款式
                 url: '/recharge',
