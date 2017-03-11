@@ -59,13 +59,13 @@ public class ServiceOrderController {
     }
 
     /**
-     * 查询维修订单是否已经定价
+     * 查询服务订单定价金额或实际金额
      */
     @ResponseBody
     @RequestMapping("/selectactualpprice/{orderno}")
     public Map<String , Object> selectactualpprice(@PathVariable String orderno) throws IOException {
         Map map = new HashedMap();
-        Double money = orderService.selectactualpprice(orderno);
+        Double money = orderService.selectActualPrice(orderno);
         map.put("fixPrice" , money);
         return  map;
     }

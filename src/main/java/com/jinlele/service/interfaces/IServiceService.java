@@ -9,7 +9,7 @@ import java.util.Map;
 public interface IServiceService {
 
 
-    Map<String , Object> saveService(Integer userId , Double aturalprice ,String type , String[] mediaIds) throws IOException;
+    Map<String , Object> saveService(Integer userId , Double totalprice ,String type , String[] mediaIds) throws IOException;
 
     Map<String , Object> getrefurbishPrice();
 

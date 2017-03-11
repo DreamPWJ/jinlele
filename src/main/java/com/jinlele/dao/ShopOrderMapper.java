@@ -26,8 +26,6 @@ public interface ShopOrderMapper {
 
     List findAllexpressCompanies();
 
-    Double selectactualpprice(String orderno);
-
     //根据订单号查询服务的id
     Integer selectServiceIdByOrderNo(String orderno);
 

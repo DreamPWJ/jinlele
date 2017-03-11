@@ -179,7 +179,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'BarterListCtrl'
             })
             .state('barterdetail', {  //换款详情
-                url: '/barterlist/:goodId',
+                url: '/barterdetailfor{goodId}',
                 templateUrl: 'html/exchange/barterDetail.html',
                 controller: 'BarterDetailCtrl'
             })

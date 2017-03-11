@@ -340,4 +340,8 @@ select * from service where order_no=#{orderno}
   <select id="getDictInfo" resultType="Map" parameterType="java.lang.String">
     select * from vw_dictdetail where eng=#{typename}
   </select>
+  <!--查询维修订单定价金额-->
+  <select id="selectActualPrice" parameterType="java.lang.String" resultType="java.lang.Double">
+    select aturalprice from service where order_no= #{orderno}
+  </select>
 </mapper>

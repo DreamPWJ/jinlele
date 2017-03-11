@@ -724,7 +724,14 @@
                             $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
                             break;
                         case "005006":
-                            $state.go('morestyle');//换款列表
+                            switch(localStorage.getItem("toExchangeGoodId").length){
+                                case 0://换款列表
+                                    $state.go('barterlist');
+                                    break;
+                                default ://具体商品详情
+                                    $state.go('barterdetail',{goodId:localStorage.getItem("toExchangeGoodId")});
+                                    break;
+                            }
                             break;
                         case "005013":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
@@ -1690,7 +1697,7 @@
                     });
                     break;
                 default://如果是翻新和检查 需要传入价格   001,003,004,005
-                    $scope.params.aturalprice = $scope.service.price;
+                    $scope.params.totalprice = $scope.service.price;
                     console.log("$scope.pagetheme =="+ $scope.pagetheme);
                     console.log("$scope.typeCode =="+ $scope.typeCode);
                     console.log(JSON.stringify($scope.params));
@@ -2433,7 +2440,7 @@
         if($stateParams.name == '002') $scope.pagetheme = 'repair';
         $scope.fixPrice = 0;
         //根据订单号查询是否已经定价
-        OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+        OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
              console.log(JSON.stringify(data));
              if(data && data.fixPrice){
                  $scope.fixPrice = data.fixPrice;
@@ -2939,7 +2946,7 @@
         switch ($scope.orderstatus){
             case '004005':
                 //根据订单号查询实际定价金额
-                OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+                OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
                     if(data && data.fixPrice){
                         $scope.fixPrice = data.fixPrice;
                     }
@@ -2986,7 +2993,7 @@
         switch ($scope.orderstatus){
             case '005005':
                 //根据订单号查询实际定价金额
-                OrderService.selectRepairPrice({orderNo:$stateParams.orderno}).success(function (data){
+                OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
                     if(data && data.fixPrice){
                         $scope.fixPrice = data.fixPrice;
                     }

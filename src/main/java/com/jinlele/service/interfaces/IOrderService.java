@@ -55,8 +55,8 @@ public interface IOrderService {
     //查询所有的快递
     List<Map<String , Object>> findAllexpressCompanies();
 
-    //查询维修订单是否已经定价
-    Double selectactualpprice(String orderno);
+    //查询服务订单定价金额或实际支付金额
+    Double selectActualPrice(String orderno);
 
     //根据订单号查询服务的id
     Integer selectServiceIdByOrderNo(String orderno);

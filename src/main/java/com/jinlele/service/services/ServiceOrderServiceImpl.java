@@ -52,7 +52,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         String orderno = StringHelper.getOrderNum();  //生成订单号
         Date orderTime = new Date();
         String shoporderstatus = type + "001";
-        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, shoporderstatus, buyeraddresId , orderTime);
+        ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, 0.0, userId,  storeId,  type, shoporderstatus, buyeraddresId , orderTime);
         try {
             order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
         } catch (IOException e) {

@@ -307,12 +307,6 @@ where  o.orderno = #{orderno}
     select number , company from express_company
   </select>
 
-  <!--查询维修订单是否已经定价-->
-  <select id="selectactualpprice" parameterType="java.lang.String" resultType="java.lang.Double">
-     select totalprice from shoporder
-      where orderno = #{orderno}
-  </select>
-
   <!--根据订单号查询服务的id-->
   <select id="selectServiceIdByOrderNo" parameterType="java.lang.String" resultType="java.lang.Integer">
       select id  from service where order_no = #{orderno}

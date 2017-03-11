@@ -348,8 +348,8 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Double selectactualpprice(String orderno) {
-        return orderMapper.selectactualpprice(orderno);
+    public Double selectActualPrice(String orderno) {
+        return serviceMapper.selectActualPrice(orderno);
     }
 
     //根据订单号查询服务的id

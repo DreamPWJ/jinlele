@@ -36,4 +36,7 @@ public interface ServiceMapper {
     Map<String , Object> getServiceInfo(String orderno);
     //根据类型查询字典信息
     List getDictInfo(String typename);
+
+    //查询服务订单定价金额或实际付款价格
+    Double selectActualPrice(String orderno);
 }
