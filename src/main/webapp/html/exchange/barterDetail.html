@@ -1,81 +1,80 @@
 <!-- 产品图 -->
 <main class="banner">
     <ul class="swiper-wrapper">
-        <li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
-        <li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
-        <li class="swiper-slide"><img src="images/com/cp_1.jpg"></li>
     </ul>
     <section class="spot"></section>
 </main>
 
 <!-- 基本信息 -->
 <section class="essential">
-    <h1>范琦14K金戒指女男情侣对戒14K黄金定情结婚戒指珠宝首饰品 </h1>
+    <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
-        <i>销售价：￥3199.00</i>
-        <em>换款价格：￥3199.00</em>
-        <em>剩余金额：￥3199.00</em>
+        <i>销售价：{{price | currency:'￥'}}</i>
+        <em ng-if="(price*gooddetail.num-actualprice)>=0">换款价格：{{(price*gooddetail.num-actualprice) | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-actualprice)<0">换款价格：{{0 | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-actualprice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-actualprice)<0">剩余金额：{{(actualprice-price*gooddetail.num) | currency:'￥'}}</em>
+    </section>
+    <section class="essential_main">
+        <span>
+        	<i>评价({{goodcommentcount}})</i>
+        	<i>库存({{stocknum}})</i>
+        </span>
     </section>
     <ul>
         <li>
-            <em>颜色：</em>
-        	<span class="colour">
-            	<a class="hover" href="">白色</a>
-            	<a href="">白色</a>
-            	<a href="">白色</a>
+            <em>颜色分类：</em>
+        	<span class="colour"  >
+                <toggle-color e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" price="price" goodchild-id="gooddetail.goodchildId">
+                    <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【约"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【约"+item.handsize+"】":""}}{{item.necklace_len?"【约"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
+                </toggle-color>
             </span>
         </li>
         <li>
             <em>数量：</em>
            	<span class="amount">
-            	<a class="icon" href="">&#xe603;</a>
-                <input value="1" type="text">
-                <a class="icon" href="">&#xe600;</a>
+            	<a class="icon" href="" ng-click="minusNum()">&#xe603;</a>
+                <input  type="text" ng-model="gooddetail.num" ng-change="changeNum()">
+                <a class="iconfont icon-add" href="" ng-click="addNum()"></a>
            	</span>
         </li>
-        <li><a href=""><i class="icon">&#xe66c;</i><em>联系客服</em></a></li>
     </ul>
 </section>
 
 <!-- 评论 -->
 <section class="comment_list">
-    <a class="title" href="">
+    <a class="title" href="javascript:void(0);">
         <em>商品评价</em>
         <i class="icon">&#xe722;</i>
     </a>
-    <section class="comment_list_main">
+    <section class="comment_list_main" ng-repeat="item in goodcomments.pagingList">
     	<span class="title">
-        	<img src="images/com/00001.jpg">
-        	<em>张三丰</em>
-            <i>2016.02.25</i>
+        	<img ng-src="{{item.headimgurl}}"/>
+        	<em>{{item.nickname}}</em>
+            <i>{{item.create_time|date:'yyyy.MM.dd'}}</i>
         </span>
-        <p>曝光于网友11日发布的一段1分多钟的短视频。该视频显示，事发时一名年轻警员同一名坐在警车驾驶室内的警员疑似因查车开罚单事件引发言语争执。</p>
+        <p>{{item.content}}</p>
     </section>
-    <a class="more" href="">查看全部18条评价<i class="icon">&#xe722;</i></a>
+    <a class="more" href="" ng-if="goodcomments.pagingList.length==0">暂无评价</a>
+    <a class="more" href="" ng-if="goodcomments.pagingList.length>0">查看全部评价<i class="icon">&#xe722;</i></a>
 </section>
 
 <!-- 商品详情 -->
 <section class="depict_week">
     <span class="title">商品详情</span>
-    <span class="picture"><img src="images/com/0001.jpg"></span>
+    <span class="picture" ng-bind-html="goodDetail.description"></span>
 </section>
+
 
 <!-- FOOTER -->
 <footer class="add_submit">
 	<span class="check">
-        <a class="hover" href=""><i class="icon">&#xe653;</i><em>首页</em></a>
-        <a href=""><i class="icon">&#xe602;</i><em>换款</em></a>
-        <a href="">
+        <a class="hover" ng-style="menuWidth" href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
+        <a ng-style="menuWidth" href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
+        <a href="#/shoppingcart" ng-style="menuWidth">
             <i class="icon">&#xe68d;</i><em>购物车</em>
-            <u>5</u>
+            <u>{{totalnum}}</u>
         </a>
     </span>
-    <a class="cart" href="">加入购物车</a>
+    <a class="cart" ng-click="changeThis()">换购此款</a>
 </footer>
-
-<script type="text/javascript">
-    var swiper = new Swiper('.banner', {
-        pagination: '.spot',
-        paginationClickable: true
-    });
-</script>
