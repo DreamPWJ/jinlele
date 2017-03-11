@@ -22,4 +22,5 @@ public interface IGoodService {
      */
     List<Map<String, Object>> getGoodChildsByGoodId(@Param("gooodId") int gooodId);
 
+    Map<String,Object> getExchangeGoodPaging(int pagenow);
 }

@@ -167,4 +167,10 @@ public class GoodController {
         map.put("comments",commentService.getCommentsPaging(pagenow,goodId));
         return map;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getExchangeGoodList/{pagenow}")
+    public Map<String, Object> getExchangeGoodList(@PathVariable int pagenow) {
+        return goodService.getExchangeGoodPaging(pagenow);
+    }
 }

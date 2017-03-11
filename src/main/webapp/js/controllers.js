@@ -3005,6 +3005,7 @@
         }
         //确认换款
         $scope.confirmBarter = function () {
+            localStorage.setItem("actualprice",$scope.fixPrice);
             OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005006'}).success(function (data) {
                 if(data && data.n==1){
                     switch(localStorage.getItem("toExchangeGoodId").length){
@@ -3028,9 +3029,35 @@
         }
     }])
     //换款列表
-    .controller('BarterListCtrl', function ($scope) {
-
-    })
+    .controller('BarterListCtrl', ['$scope','GoodService',function ($scope,GoodService) {
+        $scope.actualprice=localStorage.getItem("actualprice");
+        $scope.barterlists = [];
+        $scope.page = 0;//当前页数
+        $scope.total = 1;//总页数
+        $scope.moreFlag = false; //是否显示加载更多
+        $scope.noDataFlag = false;  //没有数据显示
+        $scope.getExchangeGoodLists = function () {
+            if ((arguments != [] && arguments[0] == 0) ) {
+                $scope.page = 0;
+                $scope.barterlists = [];
+            }
+            $scope.page++;
+            $scope.moreFlag = false;
+            $scope.noDataFlag = false;
+            //分页显示
+            GoodService.getExchangeGoodList({pagenow:$scope.page}).success(function(data){
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.barterlists.push(item);
+                })
+                if(data.myrows == 0) $scope.noDataFlag = true;
+                $scope.total = data.myrows;
+                if($scope.total > $scope.barterlists.length){
+                    $scope.moreFlag = true;
+                }
+            });
+        }
+        $scope.getExchangeGoodLists();
+    }])
     //换款详情
     .controller('BarterDetailCtrl', ['$scope','$stateParams',function ($scope,$stateParams) {
 

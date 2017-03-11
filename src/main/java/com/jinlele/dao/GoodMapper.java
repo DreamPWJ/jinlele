@@ -37,4 +37,7 @@ public interface GoodMapper {
      * 根据商品的id 查询所有的子商品信息
      */
     List<Map<String, Object>>  getGoodChildsByGoodId(@Param("gooodId") int gooodId);
+
+    //获取换款产品
+    List getExchangeProducts(Double actualprice);
 }

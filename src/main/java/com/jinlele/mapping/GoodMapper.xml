@@ -285,4 +285,8 @@
   <select id="getGoodChildsByGoodId" resultType="map">
     select id,good_id as goodId,color,weight,material,mainstorespec,handsize,necklace_len,bracelet_len,stocknumber,price  from goodchild where good_id =#{gooodId} and deletecode='001'
   </select>
+  <!-- 获取换款产品 -->
+  <select id="getExchangeProducts" resultType="map">
+    select select id,title,bannerurl,price from good where deleteCode='001' and canchange=0 ORDER BY create_time DESC
+  </select>
 </mapper>

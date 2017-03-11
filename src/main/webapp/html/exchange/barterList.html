@@ -1,29 +1,23 @@
+<div ng-if="noDataFlag" class="isNotDataHint">
+    <i class="iconfont icon-cry1"></i>
+    <p>暂无数据</p>
+</div>
 <main class="content">
     <section class="change">
         <ul class="change_main">
-            <li>
+            <li ng-repeat="item in barterlists">
                 <section class="collection_main">
-                    <span class="pic"><a href=""><img src="images/com/03.jpg"></a></span>
+                    <span class="pic"><a  ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}"></a></span>
                     <section class="text">
-                        <h2><a href="">范琦14K金戒指女男情侣对戒14K黄...</a></h2>
+                        <h2><a ng-if="item.title.length>20" ng-href="#/barterdetailfor{{item.id}}">{{item.title.substr(0,20)}}....</a><a ng-if="item.title.length<=20" ng-href="#/barterdetailfor{{item.id}}">{{item.title}}</a></h2>
                         <span class="price">
-                            <em>剩：￥150.00</em>
-                        </span>
-                    </section>
-                </section>
-            </li>
-            <li>
-                <section class="collection_main">
-                    <span class="pic"><a href=""><img src="images/com/03.jpg"></a></span>
-                    <section class="text">
-                        <h2><a href="">范琦14K金戒指女男情侣对戒14K黄...</a></h2>
-                        <span class="price">
-                            <em style="color:#666;">补：￥150.00</em>
+                            <em ng-if="(item.price-actualprice)>=0">剩：{{(item.price-actualprice)|currency:'￥'}}</em>
+                            <em ng-if="(item.price-actualprice)<0" style="color:#666;">补：{{(actualprice-item.price)|currency:'￥'}}</em>
                         </span>
                     </section>
                 </section>
             </li>
         </ul>
     </section>
-    <section class="collection_load"><a href="">加载更多</a></section>
+    <section class="collection_load" ng-click="getExchangeGoodLists()" ng-if="moreFlag"><a href="">加载更多</a></section>
 </main>
