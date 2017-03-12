@@ -4,6 +4,7 @@ import com.jinlele.model.ShopOrder;
 import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IUserService;
+import com.jinlele.service.interfaces.IWalletService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import com.jinlele.util.weixinUtils.service.CoreService;
@@ -45,6 +46,8 @@ public class WeiXinController {
     IUserService userService;
     @Resource
     IOrderService orderService;
+    @Resource
+    IWalletService walletService;
     String timeMillis = String.valueOf(System.currentTimeMillis() / 1000);
     String randomString = PayCommonUtil.getRandomString(32);
 
@@ -301,22 +304,32 @@ public class WeiXinController {
                     SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmss");
                     try {
                         String orderstatus = "";
-                        if("006".equals(orderType)){
-                            orderstatus = "002";
-                        }else if("002".equals(orderType)){
-                            orderstatus =  "002004";  //维修订单的状态需要改为002004 （已付款）待客户发货
-                            System.out.println("orderstatus==="+orderstatus);
-                        }else{
-                            orderstatus = orderType + "002";
+                        switch (orderType){
+                            case "002":
+                                orderstatus =  "002004";  //维修订单的状态需要改为002004 （已付款）待客户发货
+                                System.out.println("orderstatus==="+orderstatus);
+                                break;
+                            case "005":
+                                orderstatus = "005009";//已付款
+                                break;
+                            case "006":
+                                orderstatus = "002";
+                                break;
+                            default:
+                                orderstatus = orderType + "002";
+                                break;
                         }
                         order=new ShopOrder(orderno,total_fee,orderstatus,"003",s.parse(finishtime));
                         shopOrder.setUpdateTime(s.parse(finishtime));//支付完成时间
-                       if(!"007".equals(orderType)){
-                           orderService.updateByPrimaryKeySelective(order);
-                       }else{
-                           //更新充值订单 修改账户余额  新增账户余额明细
-                           orderService.updateRechargetSuccess(order);
-                       }
+                        switch (orderType){
+                            case "007":
+                                //更新充值订单 修改账户余额  新增账户余额明细
+                                orderService.updateRechargetSuccess(order);
+                                break;
+                            default:
+                                orderService.updateByPrimaryKeySelective(order);
+                                break;
+                        }
                     }catch (ParseException e) {
                         e.printStackTrace();
                     }

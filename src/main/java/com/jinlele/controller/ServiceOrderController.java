@@ -1,6 +1,8 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ServiceGood;
 import com.jinlele.service.interfaces.IOrderService;
+import com.jinlele.service.interfaces.IServiceGoodService;
 import com.jinlele.service.interfaces.IServiceOrderService;
 import com.jinlele.service.interfaces.IServiceService;
 import org.apache.commons.collections.map.HashedMap;
@@ -28,6 +30,9 @@ public class ServiceOrderController {
 
     @Resource
     IServiceService serviceService;
+
+    @Resource
+    IServiceGoodService serviceGoodService;
 
 
     /**
@@ -88,5 +93,17 @@ public class ServiceOrderController {
         return serviceOrderService.updateRepairOrder(list);
     }
 
+    /**
+     * 添加换款商品信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addExchangeGood/{orderno}/{goodId}/{goodchildId}/{buynum}/{unitprice}/{money}", method = RequestMethod.GET)
+    public Map<String, Object> addExchangeGood(@PathVariable String orderno,  @PathVariable int goodId , @PathVariable Integer goodchildId , @PathVariable Integer buynum , @PathVariable Double unitprice, @PathVariable Double money) {
+        Map<String , Object> map = new HashedMap();
+        ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,buynum,unitprice,money);
+        int n = serviceGoodService.insertSelective(serviceGood);
+        map.put("n", n);
+        return map;
+    }
 
 }

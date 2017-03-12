@@ -5,17 +5,20 @@ import com.jinlele.dao.*;
 import com.jinlele.model.*;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceOrderService;
+import com.jinlele.service.interfaces.IWalletService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
 import com.jinlele.util.rqcode.MatrixToImageWriter;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.lang.Exception;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +44,12 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     ServiceMapper serviceMapper;
     @Resource
     ServicePictureMapper servicePictureMapper;
-
     @Resource
     IReceiptAddressService receiptAddressService;
+    @Resource
+    IWalletService walletService;
+    @Resource
+    ServiceGoodMapper serviceGoodMapper;
 
     //生成服务类订单
     @Override
@@ -250,5 +256,24 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         }
         return resultMap;
     }
+
+    @Override
+    public int updateExchangeOrder(Integer userId, Double leftAmount, String orderno,Integer goodId, Integer goodchildId, Integer num,Double price){
+        try {
+            //保存换购商品信息
+            ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,num,price,leftAmount );
+            serviceGoodMapper.insertSelective(serviceGood);
+            //更新订单状态
+            ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
+            order.setShoporderstatuscode("005009");//已付款
+            shopOrderMapper.updateByPrimaryKeySelective(order);
+            //更新账户
+            walletService.updateWallet(userId, leftAmount, orderno);
+            return  1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
 
 }

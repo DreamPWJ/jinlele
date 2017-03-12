@@ -2,10 +2,7 @@ package com.jinlele.controller;
 
 import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShoppingCart;
-import com.jinlele.service.interfaces.ICommentService;
-import com.jinlele.service.interfaces.IOrderService;
-import com.jinlele.service.interfaces.IPaymentdetailService;
-import com.jinlele.service.interfaces.IShoppingCartService;
+import com.jinlele.service.interfaces.*;
 import com.jinlele.util.KdniaoTrackQueryAPI;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
@@ -34,6 +31,9 @@ public class OrderController {
 
     @Resource
     IPaymentdetailService paymentdetailService;
+
+    @Resource
+    IServiceOrderService serviceOrderService;
 
     /**
      * 分页获取购物车数据
@@ -255,5 +255,17 @@ public class OrderController {
     @RequestMapping(value = "/getwalletDetail/{pagenow}/{userId}")
     public Map<String , Object>  getwalletDetail(@PathVariable int pagenow, @PathVariable Integer userId){
         return paymentdetailService.getPayDetailListPaging(pagenow, userId);
+    }
+
+    /**
+     * 更新换款订单支付信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateExchangeOrder/{orderno}/{userId}/{goodId}/{goodchildId}/{buynum}/{unitprice}/{money}", method = RequestMethod.GET)
+    public Map<String, Object> updateExchangeOrder(@PathVariable String orderno, @PathVariable int userId, @PathVariable int goodId , @PathVariable Integer goodchildId , @PathVariable Integer buynum , @PathVariable Double unitprice, @PathVariable Double money) {
+        Map<String , Object> map = new HashedMap();
+        int n = serviceOrderService.updateExchangeOrder(userId,money,orderno,goodId,goodchildId,buynum,unitprice);
+        map.put("n" ,n);
+        return map;
     }
 }

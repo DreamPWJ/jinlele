@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.ServiceGoodMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.ServiceGood" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderno" property="orderno" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="INTEGER" />
+    <result column="goodchild_id" property="goodchildId" jdbcType="INTEGER" />
+    <result column="buynum" property="buynum" jdbcType="INTEGER" />
+    <result column="unit_price" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="left_amount" property="leftAmount" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderno, good_id, goodchild_id, buynum, unit_price, left_amount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from service_good
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from service_good
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.ServiceGood" >
+    insert into service_good (id, orderno, good_id, 
+      goodchild_id, buynum, unit_price, 
+      left_amount)
+    values (#{id,jdbcType=INTEGER}, #{orderno,jdbcType=VARCHAR}, #{goodId,jdbcType=INTEGER}, 
+      #{goodchildId,jdbcType=INTEGER}, #{buynum,jdbcType=INTEGER}, #{unitPrice,jdbcType=DOUBLE}, 
+      #{leftAmount,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.ServiceGood" >
+    insert into service_good
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderno != null" >
+        orderno,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="goodchildId != null" >
+        goodchild_id,
+      </if>
+      <if test="buynum != null" >
+        buynum,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="leftAmount != null" >
+        left_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="goodchildId != null" >
+        #{goodchildId,jdbcType=INTEGER},
+      </if>
+      <if test="buynum != null" >
+        #{buynum,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="leftAmount != null" >
+        #{leftAmount,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.ServiceGood" >
+    update service_good
+    <set >
+      <if test="orderno != null" >
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=INTEGER},
+      </if>
+      <if test="goodchildId != null" >
+        goodchild_id = #{goodchildId,jdbcType=INTEGER},
+      </if>
+      <if test="buynum != null" >
+        buynum = #{buynum,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="leftAmount != null" >
+        left_amount = #{leftAmount,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.ServiceGood" >
+    update service_good
+    set orderno = #{orderno,jdbcType=VARCHAR},
+      good_id = #{goodId,jdbcType=INTEGER},
+      goodchild_id = #{goodchildId,jdbcType=INTEGER},
+      buynum = #{buynum,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=DOUBLE},
+      left_amount = #{leftAmount,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

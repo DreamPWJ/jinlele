@@ -3063,7 +3063,7 @@
         $scope.getExchangeGoodLists();
     }])
     //换款详情
-    .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService) {
+    .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService','OrderService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService,OrderService) {
         $rootScope.commonService = CommonService;
         $scope.actualprice=localStorage.getItem("actualprice");
         function getBanners(arr) {
@@ -3144,35 +3144,60 @@
             console.log($scope.gooddetail.num);
             if(($scope.price*$scope.gooddetail.num-$scope.actualprice)>0){
                 console.log('补：'+($scope.price*$scope.gooddetail.num-$scope.actualprice));
-                //调用微信支付，支付需补交部分
-                //调用微信支付服务器端接口
-                $scope.param = {
-                    totalprice: 0.01, //$scope.price*$scope.gooddetail.num-$scope.actualprice,
-                    orderNo: localStorage.getItem("exchangeorderno"),
-                    descrip: '六唯壹珠宝',
-                    openid: localStorage.getItem("openId"),
-                    orderType:JSON.stringify({type:'005'})
-                }
-                //调用微信支付服务器端接口
-                WeiXinService.getweixinPayData($scope.param).success(function (data) {
-                    WeiXinService.wxchooseWXPay(data) //调起微支付接口
-                        .then(function (msg) {
-                            switch (msg) {
-                                case "get_brand_wcpay_request:ok":
-                                    CommonService.toolTip("支付成功","tool-tip-message-success");
-                                    //支付成功，跳转订单列表
-                                    $state.go("orderlist");
-                                    break;
-                                default :
-                                    //未支付，停留此页面
-                                    break;
-                            }
-                        });
-                })
-            }else{
-                console.log('剩：'+($scope.actualprice-$scope.price*$scope.gooddetail.num));
+                OrderService.addBarterInfo({
+                    orderno: localStorage.getItem("exchangeorderno"),
+                    userId: localStorage.getItem("jinlele_userId"),
+                    goodId: $stateParams.goodId,
+                    goodchildId: $scope.gooddetail.goodchildId,
+                    buynum: $scope.gooddetail.num,
+                    unitprice: $scope.price,
+                    money: $scope.actualprice - $scope.price * $scope.gooddetail.num
+                }).success(function(data){
+                    if(data&&data.n==1){
+                        //调用微信支付，支付需补交部分，weixinController
+                        //调用微信支付服务器端接口
+                        $scope.param = {
+                            totalprice: 0.01, //$scope.price*$scope.gooddetail.num-$scope.actualprice,
+                            orderNo: localStorage.getItem("exchangeorderno"),
+                            descrip: '六唯壹珠宝',
+                            openid: localStorage.getItem("openId"),
+                            orderType:JSON.stringify({type:'005'})
+                        }
+                        //调用微信支付服务器端接口
+                        WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                            WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                                .then(function (msg) {
+                                    switch (msg) {
+                                        case "get_brand_wcpay_request:ok":
+                                            CommonService.toolTip("支付成功","tool-tip-message-success");
+                                            //支付成功，跳转订单列表
+                                            $state.go("orderlist");
+                                            break;
+                                        default :
+                                            //未支付，停留此页面
+                                            break;
+                                    }
+                                });
+                        })
+                    }
+                });
+            }else {
+                //console.log('剩：' + ($scope.actualprice - $scope.price * $scope.gooddetail.num));
                 //扣除定价部分，剩余存入余额，保存换购商品信息到service_good表，修改订单状态，跳转订单列表
-
+                OrderService.updateBarterInfo({
+                    orderno: localStorage.getItem("exchangeorderno"),
+                    userId: localStorage.getItem("jinlele_userId"),
+                    goodId: $stateParams.goodId,
+                    goodchildId: $scope.gooddetail.goodchildId,
+                    buynum: $scope.gooddetail.num,
+                    unitprice: $scope.price,
+                    money: $scope.actualprice - $scope.price * $scope.gooddetail.num
+                }).success(function (data) {
+                    if(data&&data.n==1){
+                        CommonService.toolTip("换购成功","tool-tip-message-success");
+                        $state.go("orderlist");
+                    }
+                });
             }
         }
     }])
