@@ -14,6 +14,7 @@
         <em ng-if="(price*gooddetail.num-actualprice)<0">换款价格：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-actualprice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-actualprice)<0">剩余金额：{{(actualprice-price*gooddetail.num) | currency:'￥'}}</em>
+        <i>注：剩余金额将直接存入您的账户余额</i>
     </section>
     <section class="essential_main">
         <span>

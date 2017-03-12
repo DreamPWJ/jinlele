@@ -724,13 +724,18 @@
                             $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
                             break;
                         case "005006":
-                            switch(localStorage.getItem("toExchangeGoodId").length){
-                                case 0://换款列表
-                                    $state.go('barterlist');
-                                    break;
-                                default ://具体商品详情
-                                    $state.go('barterdetail',{goodId:localStorage.getItem("toExchangeGoodId")});
-                                    break;
+                            localStorage.setItem("exchangeorderno",orderno);
+                            //根据订单号查询实际定价金额
+                            OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
+                                if(data && data.fixPrice){
+                                    localStorage.setItem("actualprice",data.fixPrice);
+                                }
+                            });
+                            if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
+                                $state.go('barterlist');
+                            }else {
+                                //具体商品详情
+                                $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
                             }
                             break;
                         case "005013":
@@ -1514,95 +1519,6 @@
             }
         }
     })
-    //换款详情
-    .controller('BarterDetailCtrl', ['$rootScope','$scope','$stateParams','GoodService','CommonService',function ($rootScope,$scope,$stateParams,GoodService,CommonService) {
-        $rootScope.commonService = CommonService;
-        $scope.actualprice=localStorage.getItem("actualprice");
-        function getBanners(arr) {
-            var html = "";
-            if (arr) {
-                for (var i = 0, len = arr.length; i < len; i++) {
-                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "'></li>";
-                }
-            }
-            $(".banner .swiper-wrapper").html(html);
-            var swiper = new Swiper('.banner', {
-                pagination: '.spot',
-                paginationClickable: true,
-                autoplay: false
-            });
-        }
-        //初始化参数
-        $scope.bannerurl = "";
-        $scope.stocknum = 0;//库存数
-        $scope.menuWidth = {"width": "33.333%"};
-        $scope.gooddetail = {
-            userId: localStorage.getItem("jinlele_userId"),
-            goodId: $stateParams.goodId,
-            goodchildId: "",
-            num: 1
-        };
-        GoodService.getGoodDetail({goodId: $stateParams.goodId, userId: $scope.gooddetail.userId}).success(function (data) {
-            console.log("getGoodDetail==" + JSON.stringify(data));
-            $scope.goodDetail = data.good;
-            $scope.goodChilds = data.goodchilds;
-            $scope.favourites = data.favourites;
-            $scope.totalnum = data.totalnum;
-            $scope.bannerurl = data.imgurls;
-            $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
-            getBanners($scope.bannerurl);
-            $scope.price = $scope.goodChilds[0].price;
-            $scope.stocknum = $scope.goodChilds[0].stocknumber;
-            if ($scope.goodChilds && $scope.goodChilds.length > 0) {
-                angular.forEach($scope.goodChilds, function (item) {
-                    item.flag = false;
-                });
-            }
-            console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
-
-        });
-        GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {
-            $scope.goodcommentcount = data.total;
-        });
-        GoodService.getGoodComments({goodId: $stateParams.goodId, pagenow: 1}).success(function (data) {
-            $scope.goodcomments = data.comments;
-        });
-        $scope.changeNum = function () {
-            if (!/^\+?[1-9][0-9]*$/.test($scope.gooddetail.num)) {
-                $scope.gooddetail.num = 1;
-            }
-            if ($scope.gooddetail.num > $scope.stocknum) {
-                $scope.gooddetail.num = $scope.stocknum;
-            }
-        }
-        $scope.addNum = function () {
-            if ($scope.gooddetail.num < $scope.stocknum) {
-                $scope.gooddetail.num++;
-            }
-        }
-        $scope.minusNum = function () {
-            if ($scope.gooddetail.num > 1) {
-                $scope.gooddetail.num--;
-            }
-        }
-        $scope.changeThis=function(){
-            if (!$scope.gooddetail.goodchildId) {
-                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
-                return;
-            }
-            console.log(JSON.stringify($scope.gooddetail));
-            console.log($scope.price);
-            console.log($scope.actualprice);
-            console.log($scope.gooddetail.num);
-            if(($scope.price*$scope.gooddetail.num-$scope.actualprice)>0){
-                console.log('补：'+($scope.price*$scope.gooddetail.num-$scope.actualprice));
-                //调用微信支付，支付需补交部分
-            }else{
-                console.log('剩：'+($scope.actualprice-$scope.price*$scope.gooddetail.num));
-                //扣除定价部分，剩余存入余额
-            }
-        }
-    }])
     //流程-拍照(翻新，检测，回收业务只有拍照功能，维修业务包含拍照及下单功能)
     .controller('ProcPhotoCtrl', function ($scope,ProcCommitOrderService, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state ,CategoryService) {
         $rootScope.commonService = CommonService;
@@ -3095,15 +3011,14 @@
         //确认换款
         $scope.confirmBarter = function () {
             localStorage.setItem("actualprice",$scope.fixPrice);
+            localStorage.setItem("exchangeorderno",$stateParams.orderno);
             OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005006'}).success(function (data) {
                 if(data && data.n==1){
-                    switch(localStorage.getItem("toExchangeGoodId").length){
-                        case 0://换款列表
-                            $state.go('barterlist');
-                            break;
-                        default ://具体商品详情
-                            $state.go('barterdetail',{goodId:localStorage.getItem("toExchangeGoodId")});
-                            break;
+                    if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
+                        $state.go('barterlist');
+                    }else {
+                        //具体商品详情
+                        $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
                     }
                 }
             });
@@ -3146,4 +3061,118 @@
             });
         }
         $scope.getExchangeGoodLists();
+    }])
+    //换款详情
+    .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService) {
+        $rootScope.commonService = CommonService;
+        $scope.actualprice=localStorage.getItem("actualprice");
+        function getBanners(arr) {
+            var html = "";
+            if (arr) {
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "'></li>";
+                }
+            }
+            $(".banner .swiper-wrapper").html(html);
+            var swiper = new Swiper('.banner', {
+                pagination: '.spot',
+                paginationClickable: true,
+                autoplay: false
+            });
+        }
+        //初始化参数
+        $scope.bannerurl = "";
+        $scope.stocknum = 0;//库存数
+        $scope.menuWidth = {"width": "33.333%"};
+        $scope.gooddetail = {
+            userId: localStorage.getItem("jinlele_userId"),
+            goodId: $stateParams.goodId,
+            goodchildId: "",
+            num: 1
+        };
+        GoodService.getGoodDetail({goodId: $stateParams.goodId, userId: $scope.gooddetail.userId}).success(function (data) {
+            console.log("getGoodDetail==" + JSON.stringify(data));
+            $scope.goodDetail = data.good;
+            $scope.goodChilds = data.goodchilds;
+            $scope.favourites = data.favourites;
+            $scope.totalnum = data.totalnum;
+            $scope.bannerurl = data.imgurls;
+            $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
+            getBanners($scope.bannerurl);
+            $scope.price = $scope.goodChilds[0].price;
+            $scope.stocknum = $scope.goodChilds[0].stocknumber;
+            if ($scope.goodChilds && $scope.goodChilds.length > 0) {
+                angular.forEach($scope.goodChilds, function (item) {
+                    item.flag = false;
+                });
+            }
+            console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
+
+        });
+        GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {
+            $scope.goodcommentcount = data.total;
+        });
+        GoodService.getGoodComments({goodId: $stateParams.goodId, pagenow: 1}).success(function (data) {
+            $scope.goodcomments = data.comments;
+        });
+        $scope.changeNum = function () {
+            if (!/^\+?[1-9][0-9]*$/.test($scope.gooddetail.num)) {
+                $scope.gooddetail.num = 1;
+            }
+            if ($scope.gooddetail.num > $scope.stocknum) {
+                $scope.gooddetail.num = $scope.stocknum;
+            }
+        }
+        $scope.addNum = function () {
+            if ($scope.gooddetail.num < $scope.stocknum) {
+                $scope.gooddetail.num++;
+            }
+        }
+        $scope.minusNum = function () {
+            if ($scope.gooddetail.num > 1) {
+                $scope.gooddetail.num--;
+            }
+        }
+        $scope.changeThis=function(){
+            if (!$scope.gooddetail.goodchildId) {
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            console.log(JSON.stringify($scope.gooddetail));
+            console.log($scope.price);
+            console.log($scope.actualprice);
+            console.log($scope.gooddetail.num);
+            if(($scope.price*$scope.gooddetail.num-$scope.actualprice)>0){
+                console.log('补：'+($scope.price*$scope.gooddetail.num-$scope.actualprice));
+                //调用微信支付，支付需补交部分
+                //调用微信支付服务器端接口
+                $scope.param = {
+                    totalprice: 0.01, //$scope.price*$scope.gooddetail.num-$scope.actualprice,
+                    orderNo: localStorage.getItem("exchangeorderno"),
+                    descrip: '六唯壹珠宝',
+                    openid: localStorage.getItem("openId"),
+                    orderType:JSON.stringify({type:'005'})
+                }
+                //调用微信支付服务器端接口
+                WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                    WeiXinService.wxchooseWXPay(data) //调起微支付接口
+                        .then(function (msg) {
+                            switch (msg) {
+                                case "get_brand_wcpay_request:ok":
+                                    CommonService.toolTip("支付成功","tool-tip-message-success");
+                                    //支付成功，跳转订单列表
+                                    $state.go("orderlist");
+                                    break;
+                                default :
+                                    //未支付，停留此页面
+                                    break;
+                            }
+                        });
+                })
+            }else{
+                console.log('剩：'+($scope.actualprice-$scope.price*$scope.gooddetail.num));
+                //扣除定价部分，剩余存入余额，保存换购商品信息到service_good表，修改订单状态，跳转订单列表
+
+            }
+        }
     }])
