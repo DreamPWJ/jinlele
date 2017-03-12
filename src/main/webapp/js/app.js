@@ -183,17 +183,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/exchange/barterDetail.html',
                 controller: 'BarterDetailCtrl'
             })
-            .state('recharge', {  //换款-更多款式
+            .state('recharge', {  //充值
                 url: '/recharge',
                 templateUrl: 'html/recharge.html',
                 controller: 'RechargeCtrl'
             })
-            .state('rechargeOK', {  //换款-更多款式
+            .state('rechargeOK', {  //充值成功
                 url: '/rechargeOK/:orderno',
                 templateUrl: 'html/rechargeOK.html',
                 controller: 'RechargeOKCtrl'
             })
-            .state('walletdetail', {  //换款-更多款式
+            .state('walletdetail', {  //账户明细
                 url: '/walletdetail',
                 templateUrl: 'html/walletdetail.html',
                 controller: 'WalletdetailCtrl'

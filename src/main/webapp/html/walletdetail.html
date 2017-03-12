@@ -14,7 +14,7 @@
         <section class="money">
         	<span class="money_title2">
             	<em ng-if="item.changeMoney>0"><span style="color:green"> {{'+'+item.changeMoney}}</span></em>
-            	<em ng-if="item.changeMoney<0"><span style="color:red"> {{'-'+item.changeMoney}}</span></em>
+            	<em ng-if="item.changeMoney<0"><span style="color:red"> {{item.changeMoney}}</span></em>
             	<i>元</i>
             </span>
         	<u>{{item.dealname}}</u>
