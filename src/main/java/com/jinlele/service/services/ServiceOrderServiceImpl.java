@@ -265,7 +265,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             serviceGoodMapper.insertSelective(serviceGood);
             //更新订单状态
             ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
-            order.setShoporderstatuscode("005009");//已付款
+            order.setShoporderstatuscode("005008");//已付款
+            order.setActualpayprice(0.0);//实际支付为0
             shopOrderMapper.updateByPrimaryKeySelective(order);
             //更新账户
             walletService.updateWallet(userId, leftAmount, orderno);

@@ -723,7 +723,7 @@
                         case "005005":
                             $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
                             break;
-                        case "005006":
+                        case "005006"://待选款
                             localStorage.setItem("exchangeorderno",orderno);
                             //根据订单号查询实际定价金额
                             OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
@@ -738,25 +738,43 @@
                                 $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
                             }
                             break;
-                        case "005013":
+                        case "005007"://待付款
+                            localStorage.setItem("exchangeorderno",orderno);
+                            //根据订单号查询实际定价金额
+                            OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
+                                if(data && data.fixPrice){
+                                    localStorage.setItem("actualprice",data.fixPrice);
+                                }
+                            });
+                            //根据订单号查询goodid
+                            OrderService.getBarterGoodId({orderno:orderno}).success(function(data){
+                                if(data.exchangeGood){
+                                    //具体商品详情
+                                    $state.go('barterdetail', {goodId: data.exchangeGood.goodId});
+                                }
+                            });
+                            break;
+                        case "005008"://已付款
+                            CommonService.toolTip("平台处理中，请耐心等待~","tool-tip-message-success");
+                            break;
+                        case "005009"://待收货
+                            CommonService.toolTip("感谢您的购买，请确认收货~","tool-tip-message-success");
+                            break;
+                        case "005010":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
                             break;
-                        case "004005":
-                        case "004006":
+                        case "005011":
+                            CommonService.toolTip("当前订单交易已完成","tool-tip-message-success");
+                            break;
+                        case "005012":
+                        case "005013":
                             $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
                             break;
-                        case "004007":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "004009":
-                            CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
-                            break;
-                        case "004008":
                         case "005014":
-                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+                            CommonService.toolTip("等待物流筛检中，请稍后查询","tool-tip-message-success");
                             break;
-                        case "004011":
-                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+                        case "005015":
+                            CommonService.toolTip("当前订单交易已关闭","tool-tip-message-success");
                             break;
                     }
                     break;
@@ -2950,6 +2968,7 @@
         $scope.orderstatus = $stateParams.orderstatus;
         switch ($scope.orderstatus){
             case '004005':
+            case '005012':
                 //根据订单号查询实际定价金额
                 OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
                     if(data && data.fixPrice){
@@ -2958,6 +2977,7 @@
                 });
                 break;
             case '004006':
+            case '005013':
                 break;
             default:
                 $state.go("main");
@@ -2965,7 +2985,14 @@
         }
         //确认变现
         $scope.confirmCash = function () {
-            $scope.orderstatus = '004006';//待审核
+            switch($scope.orderstatus.substring(0,3)){
+                case '004':
+                    $scope.orderstatus = '004006';//回收业务（待审核）
+                    break;
+                case '005':
+                    $scope.orderstatus = '005013';//换款业务（待审核）
+                    break;
+            }
             OrderService.update({
                 orderno: $stateParams.orderno,
                 shoporderstatuscode: $scope.orderstatus
@@ -2979,9 +3006,17 @@
         }
         //放弃变现
         $scope.dropCash = function () {
+            switch($scope.orderstatus.substring(0,3)){
+                case '004':
+                    $scope.orderstatus = '004009';//回收业务（待返回）
+                    break;
+                case '005':
+                    $scope.orderstatus = '005014';//换款业务（待返回）
+                    break;
+            }
             OrderService.update({
                 orderno: $stateParams.orderno,
-                shoporderstatuscode: '004009'
+                shoporderstatuscode: $scope.orderstatus
             }).success(function (data) {
                 if (data && data.n == 1) {
                     CommonService.toolTip('订单取消成功', '');
@@ -3025,9 +3060,9 @@
         }
         //放弃换款
         $scope.dropBarter = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'004005'}).success(function (data) {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012'}).success(function (data) {
                 if(data && data.n==1){
-                    $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'004005'});
+                    $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
                 }
             });
         }
@@ -3151,7 +3186,7 @@
                     goodchildId: $scope.gooddetail.goodchildId,
                     buynum: $scope.gooddetail.num,
                     unitprice: $scope.price,
-                    money: $scope.actualprice - $scope.price * $scope.gooddetail.num
+                    money: 0
                 }).success(function(data){
                     if(data&&data.n==1){
                         //调用微信支付，支付需补交部分，weixinController

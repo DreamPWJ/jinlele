@@ -2,6 +2,8 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ServiceGood;
 
+import java.util.Map;
+
 public interface ServiceGoodMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface ServiceGoodMapper {
     int updateByPrimaryKeySelective(ServiceGood record);
 
     int updateByPrimaryKey(ServiceGood record);
+
+    Map<String,Object> getGoodId(String orderno);
 }

@@ -310,7 +310,7 @@ public class WeiXinController {
                                 System.out.println("orderstatus==="+orderstatus);
                                 break;
                             case "005":
-                                orderstatus = "005009";//已付款
+                                orderstatus = "005008";//已付款
                                 break;
                             case "006":
                                 orderstatus = "002";

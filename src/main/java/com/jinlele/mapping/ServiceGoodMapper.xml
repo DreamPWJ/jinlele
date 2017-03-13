@@ -114,4 +114,7 @@
       left_amount = #{leftAmount,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getGoodId" resultType="map">
+    select  good_id as goodId from service_good where orderno = #{0}
+  </select>
 </mapper>

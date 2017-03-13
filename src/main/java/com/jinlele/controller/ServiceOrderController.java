@@ -106,4 +106,12 @@ public class ServiceOrderController {
         return map;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getGoodId/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getGoodId(@PathVariable String orderno) {
+        Map<String , Object> map = new HashedMap();
+        map.put("exchangeGood", serviceGoodService.getGoodId(orderno));
+        return map;
+    }
+
 }
