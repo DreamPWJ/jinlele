@@ -320,7 +320,7 @@
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
         <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
-        <a ng-disabled="!(submitForm.$valid&&verify)" ng-click="procreceive(submitForm.$valid&&verify)">立即下单</a>
+        <a ng-disabled="!(submitForm.$valid&&verify)||useful" ng-click="useful||procreceive(submitForm.$valid&&verify)">立即下单</a>
     </span>
     </footer>
 </form>

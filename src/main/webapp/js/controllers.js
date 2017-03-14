@@ -1888,7 +1888,9 @@
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         }
         //生成订单并付款
+        $scope.useful=false;//控制下单按钮,防止重复下单
         $scope.procreceive = function (flag) {
+            $scope.useful=true;
             if($scope.type.code!='002'&&!flag){ //如果是翻新 检测 回收  换款
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
@@ -1927,9 +1929,8 @@
                 //保存订单 并去支付订单
                 ProcCommitOrderService.createServiceOrder($scope.confirminfo).success(function (data) {
                     if (data) {
+                        $scope.useful=false;
                         //调用支付接口
-                        var orderno = data.orderNo;
-                        var orderTime = data.orderTime;
                         if($scope.type.code == '004'||$scope.type.code == '005') {   //如果是回收或换款订单无需付款，直接进入平台收货页面
                             $state.go('procreceive', {
                                 type: $scope.type.code,
@@ -1998,9 +1999,8 @@
                 ProcCommitOrderService.updateRepairOrder($scope.confirminfo).success(function (data) {
                     console.log('data='+JSON.stringify(data))
                     if (data) {
+                        $scope.useful=false;
                         //调用支付接口
-                        var orderno = data.orderNo;
-                        var orderTime = data.orderTime;
                         $scope.param = {
                             totalprice: 0.01, //data.totalprice
                             orderNo: data.orderNo,
