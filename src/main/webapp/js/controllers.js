@@ -528,6 +528,7 @@
                 $scope.address = data.address;//订单总信息
                 $scope.pictures = data.pictures;//图片列表
                 $scope.products = data.products;//产品列表
+                $scope.buyinfo = data.buyinfo;//产品列表
                 //$scope.orderdetail = data.orderdetail;//订单详情
             });
         }
@@ -758,7 +759,7 @@
                             CommonService.toolTip("平台处理中，请耐心等待~","tool-tip-message-success");
                             break;
                         case "005009"://待收货
-                            CommonService.toolTip("感谢您的购买，请确认收货~","tool-tip-message-success");
+                            CommonService.toolTip("感谢您的光顾，请确认收货~","tool-tip-message-success");
                             break;
                         case "005010":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
@@ -1012,7 +1013,7 @@
                 shoporderstatuscode:orderstatus
             }).success(function (data) {
                 if (data.n == 1) {
-                    CommonService.toolTip("收货成功，感谢您的购买~", "tool-tip-message");
+                    CommonService.toolTip("收货成功，感谢您的光顾~", "tool-tip-message");
                     $state.reload();
                 }
             });
@@ -1656,11 +1657,11 @@
                 CategoryService.getRepairItem({typename: 'repairitem'}).success(function (data) {
                     angular.forEach(data.repairitem,function(item,index){
                         var obj={};
-                        obj.id=item.id;
+                        obj.id=item.codevalue;
                         obj.text=item.dictname;
                         $scope.repairConfig.data.push(obj);
                         if(index==0){
-                            $scope.product.repairItemValue=item.id;
+                            $scope.product.repairItemValue=item.codevalue;
                         }
                     })
                 });
@@ -2547,7 +2548,8 @@
 
     }])
     //估价(回收、换款)
-    .controller('EvaluateCtrl', ['$scope','$state','$stateParams','EvaluateService',function ($scope ,$state,$stateParams,EvaluateService) {
+    .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
+        $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
         localStorage.setItem("toExchangeGoodId",$stateParams.id);
         var mySwiper = new Swiper('.metal', {
@@ -2889,6 +2891,25 @@
         //钻石估价
         $scope.calcDiamondPrice=function(){
             $scope.paras=[];
+            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.mainWeight)){
+                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                $scope.mainWeight=0.00;
+                return;
+            }
+            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.secWeight)){
+                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                $scope.secWeight=0.00;
+                return;
+            }
+            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.totalWeight)){
+                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                $scope.totalWeight=0.00;
+                return;
+            }
+            if($scope.mainWeight>0.7||$scope.mainWeight<0.08){
+                CommonService.toolTip("主石重量不符合标准", "tool-tip-message");
+                return;
+            }
             if($scope.choice){
                 //主石+副石+镶嵌材质
                 var obj={};

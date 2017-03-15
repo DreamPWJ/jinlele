@@ -117,4 +117,10 @@
   <select id="getGoodId" resultType="map">
     select  good_id as goodId from service_good where orderno = #{0}
   </select>
+  <select id="getBuyInfo" resultType="map">
+select g.id,g.title,g.bannerurl,gc.color,sg.buynum,sg.unit_price from service_good as sg
+join good as g on sg.good_id=g.id
+join goodchild as gc on sg.goodchild_id=gc.id
+where orderno=#{0}
+  </select>
 </mapper>

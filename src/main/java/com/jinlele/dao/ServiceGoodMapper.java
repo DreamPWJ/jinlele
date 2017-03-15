@@ -2,6 +2,7 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ServiceGood;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ServiceGoodMapper {
@@ -18,4 +19,6 @@ public interface ServiceGoodMapper {
     int updateByPrimaryKey(ServiceGood record);
 
     Map<String,Object> getGoodId(String orderno);
+
+    List getBuyInfo(String orderno);
 }

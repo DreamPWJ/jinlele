@@ -66,6 +66,9 @@ public class OrderServiceImpl implements IOrderService {
     @Resource
     PictureMapper pictureMapper;
 
+    @Resource
+    ServiceGoodMapper serviceGoodMapper;
+
     @Override
     public ShopOrder selectByPrimaryKey(String orderno) {
         return orderMapper.selectByPrimaryKey(orderno);
@@ -223,6 +226,9 @@ public class OrderServiceImpl implements IOrderService {
                 resultMap.put("orderdetail", detail);
                 break;
             default:
+                if("005".equals(type)){
+                    resultMap.put("buyinfo",serviceGoodMapper.getBuyInfo(orderno));
+                }
                 resultMap.put("pictures", serviceMapper.getServicePictures(orderno));
                 resultMap.put("products", serviceMapper.getServiceProducts(orderno));
                 break;

@@ -68,7 +68,7 @@
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="001008">
-                            <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
+                            <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
                         <span ng-switch-when="002003">
                             <!--<a href="">联系卖家</a>-->
@@ -81,7 +81,7 @@
                         </span>
                         <span  ng-switch-when="002009">
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
-                            <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
+                            <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
                         <span ng-switch-when="003001">
                             <!--<a href="">联系卖家</a>-->
@@ -94,7 +94,7 @@
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="003008">
-                            <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
+                            <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
                         <span ng-switch-when="004005">
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
@@ -105,10 +105,10 @@
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="004007">
-                            <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
+                            <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
+                        <!--商城-->
                         <span ng-switch-when="001">
-                            <!--<a href="">联系卖家</a>-->
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
                             <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
                         </span>

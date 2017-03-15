@@ -17,15 +17,17 @@
     </section>
     <!-- 商品列表 -->
     <section class="check">
-        <span class="title">服务产品</span>
+        <span class="title">原有产品</span>
         <section class="product_list">
             <section class="product" ng-repeat="item in products">
                 <section class="text">
                     <p>产品类别：{{item.name}}</a></p>
                     <span>产品材质：{{item.pname}}</span>
                 </section>
-                <section class="price_1">
+                <section class="price_1" ng-style="{'font-size':'76%'}">
                     <i>X {{item.num}}</i>
+                    小计：
+                    <em>{{item.aturalprice|currency:'￥'}}</em>
                 </section>
             </section>
         </section>
@@ -39,6 +41,20 @@
             </ul>
             <p>描述信息：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'无':pictures[0].descrip}}</p>
         </section>
+        <span class="title">换款产品</span>
+        <section class="product_list" ng-repeat="item in buyinfo">
+        <section class="product">
+            <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+            <section class="text">
+                <p><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></p>
+                <span>颜色分类：{{item.color}}</span>
+            </section>
+            <section class="price_1">
+                <em>{{item.unit_price|currency:"￥"}}</em>
+                <i>X {{item.buynum}}</i>
+            </section>
+        </section>
+            </section>
         <section class="qr_code">
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
