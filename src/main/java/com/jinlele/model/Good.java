@@ -5,6 +5,7 @@ import java.util.Date;
 public class Good {
     private Integer id;
 
+    private String goodno; //商品编号
     private String title;
 
     private String bannerurl;
@@ -45,6 +46,14 @@ public class Good {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getGoodno() {
+        return goodno;
+    }
+
+    public void setGoodno(String goodno) {
+        this.goodno = goodno;
     }
 
     public String getTitle() {

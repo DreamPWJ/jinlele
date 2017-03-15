@@ -3,6 +3,7 @@
 <mapper namespace="com.jinlele.dao.GoodMapper" >
   <resultMap id="BaseResultMap" type="com.jinlele.model.Good" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goodno" property="goodno" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="bannerurl" property="bannerurl" jdbcType="VARCHAR" />
     <result column="hotimgUrl" property="hotimgurl" jdbcType="VARCHAR" />
@@ -24,7 +25,7 @@
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, title, bannerurl, hotimgUrl, shortinfo, price, oldprice, salesvol, canchange, 
+    id, goodno,title, bannerurl, hotimgUrl, shortinfo, price, oldprice, salesvol, canchange,
     stocknum, position, comments, ishotCode, showCode, deleteCode, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
@@ -43,14 +44,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Good" >
-    insert into good (id, title, bannerurl, 
+    insert into good (id, goodno,title, bannerurl,
       hotimgUrl, shortinfo, price, 
       oldprice, salesvol, canchange, 
       stocknum, position, comments, 
       ishotCode, showCode, deleteCode, 
       create_time, update_time, description
       )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{bannerurl,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER},#{goodno,jdbcType=VARCHAR},  #{title,jdbcType=VARCHAR}, #{bannerurl,jdbcType=VARCHAR},
       #{hotimgurl,jdbcType=VARCHAR}, #{shortinfo,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
       #{oldprice,jdbcType=DOUBLE}, #{salesvol,jdbcType=INTEGER}, #{canchange,jdbcType=INTEGER}, 
       #{stocknum,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{comments,jdbcType=INTEGER}, 
@@ -63,6 +64,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="goodno != null" >
+        goodno,
       </if>
       <if test="title != null" >
         title,
@@ -120,6 +124,9 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="goodno != null" >
+        #{goodno,jdbcType=VARCHAR},
+      </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
@@ -176,6 +183,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.Good" >
     update good
     <set >
+      <if test="goodno != null" >
+        goodno = #{goodno,jdbcType=VARCHAR},
+      </if>
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
@@ -232,7 +242,8 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jinlele.model.Good" >
     update good
-    set title = #{title,jdbcType=VARCHAR},
+    set  goodno = #{goodno,jdbcType=VARCHAR},
+       title = #{title,jdbcType=VARCHAR},
       bannerurl = #{bannerurl,jdbcType=VARCHAR},
       hotimgUrl = #{hotimgurl,jdbcType=VARCHAR},
       shortinfo = #{shortinfo,jdbcType=VARCHAR},
@@ -253,7 +264,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.Good" >
     update good
-    set title = #{title,jdbcType=VARCHAR},
+    set
+      goodno = #{goodno,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       bannerurl = #{bannerurl,jdbcType=VARCHAR},
       hotimgUrl = #{hotimgurl,jdbcType=VARCHAR},
       shortinfo = #{shortinfo,jdbcType=VARCHAR},
