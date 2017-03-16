@@ -16,18 +16,21 @@
         </a>
     </section>
     <!-- 商品列表 -->
-    <section class="check">
-        <span class="title">原有产品</span>
+    <section class="check"  ng-switch on="orderinfo.type">
+        <span class="title" ng-switch-when="001">翻新产品</span>
+        <span class="title" ng-switch-when="002">维修产品</span>
+        <span class="title" ng-switch-when="003">检测产品</span>
+        <span class="title" ng-switch-when="004">回收产品</span>
+        <span class="title" ng-switch-when="005">原有产品</span>
         <section class="product_list">
-            <section class="product" ng-repeat="item in products">
+            <section class="product">
                 <section class="text">
-                    <p>产品类别：{{item.name}}</a></p>
-                    <span>产品材质：{{item.pname}}</span>
+                    <p>产品类别：{{products.name}}</a></p>
+                    <span>产品材质：{{products.pname}}</span>
                 </section>
                 <section class="price_1" ng-style="{'font-size':'76%'}">
-                    <i>X {{item.num}}</i>
-                    小计：
-                    <em>{{item.aturalprice|currency:'￥'}}</em>
+                    <i>X {{products.num}}</i>
+                    <em>{{products.price|currency:'￥'}}</em>
                 </section>
             </section>
         </section>
@@ -41,30 +44,42 @@
             </ul>
             <p>描述信息：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'无':pictures[0].descrip}}</p>
         </section>
-        <span class="title">换款产品</span>
-        <section class="product_list" ng-repeat="item in buyinfo">
+        <span class="title" ng-if="buyinfo!=null">换款产品</span>
+        <section class="product_list" ng-if="buyinfo!=null">
         <section class="product">
-            <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+            <span class="pic"><a href=""><img ng-src="{{buyinfo.bannerurl}}"></a></span>
             <section class="text">
-                <p><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></p>
-                <span>颜色分类：{{item.color}}</span>
+                <p><a href="#/gooddetail/{{buyinfo.id}}">{{buyinfo.title}}</a></p>
+                <span>颜色分类：{{buyinfo.color}}</span>
             </section>
             <section class="price_1">
-                <em>{{item.unit_price|currency:"￥"}}</em>
-                <i>X {{item.buynum}}</i>
+                <em>{{buyinfo.unit_price|currency:"￥"}}</em>
+                <i>X {{buyinfo.buynum}}</i>
             </section>
         </section>
             </section>
         <section class="qr_code">
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
-        <!--<section class="check_main">-->
-            <!--<a href=""><i class="icon">&#xe66c;</i><u>联系客服</u></a>-->
-        <!--</section>-->
     </section>
 
-    <section class="order_xq">
-        <ul>
+    <section class="order_xq"  ng-switch on="orderinfo.type">
+        <ul ng-switch-when="004">
+            <li><em>估价总额：</em><i>{{(products.price*products.num)|currency:'￥'}}</i></li>
+            <li><em>单品定价：</em><i>{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+            <li ng-if="orderinfo.totalprice!=0"><em>回收总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li ng-if="orderinfo.totalprice!=0"><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+        </ul>
+        <ul ng-switch-when="005">
+            <li class="barter"><em>估价总额：</em><i>{{(products.price*products.num)|currency:'￥'}}</i></li>
+            <li class="barter"><em>可用总额：</em><i>{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+            <li class="barter"><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li class="barter" ng-if="buyinfo!=null"><em>换款总额：</em><i>{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
+            <li class="barter" ng-show="orderinfo.totalprice!=0&&products.aturalprice>=orderinfo.totalprice"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
+            <li class="barter" ng-show="orderinfo.totalprice!=0&&products.aturalprice>=orderinfo.totalprice"><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+        </ul>
+        <ul ng-switch-default>
             <li><em>服务总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
             <li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
             <li><em>订单总额：</em><i>{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
@@ -73,7 +88,7 @@
         </ul>
     </section>
     <!-- 物流信息 -->
-    <section class="logistics" ng-if="orderinfo.shoporderstatusCode=='001002'||orderinfo.shoporderstatusCode=='002004'||orderinfo.shoporderstatusCode=='003002'||orderinfo.shoporderstatusCode=='004001'">
+    <section class="logistics" ng-if="orderinfo.shoporderstatusCode=='001002'||orderinfo.shoporderstatusCode=='002004'||orderinfo.shoporderstatusCode=='003002'||orderinfo.shoporderstatusCode=='004001'"||orderinfo.shoporderstatusCode=='005001'">
         <span class="title">友情提示：</span>
     	<span class="title">请尽快完善您发货的物流信息，以便平台及时提供服务</span>
     </section>
@@ -88,5 +103,6 @@
     <span ng-switch-when="002004"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
     <span ng-switch-when="003002"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
     <span ng-switch-when="004001"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
+    <span ng-switch-when="005001"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
     <span ng-switch-default><a ng-click="traceProgress(order.orderType,order.orderno,orderinfo.create_time,order.orderStatus,orderinfo.totalprice)">处理进度</a></span>
 </section>

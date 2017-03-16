@@ -42,58 +42,58 @@
         </ul>
     </section>
     <!-- 定价 -->
-    <section class="price" ng-if="orderstatus == '004005'">
+    <section class="price" ng-if="orderstatus == '004005'||orderstatus == '005012'">
         <span class="title icon">回收估价结果&#xe722;</span>
-        <i>产品的实际回收价格约为</i>
+        <i>单个产品的实际回收价格约为</i>
         <em>{{fixPrice|currency:'￥'}}</em>
     </section>
-    <section class="price_button" ng-if="orderstatus == '004005'">
+    <section class="price_button" ng-if="orderstatus == '004005'||orderstatus == '005012'">
         <span><a  ng-click="confirmCash()">确认变现</a></span>
         <span><a  ng-click="dropCash()">放弃变现</a></span>
     </section>
-    <section class="price" ng-style="{'margin-bottom':'10px'}" ng-if="orderstatus == '004006'">
+    <section class="price" ng-style="{'margin-bottom':'10px'}" ng-if="orderstatus == '004006'||orderstatus == '005013'">
         <em>您的变现申请已提交，请耐心等待...</em>
     </section>
     <!-- 免费换 -->
-    <section class="buy">
-        <span class="title">您还可以免费换以下新款</span>
-        <ul>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <span><img src="images/com/01.jpg"></span>
-                    <em>￥1600.00</em>
-                </a>
-            </li>
-        </ul>
-    </section>
+    <!--<section class="buy">-->
+        <!--<span class="title">您还可以免费换以下新款</span>-->
+        <!--<ul>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="">-->
+                    <!--<span><img src="images/com/01.jpg"></span>-->
+                    <!--<em>￥1600.00</em>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</section>-->
 </main>

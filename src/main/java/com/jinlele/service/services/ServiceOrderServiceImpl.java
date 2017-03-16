@@ -19,6 +19,7 @@ import org.apache.commons.collections.map.HashedMap;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.lang.Exception;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -225,7 +226,16 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             try {
                 //保存订单
                 String shoporderstatus = type + "001";
-                ShopOrder order  = new ShopOrder(orderno ,totalnum, totalprice, totalprice, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                ShopOrder order  = null;
+                switch (type){
+                    case "004":
+                    case "005":
+                        order  = new ShopOrder(orderno ,totalnum, 0.0, 0.0, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                        break;
+                    default:
+                        order  = new ShopOrder(orderno ,totalnum, totalprice, 0.0, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                        break;
+                }
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
 
                 //生成订单
@@ -265,8 +275,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             serviceGoodMapper.insertSelective(serviceGood);
             //更新订单状态
             ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
+            order.setTotalprice((new BigDecimal(price*num)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue());
             order.setShoporderstatuscode("005008");//已付款
-            order.setActualpayprice(0.0);//实际支付为0
             shopOrderMapper.updateByPrimaryKeySelective(order);
             //更新账户
             walletService.updateWallet(userId, leftAmount, orderno);

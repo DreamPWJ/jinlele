@@ -20,5 +20,5 @@ public interface ServiceGoodMapper {
 
     Map<String,Object> getGoodId(String orderno);
 
-    List getBuyInfo(String orderno);
+    Map<String,Object> getBuyInfo(String orderno);
 }
