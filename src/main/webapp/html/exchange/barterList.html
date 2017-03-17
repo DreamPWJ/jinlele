@@ -7,7 +7,7 @@
         <ul class="change_main">
             <li ng-repeat="item in barterlists">
                 <section class="collection_main">
-                    <span class="pic"><a  ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}"></a></span>
+                    <span class="pic"><a  ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
                         <h2><a ng-if="item.title.length>20" ng-href="#/barterdetailfor{{item.id}}">{{item.title.substr(0,20)}}....</a><a ng-if="item.title.length<=20" ng-href="#/barterdetailfor{{item.id}}">{{item.title}}</a></h2>
                         <span class="price">

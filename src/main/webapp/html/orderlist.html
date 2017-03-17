@@ -96,7 +96,7 @@
                         <span  ng-switch-when="003008">
                             <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
-                        <span ng-switch-when="004005">
+                        <span ng-switch-when="004001">
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
                         </span>
                         <span ng-switch-when="004010">
@@ -105,6 +105,16 @@
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="004007">
+                            <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
+                        </span>
+                        <span ng-switch-when="005001">
+                            <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
+                        </span>
+                        <span ng-switch-when="005009">
+                            <a class="strike" ng-click="servicedetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
+                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                        </span>
+                        <span  ng-switch-when="005010">
                             <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
                         </span>
                         <!--商城-->

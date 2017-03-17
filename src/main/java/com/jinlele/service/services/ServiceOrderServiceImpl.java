@@ -230,10 +230,10 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                 switch (type){
                     case "004":
                     case "005":
-                        order  = new ShopOrder(orderno ,totalnum, 0.0, 0.0, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                        order  = new ShopOrder(orderno ,totalnum, 0.0, null, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
                         break;
                     default:
-                        order  = new ShopOrder(orderno ,totalnum, totalprice, 0.0, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
+                        order  = new ShopOrder(orderno ,totalnum, totalprice, null, userId,  storeId,  type, shoporderstatus, Integer.valueOf(result.get("receiptAddressId").toString()) , orderTime);
                         break;
                 }
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
@@ -275,7 +275,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             serviceGoodMapper.insertSelective(serviceGood);
             //更新订单状态
             ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
-            order.setTotalprice((new BigDecimal(price*num)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue());
+            order.setActualpayprice(0.0);//实付款
             order.setShoporderstatuscode("005008");//已付款
             shopOrderMapper.updateByPrimaryKeySelective(order);
             //更新账户

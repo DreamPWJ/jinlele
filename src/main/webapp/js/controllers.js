@@ -534,6 +534,7 @@
         }
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice) {
+            console.log(totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
                 totalprice: 0.01, //$scope.totalprice,
@@ -755,11 +756,8 @@
                                 }
                             });
                             break;
-                        case "005008"://已付款
-                            CommonService.toolTip("平台处理中，请耐心等待~","tool-tip-message-success");
-                            break;
                         case "005009"://待收货
-                            CommonService.toolTip("感谢您的光顾，请确认收货~","tool-tip-message-success");
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
                             break;
                         case "005010":
                             $state.go('procaddcmt', {type: type, orderno: orderno});//评论
@@ -771,6 +769,7 @@
                         case "005013":
                             $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
                             break;
+                        case "005008"://已付款
                         case "005014":
                             CommonService.toolTip("等待物流筛检中，请稍后查询","tool-tip-message-success");
                             break;
@@ -1002,7 +1001,7 @@
                     orderstatus='004007';
                     break;
                 case '005':
-                    orderstatus='005013';
+                    orderstatus='005010';
                     break;
                 default ://默认商城
                     orderstatus='004';
@@ -1428,7 +1427,7 @@
             var html = "";
             if (arr) {
                 for (var i = 0, len = arr.length; i < len; i++) {
-                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "'></li>";
+                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "' style='height:360px;'></li>";
                 }
             }
             $(".banner .swiper-wrapper").html(html);
@@ -2318,6 +2317,7 @@
         $scope.orderno = $stateParams.orderno;//订单号
         //物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
+            $scope.initData = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
@@ -2891,17 +2891,17 @@
         //钻石估价
         $scope.calcDiamondPrice=function(){
             $scope.paras=[];
-            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.mainWeight)){
+            if(!/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
                 CommonService.toolTip("请输入正确的重量", "tool-tip-message");
                 $scope.mainWeight=0.00;
                 return;
             }
-            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.secWeight)){
+            if(!/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
                 CommonService.toolTip("请输入正确的重量", "tool-tip-message");
                 $scope.secWeight=0.00;
                 return;
             }
-            if(!/^[0-9]+(.[0-9]{2})?$/.test($scope.totalWeight)){
+            if(!/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
                 CommonService.toolTip("请输入正确的重量", "tool-tip-message");
                 $scope.totalWeight=0.00;
                 return;
@@ -3126,7 +3126,7 @@
             var html = "";
             if (arr) {
                 for (var i = 0, len = arr.length; i < len; i++) {
-                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "'></li>";
+                    html += "<li class='swiper-slide'><img src='" + arr[i].imgurl + "' style='height:360px;'></li>";
                 }
             }
             $(".banner .swiper-wrapper").html(html);

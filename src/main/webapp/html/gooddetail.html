@@ -25,7 +25,7 @@
         	<em>颜色分类：</em>
         	<span class="colour"  >
                 <toggle-color e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" price="price" goodchild-id="gooddetail.goodchildId">
-            	<a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【约"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【约"+item.handsize+"】":""}}{{item.necklace_len?"【约"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
+            	<a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【约"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【"+item.bracelet_len+"】":""}}</a>
                 </toggle-color>
             </span>
         </li>

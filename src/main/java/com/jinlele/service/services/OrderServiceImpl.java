@@ -317,7 +317,7 @@ public class OrderServiceImpl implements IOrderService {
                 shopOrder.setShoporderstatuscode(typeCode+"011");
                 break;
             case "005"://换款
-                shopOrder.setShoporderstatuscode(typeCode+"008");
+                shopOrder.setShoporderstatuscode(typeCode+"018");
                 break;
             case "006":
                 //增加订单明细中商品原有库存数量
