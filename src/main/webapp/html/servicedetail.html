@@ -65,26 +65,25 @@
 
     <section class="order_xq"  ng-switch on="orderinfo.type">
         <ul ng-switch-when="004">
-            <li><em>估价总额：</em><i>{{(products.price*products.num)|currency:'￥'}}</i></li>
-            <li><em>单品定价：</em><i>{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
-            <li ng-if="orderinfo.totalprice!=0"><em>回收总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-            <li ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-            <li ng-if="orderinfo.totalprice!=0"><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+            <li><em class="subject">回收总额：</em><i class="subject subject_font">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+            <li class="result" ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>
         <ul ng-switch-when="005">
-            <li class="barter"><em>估价总额：</em><i>{{(products.price*products.num)|currency:'￥'}}</i></li>
-            <li class="barter"><em>可用总额：</em><i>{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
-            <li class="barter"><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li class="barter" ng-if="buyinfo!=null"><em>换款总额：</em><i>{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
-            <li class="barter" ng-show="orderinfo.totalprice!=0&&products.aturalprice>=orderinfo.totalprice"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
-            <li class="barter" ng-show="orderinfo.totalprice!=0&&products.aturalprice>=orderinfo.totalprice"><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+            <li><em class="content content_main">可用总额：</em><i class="content content_main">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+            <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
+            <li class="result" ng-show="orderinfo.totalprice!=0&&products.aturalprice>=orderinfo.totalprice"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
+            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>
         <ul ng-switch-default>
-            <li><em>服务总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-            <li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li><em>订单总额：</em><i>{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
-            <li ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
-            <li><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            <li><em class="content">服务总额：</em><i class="content">{{orderinfo.totalprice|currency:'￥'}}</i></li>
+            <li class="underline"><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li><em class="subject">订单总额：</em><i class="subject subject_font">{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
+            <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
+            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>
     </section>
     <!-- 物流信息 -->

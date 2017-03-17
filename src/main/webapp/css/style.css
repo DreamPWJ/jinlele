@@ -2624,133 +2624,52 @@ section.order_xq ul li i {
     color: #666;
     //color: #FE2E2E;
 }
-
-section.order_xq ul li:nth-child(2) em, section.order_xq ul li:nth-child(2) i {
+section.order_xq ul li em.content, section.order_xq ul li i.content {
     height: 20px;
     line-height: 20px;
     color: #666;
+}
+section.order_xq ul li em.content_main, section.order_xq ul li i.content_main {
     padding: 0 0 5px 0;
 }
-
-section.order_xq ul li:nth-child(2) {
+section.order_xq ul li.underline {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-section.order_xq ul li:nth-child(3) em, section.order_xq ul li:nth-child(3) i {
+section.order_xq ul li em.subject, section.order_xq ul li i.subject {
     height: 20px;
     line-height: 20px;
     font-size: 90%;
     color: #333;
 }
-section.order_xq ul li:nth-child(3) i {
+section.order_xq ul li i.subject_font {
     font-size: 100%;
     color: #FE2E2E;
 }
 
-section.order_xq ul li:nth-child(4) {
+section.order_xq ul li.result {
     width: auto;
     float: right;
 }
 
-section.order_xq ul li:nth-child(4) em {
+section.order_xq ul li.result em {
     float: left;
     font-size: 90%;
     color: #333;
 }
 
-section.order_xq ul li:nth-child(4) i {
+section.order_xq ul li.result i {
     float: left;
     font-size: 100%;
     color: #FE2E2E;
 }
-
-section.order_xq ul li:nth-child(5) u {
-    float: right;
-    text-decoration: none;
-    font-size: 76%;
-    color: #666;
-    padding: 8px 0 0 0;
-}
-
-section.order_xq ul li.barter {
-    width: 100%;
-    float: left;
-}
-
-section.order_xq ul li.barter em {
-    height: 30px;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    font-size: 76%;
-    color: #666;
-}
-
-section.order_xq ul li.barter i {
-    height: 30px;
-    float: right;
-    line-height: 30px;
-    padding: 8px 0 0 0;
-    font-size: 76%;
-    font-style: normal;
-    color: #666;
-//color: #FE2E2E;
-}
-section.order_xq ul li.barter:nth-child(2) em, section.order_xq ul li.barter:nth-child(2) i {
-    height: 20px;
-    line-height: 20px;
-    color: #666;
-    padding: 0 0 5px 0;
-}
-section.order_xq ul li.barter:nth-child(2) {
-    border:0px none;
-}
-section.order_xq ul li.barter:nth-child(3) em, section.order_xq ul li.barter:nth-child(3) i {
-    height: 20px;
-    line-height: 20px;
-    color: #666;
-    padding: 0 0 5px 0;
-}
-
-section.order_xq ul li.barter:nth-child(3) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-section.order_xq ul li.barter:nth-child(4) em, section.order_xq ul li.barter:nth-child(4) i {
-    height: 20px;
-    line-height: 20px;
-    font-size: 90%;
-    color: #333;
-}
-section.order_xq ul li.barter:nth-child(4) i {
-    font-size: 100%;
-    color: #FE2E2E;
-}
-
-section.order_xq ul li.barter:nth-child(5) {
-    width: auto;
-    float: right;
-}
-
-section.order_xq ul li.barter:nth-child(5) em {
-    float: left;
-    font-size: 90%;
-    color: #333;
-}
-
-section.order_xq ul li.barter:nth-child(5) i {
-    float: left;
-    font-size: 100%;
-    color: #FE2E2E;
-}
-
-section.order_xq ul li.barter:nth-child(6) u {
-    float: right;
-    text-decoration: none;
-    font-size: 76%;
-    color: #666;
-    padding: 8px 0 0 0;
-}
+section.order_xq ul li u.create_date {
+     float: right;
+     text-decoration: none;
+     font-size: 76%;
+     color: #666;
+     padding: 8px 0 0 0;
+ }
 
 /* 退货申请 --------------- */
 dl.returned {
