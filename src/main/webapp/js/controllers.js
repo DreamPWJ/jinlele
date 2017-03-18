@@ -92,7 +92,7 @@
     }])
 
     //分类tab
-    .controller('CategoryCtrl',['$scope', '$stateParams', '$window', 'CategoryService', 'ResizeService','CartService', function ($scope, $stateParams, $window, CategoryService, ResizeService,CartService) {
+    .controller('CategoryCtrl',['$scope','$state', '$stateParams', '$window', 'CategoryService', 'ResizeService','CartService', function ($scope,$state, $stateParams, $window, CategoryService, ResizeService,CartService) {
         ResizeService.autoHeight();
         $window.onresize = ResizeService.autoHeight;
         $scope.init = {
@@ -125,6 +125,9 @@
         CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
             $scope.cartTotalNum=data.totalnum;
         });
+        $scope.detail=function(gid){
+            $state.go("gooddetail" , {id:gid});
+        }
     }])
 
 
@@ -1079,6 +1082,10 @@
         $scope.sub = function () {
             console.log($scope.returnApply);
         }
+
+
+
+
     })
     //虚拟账户明细
     .controller('WalletdetailCtrl', function ($scope, WalletService) {
@@ -1420,7 +1427,7 @@
 
     })
     //商品详情
-    .controller('GoodDetailCtrl', function ($scope, $stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
+    .controller('GoodDetailCtrl',['$scope','$stateParams', '$rootScope', 'GoodService', 'AddtoCartService', 'CommonService', function ($scope,$stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         $rootScope.commonService = CommonService;
         $scope.rightFlag = false;
         function getBanners(arr) {
@@ -1437,7 +1444,6 @@
                 autoplay: false
             });
         }
-
         //初始化参数
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
@@ -1536,7 +1542,7 @@
                 })
             }
         }
-    })
+    }])
     //流程-拍照(翻新，检测，回收业务只有拍照功能，维修业务包含拍照及下单功能)
     .controller('ProcPhotoCtrl', function ($scope,ProcCommitOrderService, $stateParams, WeiXinService, $rootScope, CommonService, ProcPhotoService, $state ,CategoryService) {
         $rootScope.commonService = CommonService;

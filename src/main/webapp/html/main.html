@@ -64,8 +64,8 @@
                     <span class="text">{{item.title}}</span>
                     <p>{{item.shortinfo}}</p>
                     <span class="price">
-                        <em>现价：{{item.price}}</em>
-                        <em>原价：{{item.oldprice}}</em>
+                        <em>现价：{{item.price|currency:"￥"}}</em>
+                        <em>原价：{{item.oldprice|currency:"￥"}}</em>
                         <i class="icon icon-detail"></i>
 
                     </span>
