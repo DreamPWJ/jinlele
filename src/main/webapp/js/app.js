@@ -59,7 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'OrderListCtrl'
             })
             .state('returnapply', {  //退货
-                url: '/returnapply/:id',
+                url: '/returnapply/:orderno/:type',
                 templateUrl: 'html/returnapply.html',
                 controller: 'ReturnApplyCtrl'
             })

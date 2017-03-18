@@ -15,6 +15,7 @@ angular.module('starter.services', [])
             }
 
 
+
         }
     })
     .service('MainService', function ($q, $http, JinLeLe) { //首页服务定义
@@ -193,13 +194,13 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
-            //获取维修项目类型
-            getRepairItem: function (params) { //商品
+            //根据类型获取一级下拉列表元素
+            getItems: function (params) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/service/getRepairItem/" + params.typename
+                    url: JinLeLe.api + "/service/getSelectedItems/" + params.typename
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -913,6 +914,20 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/serviceOrder/getGoodId/" + params.orderno
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            //申请退款
+            applyReturn:function(params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/order/addReturnApply/" + params.type + "/" + params.orderno + "/" + params.userId + "/" + params.reasonCode + "/" + params.memo
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

@@ -114,7 +114,7 @@ public class CommentServiceImpl implements ICommentService {
                             shopOrder.setShoporderstatuscode("004008");
                             break;
                         case "005"://产品换款
-                            shopOrder.setShoporderstatuscode("005014");
+                            shopOrder.setShoporderstatuscode("005011");
                             break;
                         default://默认商城
                             shopOrder.setShoporderstatuscode("005");

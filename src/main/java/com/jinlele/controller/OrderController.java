@@ -1,5 +1,6 @@
 package com.jinlele.controller;
 
+import com.jinlele.model.ReturnApply;
 import com.jinlele.model.ShopOrder;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.*;
@@ -34,6 +35,9 @@ public class OrderController {
 
     @Resource
     IServiceOrderService serviceOrderService;
+
+    @Resource
+    IReturnApplyService returnApplyService;
 
     /**
      * 分页获取购物车数据
@@ -267,5 +271,15 @@ public class OrderController {
         int n = serviceOrderService.updateExchangeOrder(userId,money,orderno,goodId,goodchildId,buynum,unitprice);
         map.put("n" ,n);
         return map;
+    }
+
+    /**
+     * 申请退货
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addReturnApply/{type}/{orderno}/{userId}/{reasonCode}/{memo}", method = RequestMethod.GET)
+    public Map<String, Object> addReturnApply(@PathVariable String type, @PathVariable String orderno, @PathVariable int userId, @PathVariable String reasonCode , @PathVariable String memo) {
+        ReturnApply returnApply=new ReturnApply(orderno,userId,reasonCode,memo);
+        return returnApplyService.addReturnApply(returnApply,type);
     }
 }

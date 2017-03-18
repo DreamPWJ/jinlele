@@ -42,6 +42,15 @@ public class ServiceController {
     }
 
     /**
+     * 获取类别元素
+     */
+    @ResponseBody
+     @RequestMapping(value = "/getSelectedItems/{typename}", method = RequestMethod.GET)
+     public Map<String, Object> getSelectedItems(@PathVariable String typename) {
+        return serviceService.getDictInfo(typename);
+    }
+
+    /**
      * 获取最新用户地址
      */
     @ResponseBody
@@ -83,12 +92,6 @@ public class ServiceController {
     @RequestMapping(value = "/getServiceInfo/{orderno}", method = RequestMethod.GET)
     public Map<String, Object> getServiceInfo(@PathVariable String orderno) {
         return serviceService.getServiceInfo(orderno);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/getRepairItem/{typename}", method = RequestMethod.GET)
-    public Map<String, Object> getRepairItem(@PathVariable String typename) {
-        return serviceService.getDictInfo(typename);
     }
 
     /**

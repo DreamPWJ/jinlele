@@ -2,28 +2,9 @@
 <main class="content bottom">
 	<dl class="returned">
     	<dd>
-        	<em>退款类型：</em>
-        	<span>
-            <select class="default" ng-model="returnApply.returntypeCode">
-            	<option value="">请选择</option>
-                <option value="1">我要退款</option>
-                <option value="2">我要退货</option>
-            </select>
-        	</span>
-        </dd>
-    	<dd>
-        	<em>收货状态：</em>
-        	<span>
-            <select class="default" ng-model="returnApply.harvestCode">
-            	<option value="">请选择</option>
-                <option value="1">未收到货</option>
-                <option value="2">已收到货</option>
-            </select>
-        	</span>
-        </dd>
-    	<dd>
         	<em>退款原因：</em>
         	<span>
+                <input select2 ng-model="reasonItemValue" select2-model="selectedReasonItemValue" config="reasonConfig" class="form-control" type="text"/>
             <select class="default" ng-model="returnApply.reason">
             	<option value="">请选择</option>
                 <option value="1">买家发错</option>
@@ -33,10 +14,10 @@
         	</span>
         </dd>
     	<dd>
-        	<em>退货说明：</em>
-        	<span><input placeholder="请输入退货说明" type="text" ng-model="returnApply.memo"></span>
+        	<em>补充说明：</em>
+        	<span class="memo"><textarea placeholder="请输入补充说明" ng-model="memo"></textarea></span>
         </dd>
     </dl>
-    <section class="submit"><a href="" ng-click="sub()">提交申请</a></section>
+    <section class="submit"><a href="" ng-click="opendisabled||commitApply()" ng-disabled="opendisabled">提交申请</a></section>
 </main>
 

@@ -1076,17 +1076,38 @@
             }
         }
     }])
-    //退货
-    .controller('ReturnApplyCtrl', function ($scope, $stateParams) {
-        $scope.returnApply = {returntypeCode: "", harvestCode: "", reason: "", memo: "", orderno: $stateParams.id};
-        $scope.sub = function () {
-            console.log($scope.returnApply);
+    //退款
+    .controller('ReturnApplyCtrl', ['$rootScope','$scope','$state', '$stateParams','CategoryService','OrderService','CommonService',function ($rootScope,$scope,$state, $stateParams,CategoryService,OrderService,CommonService) {
+        $rootScope.commonService=CommonService;
+        //退款原因
+        $scope.reasonConfig= {
+            data: [],
+            minimumResultsForSearch:-1
+        };
+        CategoryService.getItems({typename: 'returnReason'}).success(function (data) {
+            angular.forEach(data.selectedItems,function(item,index){
+                var obj={};
+                obj.id=item.codevalue;
+                obj.text=item.dictname;
+                $scope.reasonConfig.data.push(obj);
+                if(index==0){
+                    $scope.reasonItemValue=item.codevalue;
+                }
+            })
+        });
+        $scope.opendisabled=false;//按钮禁用状态
+        $scope.commitApply = function () {
+            $scope.opendisabled=true;
+            OrderService.applyReturn({type:$stateParams.type,orderno:$stateParams.orderno,userId:localStorage.getItem("jinlele_userId"),reasonCode:$scope.reasonItemValue,memo:$scope.memo}).success(function(data){
+                if(data&&data.result=="ok"){
+                    CommonService.toolTip("退款申请提交成功！", "tool-tip-message-success");
+                }else{
+                    CommonService.toolTip("您已提交过此订单的退款申请！", "");
+                }
+                $state.go("orderlist");
+            });
         }
-
-
-
-
-    })
+    }])
     //虚拟账户明细
     .controller('WalletdetailCtrl', function ($scope, WalletService) {
         console.log(1);
@@ -1659,8 +1680,8 @@
                     });
                 }
                 //维修项目
-                CategoryService.getRepairItem({typename: 'repairitem'}).success(function (data) {
-                    angular.forEach(data.repairitem,function(item,index){
+                CategoryService.getItems({typename: 'repairitem'}).success(function (data) {
+                    angular.forEach(data.selectedItems,function(item,index){
                         var obj={};
                         obj.id=item.codevalue;
                         obj.text=item.dictname;

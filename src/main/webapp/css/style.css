@@ -2701,16 +2701,27 @@ dl.returned dd em {
 
 dl.returned dd span {
     height: 32px;
+    line-height: 32px;
     display: block;
     overflow: hidden;
     padding: 4px 0;
 }
 
 dl.returned dd span input[type="text"] {
+     width: 100%;
+     height: 32px;
+     float: left;
+     line-height: 32px;
+     font-size: 80%;
+ }
+dl.returned dd span.memo {
+    height: 100px;
+}
+dl.returned dd span textarea {
     width: 100%;
-    height: 32px;
+    height: 100%;
     float: left;
-    line-height: 32px;
+    line-height: 22px;
     font-size: 80%;
 }
 

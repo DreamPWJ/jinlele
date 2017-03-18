@@ -85,7 +85,7 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     public Map<String, Object> getDictInfo(String typename) {
         Map<String , Object> map = new HashedMap();
-        map.put("repairitem",serviceMapper.getDictInfo(typename));
+        map.put("selectedItems",serviceMapper.getDictInfo(typename));
         return map;
     }
 
