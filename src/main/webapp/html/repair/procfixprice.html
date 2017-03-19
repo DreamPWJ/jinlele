@@ -3,7 +3,6 @@
 <section class="process_title"><i>产品维修</i></section>
 
 <main class="content">
-
     <!-- 流程 -->
     <section class="process fanx">
         <b class="right"></b>
@@ -52,9 +51,9 @@
     
     <!-- 定价 -->
   	<section class="price">
-    	<i>产品维修价格</i>
+    	<i>您的产品维修价格为</i>
     	<em ng-if="fixPrice == 0">平台定价中,请耐心等待..</em>
-    	<em ng-if="fixPrice != 0">￥ {{fixPrice}}</em>
+    	<em ng-if="fixPrice != 0">{{fixPrice|currency:"￥"}}</em>
     </section>
     <section class="price_button" ng-if="fixPrice != 0">
     	<span><a  ng-click="commit()">确认维修</a></span>

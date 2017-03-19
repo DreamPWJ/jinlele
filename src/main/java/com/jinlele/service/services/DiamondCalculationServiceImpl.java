@@ -33,8 +33,11 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
         resultMap.put("showFormula",false);
         for (Map<String, Object> paras : list) {
             Boolean flag = Boolean.valueOf(paras.get("flag").toString());
-            String src=paras.get("src").toString();
-            Double mainWeight = Double.valueOf((null== paras.get("mainWeight")|| paras.get("mainWeight").toString().length()==0)? "0" : paras.get("mainWeight").toString());//主石重量
+            String src=paras.get("src")!=null&&paras.get("src").toString().length()!=0?paras.get("src").toString():"";
+            Double mainWeight = 0.0;//主石重量
+            if(paras.get("mainWeight")!=null&& paras.get("mainWeight").toString().length()!=0){
+                mainWeight = Double.valueOf(paras.get("mainWeight").toString());//主石重量
+            }
             String weightLevel = "";
             Double result = 0.0;
             if(mainWeight>=0.08&&mainWeight<0.13){
@@ -47,7 +50,6 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 weightLevel="004";
             }else if(mainWeight>=0.3&&mainWeight<0.4){
                 weightLevel="005";
-            }else if(mainWeight>=0.3&&mainWeight<0.4){
             }else if(mainWeight>=0.4&&mainWeight<0.5){
                 weightLevel="006";
             }else if(mainWeight>=0.5&&mainWeight<0.6){
@@ -59,12 +61,18 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
             Map<String,Object> map = diamondCalculationMapper.getMainPriceInfo(weightLevel);
             Integer dcid =Integer.valueOf(map.get("id").toString());
             Double mainPrice = Double.valueOf(map.get("price").toString());
-            Double secWeight = Double.valueOf((null== paras.get("secWeight")|| paras.get("secWeight").toString().length()==0)? "0" : paras.get("secWeight").toString());//副石重量
+            Double secWeight = 0.0;//副石重量
+            if(paras.get("secWeight")!=null&& paras.get("secWeight").toString().length()!=0){
+                secWeight = Double.valueOf(paras.get("secWeight").toString());//副石重量
+            }
             String quality = paras.get("quality").toString();//副石品质
             Double secPrice=diamondSideCalulationMapper.getDiamondSidePrice(quality);//副石价格
             Double totalSecPrice = (new BigDecimal(secPrice * secWeight)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//副石总价格
 
-            Double totalWeight = Double.valueOf((null== paras.get("totalWeight")|| paras.get("totalWeight").toString().length()==0)? "0" : paras.get("totalWeight").toString());//副石重量
+            Double totalWeight = 0.0;//副石重量
+            if( paras.get("totalWeight")!=null&& paras.get("totalWeight").toString().length()!=0) {
+                totalWeight = Double.valueOf(paras.get("totalWeight").toString());//副石重量
+            }
             String material = paras.get("material").toString();//镶嵌材质
             Double materialWeight = (new BigDecimal(totalWeight - (mainWeight +secWeight)*0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             Map<String,Object> metalMap =  metalCalculationService.getPMPrice(material, materialWeight);

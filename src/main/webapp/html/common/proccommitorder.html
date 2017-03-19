@@ -309,9 +309,10 @@
                 </dd>
             </dl>
         </div>
-        <section class="prompt_tisi">
-            <p>以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
-            <p>免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现金损耗（具体视货品款式）</p>
+        <section class="prompt_tisi" ng-switch on="pagetheme">
+            <p ng-switch-when="refurbish">免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现损耗（具体视货品款式）</p>
+            <p ng-switch-when="repair">免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现损耗（具体视货品款式）</p>
+            <p ng-switch-when="detect">免责说明：以上服务只含清洗、抛光、电镀、翻新过程会出现损耗（具体视货品款式）</p>
         </section>
     </main>
     <!-- FOOTER -->
@@ -319,7 +320,6 @@
         <span class="total">合计 {{totalprice | currency:'￥'}} </span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
-        <!--<a href="#/procreceive/{{pagetheme}}">立即下单</a>-->
         <a ng-disabled="!(submitForm.$valid&&verify)||useful" ng-click="useful||procreceive(submitForm.$valid&&verify)">立即下单</a>
     </span>
     </footer>

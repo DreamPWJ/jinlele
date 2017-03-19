@@ -2734,22 +2734,47 @@
                 case 1:
                     obj.purity=$scope.goldPurity;
                     obj.weight=$scope.goldWeight;
+                    if(!/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
+                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                        $scope.goldWeight=0.00;
+                        return;
+                    }
                     break;
                 case 2:
                     obj.purity=$scope.boPurity;
                     obj.weight=$scope.boWeight;
+                    if(!/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
+                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                        $scope.boWeight=0.00;
+                        return;
+                    }
                     break;
                 case 3:
                     obj.purity=$scope.kPurity;
                     obj.weight=$scope.kWeight;
+                    if(!/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
+                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                        $scope.kWeight=0.00;
+                        return;
+                    }
                     break;
                 case 4:
                     obj.purity=$scope.baPurity;
                     obj.weight=$scope.baWeight;
+                    if(!/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
+                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                        $scope.baWeight=0.00;
+                        return;
+                    }
                     break;
                 case 5:
                     obj.purity=$scope.silverPurity;
                     obj.weight=$scope.silverWeight;
+                    if(!/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
+                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
+                        $scope.silverWeight=0.00;
+                        return;
+                    }
                     break;
             }
             EvaluateService.getPMPrice({purity:obj.purity,weight:obj.weight}).success(function(data){
@@ -2933,7 +2958,7 @@
                 $scope.totalWeight=0.00;
                 return;
             }
-            if($scope.mainWeight>0.7||$scope.mainWeight<0.08){
+            if($scope.mainWeight>=0.7||$scope.mainWeight<0.08){
                 CommonService.toolTip("主石重量不符合标准", "tool-tip-message");
                 return;
             }
@@ -3054,12 +3079,15 @@
         }
         //放弃变现
         $scope.dropCash = function () {
+            var tip;
             switch($scope.orderstatus.substring(0,3)){
                 case '004':
                     $scope.orderstatus = '004009';//回收业务（待返回）
+                    tip="放弃回收，等待平台原样返回";
                     break;
                 case '005':
                     $scope.orderstatus = '005014';//换款业务（待返回）
+                    tip="放弃换款与回收，等待平台原样返回";
                     break;
             }
             OrderService.update({
@@ -3067,7 +3095,7 @@
                 shoporderstatuscode: $scope.orderstatus
             }).success(function (data) {
                 if (data && data.n == 1) {
-                    CommonService.toolTip('订单取消成功', '');
+                    CommonService.toolTip(tip, '');
                     setTimeout(function () {
                         $state.go('orderlist');
                     }, 1000);

@@ -93,7 +93,8 @@
         <section class="logistics">
             <span class="title">物流详情</span>
             <ul>
-                <li  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                <li ng-if="userLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
+                <li ng-if="userLogistc.length != 0"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
                     <em>{{item.AcceptTime}} {{item.AcceptStation}}</em>
                 </li>

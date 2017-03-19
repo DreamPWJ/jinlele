@@ -44,11 +44,11 @@
     
     <section class="order_xq">
         <ul>
-        	<li><em>商品总额：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-        	<li><em>运费：</em><i>{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li><em>订单总额：</em><i>{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
-        	<li ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
-        	<li><u>下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+        	<li><em class="content">商品总额：</em><i class="content">{{orderinfo.totalprice|currency:'￥'}}</i></li>
+        	<li><em class="content">运费：</em><i class="content">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+            <li><em class="subject">订单总额：</em><i class="subject subject_font">{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
+        	<li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice}}</i></li>
+        	<li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
         </ul>
     </section>
     
