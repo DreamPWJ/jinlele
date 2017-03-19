@@ -300,7 +300,7 @@
                 <dd>
                     <em>数量：</em>
                     <span>
-                        <input placeholder="数量" type="number" ng-model="product.num" ng-blur="numblur()" check-form ng-change="checkForm(product.num,'数量填写有误','positivenumber','')" required>
+                        <input placeholder="数量" type="number" ng-model="product.num" check-form ng-change="calcTotalPrice(product.num)" required>
                     </span>
                 </dd>
                 <dd>

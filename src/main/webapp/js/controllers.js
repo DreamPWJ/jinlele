@@ -49,8 +49,6 @@
                     localStorage.setItem("signature", data.signature);//生成签名
                     //通过config接口注入权限验证配置
                     WeiXinService.weichatConfig(data.timestamp, data.nonceStr, data.signature);
-
-
                 })
             }
         })
@@ -708,6 +706,9 @@
                         case "004009":
                             CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
                             break;
+                        case "004010":
+                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+                            break;
                         case "004011":
                             CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
                             break;
@@ -951,11 +952,8 @@
         $scope.moreFlag = false; //是否显示加载更多
         $scope.noDataFlag = false;  //没有数据显示
         $scope.getOrderLists = function () {
-            if ((arguments != [] && arguments[0] == 0) ) {
-                $scope.page = 0;
-                $scope.orderlistsinfo = [];
-            }
             $scope.page++;
+            $scope.currentpage++;
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
             localStorage.setItem("orderListType",$scope.type);
@@ -971,18 +969,17 @@
                     $scope.moreFlag = true;
                     console.log("moreFlag ==" + $scope.moreFlag );
                 }
-
             })
         }
-
         $scope.getOrderLists();
-
+        //取消订单
         $scope.cancelOrder = function (orderno,typeCode) {
-            //修改后，重新请求数据
             OrderService.cancelOrder({orderno: orderno, typeCode: typeCode}).success(function (data) {
                 if (parseInt(data.resultnumber) > 0) {
                     CommonService.toolTip("取消成功", "tool-tip-message");
                     $scope.type = typeCode;
+                    $scope.orderlistsinfo = [];
+                    $scope.page = 0;
                     $scope.getOrderLists();
                 }
             });
@@ -1909,9 +1906,9 @@
             });
         }
         //计算总价格
-        $scope.numblur = function () {
-            $scope.totalprice = $scope.product.num * $scope.aturalprice;
-            $scope.totalnum = $scope.product.num;
+        $scope.calcTotalPrice=function(num){
+            $scope.totalprice = num * $scope.aturalprice;
+            $scope.totalnum = num;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         }
         //生成订单并付款
@@ -1920,6 +1917,10 @@
             $scope.useful=true;
             if($scope.type.code!='002'&&!flag){ //如果是翻新 检测 回收  换款
                 CommonService.toolTip("还有未填写的信息", "");
+                return;
+            }
+            if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
+                CommonService.toolTip("数量填写有误", "");
                 return;
             }
             //提交信息
@@ -2232,10 +2233,8 @@
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
         if($stateParams.type == '002')  $scope.pagetheme = 'repair';
         if($stateParams.type == '003')  $scope.pagetheme = 'detect';
+        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
         if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
-        if ($stateParams.type == "004") {//回收
-            $location.path("/");
-        }
         $scope.orderNo = $stateParams.orderNo;
         $scope.orderTime = $stateParams.orderTime;
         //物流样式展示
@@ -3083,11 +3082,11 @@
             switch($scope.orderstatus.substring(0,3)){
                 case '004':
                     $scope.orderstatus = '004009';//回收业务（待返回）
-                    tip="放弃回收，等待平台原样返回";
+                    tip="您已放弃变现，请耐心等待物品原样返回";
                     break;
                 case '005':
                     $scope.orderstatus = '005014';//换款业务（待返回）
-                    tip="放弃换款与回收，等待平台原样返回";
+                    tip="您已放弃换款与变现，请耐心等待物品原样返回";
                     break;
             }
             OrderService.update({
