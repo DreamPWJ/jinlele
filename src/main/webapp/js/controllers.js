@@ -937,7 +937,7 @@
         });
     }])
     //订单列表
-    .controller('OrderListCtrl', ['$rootScope','$scope', '$state','WeiXinService', 'OrderListService', 'OrderService','CommonService',  function ($rootScope,$scope,$state, WeiXinService, OrderListService, OrderService,CommonService) {
+    .controller('OrderListCtrl', ['$rootScope','$scope', '$state','$stateParams','WeiXinService', 'OrderListService', 'OrderService','CommonService','MemberService', function ($rootScope,$scope,$state,$stateParams, WeiXinService, OrderListService, OrderService,CommonService,MemberService) {
         //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
         $scope.config = {
@@ -952,24 +952,42 @@
         $scope.moreFlag = false; //是否显示加载更多
         $scope.noDataFlag = false;  //没有数据显示
         $scope.getOrderLists = function () {
+            if ((arguments != [] && arguments[0] == 0) ) {
+                $scope.page = 0;
+                $scope.orderlistsinfo = [];
+            }
             $scope.page++;
-            $scope.currentpage++;
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
             localStorage.setItem("orderListType",$scope.type);
             //分页显示
-            OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                console.log(data);
-                angular.forEach(data.pagingList, function (item) {
-                    $scope.orderlistsinfo.push(item);
+            if($stateParams.openId){
+                MemberService.getUserInfo($stateParams.openId).success(function(data){
+                    OrderListService.getorderLists({userid: data.userInfo.id,pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+                        angular.forEach(data.pagingList, function (item) {
+                            $scope.orderlistsinfo.push(item);
+                        })
+                        if(data.myrows == 0) $scope.noDataFlag = true;
+                        $scope.total = data.myrows;
+                        if($scope.total > $scope.orderlistsinfo.length){
+                            $scope.moreFlag = true;
+                            console.log("moreFlag ==" + $scope.moreFlag );
+                        }
+                    })
+                });
+            }else {
+                OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
+                    angular.forEach(data.pagingList, function (item) {
+                        $scope.orderlistsinfo.push(item);
+                    })
+                    if(data.myrows == 0) $scope.noDataFlag = true;
+                    $scope.total = data.myrows;
+                    if($scope.total > $scope.orderlistsinfo.length){
+                        $scope.moreFlag = true;
+                        console.log("moreFlag ==" + $scope.moreFlag );
+                    }
                 })
-                if(data.myrows == 0) $scope.noDataFlag = true;
-                $scope.total = data.myrows;
-                if($scope.total > $scope.orderlistsinfo.length){
-                    $scope.moreFlag = true;
-                    console.log("moreFlag ==" + $scope.moreFlag );
-                }
-            })
+            }
         }
         $scope.getOrderLists();
         //取消订单
@@ -978,38 +996,39 @@
                 if (parseInt(data.resultnumber) > 0) {
                     CommonService.toolTip("取消成功", "tool-tip-message");
                     $scope.type = typeCode;
-                    $scope.orderlistsinfo = [];
-                    $scope.page = 0;
-                    $scope.getOrderLists();
+                    $scope.getOrderLists(0);
                 }
             });
         }
         //确认收货
-        $scope.confirmReceive = function (type,orderno){
-            var orderstatus="";
-            switch (type){
-                case '001':
-                    orderstatus='001008';
+        $scope.confirmReceive = function (shoporderstatus,orderno){
+            var orderStatus="";
+            switch (shoporderstatus){
+                case '001007':
+                    orderStatus='001008';
                     break;
-                case '002':
-                    orderstatus='002009';
+                case '002008':
+                    orderStatus='002009';
                     break;
-                case '003':
-                    orderstatus='003008';
+                case '003007':
+                    orderStatus='003008';
                     break;
-                case '004':
-                    orderstatus='004007';
+                case '004010':
+                    orderStatus='004012';//交易关闭
                     break;
-                case '005':
-                    orderstatus='005010';
+                case '005009'://待收货
+                    orderStatus='005010';
+                    break;
+                case '005019'://返回待收货
+                    orderStatus='005018';//交易关闭
                     break;
                 default ://默认商城
-                    orderstatus='004';
+                    orderStatus='004';
                     break;
             }
             OrderService.update({
                 orderno: orderno,
-                shoporderstatuscode:orderstatus
+                shoporderstatuscode:orderStatus
             }).success(function (data) {
                 if (data.n == 1) {
                     CommonService.toolTip("收货成功，感谢您的光顾~", "tool-tip-message");
@@ -1919,7 +1938,7 @@
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
-            if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
+            if(!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
                 CommonService.toolTip("数量填写有误", "");
                 return;
             }
@@ -2359,34 +2378,39 @@
             $scope.address = data.address;//地址详情
         });
         $scope.content="";//评论内容
-        //图片上传
-        $scope.jsonimg=[];
-        $scope.jsonmedia=[];
+
         $scope.localIds = [];// 上传图片的微信路径 数组
-        WeiXinService.mediaIds = []; //置空媒体id数组
+        WeiXinService.mediaIds = []; //媒体id数组
+        $scope.imgSrcs=[];//显示的图片src数组
+        $scope.count=0;//记录图片src总数
+        $scope.perUploadNumber=5;//每次上传数量
+        //上传图片
         $scope.wxchooseImage = function () {
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
-                WeiXinService.wxchooseImage(function (localIds) {
-                    $scope.jsonimg.push({"localId":  localIds });
-                    $scope.images = [];//展示的图片总数
-                    angular.forEach($scope.jsonimg, function (item,index) {
-                        if (angular.isArray(item.localId)) {
-                            for(var i=0;i<item.localId.length;i++) {
-                                $scope.images.push(item.localId[i]);
-                            }
-                        }else{
-                            $scope.images.push(item.localId);
+            if($scope.count<5) {
+                //通过config接口注入权限验证配置
+                WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
+                //通过ready接口处理成功验证
+                wx.ready(function () {
+                    WeiXinService.wxchooseImage(function (localIds) {
+                        for (var i = 0; i < localIds.length; i++) {
+                            $scope.imgSrcs.push(localIds[i]);
                         }
-                    });
-                    $scope.localIds = $scope.images;
-                    $scope.jsonmedia.push({"media": WeiXinService.mediaIds });
-                    $scope.$apply();
+                        $scope.count = $scope.imgSrcs.length;
+                        $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
+                        $scope.localIds = $scope.imgSrcs;
+                        $scope.$apply();
+                    }, $scope.perUploadNumber)
                 })
-                WeiXinService.mediaIds = []; //置空媒体id数组
-            })
+            }else{
+                CommonService.toolTip("最多上传五张图片", "");
+            }
+        }
+        //删除图片
+        $scope.delthisImage=function(index){
+            $scope.imgSrcs.splice(index,1);
+            WeiXinService.mediaIds.splice(index,1);
+            $scope.count = $scope.imgSrcs.length;
+            $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
         }
         //提交评论
         $scope.addcomment=function(){
@@ -2403,17 +2427,7 @@
             if(iteminfo.content.length==0){
                 flag=false;
             }
-            $scope.mediaIds = [];// 评论图片数组
-            angular.forEach($scope.jsonmedia, function (mediaitem,mediaindex) {
-                if(angular.isArray(mediaitem.media)){
-                    for (var i = 0; i < mediaitem.media.length; i++) {
-                        $scope.mediaIds.push(mediaitem.media[i]);
-                    }
-                }else{
-                    $scope.mediaIds.push(mediaitem.media);
-                }
-            })
-            iteminfo.mediaIds = $scope.mediaIds;
+            iteminfo.mediaIds = WeiXinService.mediaIds;
             $scope.itemsinfo.push(iteminfo);
             commentinfo.itemsinfo=$scope.itemsinfo;
             $scope.comment.push(commentinfo);

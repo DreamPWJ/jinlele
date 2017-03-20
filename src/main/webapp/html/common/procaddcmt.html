@@ -286,7 +286,7 @@
             <span class="comment_pic"><img ng-src="{{servicedetail.url}}"></span>
             <span class="comment_text"><textarea ng-model="content" placeholder="评价内容..."></textarea></span>
             <dl class="photo">
-                <dd ng-model="localIds" ng-repeat="per in localIds"><wx-img></wx-img></dd>
+                <dd ng-model="localIds" ng-repeat="per in localIds"><a href="" class="icon" ng-click="delthisImage($index)">&#xe721;</a><wx-img></wx-img></dd>
                 <dt ng-click="wxchooseImage()"><i class="icon">&#xe62c;</i></dt>
             </dl>
             <section class="depict">

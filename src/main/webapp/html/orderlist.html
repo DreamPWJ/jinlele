@@ -64,7 +64,7 @@
                         </span>
                         <span ng-switch-when="001007">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="001008">
@@ -77,7 +77,7 @@
                         </span>
                         <span ng-switch-when="002008">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                         </span>
                         <span  ng-switch-when="002009">
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
@@ -90,7 +90,7 @@
                         </span>
                         <span ng-switch-when="003007">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="003008">
@@ -101,7 +101,7 @@
                         </span>
                         <span ng-switch-when="004010">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                             <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
                         </span>
                         <span  ng-switch-when="004007">
@@ -112,7 +112,11 @@
                         </span>
                         <span ng-switch-when="005009">
                             <a class="strike" ng-click="servicedetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
+                        </span>
+                        <span ng-switch-when="005019">
+                            <a class="strike" ng-click="servicedetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                         </span>
                         <span  ng-switch-when="005010">
                             <a class="strike" ng-href="#/procaddcmt/{{item.type}}/{{item.orderno}}">评价</a>
@@ -124,7 +128,7 @@
                         </span>
                         <span ng-switch-when="003">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
-                            <a class="strike" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
+                            <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                         </span>
                         <span  ng-switch-when="004">
                             <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
