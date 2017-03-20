@@ -1124,6 +1124,101 @@
             });
         }
     }])
+    //物流追踪
+    .controller('LogisticsTrackCtrl',['$rootScope','$scope','$state', '$stateParams','OrderService','CommonService',function($rootScope,$scope,$state, $stateParams,OrderService,CommonService){
+        $rootScope.commonService = CommonService;
+        $scope.orderNo = $stateParams.orderNo;
+        //物流样式展示
+        switch ($stateParams.who){
+            case "M":
+                $scope.jinlele="hide";
+                $scope.mine="retrofit";
+                $scope.jinflag=false;
+                $scope.myflag=true;
+                break;
+            case "T":
+                $scope.jinlele="retrofit";
+                $scope.mine="hide";
+                $scope.jinflag=true;
+                $scope.myflag=false;
+                break;
+        }
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //参数
+        $scope.order = {
+            userlogisticsnoComp:"",//买方发货快递公司编码
+            userlogisticsno:"", //买方发货单号
+            orderstatus:""//订单状态
+        };
+        //物流公司
+        $scope.userlogisticsnoConfig= {
+            data: [],
+            placeholder: '请选择物流公司'
+        };
+        //去后台查询物流数据
+        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+            $scope.orderinfo = data.order;
+            angular.forEach(data.express,function(item,index){
+                var obj={};
+                obj.id=item.number;
+                obj.text=item.company;
+                $scope.userlogisticsnoConfig.data.push(obj);
+            })
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
+        //保存客户填写的物流信息
+        $scope.saveExpress = function () {
+            if (!$scope.order.userlogisticsnoComp) {
+                CommonService.toolTip("请选择物流公司", "");
+                return;
+            }
+            if (!$scope.order.userlogisticsno) {
+                CommonService.toolTip("请填写快递单号", "");
+                return;
+            }
+            //'003'代表的订单状态:已发货
+            OrderService.update({
+                orderno: $scope.orderNo,
+                userlogisticsnocomp: $scope.order.userlogisticsnoComp,
+                userlogisticsno: $scope.order.userlogisticsno
+            }).success(function (data) {
+                if (data.n == 1) {
+                    //重新更新数据
+                    OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
+                        $scope.orderinfo = data.order;
+                        angular.forEach(data.express,function(item,index){
+                            var obj={};
+                            obj.id=item.number;
+                            obj.text=item.company;
+                            $scope.userlogisticsnoConfig.data.push(obj);
+                        })
+                        if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+                        if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+                    });
+                }
+            });
+        }
+        //修改物流信息
+        $scope.editUsrLogisticsInfo=function(){
+            $scope.orderinfo.userlogisticsno=null;
+        }
+    }])
     //虚拟账户明细
     .controller('WalletdetailCtrl', function ($scope, WalletService) {
         console.log(1);

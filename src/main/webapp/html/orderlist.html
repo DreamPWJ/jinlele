@@ -127,12 +127,15 @@
                             <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
                         </span>
                         <span ng-switch-when="003">
-                            <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
+                            <a class="strike"  ng-href="#/logisticsTrackT/{{item.orderno}}">查看物流</a>
                             <a class="strike" ng-click="confirmReceive(item.shoporderstatusCode,item.orderno)">确认收货</a>
                         </span>
                         <span  ng-switch-when="004">
                             <a class="strike" ng-href="#/addcomment/{{item.orderno}}">评价</a>
                             <a ng-href="#/returnapply/{{item.orderno}}/{{item.type}}">退款</a>
+                        </span>
+                        <span  ng-switch-when="008">
+                            <a class="strike" ng-href="#/logisticsTrackM/{{item.orderno}}">补充退货物流</a>
                         </span>
                 </section>
                 <!--&lt;!&ndash;商城订单按钮&ndash;&gt;-->

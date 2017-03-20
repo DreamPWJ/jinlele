@@ -63,6 +63,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/returnapply.html',
                 controller: 'ReturnApplyCtrl'
             })
+            .state('logisticsTrack', {  //物流追踪
+                url: '/logisticsTrack{who}/:orderNo',
+                templateUrl: 'html/logisticsTrack.html',
+                controller: 'LogisticsTrackCtrl'
+            })
             .state('orderdetail', {  //商城订单详情
                 url: '/orderdetail{order}',
                 templateUrl: 'html/orderdetail.html',
