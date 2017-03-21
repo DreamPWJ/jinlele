@@ -572,8 +572,7 @@
         $scope.addLogisticsInfo = function () {
             var obj = {
                 type: $scope.order.orderType,
-                orderNo: $scope.order.orderno,
-                orderTime: $scope.orderinfo.create_time
+                orderNo: $scope.order.orderno
             };
             console.log('procreceive===' + JSON.stringify(obj));
             $state.go('procreceive', obj);
@@ -591,13 +590,13 @@
                     switch (shoporderstatusCode) {
                         case "001002":
                         case "001003":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
                             break;
                         case "001004":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            $state.go('proctest', {type: type, orderNo: orderno});//检测
                             break;
                         case "001005":
-                            $state.go('procrefurbish', {name: 'refurbish', orderNo: orderno, orderTime: createTime});//翻新
+                            $state.go('procrefurbish', {type: type, orderNo: orderno});//翻新
                             break;
                         case "001006":
                             $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
@@ -630,13 +629,13 @@
                             break;
                         case "002004"://客户发货
                         case "002012"://平台收货
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
                             break;
                         case "002005":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            $state.go('proctest', {type: type, orderNo: orderno});//检测
                             break;
                         case "002006":
-                            $state.go('procrepair', {name: 'repair', orderno: orderno, orderTime: createTime});//维修
+                            $state.go('procrepair', {type: type,orderNo: orderno});//维修
                             break;
                         case "002007":
                             $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
@@ -659,10 +658,10 @@
                     switch (shoporderstatusCode){
                         case "003002":
                         case "003003":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
                             break;
                         case "003004":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            $state.go('proctest', {type: type, orderNo: orderno});//检测
                             break;
                         case "003006":
                             $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
@@ -685,10 +684,10 @@
                     switch (shoporderstatusCode){
                         case "004001":
                         case "004002":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
                             break;
                         case "004003":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            $state.go('proctest', {type: type, orderNo: orderno});//检测
                             break;
                         case "004004":
                             $state.go('actualprice', {type: type, orderno: orderno});//实际定价
@@ -718,10 +717,10 @@
                     switch (shoporderstatusCode){
                         case "005001":
                         case "005002":
-                            $state.go('procreceive', {type: type, orderNo: orderno, orderTime: createTime});//平台收货
+                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
                             break;
                         case "005003":
-                            $state.go('proctest', {type: type, orderNo: orderno, orderTime: createTime});//检测
+                            $state.go('proctest', {type: type, orderNo: orderno});//检测
                             break;
                         case "005004":
                             $state.go('actualprice', {type: type, orderno: orderno});//实际定价
@@ -2076,8 +2075,7 @@
                         if($scope.type.code == '004'||$scope.type.code == '005') {   //如果是回收或换款订单无需付款，直接进入平台收货页面
                             $state.go('procreceive', {
                                 type: $scope.type.code,
-                                orderNo: data.orderNo,
-                                orderTime: data.orderTime
+                                orderNo: data.orderNo
                             });
                             return;
                         }
@@ -2179,16 +2177,9 @@
         }
     })
     //流程-平台收货(五大类服务展示物流状态及收货证明)
-    .controller('ProcReceiveCtrl', function ($scope, $stateParams , OrderService ,CommonService ,$rootScope) {
+    .controller('ProcReceiveCtrl', ['$rootScope','$scope', '$stateParams' , 'OrderService' ,'CommonService' ,'ServeCommonService',function ($rootScope,$scope, $stateParams , OrderService ,CommonService ,ServeCommonService) {
         $rootScope.commonService = CommonService;
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
-        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
-        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
-        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
-
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="retrofit";
@@ -2222,8 +2213,8 @@
             placeholder: '请选择物流公司'
         };
         //去后台查询物流数据
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-            $scope.initData = data.order;
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
             angular.forEach(data.express,function(item,index){
                 var obj={};
                 obj.id=item.number;
@@ -2243,29 +2234,29 @@
                 return;
             }
             //根据业务类型判断订单状态
-            switch ($stateParams.type){
+            switch ($stateParams.type) {
                 case "002":
-                    $scope.order.orderstatus=$stateParams.type+"012";
+                    $scope.order.orderstatus = $stateParams.type + "012";
                     break;
                 case "004":
                 case "005":
-                    $scope.order.orderstatus=$stateParams.type+"002";
+                    $scope.order.orderstatus = $stateParams.type + "002";
                     break;
                 default://翻新、检测
-                    $scope.order.orderstatus=$stateParams.type+"003";
+                    $scope.order.orderstatus = $stateParams.type + "003";
                     break;
             }
             //'003'代表的订单状态:已发货
             OrderService.update({
-                orderno: $scope.orderNo,
+                orderno: $stateParams.orderNo,
                 userlogisticsnocomp: $scope.order.userlogisticsnoComp,
                 userlogisticsno: $scope.order.userlogisticsno,
                 shoporderstatuscode:$scope.order.orderstatus
             }).success(function (data) {
                 if (data.n == 1) {
                     //重新更新数据
-                    OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-                        $scope.initData = data.order;
+                    OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+                        $scope.orderInfo = data.order;
                         angular.forEach(data.express,function(item,index){
                             var obj={};
                             obj.id=item.number;
@@ -2279,32 +2270,12 @@
         }
         //修改物流信息
         $scope.editUsrLogisticsInfo=function(){
-            $scope.initData.userlogisticsno=null;
+            $scope.orderInfo.userlogisticsno=null;
         }
-    })
+    }])
     //流程-检测(五大类服务检测报告)
-    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService','MemberService', function ($scope, $stateParams,OrderService,MemberService) {
-        console.log($stateParams.type);
-        $scope.pagetheme = $stateParams.type;
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
-        switch ($stateParams.type){
-            case '001':
-                $scope.pagetheme = 'refurbish';
-                break;
-            case '002':
-                $scope.pagetheme = 'repair';
-                break;
-            case '003':
-                $scope.pagetheme = 'detect';
-                break;
-            case '004':
-                $scope.pagetheme = 'recycle';
-                break;
-            case '005':
-                $scope.pagetheme = 'exchange';
-                break;
-        }
+    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService','MemberService','ServeCommonService', function ($scope, $stateParams,OrderService,MemberService,ServeCommonService) {
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
@@ -2327,12 +2298,12 @@
             }
         }
         //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-            $scope.initData = data.order;
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //收货证明
-        OrderService.getCertifyInfo({orderno:$scope.orderNo}).success(function (data) {
+        OrderService.getCertifyInfo({orderno:$stateParams.orderNo}).success(function (data) {
             $scope.certificationInfo = data;
         });
         //用户信息
@@ -2541,14 +2512,11 @@
         }
     }])
     //翻新-翻新
-    .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService', function ($scope, $stateParams, $location,OrderService,MemberService) {
-        console.log($stateParams.name);
-        $scope.pagetheme = $stateParams.name;
-        if ($stateParams.name != "refurbish") {
+    .controller('ProcRefurbishCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService) {
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
+        if ($stateParams.type != "001") {
             $location.path("/");
         }
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
@@ -2571,12 +2539,12 @@
             }
         }
         //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-            $scope.initData = data.order;
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //收货证明
-        OrderService.getCertifyInfo({orderno:$scope.orderNo}).success(function (data) {
+        OrderService.getCertifyInfo({orderno:$stateParams.orderNo}).success(function (data) {
             $scope.certificationInfo = data;
         });
         //用户信息
@@ -2584,7 +2552,7 @@
             $scope.user = data.userInfo;
         });
         //检测报告
-        OrderService.getServiceDetailInfo({orderno:$scope.orderNo}).success(function(data){
+        OrderService.getServiceDetailInfo({orderno:$stateParams.orderNo}).success(function(data){
             if(data.checkreport) {
                 $scope.report = data;
             }else{
@@ -2630,11 +2598,9 @@
         }
     })
     //维修-维修
-    .controller('ProcRepairCtrl',['$scope', '$stateParams','OrderService','MemberService',  function ($scope, $stateParams,OrderService,MemberService) {
-        $scope.pagetheme = $stateParams.name;
-        $scope.orderno = $stateParams.orderno;
-        $scope.orderTime = $stateParams.orderTime;
-        if ($stateParams.name != "repair") {
+    .controller('ProcRepairCtrl',['$scope', '$stateParams','$location','OrderService','MemberService','ServeCommonService',  function ($scope, $stateParams,$location,OrderService,MemberService,ServeCommonService) {
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
+        if ($stateParams.type != "002") {
             $location.path("/");
         }
         //物流样式展示
@@ -2658,14 +2624,13 @@
                     break;
             }
         }
-
         //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderno}).success(function (data) {
-            $scope.initData = data.order;
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //收货证明
-        OrderService.getCertifyInfo({orderno:$scope.orderno}).success(function (data) {
+        OrderService.getCertifyInfo({orderno:$stateParams.orderNo}).success(function (data) {
             $scope.certificationInfo = data;
         });
         //用户信息
@@ -2673,14 +2638,13 @@
             $scope.user = data.userInfo;
         });
         //检测报告
-        OrderService.getServiceDetailInfo({orderno:$scope.orderno}).success(function(data){
+        OrderService.getServiceDetailInfo({orderno:$stateParams.orderNo}).success(function(data){
             if(data.checkreport) {
                 $scope.report = data;
             }else{
                 $scope.report = null;
             }
         });
-
     }])
     //估价(回收、换款)
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {

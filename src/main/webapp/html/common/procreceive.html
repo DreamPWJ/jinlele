@@ -221,11 +221,11 @@
     	<section class="numbers_list">
             <span>
                 <i>订单号:</i>
-                <em>{{orderNo}}</em>
+                <em>{{orderInfo.orderno}}</em>
             </span>
             <span>
                 <i>下单时间:</i>
-                <em>{{orderTime | date:'yyyy-MM-dd HH:mm'}}</em>
+                <em>{{orderInfo.create_time | date:'yyyy-MM-dd HH:mm'}}</em>
             </span>
         </section>
         <section id="tad" class="numbers_button">
@@ -238,16 +238,16 @@
         <section class="address">
             <a href="javascript:">
                 <span class="title">
-                    <em>{{initData.user_name}}</em>
-                    <em>{{initData.tel_number}}</em>
+                    <em>{{orderInfo.user_name}}</em>
+                    <em>{{orderInfo.tel_number}}</em>
                 </span>
-                <p>收货地址：{{initData.province_name}} {{initData.city_name}}{{initData.country_name}} {{initData.detail_info}}</p>
+                <p>收货地址：{{orderInfo.province_name}} {{orderInfo.city_name}}{{orderInfo.country_name}} {{orderInfo.detail_info}}</p>
             </a>
         </section>
-        <section class="logistics" ng-if="initData.userlogisticsno != null&&initData.userlogisticsno.length!=0">
+        <section class="logistics" ng-if="orderInfo.userlogisticsno != null&&orderInfo.userlogisticsno.length!=0">
             <span class="title"><a>物流详情</a><a style="float:right;padding-right: 10px;" ng-href="#/orderlist">我的订单</a></span>
-            <span class="title"><a>承运公司：</a><a>{{initData.usrLogisticsCompName}}</a><a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
-            <span class="title"><a>运单编号：</a><a>{{initData.userlogisticsno}}</a> </span>
+            <span class="title"><a>承运公司：</a><a>{{orderInfo.usrLogisticsCompName}}</a><a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
+            <span class="title"><a>运单编号：</a><a>{{orderInfo.userlogisticsno}}</a> </span>
             <ul>
                 <li ng-if="userLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
                 <li ng-if="userLogistc.length != 0"  ng-repeat="item in userLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
@@ -256,7 +256,7 @@
                 </li>
             </ul>
         </section>
-        <section class="express" ng-if="initData.userlogisticsno == null||initData.userlogisticsno.length==0">
+        <section class="express" ng-if="orderInfo.userlogisticsno == null||orderInfo.userlogisticsno.length==0">
             <ul>
                 <li>
                     <u>物流公司：</u>
@@ -277,10 +277,10 @@
         <section class="address">
             <a href="javascript:">
                 <span class="title">
-                    <em>{{initData.name}}</em>
-                    <em>{{initData.phone}}</em>
+                    <em>{{orderInfo.name}}</em>
+                    <em>{{orderInfo.phone}}</em>
                 </span>
-                <p>收货地址：{{initData.address}}</p>
+                <p>收货地址：{{orderInfo.address}}</p>
             </a>
         </section>
         <section class="logistics">

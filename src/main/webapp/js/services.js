@@ -377,6 +377,56 @@ angular.module('starter.services', [])
             }
         }
     })
+    //服务公共部分
+    .service('ServeCommonService', function ($q, $http, JinLeLe) {
+        return {
+            getType:function (typeName) {
+                var type = {};
+                if (typeName == "refurbish") {
+                    type.code = '001';
+                    type.name = '翻新';
+                }
+                if (typeName == "repair") {
+                    type.code = '002';
+                    type.name = '维修';
+                }
+                if (typeName == "detect") {
+                    type.code = '003';
+                    type.name = '检测';
+                }
+                if (typeName == "recycle") {
+                    type.code = '004';
+                    type.name = '回收';
+                }
+                if (typeName == "exchange") {
+                    type.code = '005';
+                    type.name = '换款';
+                }
+                return type;
+            },
+            getName:function(typeCode){
+                var type={};
+                switch (typeCode){
+                    case '001':
+                        type.name = 'refurbish';
+                        break;
+                    case '002':
+                        type.name = 'repair';
+                        break;
+                    case '003':
+                        type.name = 'detect';
+                        break;
+                    case '004':
+                        type.name = 'recycle';
+                        break;
+                    case '005':
+                        type.name = 'exchange';
+                        break;
+                }
+                return type;
+            }
+        }
+    })
     //翻新等服务提交订单的页面Service
     .service('ProcCommitOrderService', function ($q, $http, JinLeLe) {
         return {

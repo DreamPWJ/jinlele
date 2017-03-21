@@ -113,13 +113,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/common/proccommitorder.html',
                 controller: 'ProcCommitOrderCtrl'
             })
-            .state('procreceive', {  //流程-平台收货
-                url: '/procreceive/:type/:orderNo/:orderTime',
+            .state('procreceive', {  //流程-平台收货（完善物流）
+                url: '/procreceive/:type/:orderNo',
                 templateUrl: 'html/common/procreceive.html',
                 controller: 'ProcReceiveCtrl'
             })
-            .state('proctest', {  //流程-检测
-                url: '/proctest/:type/:orderNo/:orderTime',
+            .state('proctest', {  //流程-检测（收货证明）
+                url: '/proctest/:type/:orderNo',
                 templateUrl: 'html/common/proctest.html',
                 controller: 'ProcTestCtrl'
             })
@@ -138,8 +138,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/common/procaddcmt.html',
                 controller: 'ProcAddCmtCtrl'
             })
-            .state('procrefurbish', {  //翻新
-                url: '/procrefurbish/:name/:orderNo/:orderTime',
+            .state('procrefurbish', {  //翻新（检测报告）
+                url: '/procrefurbish/:type/:orderNo',
                 templateUrl: 'html/refurbish/procrefurbish.html',
                 controller: 'ProcRefurbishCtrl'
             })
@@ -148,8 +148,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/repair/procfixprice.html',
                 controller: 'ProcFixpriceCtrl'
             })
-            .state('procrepair', {  //维修
-                url: '/procrepair/:name/:orderno/:orderTime',
+            .state('procrepair', {  //维修（检测报告）
+                url: '/procrepair/:type/:orderNo',
                 templateUrl: 'html/repair/procrepair.html',
                 controller: 'ProcRepairCtrl'
             })
@@ -163,7 +163,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 templateUrl: 'html/shared/evaluationresult.html',
                 controller: 'EvaluationResultCtrl'
             })
-            .state('actualprice', {  //实际定价(回收、换款)
+            .state('actualprice', {  //实际定价(回收、换款)（检测报告）
                 url: '/actualprice/:type/:orderno',
                 templateUrl: 'html/shared/actualprice.html',
                 controller: 'ActualPriceCtrl'
