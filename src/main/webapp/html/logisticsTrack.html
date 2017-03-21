@@ -58,8 +58,8 @@
             <span  class="title"><a>承运公司：</a><a>{{orderinfo.logisticsCompName}}</a></span>
             <span  class="title"><a>运单编号：</a><a>{{orderinfo.logisticsno}}</a></span>
             <ul>
-                <li ng-if="sellerLogistc == null"><i></i><em>暂无物流信息</em></li>
-                <li ng-if="sellerLogistc != null"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
+                <li ng-if="sellerLogistc.length == 0"><i></i><em>暂无物流信息</em></li>
+                <li ng-if="sellerLogistc.length != 0"  ng-repeat="item in sellerLogistc | orderBy:'-AcceptTime'" ng-class="{hover:$index==0}" >
                     <i></i>
                     <em>{{item.AcceptTime}}&nbsp;{{item.AcceptStation}}</em>
                 </li>

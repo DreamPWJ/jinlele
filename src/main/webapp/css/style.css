@@ -1471,7 +1471,7 @@ main.content section.comment section.depict u {
 
 main.content section.comment section.depict span {
     height: 20px;
-    float: right;
+    float: left;
     padding: 10px 0;
 }
 

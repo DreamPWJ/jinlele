@@ -1192,11 +1192,11 @@
                 CommonService.toolTip("请填写快递单号", "");
                 return;
             }
-            //'003'代表的订单状态:已发货
             OrderService.update({
                 orderno: $scope.orderNo,
                 userlogisticsnocomp: $scope.order.userlogisticsnoComp,
-                userlogisticsno: $scope.order.userlogisticsno
+                userlogisticsno: $scope.order.userlogisticsno,
+                shoporderstatuscode:'009'
             }).success(function (data) {
                 if (data.n == 1) {
                     //重新更新数据
