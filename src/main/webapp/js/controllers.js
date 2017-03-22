@@ -568,8 +568,8 @@
         //物流页面
         $scope.addLogisticsInfo = function () {
             var obj = {
-                type: $scope.order.orderType,
-                orderNo: $scope.order.orderno
+                type: $stateParams.orderType,
+                orderNo: $stateParams.orderNo
             };
             console.log('procreceive===' + JSON.stringify(obj));
             $state.go('procreceive', obj);
@@ -1669,7 +1669,6 @@
         $rootScope.commonService = CommonService;
         console.log($stateParams.name);
         $scope.pagetheme = $stateParams.name;
-        $scope.localflag = false;
         $scope.localIds = [];// 上传图片的微信路径 数组
         WeiXinService.mediaIds = []; //媒体id数组
         $scope.imgSrcs=[];//显示的图片src数组
@@ -1792,9 +1791,9 @@
                     })
                 });
                 //计算总数量和总价格
-                $scope.numblur = function () {
+                $scope.getTotal = function (number) {
                     //遍历
-                    $scope.totalnum = $scope.product.num;
+                    $scope.totalnum = number;;
                     console.log(" $scope.totalnum ==" + $scope.totalnum);
                 }
                 break;
@@ -1810,9 +1809,12 @@
         }
         //进入提交订单的页面
         $scope.proccommitorder = function (pagetheme) {
+            if($scope.typeCode=='002'&&!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)) {
+                CommonService.toolTip("数量填写有误", "");
+                return;
+            }
             //判断参数
-            var len = $scope.localIds.length;
-            if (len == 0) {
+            if ($scope.localIds.length == 0) {
                 CommonService.toolTip("请上传图片" ,"");
                 return;
             }
@@ -2022,7 +2024,7 @@
                 CommonService.toolTip("还有未填写的信息", "");
                 return;
             }
-            if(!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
+            if($scope.type.code!='002'&&!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
                 CommonService.toolTip("数量填写有误", "");
                 return;
             }

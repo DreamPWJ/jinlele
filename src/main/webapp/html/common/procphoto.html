@@ -244,11 +244,11 @@
             </dd>
             <dd>
                 <em>数量：</em>
-                <span><input placeholder="数量" type="number" ng-model="product.num" ng-blur="numblur()" check-form ng-change="checkForm(product.num,'数量填写有误','positivenumber','')" required></span>
+                <span><input placeholder="必填项" type="number" ng-model="product.num"  ng-change="getTotal(product.num)" required></span>
             </dd>
             <dd>
                 <em>备注：</em>
-                <span><input placeholder="备注内容..." type="text" ng-model="product.memo"></span>
+                <span><input placeholder="可选项" type="text" ng-model="product.memo"></span>
             </dd>
         </dl>
     </div>
@@ -326,8 +326,6 @@
     <!--</section>-->
 
     <section class="submit">
-        <a href="#/procfixprice/{{pagetheme}}" ng-if="localflag">下一步</a>
-        <!--<a href="#/proccommitorder/{{pagetheme}}"  ng-if="!localflag">下一步</a>-->
         <a ng-click="proccommitorder(pagetheme)">下一步</a>
     </section>
 </main>
