@@ -69,12 +69,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'LogisticsTrackCtrl'
             })
             .state('orderdetail', {  //商城订单详情
-                url: '/orderdetail{order}',
+                url: '/orderdetailfor{orderNo}with{orderType}',
                 templateUrl: 'html/orderdetail.html',
                 controller: 'OrderDetailCtrl'
             })
             .state('servicedetail', {  //服务订单详情
-                url: '/servicedetail{order}',
+                url: '/servicedetailfor{orderNo}with{orderType}',
                 templateUrl: 'html/servicedetail.html',
                 controller: 'ServiceDetailCtrl'
             })

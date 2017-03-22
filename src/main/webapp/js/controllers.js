@@ -376,16 +376,15 @@
                             .then(function (msg) {
                                 switch (msg) {
                                     case "get_brand_wcpay_request:ok":
-                                        CommonService.toolTip("支付成功","tool-tip-message-success");
+                                        CommonService.toolTip("支付成功", "tool-tip-message-success");
                                         //支付成功，跳转订单详情
-                                        sessionStorage.setItem( r.orderno,"ok");
-                                        var order = {orderno: r.orderno ,orderType:'006' ,orderStatus:""}; //orderStatus为订单状态
-                                        $state.go("orderdetail", {order: JSON.stringify(order)});
+                                        sessionStorage.setItem(r.orderno, "ok");
+                                        $state.go("orderdetail", {orderNo: r.orderno, orderType: '006'});
                                         break;
                                     default :
                                         //未支付，跳转支付进度
-                                       sessionStorage.setItem(r.orderno,"");
-                                        var order = {orderno: r.orderno ,orderType:'006' ,orderStatus:""}; //orderStatus为订单状态
+                                        sessionStorage.setItem(r.orderno, "");
+                                        var order = {orderno: r.orderno, orderType: '006', orderStatus: ""}; //orderStatus为订单状态
                                         //$state.go("payresult", {orderno: r.orderno});
                                         $state.go("payresult", {order: JSON.stringify(order)});
                                         break;
@@ -499,12 +498,12 @@
         $scope.orderdetail = function (orderno , orderType ,shoporderstatusCode) {
             var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
             console.log('detail==='+JSON.stringify(order));
-            switch (orderType){
+            switch (orderType) {
                 case '006':
-                    $state.go("orderdetail", {order: JSON.stringify(order)});
+                    $state.go("orderdetail", {orderNo: orderno, orderType: orderType});
                     break;
                 default :
-                    $state.go("servicedetail", {order: JSON.stringify(order)});
+                    $state.go("servicedetail", {orderNo: orderno, orderType: orderType});
                     break;
             }
         }
@@ -512,10 +511,8 @@
     //服务订单详情
     .controller('ServiceDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
         $rootScope.commonService=CommonService;
-        $scope.order = JSON.parse($stateParams.order);
-        console.log($stateParams.order);
-        if (sessionStorage.getItem($scope.order.orderno) == "ok") {
-            OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+        if (sessionStorage.getItem($stateParams.orderNo) == "ok") {
+            OrderService.queryWxPutOrder({orderno: $stateParams.orderNo,type:$stateParams.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 console.log(JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;// 收货地址信息
@@ -523,7 +520,7 @@
                 $scope.products = data.products;//产品列表
             });
         }else {
-            OrderService.getOrderDetail({orderno: $scope.order.orderno}).success(function (data) {
+            OrderService.getOrderDetail({orderno: $stateParams.orderNo}).success(function (data) {
                 console.log('else Data=='+JSON.stringify(data));
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
@@ -557,7 +554,7 @@
                                     CommonService.toolTip("支付成功","tool-tip-message-success");
                                     //调用支付后，跳转订单详情
                                     sessionStorage.setItem(orderno,"");
-                                    var order = {orderno:orderno ,orderType:$scope.order.orderType ,orderStatus:""};
+                                    var order = {orderno:orderno ,orderType:$stateParams.orderType ,orderStatus:""};
                                     $state.go("payresult", {order: JSON.stringify(order)});
                                     break;
                                 default :
@@ -619,7 +616,7 @@
                     switch (shoporderstatusCode){
                         case "002001":
                         case "002002":
-                            $state.go('procfixprice', {name: type, orderno: orderno});
+                            $state.go('procfixprice', {name: 'repair', orderno: orderno});
                             break;
                         case "002003"://确认维修(待付款)
                             sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
@@ -787,20 +784,18 @@
     //商城订单详情
     .controller('OrderDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
         $rootScope.commonService=CommonService;
-        console.log("$stateParams.order=="+$stateParams.order);
-        $scope.order = JSON.parse($stateParams.order);
         //查询物流信息
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.order.orderno}).success(function (data) {
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
         if (sessionStorage.getItem($scope.orderno) == "ok") {
-            OrderService.queryWxPutOrder({orderno: $scope.order.orderno,type: $scope.order.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
+            OrderService.queryWxPutOrder({orderno: $stateParams.orderNo,type: $stateParams.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
                 $scope.orderdetail = data.orderdetail;//订单详情
             });
         }else {
-            OrderService.getOrderDetailInfo({orderno: $scope.order.orderno}).success(function (data) {
+            OrderService.getOrderDetailInfo({orderno: $stateParams.orderNo}).success(function (data) {
                 $scope.orderinfo = data.order;//订单总信息
                 $scope.address = data.address;//订单总信息
                 $scope.orderdetail = data.orderdetail;//订单详情
@@ -1036,7 +1031,7 @@
             });
         }
         //微信支付调用
-        $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
+        $scope.weixinPay = function (orderno, totalprice,ordertype) {
             $scope.param = {
                 totalprice: 0.01, //totalprice
                 orderNo: orderno,
@@ -1050,15 +1045,14 @@
                     .then(function (msg) {
                         switch (msg) {
                             case "get_brand_wcpay_request:ok":
-                                CommonService.toolTip("支付成功","tool-tip-message-success");
+                                CommonService.toolTip("支付成功", "tool-tip-message-success");
                                 //调用支付后，跳转订单详情
-                                sessionStorage.setItem(orderno,"ok");
-                                var order = {orderno: orderno ,orderType:ordertype ,orderStatus:orderstatus};
-                                $state.go("orderdetail", {order: JSON.stringify(order)});
+                                sessionStorage.setItem(orderno, "ok");
+                                $state.go("orderdetail", {orderNo: orderno, orderType: ordertype});
                                 break;
                             default :
                                 //未支付
-                                sessionStorage.setItem(orderno,"");
+                                sessionStorage.setItem(orderno, "");
                                 break;
                         }
                     });
@@ -1066,16 +1060,12 @@
         }
 
         //跳转到商城订单详情页
-        $scope.orderdetail = function (orderno , orderType ,shoporderstatusCode) {
-            var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
-            console.log('orderdetail==='+JSON.stringify(order));
-            $state.go("orderdetail", {order: JSON.stringify(order)});
+        $scope.orderdetail = function (orderno , orderType) {
+            $state.go("orderdetail", {orderNo: orderno, orderType: orderType});
         }
         //跳转到服务订单详情页
-        $scope.servicedetail = function (orderno , orderType ,shoporderstatusCode) {
-            var order = {orderno: orderno ,orderType:orderType ,orderStatus:shoporderstatusCode};
-            console.log('servicedetail==='+JSON.stringify(order));
-            $state.go("servicedetail", {order: JSON.stringify(order)});
+        $scope.servicedetail = function (orderno , orderType) {
+            $state.go("servicedetail", {orderNo: orderno, orderType: orderType});
         }
         //图片预览
         $scope.previewImg=function(src){
@@ -2097,8 +2087,7 @@
                                             CommonService.toolTip("支付成功","tool-tip-message-success");
                                             //支付成功，跳转订单详情
                                             sessionStorage.setItem($scope.param.orderNo ,"ok");
-                                            var order = {orderno: $scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
-                                            $state.go("servicedetail", {order: JSON.stringify(order)});
+                                            $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.type.code});
                                             break;
                                         default :
                                             //未支付，跳转支付进度
@@ -2159,8 +2148,7 @@
                                             CommonService.toolTip("支付成功","tool-tip-message-success");
                                             //支付成功，跳转订单详情
                                             sessionStorage.setItem($scope.param.orderNo ,"ok");
-                                            var order = {orderno: $scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
-                                            $state.go("servicedetail", {order: JSON.stringify(order)});
+                                            $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.type.code});
                                             break;
                                         default :
                                             //未支付，跳转支付进度
@@ -2564,7 +2552,6 @@
     .controller('ProcFixpriceCtrl', function ($scope, $stateParams ,OrderService ,$state ,CommonService) {
         console.log('$stateParams===' + JSON.stringify($stateParams));
         $scope.pagetheme = $stateParams.name;
-        if($stateParams.name == '002') $scope.pagetheme = 'repair';
         $scope.fixPrice = 0;
         //根据订单号查询是否已经定价
         OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
@@ -2585,7 +2572,6 @@
             });
         }
         //确认维修
-        //href="#/proccommitorder/{{pagetheme}}"
         $scope.commit = function () {
             OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002003'}).success(function (data) {
                 if(data && data.n==1){

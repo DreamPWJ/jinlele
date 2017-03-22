@@ -104,5 +104,5 @@
     <span ng-switch-when="003002"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
     <span ng-switch-when="004001"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
     <span ng-switch-when="005001"><a  ng-click="addLogisticsInfo()">完善物流</a></span>
-    <span ng-switch-default><a ng-click="traceProgress(order.orderType,order.orderno,orderinfo.create_time,order.orderStatus,orderinfo.totalprice)">处理进度</a></span>
+    <span ng-switch-default><a ng-click="traceProgress(orderinfo.type,orderinfo.orderno,orderinfo.create_time,orderinfo.shoporderstatusCode,orderinfo.totalprice)">处理进度</a></span>
 </section>

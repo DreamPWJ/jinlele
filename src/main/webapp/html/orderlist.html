@@ -28,11 +28,11 @@
                 <section class="product_list" ng-repeat="subitem in item.child" ng-if="item.type == '006'">  <!--商城订单-->
                     <section class="product">
                         <span class="pic"><a  ng-click="previewImg(subitem.bannerurl)"><img ng-src="{{subitem.bannerurl}}"></a></span>
-                        <section class="text" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">
+                        <section class="text" ng-click="orderdetail(item.orderno,item.type)">
                             <p><a>{{subitem.title}}</a></p>
                             <span>颜色分类：{{subitem.color}}</span>
                         </section>
-                        <section class="price_1" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">
+                        <section class="price_1" ng-click="orderdetail(item.orderno,item.type)">
                             <em>{{subitem.dealprice | currency:'￥'}}</em>
                             <i>X {{subitem.buynum}}</i>
                         </section>
@@ -42,11 +42,11 @@
                 <section class="product_list" ng-if="item.type != '006'">
                     <section class="product">
                         <span class="pic"><a  ng-click="previewImg(item.pictures)" ng-repeat="imgurl in item.pictures"><img ng-src="{{imgurl.url}}" ng-if="$index==0"></a></span>
-                        <section class="text" ng-repeat="subitem in item.products">
-                            <span style="font-size: 86%;color: #393939;padding-top: 0;"><a  ng-click="servicedetail(item.orderno , item.type ,item.shoporderstatusCode)">{{subitem.categoryName}}</a></span>
+                        <section class="text" ng-repeat="subitem in item.products"  ng-click="servicedetail(item.orderno , item.type)">
+                            <span style="font-size: 86%;color: #393939;padding-top: 0;"><a>{{subitem.categoryName}}</a></span>
                             <p style="font-size: 76%;color: #6E6E6E;" ng-if="subitem.memo">备注：{{subitem.memo}}</p>
                         </section>
-                        <section class="price_1">
+                        <section class="price_1"  ng-click="servicedetail(item.orderno , item.type)">
                             <i>X {{item.totalnum}}</i>
                         </section>
                     </section>
@@ -60,7 +60,7 @@
                         <span ng-switch-when="001001">
                             <!--<a href="">联系卖家</a>-->
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
-                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
+                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type)">付款</a>
                         </span>
                         <span ng-switch-when="001007">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
@@ -73,7 +73,7 @@
                         <span ng-switch-when="002003">
                             <!--<a href="">联系卖家</a>-->
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
-                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
+                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type)">付款</a>
                         </span>
                         <span ng-switch-when="002008">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
@@ -86,7 +86,7 @@
                         <span ng-switch-when="003001">
                             <!--<a href="">联系卖家</a>-->
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
-                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
+                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type)">付款</a>
                         </span>
                         <span ng-switch-when="003007">
                             <a class="strike" ng-click="orderdetail(item.orderno,item.type,item.shoporderstatusCode)">查看物流</a>
@@ -124,7 +124,7 @@
                         <!--商城-->
                         <span ng-switch-when="001">
                             <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
-                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
+                            <a class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type)">付款</a>
                         </span>
                         <span ng-switch-when="003">
                             <a class="strike"  ng-href="#/logisticsTrackT/{{item.orderno}}">查看物流</a>
