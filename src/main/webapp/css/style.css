@@ -4181,6 +4181,7 @@ dl.add_product dd span input[type="number"] {
     float: left;
     font-size: 80%;
     line-height: 32px;
+    border-radius: 3px;
 }
 
 dl.add_product dd span.check {

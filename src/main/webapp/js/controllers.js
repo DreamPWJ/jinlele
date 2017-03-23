@@ -1932,6 +1932,7 @@
             data: [],
             minimumResultsForSearch:-1
         };
+        $scope.order.storeId=1;
         //所有门店数据
         ProcCommitOrderService.findAllStores({latitude:angular.isString(localStorage.getItem('latitude'))?localStorage.getItem('latitude'):0,longitude:angular.isString(localStorage.getItem('longitude'))?localStorage.getItem('longitude'):0}).success(function (data) {
             $scope.stores = data;
@@ -2137,8 +2138,8 @@
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
-                            orderType:JSON.stringify({type:$scope.type.code})
-                        }
+                            orderType: JSON.stringify({type: $scope.type.code})
+                        };
                         //调用支付接口
                         console.log(JSON.stringify($scope.param));
                         //微信支付调用
