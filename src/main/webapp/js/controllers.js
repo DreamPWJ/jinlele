@@ -509,8 +509,9 @@
         }
     }])
     //服务订单详情
-    .controller('ServiceDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
+    .controller('ServiceDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService','ServeCommonService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService,ServeCommonService) {
         $rootScope.commonService=CommonService;
+        $scope.serviceName=ServeCommonService.getName($stateParams.orderType).name;
         if (sessionStorage.getItem($stateParams.orderNo) == "ok") {
             OrderService.queryWxPutOrder({orderno: $stateParams.orderNo,type:$stateParams.orderType, payresult:sessionStorage.getItem($scope.orderno)}).success(function(data){
                 console.log(JSON.stringify(data));
@@ -931,7 +932,7 @@
         });
     }])
     //订单列表
-    .controller('OrderListCtrl', ['$rootScope','$scope', '$state','$stateParams','WeiXinService', 'OrderListService', 'OrderService','CommonService','MemberService', function ($rootScope,$scope,$state,$stateParams, WeiXinService, OrderListService, OrderService,CommonService,MemberService) {
+    .controller('OrderListCtrl', ['$rootScope','$scope', '$state','$stateParams','WeiXinService', 'OrderListService', 'OrderService','CommonService','MemberService','ServeCommonService', function ($rootScope,$scope,$state,$stateParams, WeiXinService, OrderListService, OrderService,CommonService,MemberService,ServeCommonService) {
         //通过config接口注入权限验证配置
         $rootScope.commonService=CommonService;
         $scope.config = {
@@ -939,49 +940,36 @@
             placeholder: '商城订单',
             minimumResultsForSearch:-1
         };
-        $scope.type = localStorage.getItem("orderListType")? localStorage.getItem("orderListType") : 'ALL';
+        $scope.type = $stateParams.typeName? ServeCommonService.getType($stateParams.typeName).code : 'ALL';
         $scope.orderlistsinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
         $scope.moreFlag = false; //是否显示加载更多
         $scope.noDataFlag = false;  //没有数据显示
         $scope.getOrderLists = function () {
-            if ((arguments != [] && arguments[0] == 0) ) {
+            if ((arguments != [] && arguments[0] == 0)) {
                 $scope.page = 0;
                 $scope.orderlistsinfo = [];
             }
             $scope.page++;
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
-            localStorage.setItem("orderListType",$scope.type);
             //分页显示
-            if($stateParams.openId){
-                MemberService.getUserInfo($stateParams.openId).success(function(data){
-                    OrderListService.getorderLists({userid: data.userInfo.id,pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                        angular.forEach(data.pagingList, function (item) {
-                            $scope.orderlistsinfo.push(item);
-                        })
-                        if(data.myrows == 0) $scope.noDataFlag = true;
-                        $scope.total = data.myrows;
-                        if($scope.total > $scope.orderlistsinfo.length){
-                            $scope.moreFlag = true;
-                            console.log("moreFlag ==" + $scope.moreFlag );
-                        }
-                    })
-                });
-            }else {
-                OrderListService.getorderLists({userid: localStorage.getItem("jinlele_userId"),pagenow: $scope.page ,type:$scope.type}).success(function (data) {
-                    angular.forEach(data.pagingList, function (item) {
-                        $scope.orderlistsinfo.push(item);
-                    })
-                    if(data.myrows == 0) $scope.noDataFlag = true;
-                    $scope.total = data.myrows;
-                    if($scope.total > $scope.orderlistsinfo.length){
-                        $scope.moreFlag = true;
-                        console.log("moreFlag ==" + $scope.moreFlag );
-                    }
+            OrderListService.getorderLists({
+                userid: localStorage.getItem("jinlele_userId"),
+                pagenow: $scope.page,
+                type: $scope.type
+            }).success(function (data) {
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.orderlistsinfo.push(item);
                 })
-            }
+                if (data.myrows == 0) $scope.noDataFlag = true;
+                $scope.total = data.myrows;
+                if ($scope.total > $scope.orderlistsinfo.length) {
+                    $scope.moreFlag = true;
+                    console.log("moreFlag ==" + $scope.moreFlag);
+                }
+            })
         }
         $scope.getOrderLists();
         //取消订单

@@ -94,7 +94,7 @@
 </main>
 
 <section class="button" ng-switch on="orderinfo.shoporderstatusCode">
-    <span><a href="#/orderlist">订单列表</a></span>
+    <span><a href="#/{{serviceName}}orderlist">订单列表</a></span>
     <span ng-switch-when="001001"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
     <span ng-switch-when="002003"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
     <span ng-switch-when="003001"><a ng-click="weixinPay(orderinfo.orderno,orderinfo.totalprice)">立即支付</a></span>
