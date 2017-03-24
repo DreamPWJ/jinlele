@@ -402,6 +402,10 @@ angular.module('starter.services', [])
                     type.code = '005';
                     type.name = '换款';
                 }
+                if (typeName == "shop") {
+                    type.code = '006';
+                    type.name = '商城';
+                }
                 return type;
             },
             getName:function(typeCode){
@@ -421,6 +425,9 @@ angular.module('starter.services', [])
                         break;
                     case '005':
                         type.name = 'exchange';
+                        break;
+                    case '006':
+                        type.name = 'shop';
                         break;
                 }
                 return type;

@@ -67,7 +67,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                 controller: 'BindphoneCtrl'
             })
             .state('orderlist', {  // 商城订单
-                url: '/orderlist{openId}',
+                url: '/{typeName}orderlist',
                 templateUrl: 'html/orderlist.html',
                 controller: 'OrderListCtrl'
             })
