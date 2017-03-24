@@ -78,4 +78,7 @@ public interface IOrderService {
 
     //查询充值结果
     Map<String,Object> getRechargeResult(String orderno);
+
+    //根据订单号查询门店信息
+    Map<String, Object> getStoreByOrderno(String orderno);
 }

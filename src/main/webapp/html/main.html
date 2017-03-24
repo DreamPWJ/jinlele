@@ -14,7 +14,7 @@
         <!-- 搜索 -->
         <section class="search">
             <span class="search_main"><input placeholder="您要搜索的内容..." ng-model="search" type="text"></span>
-            <a class="icon" ng-click="searchquery(search)">&#xe60a;</a>
+            <a class="icon"   ng-click="searchquery(search)">&#xe60a;</a>
         </section>
 
         <!-- 主功能 -->
@@ -56,9 +56,9 @@
         </section>
 
         <!-- 产品列表 -->
-        <main class="list">
+        <main class="list"  delegate-handle="searhList">
             <section class="list_main" ng-repeat="item in newProductsinfo">
-                <a ng-href="#/gooddetail/{{item.id}}">
+                <a ng-href="#/gooddetail/{{item.id}}" >
                     <span class="pic"><img ng-src="{{item.hotimgurl}}"></span>
                     <span class="text">{{item.title}}</span>
                     <p>{{item.shortinfo}}</p>
@@ -76,6 +76,7 @@
         <a href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
         <a href="#/shoppingcart"><i class="icon">&#xe68d;</i><em>购物车</em><u>{{cartTotalNum}}</u></a>
         <a href="#/member"><i class="icon">&#xe625;</i><em>会员</em></a>
+
     </footer>
 </ion-view>
 

@@ -427,4 +427,10 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String,Object> getRechargeResult(String orderno){
         return  orderMapper.getRechargeResult(orderno);
     }
+
+
+    public Map<String, Object> getStoreByOrderno(String orderno){
+        return  orderMapper.getStoreByOrderno(orderno);
+    }
+
 }

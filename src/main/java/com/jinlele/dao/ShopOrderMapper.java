@@ -42,4 +42,6 @@ public interface ShopOrderMapper {
     Integer getUserIdByOrderno(String orderno);
 
     Map<String, Object> getRechargeResult(String orderno);
+
+    Map<String, Object> getStoreByOrderno(String orderno);
 }

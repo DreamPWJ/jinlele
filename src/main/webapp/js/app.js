@@ -1,14 +1,27 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'starter.directive', 'starter.filter'])
 
     .config(function ($stateProvider, $urlRouterProvider) {
-        $stateProvider
-            .state('main', {  //APP首页面
+
+
+
+        $stateProvider.state('main', {  //APP首页面
                 url: '/main',
                 cache: true,
                 templateUrl: 'html/main.html',
                 controller: 'MainCtrl'
-            })
-            .state('category', {  //分类
+            });
+        $stateProvider.state('auth', {  //APP首页面
+            url: '/auth',
+            templateUrl: 'html/auth.html',
+            controller: 'AuthCtrl'
+        });
+        if(!localStorage.getItem("openId")){
+            //买家首页
+            $urlRouterProvider.otherwise('/app/Auth');
+            return;
+        }
+
+        $stateProvider.state('category', {  //分类
                 url: '/category/:id',
                 templateUrl: 'html/category.html',
                 controller: 'CategoryCtrl'

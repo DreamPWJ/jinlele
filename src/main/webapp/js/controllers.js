@@ -89,6 +89,11 @@
         });
     }])
 
+
+    .controller('AuthCtrl', ['$scope',function ($scope){
+
+    }])
+
     //分类tab
     .controller('CategoryCtrl',['$scope','$state', '$stateParams', '$window', 'CategoryService', 'ResizeService','CartService', function ($scope,$state, $stateParams, $window, CategoryService, ResizeService,CartService) {
         ResizeService.autoHeight();
