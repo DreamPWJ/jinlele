@@ -1184,20 +1184,25 @@ angular.module('starter.services', [])
                             localIds[i] = localIds[i].toString();
                             $sce.trustAsResourceUrl(localIds[i]);
                             newlocalIds.push(localIds[i]);
-                            WeiXinService.wxuploadImage(localIds[i]);
                         }
+                        WeiXinService.wxuploadImage(localIds);
                         callback.call(this, newlocalIds);
                     }
                 });
             },
-            wxuploadImage: function (localId) {//微信上传图片接口
+            wxuploadImage: function (localIds) {//微信上传图片接口
                 WeiXinService = this;
+                var localId = localIds.pop();//将并行上传改成串行上传
                 wx.uploadImage({
                     localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1, // 默认为1，显示进度提示
                     success: function (res) {
                         var serverId = res.serverId; // 返回图片的服务器端ID
                         WeiXinService.mediaIds.push(serverId);
+                        //其他对serverId做处理的代码
+                        if(localIds.length > 0){
+                            WeiXinService.wxuploadImage(localIds);
+                        }
                     }
                 });
             },

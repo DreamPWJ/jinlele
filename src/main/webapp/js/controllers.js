@@ -34,8 +34,8 @@
             getBanners(data.banners);
             // console.log(JSON.stringify(data));
             //console.log(JSON.stringify(data.banners));
-            //localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
-            //localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
+            localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
+            localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
             //是否是微信 初次获取签名 获取微信签名
             if (WeiXinService.isWeiXin()) {
@@ -922,7 +922,6 @@
     }])
     //会员
     .controller('MemberCtrl', ['$scope', 'MemberService','WalletService','CartService', function ($scope, MemberService ,WalletService,CartService) {
-
         var opendid = localStorage.getItem("openId");
         MemberService.getUserInfo(opendid).success(function (data) {
             $scope.user = data.userInfo;
@@ -1682,7 +1681,7 @@
                         $scope.count = $scope.imgSrcs.length;
                         $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
                         $scope.localIds = $scope.imgSrcs;
-                        $scope.$apply();
+                        $scope.$apply();console.log(JSON.stringify(WeiXinService.mediaIds));
                     }, $scope.perUploadNumber)
                 })
             }else{
@@ -1691,8 +1690,8 @@
         }
         //删除图片
         $scope.delthisImage=function(index){
-            $scope.imgSrcs.splice(index,1);
-            WeiXinService.mediaIds.splice(index,1);
+            $scope.imgSrcs.splice(index,1);console.log(JSON.stringify(WeiXinService.mediaIds));
+            WeiXinService.mediaIds.splice(index,1);console.log(JSON.stringify(WeiXinService.mediaIds));
             $scope.count = $scope.imgSrcs.length;
             $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
         }
@@ -1818,8 +1817,8 @@
                 }else {
                     $scope.errorFlag = true;
                     $scope.errorInfo="请输入数字";
+                    return;
                 }
-                return;
             }
             //判断参数
             if ($scope.localIds.length == 0) {
