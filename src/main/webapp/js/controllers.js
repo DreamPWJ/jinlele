@@ -1681,7 +1681,7 @@
                         $scope.count = $scope.imgSrcs.length;
                         $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
                         $scope.localIds = $scope.imgSrcs;
-                        $scope.$apply();console.log(JSON.stringify(WeiXinService.mediaIds));
+                        $scope.$apply();
                     }, $scope.perUploadNumber)
                 })
             }else{
@@ -1690,8 +1690,8 @@
         }
         //删除图片
         $scope.delthisImage=function(index){
-            $scope.imgSrcs.splice(index,1);console.log(JSON.stringify(WeiXinService.mediaIds));
-            WeiXinService.mediaIds.splice(index,1);console.log(JSON.stringify(WeiXinService.mediaIds));
+            $scope.imgSrcs.splice(index,1);
+            WeiXinService.mediaIds.splice(index,1);
             $scope.count = $scope.imgSrcs.length;
             $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
         }
