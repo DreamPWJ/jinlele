@@ -26,8 +26,8 @@ public class IndexController {
     @RequestMapping(value = "/getIndexInfo", method = RequestMethod.GET)
     public Map<String, Object> getIndexInfo() {
         Map<String, Object> indexmap=indexService.getIndexInfo();
-        indexmap.put("openId",WeiXinController.openIds);
-        indexmap.put("userId",WeiXinController.userIds);
+//        indexmap.put("openId",WeiXinController.openIds);
+//        indexmap.put("userId",WeiXinController.userIds);
         return indexmap;
     }
 

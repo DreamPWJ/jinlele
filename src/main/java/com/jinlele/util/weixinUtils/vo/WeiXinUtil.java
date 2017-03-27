@@ -213,7 +213,7 @@ public class WeiXinUtil {
 
     public static void main(String[] args) {
         //String url = "http://139.224.54.94/hflBlog2/oauthServlet";
-        String url = "http://pub.tunnel.qydev.com/hflBlog/oauthServlet";
+        String url = "http://www.6weiyi.com/oauthServlet";
         String urlStr = urlEncodeUTF8(url);
         System.out.println(urlStr);
     }

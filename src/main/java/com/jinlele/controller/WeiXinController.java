@@ -40,8 +40,8 @@ import java.util.*;
 @Controller
 public class WeiXinController {
 
-    public static String openIds;
-    public static Integer userIds;
+//    public static String openIds;
+//    public static Integer userIds;
     @Resource
     IUserService userService;
     @Resource
@@ -193,7 +193,7 @@ public class WeiXinController {
             WeiXinOauth2Token weiXinOauth2Token = AdvancedUtil.getOauth2AccessToken(Parameter.corId, Parameter.appsecret, code);
             //用户标示
             String openId = weiXinOauth2Token.getOpenId();
-            openIds = openId;
+            //openIds = openId;
             System.out.println("openid===" + openId);
             //去数据库查询有无数据，没有就去保存
             User userInfo = userService.getUserInfo(openId);
@@ -205,16 +205,19 @@ public class WeiXinController {
                 userInfo = AdvancedUtil.getUserInfo(Token, openId);
                 userService.insertSelective(userInfo);
             }
-            userIds = userInfo.getId();
+            //userIds = userInfo.getId();
             //查询有无虚拟账户，没有的话新建
-            String walletAccount = userService.findWalletAccount(userIds);
+            String walletAccount = userService.findWalletAccount(userInfo.getId());
             if(StringHelper.isEmpty(walletAccount)){
-                userService.insertWallet(openIds , userIds);
+                userService.insertWallet(openId , userInfo.getId());
             }
+            model.addAttribute("openId",openId);
+            model.addAttribute("userId",userInfo.getId());
         } else {
             return null;
         }
-        return "redirect:/mall";
+
+        return "index.jsp";
 
     }
 
@@ -226,7 +229,7 @@ public class WeiXinController {
      */
     @RequestMapping(value = "/mall")
     public String toindex() {
-        return "index";
+        return "index.html";
     }
 
     /**
