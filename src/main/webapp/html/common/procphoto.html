@@ -244,11 +244,15 @@
             </dd>
             <dd>
                 <em>数量：</em>
-                <span><input placeholder="必填项" type="number" ng-model="product.num"  ng-change="getTotal(product.num)" required></span>
+                <span><input placeholder="必填项" type="number" ng-model="product.num" ng-blur="checkNum(product.num)" ng-change="getTotal(product.num)" required ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
             </dd>
             <dd>
                 <em>备注：</em>
                 <span><input placeholder="可选项" type="text" ng-model="product.memo"></span>
+            </dd>
+            <dd ng-show="errorFlag">
+                <em></em>
+                <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
             </dd>
         </dl>
     </div>
@@ -326,6 +330,6 @@
     <!--</section>-->
 
     <section class="submit">
-        <a ng-click="proccommitorder(pagetheme)">下一步</a>
+        <a ng-click="commitServiceOrder(pagetheme)">下一步</a>
     </section>
 </main>

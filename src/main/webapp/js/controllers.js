@@ -1789,6 +1789,15 @@
                     $scope.totalnum = number;;
                     console.log(" $scope.totalnum ==" + $scope.totalnum);
                 }
+                $scope.errorFlag=false;
+                $scope.checkNum=function(number){
+                    if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test(number)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
+                    }
+                }
                 break;
             case "detect"://检测
                 ProcPhotoService.getdetectPrice().success(function (data) {
@@ -1801,9 +1810,14 @@
                 break;
         }
         //进入提交订单的页面
-        $scope.proccommitorder = function (pagetheme) {
-            if($scope.typeCode=='002'&&!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)) {
-                CommonService.toolTip("数量填写有误", "");
+        $scope.commitServiceOrder = function (pagetheme) {
+            if($scope.typeCode=='002') {
+                if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
+                    $scope.errorFlag=false;
+                }else {
+                    $scope.errorFlag = true;
+                    $scope.errorInfo="请输入数字";
+                }
                 return;
             }
             //判断参数

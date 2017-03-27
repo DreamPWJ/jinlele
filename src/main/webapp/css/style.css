@@ -4167,6 +4167,16 @@ dl.add_product dd span {
     overflow: hidden;
     padding: 4px 10px 4px 0;
 }
+dl.add_product dd span.error {
+     color:#f00;
+    font-size: 80%;
+ }
+.has-error{
+    border:1px solid #f00;
+}
+.has-no-error{
+    border: 0 none;
+}
 
 dl.add_product dd span input[type="text"] {
     width: 100%;
