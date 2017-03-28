@@ -639,19 +639,19 @@ footer.submit span.check em {
 }
 
 footer.submit span.button {
-    height: 26px;
+    height: 50px;
     float: right;
-    padding: 12px 0;
     background: #F5D000;
 }
-
 footer.submit span.button a {
     width: auto;
-    height: 26px;
+    height: 50px;
     float: left;
-    line-height: 26px;
+    line-height: 50px;
     padding: 0 20px;
-    background: #F5D000;
+}
+footer.submit span.button a.gray {
+    background: #c6c6c6;
 }
 
 footer.submit span.button a:nth-child(1) {
@@ -4167,15 +4167,21 @@ dl.add_product dd span {
     overflow: hidden;
     padding: 4px 10px 4px 0;
 }
-dl.add_product dd span.error {
+dl.add_product,dl.parameter dd span.error {
      color:#f00;
     font-size: 80%;
  }
 .has-error{
-    border:1px solid #f00;
+    border:1px solid #f00 !important;
+}
+.has-error-right{
+    border-right:2px solid #f00 !important;
 }
 .has-no-error{
     border: 0 none;
+}
+.has-no-error-right{
+    border-right:1px solid #ccc;
 }
 
 dl.add_product dd span input[type="text"] {
@@ -4903,6 +4909,7 @@ section.metal dl.parameter dd u {
 
 section.metal dl.parameter dd span {
     height: 32px;
+    line-height: 32px;
     display: block;
     overflow: hidden;
     padding: 4px 0;

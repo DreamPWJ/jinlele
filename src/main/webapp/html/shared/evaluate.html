@@ -126,8 +126,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="goldWeight" placeholder="请填写" type="number"/></span>
-                        <em>克</em>
+                        <span><input ng-model="goldWeight" placeholder="必填项" type="text" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                    </dd>
+                    <dd ng-show="errorFlag">
+                        <u></u>
+                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -148,8 +152,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="boWeight" placeholder="请填写" type="number"></span>
-                        <em>克</em>
+                        <span><input ng-model="boWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                    </dd>
+                    <dd ng-show="errorFlag">
+                        <u></u>
+                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -169,8 +177,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="kWeight" placeholder="请填写" type="number"></span>
-                        <em>克</em>
+                        <span><input ng-model="kWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                    </dd>
+                    <dd ng-show="errorFlag">
+                        <u></u>
+                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -191,8 +203,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="baWeight" placeholder="请填写" type="number"></span>
-                        <em>克</em>
+                        <span><input ng-model="baWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                    </dd>
+                    <dd ng-show="errorFlag">
+                        <u></u>
+                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -218,8 +234,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="silverWeight" placeholder="请填写" type="number"></span>
-                        <em>克</em>
+                        <span><input ng-model="silverWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                    </dd>
+                    <dd ng-show="errorFlag">
+                        <u></u>
+                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">

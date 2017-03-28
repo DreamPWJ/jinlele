@@ -2026,16 +2026,19 @@
         }
         //生成订单并付款
         $scope.useful=false;//控制下单按钮,防止重复下单
+        $scope.errorFlag=false;
         $scope.procreceive = function (flag) {
-            $scope.useful=true;
             if($scope.type.code!='002'&&!flag){ //如果是翻新 检测 回收  换款
-                CommonService.toolTip("还有未填写的信息", "");
-                return;
+                //1.验证格式
+                if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
+                    $scope.errorFlag=false;
+                }else {
+                    $scope.errorFlag = true;
+                    $scope.errorInfo="请输入数字";
+                    return;
+                }
             }
-            if($scope.type.code!='002'&&!/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test($scope.product.num)){
-                CommonService.toolTip("数量填写有误", "");
-                return;
-            }
+            $scope.useful=true;
             //提交信息
             $scope.confirminfo = [];
             //地址信息
@@ -2646,6 +2649,7 @@
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
+        $scope.errorFlag=false;
         localStorage.setItem("toExchangeGoodId",$stateParams.id);
         var mySwiper = new Swiper('.metal', {
             pagination: '.product_tab',
@@ -2802,49 +2806,60 @@
                 case 1:
                     obj.purity=$scope.goldPurity;
                     obj.weight=$scope.goldWeight;
-                    if(!/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
-                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                        $scope.goldWeight=0.00;
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
                         return;
                     }
                     break;
                 case 2:
                     obj.purity=$scope.boPurity;
                     obj.weight=$scope.boWeight;
-                    if(!/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
-                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                        $scope.boWeight=0.00;
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
                         return;
                     }
                     break;
                 case 3:
                     obj.purity=$scope.kPurity;
                     obj.weight=$scope.kWeight;
-                    if(!/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
-                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                        $scope.kWeight=0.00;
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
                         return;
                     }
                     break;
                 case 4:
                     obj.purity=$scope.baPurity;
                     obj.weight=$scope.baWeight;
-                    if(!/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
-                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                        $scope.baWeight=0.00;
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
                         return;
                     }
                     break;
                 case 5:
                     obj.purity=$scope.silverPurity;
                     obj.weight=$scope.silverWeight;
-                    if(!/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
-                        CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                        $scope.silverWeight=0.00;
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
+                        $scope.errorFlag=false;
+                    }else {
+                        $scope.errorFlag = true;
+                        $scope.errorInfo="请输入数字";
                         return;
                     }
                     break;
             }
+            console.log(JSON.stringify(obj));
             EvaluateService.getPMPrice({purity:obj.purity,weight:obj.weight}).success(function(data){
                 if(data){
                     $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});

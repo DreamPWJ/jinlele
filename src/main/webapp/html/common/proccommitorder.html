@@ -300,12 +300,16 @@
                 <dd>
                     <em>数量：</em>
                     <span>
-                        <input placeholder="数量" type="number" ng-model="product.num" check-form ng-change="calcTotalPrice(product.num)" required>
+                        <input placeholder="必填项" type="number" ng-model="product.num" ng-change="calcTotalPrice(product.num)" required  ng-class={true:"has-error",false:"has-no-error"}[errorFlag]>
                     </span>
                 </dd>
                 <dd>
                     <em>备注：</em>
-                    <span><input placeholder="备注内容..." type="text" ng-model="product.memo"></span>
+                    <span><input placeholder="可选项" type="text" ng-model="product.memo"></span>
+                </dd>
+                <dd ng-show="errorFlag">
+                    <em></em>
+                    <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
                 </dd>
             </dl>
         </div>
@@ -317,10 +321,10 @@
     </main>
     <!-- FOOTER -->
     <footer class="submit">
-        <span class="total">合计 {{totalprice | currency:'￥'}} </span>
+        <span class="total">合计： {{totalprice | currency:'￥'}} </span>
 	<span class="button">
         <a href="" ng-click="goback()">上一步</a>
-        <a ng-disabled="!(submitForm.$valid&&verify)||useful" ng-click="useful||procreceive(submitForm.$valid&&verify)">立即下单</a>
+        <a ng-disabled="!(submitForm.$valid&&verify)||useful" ng-click="useful||procreceive(submitForm.$valid&&verify)" ng-class={true:"gray",false:""}[useful]>立即下单</a>
     </span>
     </footer>
 </form>
