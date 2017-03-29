@@ -140,8 +140,8 @@ public class ServiceController {
      * 贵金属估价
      */
     @ResponseBody
-    @RequestMapping(value = "/getPMPrice/{purity}/{weight}" ,method = RequestMethod.GET)
-    public  Map<String,Object> getPMPrice(@PathVariable String purity,@PathVariable  Double weight) {
+    @RequestMapping(value = "/getPMPrice/{weight}/{purity}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity) {
         return metalCalculationService.getPMPrice(purity,weight);
     }
 }

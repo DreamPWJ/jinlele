@@ -2649,7 +2649,6 @@
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
-        $scope.errorFlag=false;
         localStorage.setItem("toExchangeGoodId",$stateParams.id);
         var mySwiper = new Swiper('.metal', {
             pagination: '.product_tab',
@@ -2799,6 +2798,55 @@
                 })
             })
         }
+        $scope.checkMetal=function(metalType){
+            switch (metalType) {
+                case 1:
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
+                        $scope.gerrorFlag=false;
+                    }else {
+                        $scope.gerrorFlag = true;
+                        $scope.gerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        return;
+                    }
+                    break;
+                case 2:
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
+                        $scope.boerrorFlag=false;
+                    }else {
+                        $scope.boerrorFlag = true;
+                        $scope.boerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        return;
+                    }
+                    break;
+                case 3:
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
+                        $scope.kerrorFlag=false;
+                    }else {
+                        $scope.kerrorFlag = true;
+                        $scope.kerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        return;
+                    }
+                    break;
+                case 4:
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
+                        $scope.berrorFlag=false;
+                    }else {
+                        $scope.berrorFlag = true;
+                        $scope.berrorInfo="请输入正确范围的数字(最多三位小数)";
+                        return;
+                    }
+                    break;
+                case 5:
+                    if(/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
+                        $scope.serrorFlag=false;
+                    }else {
+                        $scope.serrorFlag = true;
+                        $scope.serrorInfo="请输入正确范围的数字(最多三位小数)";
+                        return;
+                    }
+                    break;
+            }
+        }
         //贵金属估价
         $scope.calcPMPrice=function(metalType) {
             var obj={};
@@ -2807,10 +2855,10 @@
                     obj.purity=$scope.goldPurity;
                     obj.weight=$scope.goldWeight;
                     if(/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
-                        $scope.errorFlag=false;
+                        $scope.gerrorFlag=false;
                     }else {
-                        $scope.errorFlag = true;
-                        $scope.errorInfo="请输入数字";
+                        $scope.gerrorFlag = true;
+                        $scope.gerrorInfo="请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -2818,10 +2866,10 @@
                     obj.purity=$scope.boPurity;
                     obj.weight=$scope.boWeight;
                     if(/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
-                        $scope.errorFlag=false;
+                        $scope.boerrorFlag=false;
                     }else {
-                        $scope.errorFlag = true;
-                        $scope.errorInfo="请输入数字";
+                        $scope.boerrorFlag = true;
+                        $scope.boerrorInfo="请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -2829,10 +2877,10 @@
                     obj.purity=$scope.kPurity;
                     obj.weight=$scope.kWeight;
                     if(/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
-                        $scope.errorFlag=false;
+                        $scope.kerrorFlag=false;
                     }else {
-                        $scope.errorFlag = true;
-                        $scope.errorInfo="请输入数字";
+                        $scope.kerrorFlag = true;
+                        $scope.kerrorInfo="请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -2840,10 +2888,10 @@
                     obj.purity=$scope.baPurity;
                     obj.weight=$scope.baWeight;
                     if(/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
-                        $scope.errorFlag=false;
+                        $scope.berrorFlag=false;
                     }else {
-                        $scope.errorFlag = true;
-                        $scope.errorInfo="请输入数字";
+                        $scope.berrorFlag = true;
+                        $scope.berrorInfo="请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -2851,16 +2899,16 @@
                     obj.purity=$scope.silverPurity;
                     obj.weight=$scope.silverWeight;
                     if(/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
-                        $scope.errorFlag=false;
+                        $scope.serrorFlag=false;
                     }else {
-                        $scope.errorFlag = true;
-                        $scope.errorInfo="请输入数字";
+                        $scope.serrorFlag = true;
+                        $scope.serrorInfo="请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
             }
             console.log(JSON.stringify(obj));
-            EvaluateService.getPMPrice({purity:obj.purity,weight:obj.weight}).success(function(data){
+            EvaluateService.getPMPrice({weight:obj.weight,purity:obj.purity}).success(function(data){
                 if(data){
                     $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
                 }
@@ -3023,26 +3071,81 @@
                     break;
             }
         }
-        //钻石估价
-        $scope.calcDiamondPrice=function(){
-            $scope.paras=[];
-            if(!/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
-                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                $scope.mainWeight=0.00;
-                return;
-            }
-            if(!/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
-                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                $scope.secWeight=0.00;
-                return;
-            }
-            if(!/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
-                CommonService.toolTip("请输入正确的重量", "tool-tip-message");
-                $scope.totalWeight=0.00;
+        $scope.checkDiamond=function(){
+            if(/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
+                $scope.merrorFlag=false;
+                $scope.errorFlag = false;
+            }else {
+                $scope.merrorFlag = true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
                 return;
             }
             if($scope.mainWeight>=0.7||$scope.mainWeight<0.08){
-                CommonService.toolTip("主石重量不符合标准", "tool-tip-message");
+                $scope.merrorFlag = true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                return;
+            }else{
+                $scope.merrorFlag=false;
+                $scope.errorFlag = false;
+            }
+            if(/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
+                $scope.serrorFlag=false;
+                $scope.errorFlag=false;
+            }else {
+                $scope.serrorFlag = true;
+                $scope.errorFlag=true;
+                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                return;
+            }
+            if(/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
+                $scope.terrorFlag=false;
+                $scope.errorFlag=false;
+            }else {
+                $scope.terrorFlag=true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                return;
+            }
+        }
+        //钻石估价
+        $scope.calcDiamondPrice=function(){
+            $scope.paras=[];
+            if(/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
+                $scope.merrorFlag=false;
+                $scope.errorFlag = false;
+            }else {
+                $scope.merrorFlag = true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                return;
+            }
+            if($scope.mainWeight>=0.7||$scope.mainWeight<0.08){
+                $scope.merrorFlag = true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                return;
+            }else{
+                $scope.merrorFlag=false;
+                $scope.errorFlag = false;
+            }
+            if(/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
+                $scope.serrorFlag=false;
+                $scope.errorFlag=false;
+            }else {
+                $scope.serrorFlag = true;
+                $scope.errorFlag=true;
+                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                return;
+            }
+            if(/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
+                $scope.terrorFlag=false;
+                $scope.errorFlag=false;
+            }else {
+                $scope.terrorFlag=true;
+                $scope.errorFlag = true;
+                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
                 return;
             }
             if($scope.choice){

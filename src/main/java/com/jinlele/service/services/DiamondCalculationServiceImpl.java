@@ -96,10 +96,16 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 Double polishRate = diamondParmCalculationMapper.getRate(polish.substring(0, 3), polish, dcid);
                 Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//主石总价格
                 result = totalMainPrice+totalSecPrice+totalMetalPrice;
+                resultMap.put("mainPrice",totalMainPrice);
+                resultMap.put("secPrice",totalSecPrice);
+                resultMap.put("metalPrice",totalMetalPrice);
                 resultMap.put("result",result);
             }else {
                 //镶嵌材质+副石
                 result = totalSecPrice+totalMetalPrice;
+                resultMap.put("mainPrice","");
+                resultMap.put("secPrice",totalSecPrice);
+                resultMap.put("metalPrice",totalMetalPrice);
                 resultMap.put("result", result);
             }
         }

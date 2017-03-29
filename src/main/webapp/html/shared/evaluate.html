@@ -126,17 +126,16 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="goldWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
-                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                        <span><input ng-model="goldWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[gerrorFlag] ng-blur="checkMetal(1)"></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[gerrorFlag]>克</em>
                     </dd>
-                    <dd ng-show="errorFlag">
+                    <dd ng-show="gerrorFlag">
                         <u></u>
-                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
+                        <span ng-class={true:"error",false:""}[gerrorFlag]>{{gerrorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
                     <a ng-click="calcPMPrice(1)">估价</a>
-                    <!--<a ng-href="#/{{pagetheme}}evaluationresult/">估价</a>-->
                 </section>
             </section>
 
@@ -152,12 +151,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="boWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
-                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                        <span><input ng-model="boWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[boerrorFlag] ng-blur="checkMetal(2)"></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[boerrorFlag]>克</em>
                     </dd>
-                    <dd ng-show="errorFlag">
+                    <dd ng-show="boerrorFlag">
                         <u></u>
-                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
+                        <span ng-class={true:"error",false:""}[boerrorFlag]>{{boerrorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -177,12 +176,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="kWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
-                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                        <span><input ng-model="kWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[kerrorFlag] ng-blur="checkMetal(3)"></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[kerrorFlag]>克</em>
                     </dd>
-                    <dd ng-show="errorFlag">
+                    <dd ng-show="kerrorFlag">
                         <u></u>
-                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
+                        <span ng-class={true:"error",false:""}[kerrorFlag]>{{kerrorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -203,12 +202,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="baWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
-                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                        <span><input ng-model="baWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[berrorFlag] ng-blur="checkMetal(4)"></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[berrorFlag]>克</em>
                     </dd>
-                    <dd ng-show="errorFlag">
+                    <dd ng-show="berrorFlag">
                         <u></u>
-                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
+                        <span ng-class={true:"error",false:""}[berrorFlag]>{{berrorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -234,12 +233,12 @@
                     </dd>
                     <dd>
                         <u>克重：</u>
-                        <span><input ng-model="silverWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[errorFlag]></span>
-                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[errorFlag]>克</em>
+                        <span><input ng-model="silverWeight" placeholder="必填项" type="number" ng-class={true:"has-error",false:"has-no-error"}[serrorFlag] ng-blur="checkMetal(5)"></span>
+                        <em ng-class={true:"has-error-right",false:"has-no-error-right"}[serrorFlag]>克</em>
                     </dd>
-                    <dd ng-show="errorFlag">
+                    <dd ng-show="serrorFlag">
                         <u></u>
-                        <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
+                        <span ng-class={true:"error",false:""}[serrorFlag]>{{serrorInfo}}</span>
                     </dd>
                 </dl>
                 <section class="load parameter_buttom">
@@ -266,8 +265,8 @@
             <dt>请输入钻石产品参数</dt>
             <dd>
                 <u>主石重量：</u>
-                <span><input placeholder="请填写" type="number" ng-model="mainWeight"></span>
-                <em>克拉</em>
+                <span><input placeholder="必填项" type="number" ng-model="mainWeight" ng-class={true:"has-error",false:"has-no-error"}[merrorFlag] ng-blur="checkDiamond()"></span>
+                <em ng-class={true:"has-error-right",false:"has-no-error-right"}[merrorFlag]>克拉</em>
             </dd>
             <dd  ng-switch-when="exchange">
                 <u>更换：</u>
@@ -330,8 +329,8 @@
             </dd>
             <dd>
                 <u>副石重量：</u>
-                <span><input placeholder="请填写" type="number" ng-model="secWeight"></span>
-                <em>克拉</em>
+                <span><input placeholder="必填项" type="number" ng-model="secWeight" ng-class={true:"has-error",false:"has-no-error"}[serrorFlag] ng-blur="checkDiamond()"></span>
+                <em ng-class={true:"has-error-right",false:"has-no-error-right"}[serrorFlag]>克拉</em>
             </dd>
             <dd>
                 <u>副石品质：</u>
@@ -341,8 +340,12 @@
             </dd>
             <dd>
                 <u>产品总重：</u>
-                <span><input placeholder="请填写" type="number" ng-model="totalWeight"></span>
-                <em>克</em>
+                <span><input placeholder="必填项" type="number" ng-model="totalWeight" ng-class={true:"has-error",false:"has-no-error"}[terrorFlag] ng-blur="checkDiamond()"></span>
+                <em ng-class={true:"has-error-right",false:"has-no-error-right"}[terrorFlag]>克</em>
+            </dd>
+            <dd ng-show="errorFlag">
+                <u></u>
+                <span ng-class={true:"error",false:""}[errorFlag]>{{errorInfo}}</span>
             </dd>
         </dl>
         <section class="load parameter_buttom">
