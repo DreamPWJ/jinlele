@@ -342,7 +342,7 @@ where p.deleteCode='001' and order_no=#{orderno}
   </select>
 
   <!--根据订单号查询门店显示-->
-  <select id="getStoreByOrderno" parameterType="java.lang.String" resultType="Map">
+  <select id="getStoreByOrderno" parameterType="java.lang.String" resultType="Store">
       select name , phone , address from store
       where id = (select store_id from service where order_no = #{orderno})
   </select>

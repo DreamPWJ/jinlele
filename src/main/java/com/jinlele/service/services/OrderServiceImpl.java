@@ -15,6 +15,7 @@ import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.event.StoreEvent;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -429,7 +430,7 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
-    public Map<String, Object> getStoreByOrderno(String orderno){
+    public Store getStoreByOrderno(String orderno){
         return  orderMapper.getStoreByOrderno(orderno);
     }
 

@@ -128,7 +128,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      controller: 'ProcCommitOrderCtrl'
                  })
                  .state('procreceive', {  //流程-平台收货（完善物流）
-                     url: '/procreceive/:type/:orderNo',
+                     url: '/procreceivefor{orderNo}with{type}',
                      templateUrl: 'html/common/procreceive.html',
                      controller: 'ProcReceiveCtrl'
                  })

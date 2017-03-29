@@ -1,6 +1,7 @@
 package com.jinlele.controller;
 
 import com.jinlele.model.ShopOrder;
+import com.jinlele.model.Store;
 import com.jinlele.model.User;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IUserService;
@@ -8,6 +9,7 @@ import com.jinlele.service.interfaces.IWalletService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import com.jinlele.util.weixinUtils.service.CoreService;
+import com.jinlele.util.weixinUtils.template.SendOrderPaySuccessMsg;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
 import com.jinlele.util.weixinUtils.util.Parameter;
 import com.jinlele.util.weixinUtils.util.SignUtil;
@@ -287,6 +289,7 @@ public class WeiXinController {
         String orderno = map.get("out_trade_no");
         String finishtime = map.get("time_end");//支付完成时间
         String diyData = map.get("attach");//支付完成时间
+        String openid = map.get("openid");//客户openid
         Double total_fee=Double.valueOf(Double.valueOf(map.get("total_fee").toString())/100);//订单总金额，实际支付金额
         //解析自定义商家数据包
         JSONObject diyDataObject =  JSONObject.fromObject(diyData);
@@ -324,6 +327,11 @@ public class WeiXinController {
                         }
                         order=new ShopOrder(orderno,total_fee,orderstatus,"003",s.parse(finishtime));
                         shopOrder.setUpdateTime(s.parse(finishtime));//支付完成时间
+                        //如果是维修检测翻新，付款成功后，推送需要发货的模板通知
+                        if("001".equals(orderType) || "002".equals(orderType) || "003".equals(orderType)){
+                            Store store = orderService.getStoreByOrderno(orderno);
+                            SendOrderPaySuccessMsg.needSendGoodNotice(openid,orderno,orderType,store);
+                        }
                         switch (orderType){
                             case "007":
                                 //更新充值订单 修改账户余额  新增账户余额明细

@@ -1,6 +1,7 @@
 package com.jinlele.dao;
 
 import com.jinlele.model.ShopOrder;
+import com.jinlele.model.Store;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -43,5 +44,5 @@ public interface ShopOrderMapper {
 
     Map<String, Object> getRechargeResult(String orderno);
 
-    Map<String, Object> getStoreByOrderno(String orderno);
+    Store getStoreByOrderno(String orderno);
 }

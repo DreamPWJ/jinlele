@@ -1,6 +1,7 @@
 package com.jinlele.service.interfaces;
 
 import com.jinlele.model.ShopOrder;
+import com.jinlele.model.Store;
 
 import java.util.Date;
 import java.util.List;
@@ -80,5 +81,5 @@ public interface IOrderService {
     Map<String,Object> getRechargeResult(String orderno);
 
     //根据订单号查询门店信息
-    Map<String, Object> getStoreByOrderno(String orderno);
+    Store getStoreByOrderno(String orderno);
 }
