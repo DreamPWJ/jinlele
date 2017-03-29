@@ -217,6 +217,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/walletdetail.html',
                      controller: 'WalletdetailCtrl'
                  })
+                 .state('showResult', {  //账户明细
+                     url: '/showResult',
+                     templateUrl: 'html/exchange/showResult.html',
+                     controller: 'ShowResultCtrl'
+                 })
 
              $urlRouterProvider.otherwise('main')
          }

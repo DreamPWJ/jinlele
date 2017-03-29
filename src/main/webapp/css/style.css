@@ -3598,6 +3598,15 @@ section.logistics span.title {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+section.logistics p {
+    height: 36px;
+    float: left;
+    line-height: 36px;
+    font-size: 86%;
+    text-indent: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 section.logistics ul {
     display: block;
     overflow: hidden;

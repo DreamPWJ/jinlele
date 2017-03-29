@@ -1822,7 +1822,7 @@
             }
             //判断参数
             if ($scope.localIds.length == 0) {
-                CommonService.toolTip("请上传图片" ,"");
+                CommonService.toolTip("请上传旧款的图片" ,"");
                 return;
             }
             $scope.params = {
@@ -2910,7 +2910,11 @@
             console.log(JSON.stringify(obj));
             EvaluateService.getPMPrice({weight:obj.weight,purity:obj.purity}).success(function(data){
                 if(data){
-                    $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                    if($stateParams.name=="exchange"){
+                        $state.go("showResult");
+                    }else {
+                        $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
+                    }
                 }
             });
         }
@@ -3169,7 +3173,11 @@
                 EvaluateService.getDiamondPrice($scope.paras).success(function(data){
                     console.log(data);
                     if(data){
-                        $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                        if($stateParams.name=="exchange"){
+                            $state.go("showResult");
+                        }else {
+                            $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
+                        }
                     }
                 });
             }else{
@@ -3185,7 +3193,11 @@
                 EvaluateService.getDiamondPrice($scope.paras).success(function(data){
                     console.log(data);
                     if(data){
-                        $state.go('evaluationresult',{name:$stateParams.name,result:JSON.stringify(data)});
+                        if($stateParams.name=="exchange"){
+                            $state.go("showResult");
+                        }else {
+                            $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
+                        }
                     }
                 });
             }
@@ -3497,4 +3509,7 @@
                 });
             }
         }
+    }])
+    .controller('ShowResultCtrl',['$scope',function($scope){
+
     }])

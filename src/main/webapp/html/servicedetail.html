@@ -46,50 +46,48 @@
         </section>
         <span class="title" ng-if="buyinfo!=null">换款产品</span>
         <section class="product_list" ng-if="buyinfo!=null">
-        <section class="product">
-            <span class="pic"><a href=""><img ng-src="{{buyinfo.bannerurl}}"></a></span>
-            <section class="text">
-                <p><a href="#/gooddetail/{{buyinfo.id}}">{{buyinfo.title}}</a></p>
-                <span>颜色分类：{{buyinfo.color}}</span>
-            </section>
-            <section class="price_1">
-                <em>{{buyinfo.unit_price|currency:"￥"}}</em>
-                <i>X {{buyinfo.buynum}}</i>
+            <section class="product">
+                <span class="pic"><a href=""><img ng-src="{{buyinfo.bannerurl}}"></a></span>
+                <section class="text">
+                    <p><a href="#/gooddetail/{{buyinfo.id}}">{{buyinfo.title}}</a></p>
+                    <span>颜色分类：{{buyinfo.color}}</span>
+                </section>
+                <section class="price_1">
+                    <em>{{buyinfo.unit_price|currency:"￥"}}</em>
+                    <i>X {{buyinfo.buynum}}</i>
+                </section>
             </section>
         </section>
-            </section>
+        <section class="photograph" style="margin: 0" ng-if="orderinfo.shoporderstatusCode=='001002'||orderinfo.shoporderstatusCode=='002004'||orderinfo.shoporderstatusCode=='003002'||orderinfo.shoporderstatusCode=='004001'"||orderinfo.shoporderstatusCode=='005001'">
+            <p style="color: red;">温馨提示：</p>
+            <p>为了让您更快取回新的宝贝，请尽快送到门店，并填写详细信息！</p>
+        </section>
+        <section class="order_xq"  ng-switch on="orderinfo.type">
+            <ul ng-switch-when="004">
+                <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+                <li><em class="subject">回收总额：</em><i class="subject subject_font">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+                <li class="result" ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
+                <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            </ul>
+            <ul ng-switch-when="005">
+                <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+                <li><em class="content content_main">可用总额：</em><i class="content content_main">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+                <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+                <li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
+                <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
+                <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            </ul>
+            <ul ng-switch-default>
+                <li><em class="content">服务总额：</em><i class="content">{{orderinfo.totalprice|currency:'￥'}}</i></li>
+                <li class="underline"><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+                <li><em class="subject">订单总额：</em><i class="subject subject_font">{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
+                <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
+                <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
+            </ul>
+        </section>
         <section class="qr_code">
             <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
-    </section>
-
-    <section class="order_xq"  ng-switch on="orderinfo.type">
-        <ul ng-switch-when="004">
-            <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
-            <li><em class="subject">回收总额：</em><i class="subject subject_font">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
-            <li class="result" ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
-            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
-        </ul>
-        <ul ng-switch-when="005">
-            <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
-            <li><em class="content content_main">可用总额：</em><i class="content content_main">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
-            <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
-            <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
-            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
-        </ul>
-        <ul ng-switch-default>
-            <li><em class="content">服务总额：</em><i class="content">{{orderinfo.totalprice|currency:'￥'}}</i></li>
-            <li class="underline"><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
-            <li><em class="subject">订单总额：</em><i class="subject subject_font">{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
-            <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
-            <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
-        </ul>
-    </section>
-    <!-- 物流信息 -->
-    <section class="logistics" ng-if="orderinfo.shoporderstatusCode=='001002'||orderinfo.shoporderstatusCode=='002004'||orderinfo.shoporderstatusCode=='003002'||orderinfo.shoporderstatusCode=='004001'"||orderinfo.shoporderstatusCode=='005001'">
-        <span class="title">友情提示：</span>
-    	<span class="title">请尽快完善您发货的物流信息，以便平台及时提供服务</span>
     </section>
 </main>
 
