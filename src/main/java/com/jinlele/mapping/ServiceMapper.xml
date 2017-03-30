@@ -20,11 +20,12 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="checkreport_url" property="checkreportUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, price, order_no, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
     servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time, 
-    update_time, comment_id
+    update_time, comment_id ,checkreport_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -42,14 +43,14 @@
       store_id, sendway, getway, 
       serviceaddress, servciephone, servicelinkman, 
       checkreport, buyertransno, deleteCode, 
-      create_time, update_time, comment_id
+      create_time, update_time, comment_id,checkreport_url
       )
     values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{orderNo,jdbcType=VARCHAR}, 
       #{aturalprice,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR}, 
       #{storeId,jdbcType=INTEGER}, #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, 
       #{serviceaddress,jdbcType=VARCHAR}, #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, 
       #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER}
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER} ,  #{checkreportUrl,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Service" useGeneratedKeys="true" keyProperty="id">
@@ -109,6 +110,9 @@
       <if test="commentId != null" >
         comment_id,
       </if>
+      <if test="checkreport_url != null" >
+        checkreport_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -164,6 +168,9 @@
       </if>
       <if test="commentId != null" >
         #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="checkreportUrl != null" >
+        #{checkreportUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="commentId != null" >
         comment_id = #{commentId,jdbcType=INTEGER},
       </if>
+      <if test="checkreportUrl != null" >
+        checkreport_url = #{checkreportUrl,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -242,7 +252,8 @@
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      comment_id = #{commentId,jdbcType=INTEGER}
+      comment_id = #{commentId,jdbcType=INTEGER},
+      checkreport_url = #{checkreportUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByOrdernoSelective" parameterType="com.jinlele.model.Service" >
@@ -295,6 +306,9 @@
       </if>
       <if test="commentId != null" >
         comment_id = #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="checkreportUrl != null" >
+        checkreport_url = #{checkreportUrl,jdbcType=INTEGER},
       </if>
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}

@@ -39,6 +39,8 @@ public class Service {
 
     private Integer commentId;
 
+    private String checkreportUrl;
+
     public Service() {
     }
 
@@ -84,6 +86,14 @@ public class Service {
         this.storeId = storeId;
         this.sendway = sendway;
         this.getway = getway;
+    }
+
+    public String getCheckreportUrl() {
+        return checkreportUrl;
+    }
+
+    public void setCheckreportUrl(String checkreportUrl) {
+        this.checkreportUrl = checkreportUrl;
     }
 
     public Integer getId() {
