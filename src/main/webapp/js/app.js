@@ -217,12 +217,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/walletdetail.html',
                      controller: 'WalletdetailCtrl'
                  })
-                 .state('showResult', {  //账户明细
+                 .state('showResult', {  //展示匹配估算结果的商品
                      url: '/showResult',
                      templateUrl: 'html/exchange/showResult.html',
                      controller: 'ShowResultCtrl'
                  })
-                 .state('bartercart', {  //账户明细
+                 .state('bartercart', {  //换购购物车
                      url: '/bartercart',
                      templateUrl: 'html/exchange/barterCart.html',
                      controller: 'ShowResultCtrl'
