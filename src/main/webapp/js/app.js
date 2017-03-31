@@ -222,6 +222,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/exchange/showResult.html',
                      controller: 'ShowResultCtrl'
                  })
+                 .state('bartercart', {  //账户明细
+                     url: '/bartercart',
+                     templateUrl: 'html/exchange/barterCart.html',
+                     controller: 'ShowResultCtrl'
+                 })
 
              $urlRouterProvider.otherwise('main')
          }

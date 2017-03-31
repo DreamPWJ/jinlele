@@ -9,7 +9,7 @@
 <section class="essential">
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
-        <i>销售价：{{price | currency:'￥'}}</i>
+        <i>专柜价：{{price | currency:'￥'}}</i>
         <em ng-if="(price*gooddetail.num-actualprice)>=0">换款价格：{{(price*gooddetail.num-actualprice) | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-actualprice)<0">换款价格：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-actualprice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
@@ -17,6 +17,7 @@
         <i>注：剩余金额将直接存入您的账户余额</i>
     </section>
     <section class="essential_main">
+        <em style="font-size: 80%;">余额还可以选择：<font style="border: 1px solid #000;color:red;font-size: 140%;">选多几款</font></em>
         <span>
         	<i>评价({{goodcommentcount}})</i>
         	<i>库存({{stocknum}})</i>
@@ -27,7 +28,7 @@
             <em>颜色分类：</em>
         	<span class="colour"  >
                 <toggle-color e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" price="price" goodchild-id="gooddetail.goodchildId">
-                    <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【约"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【约"+item.handsize+"】":""}}{{item.necklace_len?"【约"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
+                    <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
                 </toggle-color>
             </span>
         </li>
@@ -61,18 +62,21 @@
 </section>
 
 <!-- 商品详情 -->
-<section class="depict_week">
+<section class="depict_week" style="margin-bottom: 110px;">
     <span class="title">商品详情</span>
     <span class="picture" ng-bind-html="goodDetail.description"></span>
 </section>
 
-
+<footer class="add_pay">
+<span class="check"><a href="">预选合计：{{1|currency:"￥"}}元</a></span>
+    <a class="cart">结算</a>
+</footer>
 <!-- FOOTER -->
 <footer class="add_submit">
 	<span class="check">
-        <a class="hover" ng-style="menuWidth" href="#/main"><i class="icon">&#xe653;</i><em>首页</em></a>
-        <a ng-style="menuWidth" href="#/category/1"><i class="icon">&#xe658;</i><em>分类</em></a>
-        <a href="#/shoppingcart" ng-style="menuWidth">
+        <a class="hover back" ng-style="menuWidth">上一步</a>
+        <a ng-style="menuWidth"> <i class="title">我的余额</i><em >{{1|currency:"￥"}}</em></a>
+        <a href="#/bartercart" ng-style="menuWidth">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>
         </a>
