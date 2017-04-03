@@ -44,7 +44,6 @@ public class Service {
     public Service() {
     }
 
-
     public Service(Integer id , Double price , Double aturalprice, Integer userId , Integer storeId ,String sendWay ,String getWay, Date updateTime){
         this.id = id;
         this.price = price;
@@ -86,14 +85,6 @@ public class Service {
         this.storeId = storeId;
         this.sendway = sendway;
         this.getway = getway;
-    }
-
-    public String getCheckreportUrl() {
-        return checkreportUrl;
-    }
-
-    public void setCheckreportUrl(String checkreportUrl) {
-        this.checkreportUrl = checkreportUrl;
     }
 
     public Integer getId() {
@@ -238,5 +229,13 @@ public class Service {
 
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
+    }
+
+    public String getCheckreportUrl() {
+        return checkreportUrl;
+    }
+
+    public void setCheckreportUrl(String checkreportUrl) {
+        this.checkreportUrl = checkreportUrl == null ? null : checkreportUrl.trim();
     }
 }

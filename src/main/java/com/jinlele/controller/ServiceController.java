@@ -133,7 +133,7 @@ public class ServiceController {
     @ResponseBody
     @RequestMapping(value = "/getDiamondPrice" ,method = RequestMethod.POST)
     public  Map<String,Object> getDiamondPrice(@RequestBody List<Map<String,Object>> list) {
-        return diamondCalculationService.getDiamondPrice(list);
+        return diamondCalculationService.addDiamondPrice(list);
     }
 
     /**
@@ -142,6 +142,6 @@ public class ServiceController {
     @ResponseBody
     @RequestMapping(value = "/getPMPrice/{weight}/{purity}" ,method = RequestMethod.GET)
     public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity) {
-        return metalCalculationService.getPMPrice(purity,weight);
+        return metalCalculationService.addPMPrice(purity, weight,true);
     }
 }

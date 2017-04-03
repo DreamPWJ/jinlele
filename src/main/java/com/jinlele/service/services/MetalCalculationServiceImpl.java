@@ -1,11 +1,13 @@
 package com.jinlele.service.services;
 
 import com.jinlele.dao.DayPriceMapper;
+import com.jinlele.dao.EvaluateMetalMapper;
 import com.jinlele.dao.MetalCalculationMapper;
+import com.jinlele.dao.ServiceMapper;
 import com.jinlele.model.DayPrice;
+import com.jinlele.model.EvaluateMetal;
 import com.jinlele.model.MetalCalculation;
 import com.jinlele.service.interfaces.IMetalCalculationService;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +25,10 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     DayPriceMapper dayPriceMapper;
     @Resource
     MetalCalculationMapper metalCalculationMapper;
+    @Resource
+    ServiceMapper serviceMapper;
+    @Resource
+    EvaluateMetalMapper evaluateMetalMapper;
 
     @Override
     public List getSubSet(String category, Integer pid) {
@@ -40,7 +46,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     }
 
     @Override
-    public Map<String, Object> getPMPrice(String purity, Double weight) {
+    public Map<String, Object> addPMPrice(String purity, Double weight,Boolean flag) {
         Map<String, Object> resultMap = new HashMap<>();
         List<DayPrice> list = dayPriceMapper.getCurrentPrice();
         Double goldPrice = 0.0;
@@ -83,10 +89,20 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
                 break;
         }
         price = (new BigDecimal(price)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-        Double totalprice = weight * price;
+        Double totalprice = (new BigDecimal(weight * price)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
         Double result = totalprice - depreciation;
+
+        //flag：为true，则添加记录
+        if(flag) {
+            com.jinlele.model.Service service = new com.jinlele.model.Service();
+            service.setPrice(result);//估价结果
+            serviceMapper.insertSelective(service);
+            evaluateMetalMapper.insertSelective(new EvaluateMetal(service.getId(), type, purity, weight, totalprice));
+            resultMap.put("evaluateServiceId", service.getId());//返回serviceid
+        }
         //金价  重量   折旧费  结果
         resultMap.put("showFormula",true);
+        resultMap.put("type", type);
         resultMap.put("price", price);
         resultMap.put("weight", weight);
         resultMap.put("depreciation", depreciation);

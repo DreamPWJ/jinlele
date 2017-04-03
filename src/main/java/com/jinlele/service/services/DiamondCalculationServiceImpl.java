@@ -1,9 +1,8 @@
 package com.jinlele.service.services;
 
-import com.jinlele.dao.DiamondCalculationMapper;
-import com.jinlele.dao.DiamondParmCalculationMapper;
-import com.jinlele.dao.DiamondSideCalulationMapper;
+import com.jinlele.dao.*;
 import com.jinlele.model.DiamondCalculation;
+import com.jinlele.model.EvaluateDiamond;
 import com.jinlele.service.interfaces.IDiamondCalculationService;
 import com.jinlele.service.interfaces.IMetalCalculationService;
 import org.springframework.stereotype.Service;
@@ -27,8 +26,12 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
     DiamondSideCalulationMapper diamondSideCalulationMapper;
     @Resource
     IMetalCalculationService metalCalculationService;
+    @Resource
+    EvaluateDiamondMapper evaluateDiamondMapper;
+    @Resource
+    ServiceMapper serviceMapper;
     @Override
-    public Map<String, Object> getDiamondPrice(List<Map<String,Object>> list) {
+    public Map<String, Object> addDiamondPrice(List<Map<String,Object>> list) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("showFormula",false);
         for (Map<String, Object> paras : list) {
@@ -73,9 +76,9 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
             if( paras.get("totalWeight")!=null&& paras.get("totalWeight").toString().length()!=0) {
                 totalWeight = Double.valueOf(paras.get("totalWeight").toString());//副石重量
             }
-            String material = paras.get("material").toString();//镶嵌材质
+            String purity = paras.get("material").toString();//镶嵌材质
             Double materialWeight = (new BigDecimal(totalWeight - (mainWeight +secWeight)*0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-            Map<String,Object> metalMap =  metalCalculationService.getPMPrice(material, materialWeight);
+            Map<String,Object> metalMap =  metalCalculationService.addPMPrice(purity, materialWeight,false);
             Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//材质总价格
             if (flag||"recycle".equals(src)) {
                 //主石+镶嵌材质+副石
@@ -96,17 +99,27 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 Double polishRate = diamondParmCalculationMapper.getRate(polish.substring(0, 3), polish, dcid);
                 Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//主石总价格
                 result = totalMainPrice+totalSecPrice+totalMetalPrice;
+                com.jinlele.model.Service service =new com.jinlele.model.Service();
+                service.setPrice(result);//估价结果
+                serviceMapper.insertSelective(service);
+                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,certificate,color,cleaness,florescence,cut,symmetry,polish,quality,totalMetalPrice,totalMainPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
                 resultMap.put("mainPrice",totalMainPrice);
                 resultMap.put("secPrice",totalSecPrice);
                 resultMap.put("metalPrice",totalMetalPrice);
                 resultMap.put("result",result);
+                resultMap.put("evaluateServiceId", service.getId());//返回serviceid
             }else {
                 //镶嵌材质+副石
                 result = totalSecPrice+totalMetalPrice;
+                com.jinlele.model.Service service =new com.jinlele.model.Service();
+                service.setPrice(result);//估价结果
+                serviceMapper.insertSelective(service);
+                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,quality,totalMetalPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
                 resultMap.put("mainPrice","");
                 resultMap.put("secPrice",totalSecPrice);
                 resultMap.put("metalPrice",totalMetalPrice);
                 resultMap.put("result", result);
+                resultMap.put("evaluateServiceId", service.getId());//返回serviceid
             }
         }
         return resultMap;

@@ -8,5 +8,5 @@ import java.util.Map;
  */
 public interface IDiamondCalculationService {
     //获取钻石估价结果
-    Map<String, Object> getDiamondPrice(List<Map<String,Object>> map);
+    Map<String, Object> addDiamondPrice(List<Map<String,Object>> map);
 }

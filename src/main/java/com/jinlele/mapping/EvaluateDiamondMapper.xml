@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.EvaluateDiamondMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.EvaluateDiamond" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="service_id" property="serviceId" jdbcType="INTEGER" />
+    <result column="material_type_value" property="materialTypeValue" jdbcType="VARCHAR" />
+    <result column="purity_value" property="purityValue" jdbcType="VARCHAR" />
+    <result column="certificate_value" property="certificateValue" jdbcType="VARCHAR" />
+    <result column="color_value" property="colorValue" jdbcType="VARCHAR" />
+    <result column="cleaness_value" property="cleanessValue" jdbcType="VARCHAR" />
+    <result column="florescence_value" property="florescenceValue" jdbcType="VARCHAR" />
+    <result column="cut_value" property="cutValue" jdbcType="VARCHAR" />
+    <result column="symmetry_value" property="symmetryValue" jdbcType="VARCHAR" />
+    <result column="polish_value" property="polishValue" jdbcType="VARCHAR" />
+    <result column="quality_value" property="qualityValue" jdbcType="VARCHAR" />
+    <result column="material_weight" property="materialWeight" jdbcType="DOUBLE" />
+    <result column="main_diamond_weight" property="mainDiamondWeight" jdbcType="DOUBLE" />
+    <result column="sec_diamond_weight" property="secDiamondWeight" jdbcType="DOUBLE" />
+    <result column="material_price" property="materialPrice" jdbcType="DOUBLE" />
+    <result column="main_diamond_price" property="mainDiamondPrice" jdbcType="DOUBLE" />
+    <result column="sec_diamond_price" property="secDiamondPrice" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="delete_code" property="deleteCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, service_id, material_type_value, purity_value, certificate_value, color_value, 
+    cleaness_value, florescence_value, cut_value, symmetry_value, polish_value, quality_value, 
+    material_weight, main_diamond_weight, sec_diamond_weight, material_price, main_diamond_price, 
+    sec_diamond_price, create_time, delete_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evaluate_diamond
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluate_diamond
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.EvaluateDiamond" >
+    insert into evaluate_diamond (id, service_id, material_type_value, 
+      purity_value, certificate_value, color_value, 
+      cleaness_value, florescence_value, cut_value, 
+      symmetry_value, polish_value, quality_value, 
+      material_weight, main_diamond_weight, sec_diamond_weight, 
+      material_price, main_diamond_price, sec_diamond_price, 
+      create_time, delete_code)
+    values (#{id,jdbcType=INTEGER}, #{serviceId,jdbcType=INTEGER}, #{materialTypeValue,jdbcType=VARCHAR}, 
+      #{purityValue,jdbcType=VARCHAR}, #{certificateValue,jdbcType=VARCHAR}, #{colorValue,jdbcType=VARCHAR}, 
+      #{cleanessValue,jdbcType=VARCHAR}, #{florescenceValue,jdbcType=VARCHAR}, #{cutValue,jdbcType=VARCHAR}, 
+      #{symmetryValue,jdbcType=VARCHAR}, #{polishValue,jdbcType=VARCHAR}, #{qualityValue,jdbcType=VARCHAR}, 
+      #{materialWeight,jdbcType=DOUBLE}, #{mainDiamondWeight,jdbcType=DOUBLE}, #{secDiamondWeight,jdbcType=DOUBLE}, 
+      #{materialPrice,jdbcType=DOUBLE}, #{mainDiamondPrice,jdbcType=DOUBLE}, #{secDiamondPrice,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{deleteCode,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.EvaluateDiamond" >
+    insert into evaluate_diamond
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="materialTypeValue != null" >
+        material_type_value,
+      </if>
+      <if test="purityValue != null" >
+        purity_value,
+      </if>
+      <if test="certificateValue != null" >
+        certificate_value,
+      </if>
+      <if test="colorValue != null" >
+        color_value,
+      </if>
+      <if test="cleanessValue != null" >
+        cleaness_value,
+      </if>
+      <if test="florescenceValue != null" >
+        florescence_value,
+      </if>
+      <if test="cutValue != null" >
+        cut_value,
+      </if>
+      <if test="symmetryValue != null" >
+        symmetry_value,
+      </if>
+      <if test="polishValue != null" >
+        polish_value,
+      </if>
+      <if test="qualityValue != null" >
+        quality_value,
+      </if>
+      <if test="materialWeight != null" >
+        material_weight,
+      </if>
+      <if test="mainDiamondWeight != null" >
+        main_diamond_weight,
+      </if>
+      <if test="secDiamondWeight != null" >
+        sec_diamond_weight,
+      </if>
+      <if test="materialPrice != null" >
+        material_price,
+      </if>
+      <if test="mainDiamondPrice != null" >
+        main_diamond_price,
+      </if>
+      <if test="secDiamondPrice != null" >
+        sec_diamond_price,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="deleteCode != null" >
+        delete_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="materialTypeValue != null" >
+        #{materialTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="purityValue != null" >
+        #{purityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateValue != null" >
+        #{certificateValue,jdbcType=VARCHAR},
+      </if>
+      <if test="colorValue != null" >
+        #{colorValue,jdbcType=VARCHAR},
+      </if>
+      <if test="cleanessValue != null" >
+        #{cleanessValue,jdbcType=VARCHAR},
+      </if>
+      <if test="florescenceValue != null" >
+        #{florescenceValue,jdbcType=VARCHAR},
+      </if>
+      <if test="cutValue != null" >
+        #{cutValue,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetryValue != null" >
+        #{symmetryValue,jdbcType=VARCHAR},
+      </if>
+      <if test="polishValue != null" >
+        #{polishValue,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityValue != null" >
+        #{qualityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="materialWeight != null" >
+        #{materialWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="mainDiamondWeight != null" >
+        #{mainDiamondWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="secDiamondWeight != null" >
+        #{secDiamondWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="materialPrice != null" >
+        #{materialPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="mainDiamondPrice != null" >
+        #{mainDiamondPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="secDiamondPrice != null" >
+        #{secDiamondPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteCode != null" >
+        #{deleteCode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.EvaluateDiamond" >
+    update evaluate_diamond
+    <set >
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="materialTypeValue != null" >
+        material_type_value = #{materialTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="purityValue != null" >
+        purity_value = #{purityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateValue != null" >
+        certificate_value = #{certificateValue,jdbcType=VARCHAR},
+      </if>
+      <if test="colorValue != null" >
+        color_value = #{colorValue,jdbcType=VARCHAR},
+      </if>
+      <if test="cleanessValue != null" >
+        cleaness_value = #{cleanessValue,jdbcType=VARCHAR},
+      </if>
+      <if test="florescenceValue != null" >
+        florescence_value = #{florescenceValue,jdbcType=VARCHAR},
+      </if>
+      <if test="cutValue != null" >
+        cut_value = #{cutValue,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetryValue != null" >
+        symmetry_value = #{symmetryValue,jdbcType=VARCHAR},
+      </if>
+      <if test="polishValue != null" >
+        polish_value = #{polishValue,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityValue != null" >
+        quality_value = #{qualityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="materialWeight != null" >
+        material_weight = #{materialWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="mainDiamondWeight != null" >
+        main_diamond_weight = #{mainDiamondWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="secDiamondWeight != null" >
+        sec_diamond_weight = #{secDiamondWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="materialPrice != null" >
+        material_price = #{materialPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="mainDiamondPrice != null" >
+        main_diamond_price = #{mainDiamondPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="secDiamondPrice != null" >
+        sec_diamond_price = #{secDiamondPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteCode != null" >
+        delete_code = #{deleteCode,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.EvaluateDiamond" >
+    update evaluate_diamond
+    set service_id = #{serviceId,jdbcType=INTEGER},
+      material_type_value = #{materialTypeValue,jdbcType=VARCHAR},
+      purity_value = #{purityValue,jdbcType=VARCHAR},
+      certificate_value = #{certificateValue,jdbcType=VARCHAR},
+      color_value = #{colorValue,jdbcType=VARCHAR},
+      cleaness_value = #{cleanessValue,jdbcType=VARCHAR},
+      florescence_value = #{florescenceValue,jdbcType=VARCHAR},
+      cut_value = #{cutValue,jdbcType=VARCHAR},
+      symmetry_value = #{symmetryValue,jdbcType=VARCHAR},
+      polish_value = #{polishValue,jdbcType=VARCHAR},
+      quality_value = #{qualityValue,jdbcType=VARCHAR},
+      material_weight = #{materialWeight,jdbcType=DOUBLE},
+      main_diamond_weight = #{mainDiamondWeight,jdbcType=DOUBLE},
+      sec_diamond_weight = #{secDiamondWeight,jdbcType=DOUBLE},
+      material_price = #{materialPrice,jdbcType=DOUBLE},
+      main_diamond_price = #{mainDiamondPrice,jdbcType=DOUBLE},
+      sec_diamond_price = #{secDiamondPrice,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_code = #{deleteCode,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

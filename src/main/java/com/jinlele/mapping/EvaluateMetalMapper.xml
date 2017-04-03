@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jinlele.dao.EvaluateMetalMapper" >
+  <resultMap id="BaseResultMap" type="com.jinlele.model.EvaluateMetal" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="service_id" property="serviceId" jdbcType="INTEGER" />
+    <result column="material_type_value" property="materialTypeValue" jdbcType="VARCHAR" />
+    <result column="purity_value" property="purityValue" jdbcType="VARCHAR" />
+    <result column="material_weight" property="materialWeight" jdbcType="DOUBLE" />
+    <result column="material_price" property="materialPrice" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="delete_code" property="deleteCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, service_id, material_type_value, purity_value, material_weight, material_price, 
+    create_time, delete_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from evaluate_metal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluate_metal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jinlele.model.EvaluateMetal" >
+    insert into evaluate_metal (id, service_id, material_type_value, 
+      purity_value, material_weight, material_price, 
+      create_time, delete_code)
+    values (#{id,jdbcType=INTEGER}, #{serviceId,jdbcType=INTEGER}, #{materialTypeValue,jdbcType=VARCHAR}, 
+      #{purityValue,jdbcType=VARCHAR}, #{materialWeight,jdbcType=DOUBLE}, #{materialPrice,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{deleteCode,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinlele.model.EvaluateMetal" >
+    insert into evaluate_metal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="materialTypeValue != null" >
+        material_type_value,
+      </if>
+      <if test="purityValue != null" >
+        purity_value,
+      </if>
+      <if test="materialWeight != null" >
+        material_weight,
+      </if>
+      <if test="materialPrice != null" >
+        material_price,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="deleteCode != null" >
+        delete_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="materialTypeValue != null" >
+        #{materialTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="purityValue != null" >
+        #{purityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="materialWeight != null" >
+        #{materialWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="materialPrice != null" >
+        #{materialPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteCode != null" >
+        #{deleteCode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.EvaluateMetal" >
+    update evaluate_metal
+    <set >
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="materialTypeValue != null" >
+        material_type_value = #{materialTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="purityValue != null" >
+        purity_value = #{purityValue,jdbcType=VARCHAR},
+      </if>
+      <if test="materialWeight != null" >
+        material_weight = #{materialWeight,jdbcType=DOUBLE},
+      </if>
+      <if test="materialPrice != null" >
+        material_price = #{materialPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteCode != null" >
+        delete_code = #{deleteCode,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jinlele.model.EvaluateMetal" >
+    update evaluate_metal
+    set service_id = #{serviceId,jdbcType=INTEGER},
+      material_type_value = #{materialTypeValue,jdbcType=VARCHAR},
+      purity_value = #{purityValue,jdbcType=VARCHAR},
+      material_weight = #{materialWeight,jdbcType=DOUBLE},
+      material_price = #{materialPrice,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_code = #{deleteCode,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

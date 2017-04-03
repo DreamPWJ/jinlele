@@ -21,12 +21,11 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="comment_id" property="commentId" jdbcType="INTEGER" />
     <result column="checkreport_url" property="checkreportUrl" jdbcType="VARCHAR" />
-
   </resultMap>
   <sql id="Base_Column_List" >
     id, price, order_no, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
     servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time, 
-    update_time, comment_id ,checkreport_url
+    update_time, comment_id, checkreport_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -44,15 +43,15 @@
       store_id, sendway, getway, 
       serviceaddress, servciephone, servicelinkman, 
       checkreport, buyertransno, deleteCode, 
-      create_time, update_time, comment_id,checkreport_url
-      )
+      create_time, update_time, comment_id, 
+      checkreport_url)
     values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{orderNo,jdbcType=VARCHAR}, 
       #{aturalprice,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR}, 
       #{storeId,jdbcType=INTEGER}, #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, 
       #{serviceaddress,jdbcType=VARCHAR}, #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, 
       #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER} ,  #{checkreportUrl,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER}, 
+      #{checkreportUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Service" useGeneratedKeys="true" keyProperty="id">
     insert into service
@@ -111,7 +110,7 @@
       <if test="commentId != null" >
         comment_id,
       </if>
-      <if test="checkreport_url != null" >
+      <if test="checkreportUrl != null" >
         checkreport_url,
       </if>
     </trim>
@@ -230,7 +229,7 @@
         comment_id = #{commentId,jdbcType=INTEGER},
       </if>
       <if test="checkreportUrl != null" >
-        checkreport_url = #{checkreportUrl,jdbcType=INTEGER},
+        checkreport_url = #{checkreportUrl,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -350,7 +349,7 @@
     and   o.orderno = #{orderno}
   </select>
   <select id="getServiceInfo" resultType="Map" parameterType="java.lang.String">
-select * from service where order_no=#{orderno}
+    select * from service where order_no=#{orderno}
   </select>
   <select id="getDictInfo" resultType="Map" parameterType="java.lang.String">
     select * from vw_dictdetail where eng=#{typename}
