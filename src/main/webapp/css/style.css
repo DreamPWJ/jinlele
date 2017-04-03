@@ -3415,12 +3415,24 @@ footer.add_pay span.check {
 
 footer.add_pay span.check a {
     line-height: 50px;
-    float: right;
     font-size: 90%;
-    color: #FE2E2E;
-    padding-right: 10px;
+    color: #333;
+    float: left;
+    position: relative;
 }
-
+footer.add_pay span.check input[type="checkbox"]{
+    line-height: 50px;
+    height: 50px;
+    font-size: 90%;
+    color: #333;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+footer.add_pay span.check input[type="checkbox"]:active,footer.add_pay span.check input[type="checkbox"]:visited,footer.add_pay span.check input[type="checkbox"]:hover{
+    border: 0 none;
+}
 footer.add_pay a.cart {
     width: 60px;
     height: 50px;
