@@ -21,6 +21,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="comment_id" property="commentId" jdbcType="INTEGER" />
     <result column="checkreport_url" property="checkreportUrl" jdbcType="VARCHAR" />
+
   </resultMap>
   <sql id="Base_Column_List" >
     id, price, order_no, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
