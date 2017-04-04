@@ -3518,18 +3518,54 @@
     }])
     .controller('ShowResultCtrl',['$scope','BarterService',function($scope,BarterService){
         $scope.evaluationPrice=localStorage.getItem("barterResult");
-        BarterService.getFreeList({amount:$scope.evaluationPrice}).success(function(data){
-            $scope.freeList=data.freeList;
+        BarterService.getBarterList({
+            amount: $scope.evaluationPrice,
+            pagenow: 1,
+            type: "free"
+        }).success(function (data) {
+            $scope.freeList=data.pagingList;
         });
-        BarterService.getNewList({amount:$scope.evaluationPrice}).success(function(data){console.log(JSON.stringify(data));
-            $scope.newList=data.newList;
+        BarterService.getBarterList({
+            amount: $scope.evaluationPrice,
+            pagenow: 1,
+            type: "new"
+        }).success(function (data) {
+            $scope.newList=data.pagingList;
         });
     }])
-    //更多免费款
-    .controller('MoreFreeCtrl',function(){
-
-    })
-    //更多补差价款
-    .controller('MoreNewCtrl',function(){
-
-    })
+    //更多款（免费、补差价）
+    .controller('MoreCtrl',['$scope','$stateParams','BarterService',function($scope,$stateParams,BarterService) {
+        $scope.evaluationPrice = localStorage.getItem("barterResult");
+        $scope.type = $stateParams.category;//款式种类
+        $scope.barterlistinfo = [];
+        $scope.page = 0;//当前页数
+        $scope.total = 1;//总页数
+        $scope.moreFlag = false; //是否显示加载更多
+        $scope.noDataFlag = false;  //没有数据显示
+        $scope.getBarterList = function () {
+            if ((arguments != [] && arguments[0] == 0)) {
+                $scope.page = 0;
+                $scope.barterlistinfo = [];
+            }
+            $scope.page++;
+            $scope.moreFlag = false;
+            $scope.noDataFlag = false;
+            //分页显示
+            BarterService.getBarterList({
+                amount: $scope.evaluationPrice,
+                pagenow: $scope.page,
+                type: $scope.type
+            }).success(function (data) {
+                angular.forEach(data.pagingList, function (item) {
+                    $scope.barterlistinfo.push(item);
+                    console.log("moreFlag ==" + $scope.moreFlag);
+                })
+                if (data.myrows == 0) $scope.noDataFlag = true;
+                $scope.total = data.myrows;
+                if ($scope.total > $scope.barterlistinfo.length) {
+                    $scope.moreFlag = true;
+                }
+            })
+        }
+        $scope.getBarterList();
+    }])

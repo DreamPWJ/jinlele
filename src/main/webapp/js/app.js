@@ -222,15 +222,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/exchange/showResult.html',
                      controller: 'ShowResultCtrl'
                  })
-                 .state('morefree', {  //更多免费款推荐商品
-                     url: '/morefree',
-                     templateUrl: 'html/exchange/morefree.html',
-                     controller: 'MoreFreeCtrl'
-                 })
-                 .state('morenew', {  //更多补差价款推荐商品
-                     url: '/morenew',
-                     templateUrl: 'html/exchange/morenew.html',
-                     controller: 'MoreNewCtrl'
+                 .state('more', {  //更多推荐商品
+                     url: '/more{category}',
+                     templateUrl: 'html/exchange/more.html',
+                     controller: 'MoreCtrl'
                  })
                  .state('bartercart', {  //换购购物车
                      url: '/bartercart',

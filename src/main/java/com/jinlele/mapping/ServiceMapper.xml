@@ -358,18 +358,4 @@
   <select id="selectActualPrice" parameterType="java.lang.String" resultType="java.lang.Double">
     select aturalprice from service where order_no= #{orderno}
   </select>
-  <select id="getFreeList" parameterType="java.lang.Double" resultType="map">
-    select g.id,gc.price,gc.id childId,g.title,g.bannerurl from (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
-    where g.id = gc.good_id
-    and  g.canchange = 0
-    and gc.price &lt;= #{0}
-    limit 4
-  </select>
-  <select id="getNewList" parameterType="java.lang.Double" resultType="map">
-    select g.id,gc.price,gc.id childId,g.title,g.bannerurl from (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
-    where g.id = gc.good_id
-    and  g.canchange = 0
-    and gc.price &gt; #{0}
-    limit 4
-  </select>
 </mapper>

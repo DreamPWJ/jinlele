@@ -522,7 +522,7 @@ angular.module('starter.services', [])
             }
         }
     })
-    //翻新等服务提交订单的页面Service
+    //估价参数页面Service
     .service('EvaluateService', function ($q, $http, JinLeLe) {
         return {
             //获取子集
@@ -610,7 +610,6 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             }
-
         }
     })
     .service('AddtoCartService', function ($q, $http, JinLeLe) {
@@ -1079,27 +1078,15 @@ angular.module('starter.services', [])
             }
         }
     })
+    //换款业务
     .service('BarterService',function($q, $http, JinLeLe){
         return {
-            getFreeList: function (params) {
+            getBarterList:function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/service/getFreeList/" + params.amount + "/",
-                }).success(function (data) {
-                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
-                }).error(function (err) {
-                    deferred.reject(err);// 声明执行失败，即服务器返回错误
-                });
-                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
-            },
-            getNewList: function (params) {
-                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise;
-                promise = $http({
-                    method: 'GET',
-                    url: JinLeLe.api + "/service/getNewList/" + params.amount + "/",
+                    url: JinLeLe.api + "/service/getBarterList/" + params.amount + "/" + params.pagenow  + '/' + params.type
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

@@ -8,7 +8,9 @@ import com.jinlele.model.Picture;
 import com.jinlele.model.Service;
 import com.jinlele.model.ServicePicture;
 import com.jinlele.service.interfaces.IServiceService;
+import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
+import com.jinlele.util.SysConstants;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
@@ -16,6 +18,7 @@ import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -91,16 +94,24 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
-    public Map<String , Object> getFreeList(Double amount) {
-        Map<String , Object> map = new HashedMap();
-        map.put("freeList",serviceMapper.getFreeList(amount));
-        return map;
-    }
-
-    @Override
-    public Map<String , Object> getNewList(Double amount) {
-        Map<String , Object> map = new HashedMap();
-        map.put("newList",serviceMapper.getNewList(amount));
-        return map;
+    public Map<String, Object> getBarterListPaging(double amount, int pagenow, String type) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("tableName", "  (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g  ");
+        paramMap.put("fields", "  g.id,gc.price,gc.id childId,g.title,g.bannerurl ");
+        paramMap.put("pageNow", pagenow);
+        paramMap.put("pageSize", 4);
+        switch (type){
+            case "free":
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.price <=" + amount);
+                break;
+            case "new":
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.price >" + amount);
+                break;
+        }
+        paramMap.put("orderField", "  g.create_time ");
+        paramMap.put("orderFlag", 1);
+        this.baseMapper.getPaging(paramMap);
+        paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
+        return CommonUtil.removePaingMap(paramMap);
     }
 }

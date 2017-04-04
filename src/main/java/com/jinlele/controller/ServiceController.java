@@ -146,20 +146,11 @@ public class ServiceController {
     }
 
     /**
-     * 获取免费换列表
+     * 更多列表
      */
     @ResponseBody
-    @RequestMapping(value = "/getFreeList/{amount}/" ,method = RequestMethod.GET)
-    public  Map<String,Object> getFreeList(@PathVariable Double amount) {
-        return serviceService.getFreeList(amount);
-    }
-
-    /**
-     * 获取补差价换列表
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getNewList/{amount}/" ,method = RequestMethod.GET)
-    public  Map<String,Object> getNewList(@PathVariable Double amount) {
-        return serviceService.getNewList(amount);
+    @RequestMapping(value = "/getBarterList/{amount}/{pagenow}/{type}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getBarterList(@PathVariable Double amount,@PathVariable Integer pagenow,@PathVariable  String type) {
+        return serviceService.getBarterListPaging(amount,pagenow,type);
     }
 }
