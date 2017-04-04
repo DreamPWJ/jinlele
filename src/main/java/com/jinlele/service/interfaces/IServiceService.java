@@ -21,9 +21,4 @@ public interface IServiceService {
 
     //根据类型查询字典信息
     Map<String , Object> getDictInfo(String typename);
-
-    /**
-     *换款推荐商品列表
-     */
-    Map<String, Object> getBarterListPaging(double amount, int pagenow , String type);
 }

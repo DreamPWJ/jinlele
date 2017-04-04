@@ -10,14 +10,14 @@
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
         <i>专柜价：{{price | currency:'￥'}}</i>
-        <em ng-if="(price*gooddetail.num-actualprice)>=0">换款价格：{{(price*gooddetail.num-actualprice) | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-actualprice)<0">换款价格：{{0 | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-actualprice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-actualprice)<0">剩余金额：{{(actualprice-price*gooddetail.num) | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)<0">换款价格：{{0 | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>
         <i>注：剩余金额将直接存入您的账户余额</i>
     </section>
     <section class="essential_main">
-        <em style="font-size: 80%;">余额还可以选择：<font style="border: 1px solid #000;color:red;font-size: 140%;">选多几款</font></em>
+        <em style="font-size: 80%;">余额还可以选择：<a style="border: 1px solid #000;color:red;font-size: 140%;" ng-href="#/barterlist">选多几款</a></em>
         <span>
         	<i>评价({{goodcommentcount}})</i>
         	<i>库存({{stocknum}})</i>

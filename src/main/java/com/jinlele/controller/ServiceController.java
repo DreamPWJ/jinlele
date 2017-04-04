@@ -144,13 +144,4 @@ public class ServiceController {
     public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity) {
         return metalCalculationService.addPMPrice(purity, weight,true);
     }
-
-    /**
-     * 更多列表
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getBarterList/{amount}/{pagenow}/{type}" ,method = RequestMethod.GET)
-    public  Map<String,Object> getBarterList(@PathVariable Double amount,@PathVariable Integer pagenow,@PathVariable  String type) {
-        return serviceService.getBarterListPaging(amount,pagenow,type);
-    }
 }

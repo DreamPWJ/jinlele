@@ -2912,7 +2912,7 @@
                 if(data){
                     if($stateParams.name=="exchange"){
                         $state.go("showResult");
-                        localStorage.setItem("barterResult",data.result);
+                        localStorage.setItem("barterEvaluatePrice",data.result);
                         localStorage.setItem("barterServiceId",data.evaluateServiceId);
                     }else {
                         $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3177,7 +3177,7 @@
                     if(data){
                         if($stateParams.name=="exchange"){
                             $state.go("showResult");
-                            localStorage.setItem("barterResult",data.result);
+                            localStorage.setItem("barterEvaluatePrice",data.result);
                             localStorage.setItem("barterServiceId",data.evaluateServiceId);
                         }else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3199,7 +3199,7 @@
                     if(data){
                         if($stateParams.name=="exchange"){
                             $state.go("showResult");
-                            localStorage.setItem("barterResult",data.result);
+                            localStorage.setItem("barterEvaluatePrice",data.result);
                             localStorage.setItem("barterServiceId",data.evaluateServiceId);
                         }else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3349,38 +3349,42 @@
     }])
     //换款列表
     .controller('BarterListCtrl', ['$scope','GoodService',function ($scope,GoodService) {
-        $scope.actualprice=localStorage.getItem("actualprice");
-        $scope.barterlists = [];
+        $scope.evaluatePrice=localStorage.getItem("barterEvaluatePrice");
+        $scope.barterlistinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
         $scope.moreFlag = false; //是否显示加载更多
         $scope.noDataFlag = false;  //没有数据显示
-        $scope.getExchangeGoodLists = function () {
-            if ((arguments != [] && arguments[0] == 0) ) {
+        $scope.getBarterList = function () {
+            if ((arguments != [] && arguments[0] == 0)) {
                 $scope.page = 0;
-                $scope.barterlists = [];
+                $scope.barterlistinfo = [];
             }
             $scope.page++;
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
             //分页显示
-            GoodService.getExchangeGoodList({pagenow:$scope.page}).success(function(data){
+            GoodService.getBarterList({
+                amount: 0,
+                pagenow: $scope.page,
+                type: "all"
+            }).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
-                    $scope.barterlists.push(item);
+                    $scope.barterlistinfo.push(item);
                 })
-                if(data.myrows == 0) $scope.noDataFlag = true;
+                if (data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
-                if($scope.total > $scope.barterlists.length){
+                if ($scope.total > $scope.barterlistinfo.length) {
                     $scope.moreFlag = true;
                 }
-            });
+            })
         }
-        $scope.getExchangeGoodLists();
+        $scope.getBarterList();
     }])
     //换款详情
     .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService','OrderService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService,OrderService) {
         $rootScope.commonService = CommonService;
-        $scope.actualprice=localStorage.getItem("actualprice");
+        $scope.evaluatePrice=localStorage.getItem("barterEvaluatePrice");
         function getBanners(arr) {
             var html = "";
             if (arr) {
@@ -3516,16 +3520,17 @@
             }
         }
     }])
-    .controller('ShowResultCtrl',['$scope','BarterService',function($scope,BarterService){
-        $scope.evaluationPrice=localStorage.getItem("barterResult");
-        BarterService.getBarterList({
+    //估价结果推荐
+    .controller('ShowResultCtrl',['$scope','GoodService',function($scope,GoodService){
+        $scope.evaluationPrice=localStorage.getItem("barterEvaluatePrice");
+        GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
             type: "free"
         }).success(function (data) {
             $scope.freeList=data.pagingList;
         });
-        BarterService.getBarterList({
+        GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
             type: "new"
@@ -3534,8 +3539,8 @@
         });
     }])
     //更多款（免费、补差价）
-    .controller('MoreCtrl',['$scope','$stateParams','BarterService',function($scope,$stateParams,BarterService) {
-        $scope.evaluationPrice = localStorage.getItem("barterResult");
+    .controller('MoreCtrl',['$scope','$stateParams','GoodService',function($scope,$stateParams,GoodService) {
+        $scope.evaluationPrice = localStorage.getItem("barterEvaluatePrice");
         $scope.type = $stateParams.category;//款式种类
         $scope.barterlistinfo = [];
         $scope.page = 0;//当前页数
@@ -3551,7 +3556,7 @@
             $scope.moreFlag = false;
             $scope.noDataFlag = false;
             //分页显示
-            BarterService.getBarterList({
+            GoodService.getBarterList({
                 amount: $scope.evaluationPrice,
                 pagenow: $scope.page,
                 type: $scope.type

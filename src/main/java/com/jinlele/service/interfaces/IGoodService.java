@@ -22,5 +22,8 @@ public interface IGoodService {
      */
     List<Map<String, Object>> getGoodChildsByGoodId(@Param("gooodId") int gooodId);
 
-    Map<String,Object> getExchangeGoodPaging(int pagenow);
+    /**
+     *换款推荐商品列表
+     */
+    Map<String, Object> getBarterListPaging(Double amount, Integer pagenow , String type);
 }

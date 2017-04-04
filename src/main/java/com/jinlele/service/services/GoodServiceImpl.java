@@ -43,18 +43,28 @@ public class GoodServiceImpl implements IGoodService {
     }
 
     @Override
-    public Map<String, Object> getExchangeGoodPaging(int pagenow) {
+    public Map<String, Object> getBarterListPaging(Double amount, Integer pagenow , String type) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " good ");
-        paramMap.put("fields", " id,title,bannerurl,price ");
+        paramMap.put("tableName", "  (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g  ");
+        paramMap.put("fields", "  g.id,gc.price,gc.id childId,g.title,g.bannerurl ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
-        paramMap.put("wherecase", " deleteCode='001' and canchange=0 ");
-        paramMap.put("orderField", " create_time ");
+        paramMap.put("pageSize", 4);
+        switch (type){
+            case "free":
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.price <=" + amount);
+                break;
+            case "new":
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.price >" + amount);
+                break;
+            default:
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 ");
+                break;
+        }
+        paramMap.put("orderField", "  g.create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
-        return CommonUtil.removePaingMap(paramMap) ;
+        return CommonUtil.removePaingMap(paramMap);
     }
 
 }
