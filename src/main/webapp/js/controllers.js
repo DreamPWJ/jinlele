@@ -2912,6 +2912,8 @@
                 if(data){
                     if($stateParams.name=="exchange"){
                         $state.go("showResult");
+                        localStorage.setItem("barterResult",data.result);
+                        localStorage.setItem("barterServiceId",data.evaluateServiceId);
                     }else {
                         $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                     }
@@ -3175,6 +3177,8 @@
                     if(data){
                         if($stateParams.name=="exchange"){
                             $state.go("showResult");
+                            localStorage.setItem("barterResult",data.result);
+                            localStorage.setItem("barterServiceId",data.evaluateServiceId);
                         }else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
@@ -3195,6 +3199,8 @@
                     if(data){
                         if($stateParams.name=="exchange"){
                             $state.go("showResult");
+                            localStorage.setItem("barterResult",data.result);
+                            localStorage.setItem("barterServiceId",data.evaluateServiceId);
                         }else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
@@ -3510,6 +3516,20 @@
             }
         }
     }])
-    .controller('ShowResultCtrl',['$scope',function($scope){
-
+    .controller('ShowResultCtrl',['$scope','BarterService',function($scope,BarterService){
+        $scope.evaluationPrice=localStorage.getItem("barterResult");
+        BarterService.getFreeList({amount:$scope.evaluationPrice}).success(function(data){
+            $scope.freeList=data.freeList;
+        });
+        BarterService.getNewList({amount:$scope.evaluationPrice}).success(function(data){console.log(JSON.stringify(data));
+            $scope.newList=data.newList;
+        });
     }])
+    //更多免费款
+    .controller('MoreFreeCtrl',function(){
+
+    })
+    //更多补差价款
+    .controller('MoreNewCtrl',function(){
+
+    })

@@ -144,4 +144,22 @@ public class ServiceController {
     public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity) {
         return metalCalculationService.addPMPrice(purity, weight,true);
     }
+
+    /**
+     * 获取免费换列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getFreeList/{amount}/" ,method = RequestMethod.GET)
+    public  Map<String,Object> getFreeList(@PathVariable Double amount) {
+        return serviceService.getFreeList(amount);
+    }
+
+    /**
+     * 获取补差价换列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getNewList/{amount}/" ,method = RequestMethod.GET)
+    public  Map<String,Object> getNewList(@PathVariable Double amount) {
+        return serviceService.getNewList(amount);
+    }
 }

@@ -16,6 +16,7 @@ import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -89,5 +90,17 @@ public class ServiceServiceImpl implements IServiceService {
         return map;
     }
 
+    @Override
+    public Map<String , Object> getFreeList(Double amount) {
+        Map<String , Object> map = new HashedMap();
+        map.put("freeList",serviceMapper.getFreeList(amount));
+        return map;
+    }
 
+    @Override
+    public Map<String , Object> getNewList(Double amount) {
+        Map<String , Object> map = new HashedMap();
+        map.put("newList",serviceMapper.getNewList(amount));
+        return map;
+    }
 }

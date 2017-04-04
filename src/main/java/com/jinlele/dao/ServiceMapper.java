@@ -39,4 +39,8 @@ public interface ServiceMapper {
 
     //查询服务订单定价金额或实际付款价格
     Double selectActualPrice(String orderno);
+
+    List getFreeList(Double amount);
+
+    List getNewList(Double amount);
 }

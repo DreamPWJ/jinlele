@@ -1,6 +1,7 @@
 package com.jinlele.service.interfaces;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,4 +21,8 @@ public interface IServiceService {
 
     //根据类型查询字典信息
     Map<String , Object> getDictInfo(String typename);
+
+    Map<String , Object> getFreeList(Double amount);
+
+    Map<String , Object> getNewList(Double amount);
 }
