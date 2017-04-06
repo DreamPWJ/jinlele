@@ -289,24 +289,12 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                 address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
             }
             Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
-            Double evaluatePrice=serviceMapper.selectByPrimaryKey(serviceId).getPrice();//估价金额
-            Double buyTotalPrice=0.0;//购买总金额
-            Double totalPrice=0.0;//订单总金额
-            Double amount =0.0;//余额变动
-            Integer buyTotalNum=0;//购买总数量
+            Double evaluatePrice = serviceMapper.selectByPrimaryKey(serviceId).getPrice();//估价金额
+            Double buyTotalPrice = 0.0;//购买总金额
+            Double totalPrice = 0.0;//订单总金额
+            Double amount = 0.0;//余额变动
+            Integer buyTotalNum = 0;//购买总数量
             Double balance = userService.selectWalletBalanceByUserId(userId);//我的余额
-            buyTotalPrice=(new BigDecimal(buyTotalPrice)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-            //购买总金额大于估价
-            if(buyTotalPrice>evaluatePrice) {
-                if (useflag) {//使用余额
-                    totalPrice = balance + evaluatePrice - buyTotalPrice > 0 ? 0.0 : buyTotalPrice - evaluatePrice - balance;
-                    amount = balance + evaluatePrice - buyTotalPrice > 0 ? buyTotalPrice - evaluatePrice : balance;//支出
-                } else {
-                    totalPrice = buyTotalPrice - evaluatePrice;
-                }
-            }else {
-                amount = evaluatePrice - buyTotalPrice;//收入
-            }
             Date orderTime = new Date();
             try {
                 List<Map<String, Object>> goodInfo = (List) barterInfo.get("products");//商品信息
@@ -318,42 +306,36 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                     buyTotalPrice += price * buynum;
                     buyTotalNum += buynum;
                     //记录明细
-                    ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodChildId,buynum,price);
+                    ServiceGood serviceGood = new ServiceGood(orderno, goodId, goodChildId, buynum, price);
                     serviceGoodMapper.insertSelective(serviceGood);
+                }
+                //余额变动
+                buyTotalPrice = (new BigDecimal(buyTotalPrice)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+                //购买总金额大于估价
+                if (buyTotalPrice > evaluatePrice) {
+                    if (useflag) {//使用余额
+                        totalPrice = balance + evaluatePrice - buyTotalPrice > 0 ? 0.0 : buyTotalPrice - evaluatePrice - balance;
+                        amount = balance + evaluatePrice - buyTotalPrice > 0 ? buyTotalPrice - evaluatePrice : balance;//支出
+                        //todo 未完成
+                    } else {
+                        totalPrice = buyTotalPrice - evaluatePrice;
+                    }
+                } else {
+                    amount = evaluatePrice - buyTotalPrice;//收入
+                    walletService.updateWallet(userId, amount, orderno);
                 }
                 //生成订单
                 ShopOrder order = new ShopOrder(orderno, buyTotalNum, totalPrice, null, userId, storeId, type, "005001", Integer.valueOf(result.get("receiptAddressId").toString()), orderTime);
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
                 shopOrderMapper.insertSelective(order);
                 //更新服务表
-                Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
+                Service service = new Service(serviceId, storeId, orderno, sendWay, getWay);
                 serviceMapper.updateByPrimaryKeySelective(service);
-                //余额变动
-                //todo 未完成
-
-
-
-
-//                //添加订单_商品中间表，记录订单明细
-//                List<Map<String, Object>> products = (List) confirmInfo.get("products");//产品集合
-//                Product product = null;
-//                for (Map<String, Object> detailInfo : products) {
-//                    Integer catogoryId = Integer.valueOf(detailInfo.get("secondCatogoryId").toString());
-//                    Integer num = Integer.valueOf(detailInfo.get("num").toString());
-//                    String memo = detailInfo.get("memo").toString();
-//
-//                    product = new Product(catogoryId , type , serviceId ,num , memo);
-//                    //保存服务类商品
-//                    productMapper.insertSelective(product);
-//                }
                 resultMap.put("errmsg", "ok");
-
             } catch (Exception e) {
                 resultMap.put("errmsg", "error");
             }
-            resultMap.put("orderNo" , orderno);
-            resultMap.put("totalprice" ,totalPrice );
-            resultMap.put("amount" , amount);
+            resultMap.put("orderNo", orderno);
         }
         return resultMap;
     }
