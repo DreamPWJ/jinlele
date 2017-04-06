@@ -588,204 +588,218 @@
             console.log('shoporderstatusCode=='+shoporderstatusCode);
             console.log('totalprice=='+totalprice);
             //分类型=>分状态=>确定进度
-            switch(type){
-                case "001"://翻新
-                    switch (shoporderstatusCode) {
-                        case "001002":
-                        case "001003":
-                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
-                            break;
-                        case "001004":
-                            $state.go('proctest', {type: type, orderNo: orderno});//检测
-                            break;
-                        case "001005":
-                            $state.go('procrefurbish', {type: type, orderNo: orderno});//翻新
-                            break;
-                        case "001006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "001007":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "001008":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "001009":
-                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
-                            break;
-                        case "001010":
-                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
-                            break;
-                    }
-                    break;
-                case "002"://维修
-                    switch (shoporderstatusCode){
-                        case "002001":
-                        case "002002":
-                            $state.go('procfixprice', {name: 'repair', orderno: orderno});
-                            break;
-                        case "002003"://确认维修(待付款)
-                            sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
-                            sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
-                            sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
-                            $state.go('proccommitorder');
-                            break;
-                        case "002004"://客户发货
-                        case "002012"://平台收货
-                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
-                            break;
-                        case "002005":
-                            $state.go('proctest', {type: type, orderNo: orderno});//检测
-                            break;
-                        case "002006":
-                            $state.go('procrepair', {type: type,orderNo: orderno});//维修
-                            break;
-                        case "002007":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "002008":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "002009":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "002010":
-                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
-                            break;
-                        case "002011":
-                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
-                            break;
-                    }
-                    break;
-                case "003"://检测
-                    switch (shoporderstatusCode){
-                        case "003002":
-                        case "003003":
-                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
-                            break;
-                        case "003004":
-                            $state.go('proctest', {type: type, orderNo: orderno});//检测
-                            break;
-                        case "003006":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "003007":
-                            $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
-                            break;
-                        case "003008":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "003009":
-                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
-                            break;
-                        case "003010":
-                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
-                            break;
-                    }
-                    break;
-                case "004"://回收
-                    switch (shoporderstatusCode){
-                        case "004001":
-                        case "004002":
-                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
-                            break;
-                        case "004003":
-                            $state.go('proctest', {type: type, orderNo: orderno});//检测
-                            break;
-                        case "004004":
-                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
-                            break;
-                        case "004005":
-                        case "004006":
-                            $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
-                            break;
-                        case "004007":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "004008":
-                            CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
-                            break;
-                        case "004009":
-                            CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
-                            break;
-                        case "004010":
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "004011":
-                            CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
-                            break;
-                    }
-                    break;
-                case "005"://换款
-                    switch (shoporderstatusCode){
-                        case "005001":
-                        case "005002":
-                            $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
-                            break;
-                        case "005003":
-                            $state.go('proctest', {type: type, orderNo: orderno});//检测
-                            break;
-                        case "005004":
-                            $state.go('actualprice', {type: type, orderno: orderno});//实际定价
-                            break;
-                        case "005005":
-                            $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
-                            break;
-                        case "005006"://待选款
-                            localStorage.setItem("exchangeorderno",orderno);
-                            //根据订单号查询实际定价金额
-                            OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
-                                if(data && data.fixPrice){
-                                    localStorage.setItem("actualprice",data.fixPrice);
-                                }
-                            });
-                            if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
-                                $state.go('barterlist');
-                            }else {
-                                //具体商品详情
-                                $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
-                            }
-                            break;
-                        case "005007"://待付款
-                            localStorage.setItem("exchangeorderno",orderno);
-                            //根据订单号查询实际定价金额
-                            OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
-                                if(data && data.fixPrice){
-                                    localStorage.setItem("actualprice",data.fixPrice);
-                                }
-                            });
-                            //根据订单号查询goodid
-                            OrderService.getBarterGoodId({orderno:orderno}).success(function(data){
-                                if(data.exchangeGood){
-                                    //具体商品详情
-                                    $state.go('barterdetail', {goodId: data.exchangeGood.goodId});
-                                }
-                            });
-                            break;
-                        case "005009"://待收货
-                            $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
-                            break;
-                        case "005010":
-                            $state.go('procaddcmt', {type: type, orderno: orderno});//评论
-                            break;
-                        case "005011":
-                            CommonService.toolTip("当前订单交易已完成","tool-tip-message-success");
-                            break;
-                        case "005012":
-                        case "005013":
-                            $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
-                            break;
-                        case "005008"://已付款
-                        case "005014":
-                            CommonService.toolTip("等待物流筛检中，请稍后查询","tool-tip-message-success");
-                            break;
-                        case "005015":
-                            CommonService.toolTip("当前订单交易已关闭","tool-tip-message-success");
-                            break;
-                    }
-                    break;
-            }
+            $state.go("serviceProgress",{type:type,orderno:orderno});
+            //switch(type){
+            //    case "001"://翻新
+            //        switch (shoporderstatusCode) {
+            //            case "001002":
+            //            case "001003":
+            //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
+            //                break;
+            //            case "001004":
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                break;
+            //            case "001005":
+            //                $state.go('procrefurbish', {type: type, orderNo: orderno});//翻新
+            //                break;
+            //            case "001006":
+            //                $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+            //                break;
+            //            case "001007":
+            //                $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+            //                break;
+            //            case "001008":
+            //                $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+            //                break;
+            //            case "001009":
+            //                CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+            //                break;
+            //            case "001010":
+            //                CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+            //                break;
+            //        }
+            //        break;
+            //    case "002"://维修
+            //        switch (shoporderstatusCode){
+            //            case "002001":
+            //            case "002002":
+            //                $state.go('procfixprice', {name: 'repair', orderno: orderno});
+            //                break;
+            //            case "002003"://确认维修(待付款)
+            //                sessionStorage.setItem('jinlele_procphoto_orderno', orderno);
+            //                sessionStorage.setItem('jinlele_procphoto_aturalprice', totalprice);
+            //                sessionStorage.setItem('jinlele_procphoto_pathname', 'repair');
+            //                $state.go('proccommitorder');
+            //                break;
+            //            case "002004"://客户发货
+            //            case "002012"://平台收货
+            //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
+            //                break;
+            //            case "002005":
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                break;
+            //            case "002006":
+            //                $state.go('procrepair', {type: type,orderNo: orderno});//维修
+            //                break;
+            //            case "002007":
+            //                $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+            //                break;
+            //            case "002008":
+            //                $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+            //                break;
+            //            case "002009":
+            //                $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+            //                break;
+            //            case "002010":
+            //                CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+            //                break;
+            //            case "002011":
+            //                CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+            //                break;
+            //        }
+            //        break;
+            //    case "003"://检测
+            //        switch (shoporderstatusCode){
+            //            case "003002":
+            //            case "003003":
+            //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
+            //                break;
+            //            case "003004":
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                break;
+            //            case "003006":
+            //                $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+            //                break;
+            //            case "003007":
+            //                $state.go('proccheck', {type: type, orderNo: orderno, orderTime: createTime});//验收
+            //                break;
+            //            case "003008":
+            //                $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+            //                break;
+            //            case "003009":
+            //                CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+            //                break;
+            //            case "003010":
+            //                CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+            //                break;
+            //        }
+            //        break;
+            //    case "004"://回收
+            //        switch (shoporderstatusCode){
+            //            case "004001":
+            //            case "004002":
+            //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
+            //                break;
+            //            case "004003":
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                break;
+            //            case "004004":
+            //                $state.go('actualprice', {type: type, orderno: orderno});//实际定价
+            //                break;
+            //            case "004005":
+            //            case "004006":
+            //                $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+            //                break;
+            //            case "004007":
+            //                $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+            //                break;
+            //            case "004008":
+            //                CommonService.toolTip("当前订单交易完成","tool-tip-message-success");
+            //                break;
+            //            case "004009":
+            //                CommonService.toolTip("等待物流筛检中，请稍后查看","tool-tip-message-success");
+            //                break;
+            //            case "004010":
+            //                $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+            //                break;
+            //            case "004011":
+            //                CommonService.toolTip("当前订单交易关闭","tool-tip-message-success");
+            //                break;
+            //        }
+            //        break;
+            //    case "005"://换款
+            //        switch (shoporderstatusCode){
+            //            case "005001":
+            //            case "005002":
+            //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
+            //                break;
+            //            case "005003":
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                break;
+            //            case "005004":
+            //                $state.go('actualprice', {type: type, orderno: orderno});//实际定价
+            //                break;
+            //            case "005005":
+            //                $state.go('cfmexchange', {orderno: orderno,orderstatus:shoporderstatusCode});//确认换款
+            //                break;
+            //            case "005006"://待选款
+            //                localStorage.setItem("exchangeorderno",orderno);
+            //                //根据订单号查询实际定价金额
+            //                OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
+            //                    if(data && data.fixPrice){
+            //                        localStorage.setItem("actualprice",data.fixPrice);
+            //                    }
+            //                });
+            //                if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
+            //                    $state.go('barterlist');
+            //                }else {
+            //                    //具体商品详情
+            //                    $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
+            //                }
+            //                break;
+            //            case "005007"://待付款
+            //                localStorage.setItem("exchangeorderno",orderno);
+            //                //根据订单号查询实际定价金额
+            //                OrderService.selectActualPrice({orderNo:orderno}).success(function (data){
+            //                    if(data && data.fixPrice){
+            //                        localStorage.setItem("actualprice",data.fixPrice);
+            //                    }
+            //                });
+            //                //根据订单号查询goodid
+            //                OrderService.getBarterGoodId({orderno:orderno}).success(function(data){
+            //                    if(data.exchangeGood){
+            //                        //具体商品详情
+            //                        $state.go('barterdetail', {goodId: data.exchangeGood.goodId});
+            //                    }
+            //                });
+            //                break;
+            //            case "005009"://待收货
+            //                $state.go('procpost', {type: type, orderNo: orderno, orderTime: createTime});//拍照邮寄
+            //                break;
+            //            case "005010":
+            //                $state.go('procaddcmt', {type: type, orderno: orderno});//评论
+            //                break;
+            //            case "005011":
+            //                CommonService.toolTip("当前订单交易已完成","tool-tip-message-success");
+            //                break;
+            //            case "005012":
+            //            case "005013":
+            //                $state.go('cfmrecycle', {orderno: orderno,orderstatus:shoporderstatusCode});//确认回收
+            //                break;
+            //            case "005008"://已付款
+            //            case "005014":
+            //                CommonService.toolTip("等待物流筛检中，请稍后查询","tool-tip-message-success");
+            //                break;
+            //            case "005015":
+            //                CommonService.toolTip("当前订单交易已关闭","tool-tip-message-success");
+            //                break;
+            //        }
+            //        break;
+            //}
         }
+    }])
+    //服务进度
+    .controller('ServiceProgressCtrl',['$scope','$stateParams','OrderService',function($scope,$stateParams,OrderService){
+        $scope.type=$stateParams.type;
+        $scope.ordernno=$stateParams.orderno;
+        $scope.normalflag=true;
+        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
+            $scope.orderInfo=data.order;
+            if(data.order.shoporderstatusCode=="001010"||data.order.shoporderstatusCode=="002011"||data.order.shoporderstatusCode=="003010"||data.order.shoporderstatusCode=="004011"||data.order.shoporderstatusCode=="005018"){
+                $scope.normalflag=false;
+            }
+            console.log(JSON.stringify(data.order));
+        });
     }])
     //商城订单详情
     .controller('OrderDetailCtrl', ['$rootScope','$scope', '$stateParams', '$state',  'OrderService', 'CommonService','WeiXinService', function ($rootScope,$scope, $stateParams, $state, OrderService,CommonService,WeiXinService) {
@@ -2364,58 +2378,10 @@
             $scope.user = data.userInfo;
         });
     }])
-    //流程-邮寄(五大类服务返回产品物流)
-    .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
-        console.log($stateParams.type);
-        $scope.pagetheme = $stateParams.type;
-        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
-        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
-        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
-        //物流样式展示
-        $scope.jinlele="retrofit";
-        $scope.mine="hide";
-        $scope.jinflag=true;
-        $scope.myflag=false;
-        $scope.showwuliuInfo=function(index){
-            switch (index){
-                case 0:
-                    $scope.jinflag=true;
-                    if($scope.myflag)$scope.myflag=false;
-                    $scope.jinlele="retrofit";
-                    $scope.mine="hide";
-                    break;
-                case 1:
-                    $scope.myflag=true;
-                    if($scope.jinflag)$scope.jinflag=false;
-                    $scope.jinlele="hide";
-                    $scope.mine="retrofit";
-                    break;
-            }
-        }
-        //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-            $scope.initData = data.order;
-            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
-            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
-        });
-    }])
-    //流程-验货(五大类服务用户收货验收)
-    .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService', function ($scope, $stateParams, $location,OrderService) {
-        console.log($stateParams.type);
-        $scope.pagetheme = $stateParams.type;
-        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
-        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
-        if ($stateParams.type == "004") {//回收
-            $location.path("/");
-        }
-        $scope.orderNo = $stateParams.orderNo;
-        $scope.orderTime = $stateParams.orderTime;
+    //流程-检测报告
+    .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService) {
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
+        $scope.orderType=$stateParams.type;
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
@@ -2438,13 +2404,95 @@
             }
         }
         //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$scope.orderNo}).success(function (data) {
-            $scope.initData = data.order;
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
+            $scope.orderInfo = data.order;console.log(data);
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+        });
+        //检测报告
+        OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
+            if(data.checkreport) {
+                $scope.report = data;
+            }else{
+                $scope.report = null;
+            }
+        });
+    }])
+    //流程-邮寄(五大类服务返回产品物流)
+    .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
+        //物流样式展示
+        $scope.jinlele="retrofit";
+        $scope.mine="hide";
+        $scope.jinflag=true;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
+            if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
+            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+        });
+        if($stateParams.type=="003"){
+            //检测报告
+            OrderService.getServiceDetailInfo({orderno:$stateParams.orderNo}).success(function(data){
+                if(data.checkreport) {
+                    $scope.report = data;
+                }else{
+                    $scope.report = null;
+                }
+            });
+        }
+    }])
+    //流程-验货(五大类服务用户收货验收)
+    .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {
+        if ($stateParams.type == "004") {//回收
+            $location.path("/");
+        }
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
+        //物流样式展示
+        $scope.jinlele="hide";
+        $scope.mine="hide";
+        $scope.jinflag=false;
+        $scope.myflag=false;
+        $scope.showwuliuInfo=function(index){
+            switch (index){
+                case 0:
+                    $scope.jinflag=true;
+                    if($scope.myflag)$scope.myflag=false;
+                    $scope.jinlele="retrofit";
+                    $scope.mine="hide";
+                    break;
+                case 1:
+                    $scope.myflag=true;
+                    if($scope.jinflag)$scope.jinflag=false;
+                    $scope.jinlele="hide";
+                    $scope.mine="retrofit";
+                    break;
+            }
+        }
+        //获取买方地址信息及物流进度
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+            $scope.orderInfo = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
         //加载发货证明图片
-        OrderService.getPostImg({orderno:$scope.orderNo}).success(function(data){
+        OrderService.getPostImg({orderno:$stateParams.orderNo}).success(function(data){
             $scope.images=data.image;
         });
     }])

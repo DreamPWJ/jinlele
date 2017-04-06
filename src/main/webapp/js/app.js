@@ -138,12 +138,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      controller: 'ProcTestCtrl'
                  })
                  .state('procpost', {  //流程-邮寄
-                     url: '/procpost/:type/:orderNo/:orderTime',
+                     url: '/procpost/:type/:orderNo',
                      templateUrl: 'html/common/procpost.html',
                      controller: 'ProcPostCtrl'
                  })
                  .state('proccheck', {  //流程-验货
-                     url: '/proccheck/:type/:orderNo/:orderTime',
+                     url: '/proccheck/:type/:orderNo',
                      templateUrl: 'html/common/proccheck.html',
                      controller: 'ProcCheckCtrl'
                  })
@@ -231,6 +231,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      url: '/bartercart',
                      templateUrl: 'html/exchange/barterCart.html',
                      controller: 'ShowResultCtrl'
+                 })
+                 .state('serviceProgress', {  //换购购物车
+                     url: '/serviceProgress/:type/:orderno',
+                     templateUrl: 'html/shared/serviceProgress.html',
+                     controller: 'ServiceProgressCtrl'
+                 })
+                 .state('checkReport', {  //换购购物车
+                     url: '/checkReport/:type/:orderno',
+                     templateUrl: 'html/shared/checkReport.html',
+                     controller: 'CheckReportCtrl'
                  })
 
              $urlRouterProvider.otherwise('main')

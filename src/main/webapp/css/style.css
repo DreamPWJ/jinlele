@@ -3712,6 +3712,10 @@ section.logistics ul li.hover em {
     color: #F5D000;
 }
 
+section.logistics ul li.hover em  a{
+    color: #F5D000;
+}
+
 section.logistics ul li.hover i {
     width: 11px;
     height: 11px;

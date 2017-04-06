@@ -1,0 +1,70 @@
+<!-- title -->
+<section class="process_title">
+    <i>服务进度</i>
+</section>
+
+<main class="content">
+    <section class="logistics" style="margin-top: 0;">
+        <span class="title"><a>订单编号：</a><a>{{ordernno}}</a></span>
+        <span class="title"><a>下单时间：</a><a>{{orderInfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</a></span>
+    </section>
+    <!-- 服务进度-->
+        <section class="logistics" ng-switch on="orderInfo.type">
+            <ul ng-switch-when="001">
+                <li ng-if="orderInfo.shoporderstatusCode>='001010'" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001010']"><i></i><em>您的订单已取消</em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001009'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001009']"><i></i><em>感谢您的评价，订单已完成</em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001008'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001008']"><i></i><em><a ng-href="#/procaddcmt/{{type}}/{{ordernno}}">宝贝已被签收，请为我们的服务作出评价</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001007'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001007']"><i></i><em><a ng-href="#/proccheck/{{type}}/{{ordernno}}">门店已发货（通知），等待客户收货（取货）</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001006'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001006']"><i></i><em><a ng-href="#/procpost/{{type}}/{{ordernno}}">宝贝翻新已完成，等待返回</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001005'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001005']"><i></i><em><a ng-href="#/checkReport/{{type}}/{{ordernno}}">宝贝检测已完成，等待翻新</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001004'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001004']"><i></i><em><a ng-href="#/proctest/{{type}}/{{ordernno}}">门店已收到您的宝贝，等待无损检测</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001003'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001003']"><i></i><em><a  ng-href="#/procreceivefor{{ordernno}}with{{type}}">物流信息已填写，等待门店收货</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001002'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001002']"><i></i><em><a ng-href="#/procreceivefor{{ordernno}}with{{type}}">付款成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='001001'" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='001001']"><i></i><em>下单成功，等待客户付款</em></li>
+            </ul>
+            <ul ng-switch-when="002">
+                <li class="hover"><i></i><em><a href="">感谢您的评价，订单已完成</a></em></li>
+                <li><i></i><em><a href="">宝贝已被签收，请为我们的服务作出评价</a></em></li>
+                <li><i></i><em><a href="">门店已发货（通知），等待客户收货（取货）</a></em></li>
+                <li><i></i><em><a href="">宝贝翻新已完成，等待返回</a></em></li>
+                <li><i></i><em><a href="">宝贝检测已完成，等待翻新</a></em></li>
+                <li><i></i><em><a href="">订单111111的宝贝已收到，等待无损检测</a></em></li>
+                <li><i></i><em><a href="">物流信息已填写，等待门店收货</a></em></li>
+                <li><i></i><em><a href="">付款成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+                <li><i></i><em><a href="">下单成功，等待客户付款</a></em></li>
+            </ul>
+            <ul ng-switch-when="003">
+                <li ng-if="orderInfo.shoporderstatusCode>='003010'" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003010']"><i></i><em>您的订单已取消</em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003009'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003009']"><i></i><em>感谢您的评价，订单已完成</em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003008'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003008']"><i></i><em><a ng-href="#/procaddcmt/{{type}}/{{ordernno}}">宝贝已被签收，请为我们的服务作出评价</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003007'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003007']"><i></i><em><a ng-href="#/proccheck/{{type}}/{{ordernno}}">门店已发货（通知），等待客户收货（取货）</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003006'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003006']"><i></i><em><a ng-href="#/procpost/{{type}}/{{ordernno}}">宝贝检测已完成，等待返回</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003004'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003004']"><i></i><em><a ng-href="#/proctest/{{type}}/{{ordernno}}">门店已收到您的宝贝，等待无损检测</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003003'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003003']"><i></i><em><a  ng-href="#/procreceivefor{{ordernno}}with{{type}}">物流信息已填写，等待门店收货</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003002'&&normalflag" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003002']"><i></i><em><a ng-href="#/procreceivefor{{ordernno}}with{{type}}">付款成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='003001'" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='003001']"><i></i><em>下单成功，等待客户付款</em></li>
+            </ul>
+            <ul ng-switch-when="004">
+                <li class="hover"><i></i><em><a href="">感谢您的评价，订单已完成</a></em></li>
+                <li><i></i><em><a href="">宝贝已被签收，请为我们的服务作出评价</a></em></li>
+                <li><i></i><em><a href="">门店已发货（通知），等待客户收货（取货）</a></em></li>
+                <li><i></i><em><a href="">宝贝翻新已完成，等待返回</a></em></li>
+                <li><i></i><em><a href="">宝贝检测已完成，等待翻新</a></em></li>
+                <li><i></i><em><a href="">订单111111的宝贝已收到，等待无损检测</a></em></li>
+                <li><i></i><em><a href="">物流信息已填写，等待门店收货</a></em></li>
+                <li><i></i><em><a href="">付款成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+                <li><i></i><em><a href="">下单成功，等待客户付款</a></em></li>
+            </ul>
+            <ul ng-switch-when="005">
+                <li class="hover"><i></i><em><a href="">感谢您的评价，订单已完成</a></em></li>
+                <li><i></i><em><a href="">付款成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+                <li><i></i><em><a href="">宝贝已被签收，请为我们的服务作出评价</a></em></li>
+                <li><i></i><em><a href="">门店已发货（通知），等待客户收货（取货）</a></em></li>
+                <li><i></i><em><a href="">宝贝翻新已完成，等待返回</a></em></li>
+                <li><i></i><em><a href="">宝贝检测已完成，等待翻新</a></em></li>
+                <li><i></i><em><a href="">订单111111的宝贝已收到，等待无损检测</a></em></li>
+                <li><i></i><em><a href="">物流信息已填写，等待门店收货</a></em></li>
+                <li ng-if="orderInfo.shoporderstatusCode>='005001'" ng-class="{true:'hover'}[orderInfo.shoporderstatusCode=='005001']"><i></i><em><a href="">下单成功，请将宝贝尽快送到门店，并填写详细信息</a></em></li>
+            </ul>
+        </section>
+</main>
