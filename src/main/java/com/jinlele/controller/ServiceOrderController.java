@@ -100,7 +100,7 @@ public class ServiceOrderController {
     @RequestMapping(value = "/addExchangeGood/{orderno}/{goodId}/{goodchildId}/{buynum}/{unitprice}/{money}", method = RequestMethod.GET)
     public Map<String, Object> addExchangeGood(@PathVariable String orderno,  @PathVariable int goodId , @PathVariable Integer goodchildId , @PathVariable Integer buynum , @PathVariable Double unitprice, @PathVariable Double money) {
         Map<String , Object> map = new HashedMap();
-        ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,buynum,unitprice,money);
+        ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,buynum,unitprice);
         int n = serviceGoodService.insertSelective(serviceGood);
         map.put("n", n);
         return map;
@@ -114,4 +114,12 @@ public class ServiceOrderController {
         return map;
     }
 
+    /**
+     * 创建换款订单
+     */
+    @ResponseBody
+    @RequestMapping(value = "/createBarterOrder" ,method = RequestMethod.POST)
+    public  Map<String,Object> createBarterOrder(@RequestBody List<Map<String,Object>> list) {
+        return serviceOrderService.createBarterOrder(list);
+    }
 }

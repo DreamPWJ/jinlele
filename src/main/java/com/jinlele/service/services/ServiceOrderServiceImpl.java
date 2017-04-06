@@ -5,20 +5,19 @@ import com.jinlele.dao.*;
 import com.jinlele.model.*;
 import com.jinlele.service.interfaces.IReceiptAddressService;
 import com.jinlele.service.interfaces.IServiceOrderService;
+import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.service.interfaces.IWalletService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
 import com.jinlele.util.rqcode.MatrixToImageWriter;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.lang.Exception;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,6 +50,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     IWalletService walletService;
     @Resource
     ServiceGoodMapper serviceGoodMapper;
+    @Resource
+    IUserService userService;
 
     //生成服务类订单
     @Override
@@ -268,10 +269,100 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     }
 
     @Override
+    public Map<String, Object> createBarterOrder(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
+        //订单号生成
+        String orderno = StringHelper.getOrderNum();
+        //一条总数据
+        for (Map<String, Object> barterInfo : list) {
+            Integer userId = Integer.valueOf(barterInfo.get("userId").toString());//用户id
+            String type = barterInfo.get("type").toString();//业务类型type
+            Integer storeId = Integer.valueOf(barterInfo.get("storeId").toString());//门店id
+            String sendWay = barterInfo.get("sendWay").toString();//送货方式
+            String getWay = barterInfo.get("getWay").toString();//取货方式
+            Boolean useflag = Boolean.valueOf(barterInfo.get("useflag").toString());//使用余额标志
+            Integer serviceId = Integer.valueOf(barterInfo.get("serviceId").toString());//serviceId
+            List<Map<String, Object>> addressinfo = (List) barterInfo.get("addressinfo");//地址信息
+            //获取地址id
+            ReceiptAddress address = null;
+            for (Map<String, Object> item : addressinfo) {
+                address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
+            }
+            Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
+            Double evaluatePrice=serviceMapper.selectByPrimaryKey(serviceId).getPrice();//估价金额
+            Double buyTotalPrice=0.0;//购买总金额
+            Double totalPrice=0.0;//订单总金额
+            Double amount =0.0;//余额变动
+            Integer buyTotalNum=0;//购买总数量
+            Double balance = userService.selectWalletBalanceByUserId(userId);//我的余额
+            buyTotalPrice=(new BigDecimal(buyTotalPrice)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            //购买总金额大于估价
+            if(buyTotalPrice>evaluatePrice) {
+                if (useflag) {//使用余额
+                    totalPrice = balance + evaluatePrice - buyTotalPrice > 0 ? 0.0 : buyTotalPrice - evaluatePrice - balance;
+                    amount = balance + evaluatePrice - buyTotalPrice > 0 ? buyTotalPrice - evaluatePrice : balance;//支出
+                } else {
+                    totalPrice = buyTotalPrice - evaluatePrice;
+                }
+            }else {
+                amount = evaluatePrice - buyTotalPrice;//收入
+            }
+            Date orderTime = new Date();
+            try {
+                List<Map<String, Object>> goodInfo = (List) barterInfo.get("products");//商品信息
+                for (Map<String, Object> item : goodInfo) {
+                    Integer goodId = Integer.valueOf(item.get("id").toString());
+                    Integer goodChildId = Integer.valueOf(item.get("childId").toString());
+                    Integer buynum = Integer.valueOf(item.get("buynum").toString());
+                    Double price = Double.valueOf(item.get("price").toString());
+                    buyTotalPrice += price * buynum;
+                    buyTotalNum += buynum;
+                    //记录明细
+                    ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodChildId,buynum,price);
+                    serviceGoodMapper.insertSelective(serviceGood);
+                }
+                //生成订单
+                ShopOrder order = new ShopOrder(orderno, buyTotalNum, totalPrice, null, userId, storeId, type, "005001", Integer.valueOf(result.get("receiptAddressId").toString()), orderTime);
+                order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
+                shopOrderMapper.insertSelective(order);
+                //更新服务表
+                Service service = new Service(serviceId, storeId ,orderno , sendWay , getWay);
+                serviceMapper.updateByPrimaryKeySelective(service);
+                //余额变动
+                //todo 未完成
+
+
+
+
+//                //添加订单_商品中间表，记录订单明细
+//                List<Map<String, Object>> products = (List) confirmInfo.get("products");//产品集合
+//                Product product = null;
+//                for (Map<String, Object> detailInfo : products) {
+//                    Integer catogoryId = Integer.valueOf(detailInfo.get("secondCatogoryId").toString());
+//                    Integer num = Integer.valueOf(detailInfo.get("num").toString());
+//                    String memo = detailInfo.get("memo").toString();
+//
+//                    product = new Product(catogoryId , type , serviceId ,num , memo);
+//                    //保存服务类商品
+//                    productMapper.insertSelective(product);
+//                }
+                resultMap.put("errmsg", "ok");
+
+            } catch (Exception e) {
+                resultMap.put("errmsg", "error");
+            }
+            resultMap.put("orderNo" , orderno);
+            resultMap.put("totalprice" ,totalPrice );
+            resultMap.put("amount" , amount);
+        }
+        return resultMap;
+    }
+
+    @Override
     public int updateExchangeOrder(Integer userId, Double leftAmount, String orderno,Integer goodId, Integer goodchildId, Integer num,Double price){
         try {
             //保存换购商品信息
-            ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,num,price,leftAmount );
+            ServiceGood serviceGood = new ServiceGood(orderno,goodId,goodchildId,num,price );
             serviceGoodMapper.insertSelective(serviceGood);
             //更新订单状态
             ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);

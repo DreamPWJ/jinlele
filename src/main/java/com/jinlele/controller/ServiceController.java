@@ -41,6 +41,12 @@ public class ServiceController {
         return serviceService.saveService(userId, totalprice, type, mediaIds);
     }
 
+    @RequestMapping("/updateService")
+    @ResponseBody
+    public Map<String , Object> updateService(Integer userId , Integer serviceId ,String type , String[] mediaIds) throws IOException {
+        return serviceService.updateService(userId, serviceId, type, mediaIds);
+    }
+
     /**
      * 获取类别元素
      */

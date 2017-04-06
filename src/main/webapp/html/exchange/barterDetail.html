@@ -10,8 +10,8 @@
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
         <i>专柜价：{{price | currency:'￥'}}</i>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)<0">换款价格：{{0 | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)>0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
+        <em ng-if="(price*gooddetail.num-evaluatePrice)<=0">换款价格：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>
         <i>注：剩余金额将直接存入您的账户余额</i>
@@ -68,14 +68,14 @@
 </section>
 
 <footer class="add_pay">
-<span class="check"><input id="myAmount" name="myAmount" type="checkbox"/><a href="" style="width: 28%;">使用余额</a><a href="" style="color: #FE2E2E;width: 60%;">预选合计：{{1|currency:"￥"}}元</a></span>
-    <a class="cart">结算</a>
+    <span class="check"><input id="myAmount" name="myAmount" type="checkbox" ng-if="(price*gooddetail.num-evaluatePrice)>0" ng-model="useflag" ng-click="useAmount($event)"/><a style="width: 27%;" ng-if="(price*gooddetail.num-evaluatePrice)>0">使用余额</a><a style="color: red;width: 60%;float: right;">预选合计：{{totalprice|currency:"￥"}}元</a></span>
+    <a class="cart" ng-click="settleAccounts()">结算</a>
 </footer>
 <!-- FOOTER -->
 <footer class="add_submit">
 	<span class="check">
         <a class="hover back" ng-style="menuWidth">上一步</a>
-        <a ng-style="menuWidth"> <i class="title">我的余额</i><em >{{1|currency:"￥"}}</em></a>
+        <a ng-style="menuWidth"> <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
         <a href="#/bartercart" ng-style="menuWidth">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>

@@ -15,13 +15,12 @@ public class ServiceGood {
 
     private Double leftAmount;
 
-    public ServiceGood(String orderno,Integer goodId,Integer goodchildId,Integer num,Double price,Double amount ){
+    public ServiceGood(String orderno,Integer goodId,Integer goodchildId,Integer num,Double price ){
         this.orderno=orderno;
         this.goodId=goodId;
         this.goodchildId=goodchildId;
         this.buynum=num;
         this.unitPrice=price;
-        this.leftAmount=amount;
     }
 
     public Integer getId() {

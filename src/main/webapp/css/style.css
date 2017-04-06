@@ -725,9 +725,9 @@ section.metal dl.parameter dd span a span {
     line-height: 25px;
 }
 /*select {*/
-    /*width: 100%;*/
-    /*height: 32px;*/
-    /*font-size: 80%;*/
+/*width: 100%;*/
+/*height: 32px;*/
+/*font-size: 80%;*/
 /*}*/
 
 main.content section.collection_load a {
@@ -2622,7 +2622,7 @@ section.order_xq ul li i {
     font-size: 76%;
     font-style: normal;
     color: #666;
-    //color: #FE2E2E;
+//color: #FE2E2E;
 }
 section.order_xq ul li em.content, section.order_xq ul li i.content {
     height: 20px;
@@ -2664,12 +2664,12 @@ section.order_xq ul li.result i {
     color: #FE2E2E;
 }
 section.order_xq ul li u.create_date {
-     float: right;
-     text-decoration: none;
-     font-size: 76%;
-     color: #666;
-     padding: 8px 0 0 0;
- }
+    float: right;
+    text-decoration: none;
+    font-size: 76%;
+    color: #666;
+    padding: 8px 0 0 0;
+}
 
 /* 退货申请 --------------- */
 dl.returned {
@@ -2708,12 +2708,12 @@ dl.returned dd span {
 }
 
 dl.returned dd span input[type="text"] {
-     width: 100%;
-     height: 32px;
-     float: left;
-     line-height: 32px;
-     font-size: 80%;
- }
+    width: 100%;
+    height: 32px;
+    float: left;
+    line-height: 32px;
+    font-size: 80%;
+}
 dl.returned dd span.memo {
     height: 100px;
 }
@@ -3415,7 +3415,7 @@ footer.add_pay span.check {
 
 footer.add_pay span.check a {
     line-height: 50px;
-    font-size: 90%;
+    font-size: 80%;
     color: #333;
     float: left;
     position: relative;
@@ -4239,9 +4239,9 @@ dl.add_product dd span {
     padding: 4px 10px 4px 0;
 }
 dl.add_product,dl.parameter dd span.error {
-     color:#f00;
+    color:#f00;
     font-size: 80%;
- }
+}
 .has-error{
     border:1px solid #f00 !important;
 }

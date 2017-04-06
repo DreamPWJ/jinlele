@@ -8,9 +8,7 @@ import com.jinlele.model.Picture;
 import com.jinlele.model.Service;
 import com.jinlele.model.ServicePicture;
 import com.jinlele.service.interfaces.IServiceService;
-import com.jinlele.util.CommonUtil;
 import com.jinlele.util.StringHelper;
-import com.jinlele.util.SysConstants;
 import com.jinlele.util.qiniuUtils.QiniuParamter;
 import com.jinlele.util.qiniuUtils.QiniuUtil;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
@@ -18,8 +16,6 @@ import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,6 +64,35 @@ public class ServiceServiceImpl implements IServiceService {
             StringHelper.deleteFile(filePath);
         }
         map.put("serviceId" , service.getId());
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> updateService(Integer userId, Integer serviceId, String type, String[] mediaIds) throws IOException {
+        //循环下载媒体文件 上传到七牛 并返回 七牛的连接
+        String filePath = null;
+        String key = null;
+        String imgurl = null;
+        Picture picture = null;
+        //保存服务表
+        Map<String , Object> map = new HashedMap();
+        ServicePicture servicePicture = null;
+        for(int i=0,len=mediaIds.length;i<len;i++){
+            filePath = AdvancedUtil.getMedia(mediaIds[i] , savePath);
+            key = key_suff + mediaIds[i];
+            QiniuUtil.upload(filePath,key);
+            //拼接七牛的路径
+            imgurl = QiniuParamter.URL + key;
+            //保存图片表
+            picture = new Picture(imgurl , userId);
+            pictureMapper.insertSelective(picture);
+            //插入中间表
+            servicePicture = new ServicePicture(serviceId, picture.getId() , type);
+            servicePictureMapper.insertSelective(servicePicture);
+            //删除服务器上的该文件
+            StringHelper.deleteFile(filePath);
+        }
+        map.put("errmsg" , "ok");
         return map;
     }
 

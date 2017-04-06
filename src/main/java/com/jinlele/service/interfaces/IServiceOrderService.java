@@ -26,6 +26,11 @@ public interface IServiceOrderService {
     Map<String, Object> createServiceOrder(List<Map<String, Object>> list);
 
     /**
+     * 创建换款订单
+     */
+    Map<String, Object> createBarterOrder(List<Map<String, Object>> list);
+
+    /**
      * 更新换款订单
      */
     int updateExchangeOrder(Integer userId, Double leftAmount, String orderno,Integer goodId, Integer goodchildId, Integer num,Double price);

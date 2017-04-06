@@ -1,7 +1,6 @@
 package com.jinlele.service.interfaces;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +10,8 @@ public interface IServiceService {
 
 
     Map<String , Object> saveService(Integer userId , Double totalprice ,String type , String[] mediaIds) throws IOException;
+
+    Map<String , Object> updateService(Integer userId ,Integer serviceId , String type , String[] mediaIds) throws IOException;
 
     Map<String , Object> getrefurbishPrice();
 
