@@ -18,7 +18,7 @@
         localStorage.setItem("jinlele_userId",userId);
         setTimeout(function(){
           window.location.href="http://www.6weiyi.com/jinlele/mall";
-       },1000);
+       },10);
 
     });
 </script>
