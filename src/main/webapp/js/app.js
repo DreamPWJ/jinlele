@@ -232,12 +232,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/exchange/barterCart.html',
                      controller: 'ShowResultCtrl'
                  })
-                 .state('serviceProgress', {  //换购购物车
+                 .state('serviceProgress', {  //服务进度
                      url: '/serviceProgress/:type/:orderno',
                      templateUrl: 'html/shared/serviceProgress.html',
                      controller: 'ServiceProgressCtrl'
                  })
-                 .state('checkReport', {  //换购购物车
+                 .state('checkReport', {  //流程-检测报告
                      url: '/checkReport/:type/:orderno',
                      templateUrl: 'html/shared/checkReport.html',
                      controller: 'CheckReportCtrl'

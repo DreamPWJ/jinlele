@@ -792,13 +792,13 @@
     .controller('ServiceProgressCtrl',['$scope','$stateParams','OrderService',function($scope,$stateParams,OrderService){
         $scope.type=$stateParams.type;
         $scope.ordernno=$stateParams.orderno;
-        $scope.normalflag=true;
-        OrderService.getOrderDetailInfo({orderno:$stateParams.orderno}).success(function(data){
-            $scope.orderInfo=data.order;
-            if(data.order.shoporderstatusCode=="001010"||data.order.shoporderstatusCode=="002011"||data.order.shoporderstatusCode=="003010"||data.order.shoporderstatusCode=="004011"||data.order.shoporderstatusCode=="005018"){
+        $scope.normalflag=true;//正常订单
+        OrderService.getOrderInfo({orderno:$stateParams.orderno}).success(function(data){
+            console.log(data);
+            $scope.orderInfo=data;
+            if(data.shoporderstatusCode=="001010"||data.shoporderstatusCode=="002012"||data.shoporderstatusCode=="003010"||data.shoporderstatusCode=="004011"||data.shoporderstatusCode=="005018"){
                 $scope.normalflag=false;
             }
-            console.log(JSON.stringify(data.order));
         });
     }])
     //商城订单详情
@@ -2420,6 +2420,7 @@
     //流程-邮寄(五大类服务返回产品物流)
     .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {
         $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
+        $scope.type =$stateParams.type;
         //物流样式展示
         $scope.jinlele="retrofit";
         $scope.mine="hide";

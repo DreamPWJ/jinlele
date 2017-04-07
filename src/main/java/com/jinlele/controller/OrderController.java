@@ -107,6 +107,15 @@ public class OrderController {
      * 根据订单号查询订单及其详情
      */
     @ResponseBody
+    @RequestMapping(value = "/getOrderInfo/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getOrderInfo(@PathVariable String orderno) {
+        return orderService.getOrderInfoByOrderno(orderno);
+    }
+
+    /**
+     * 根据订单号查询订单及其详情
+     */
+    @ResponseBody
     @RequestMapping(value = "/getOrderDetailInfo/{orderno}", method = RequestMethod.GET)
     public Map<String, Object> getOrderDetailInfo(@PathVariable String orderno) {
         return orderService.getOrderDetailByOrderno(orderno);
