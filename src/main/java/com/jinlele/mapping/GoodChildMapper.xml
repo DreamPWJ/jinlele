@@ -3,16 +3,25 @@
 <mapper namespace="com.jinlele.dao.GoodChildMapper" >
   <resultMap id="BaseResultMap" type="com.jinlele.model.GoodChild" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="color" property="color" jdbcType="VARCHAR" />
-    <result column="stocknumber" property="stocknumber" jdbcType="INTEGER" />
     <result column="good_id" property="goodId" jdbcType="INTEGER" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="VARCHAR" />
+    <result column="material" property="material" jdbcType="VARCHAR" />
+    <result column="mainStoreSpec" property="mainstorespec" jdbcType="VARCHAR" />
+    <result column="handSize" property="handsize" jdbcType="VARCHAR" />
+    <result column="necklace_len" property="necklaceLen" jdbcType="VARCHAR" />
+    <result column="bracelet_len" property="braceletLen" jdbcType="VARCHAR" />
+    <result column="exprice" property="exprice" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="stocknumber" property="stocknumber" jdbcType="INTEGER" />
     <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
     <result column="deleteCode" property="deletecode" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, color, stocknumber, good_id, imgurl, deleteCode, create_time, update_time
+    id, good_id, color, weight, material, mainStoreSpec, handSize, necklace_len, bracelet_len, 
+    exprice, price, stocknumber, imgurl, deleteCode, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -25,12 +34,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.GoodChild" >
-    insert into goodchild (id, color, stocknumber, 
-      good_id, imgurl, deleteCode, 
-      create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, #{stocknumber,jdbcType=INTEGER}, 
-      #{goodId,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into goodchild (id, good_id, color, 
+      weight, material, mainStoreSpec, 
+      handSize, necklace_len, bracelet_len, 
+      exprice, price, stocknumber, 
+      imgurl, deleteCode, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{goodId,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{mainstorespec,jdbcType=VARCHAR}, 
+      #{handsize,jdbcType=VARCHAR}, #{necklaceLen,jdbcType=VARCHAR}, #{braceletLen,jdbcType=VARCHAR}, 
+      #{exprice,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{stocknumber,jdbcType=INTEGER}, 
+      #{imgurl,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.GoodChild" >
     insert into goodchild
@@ -38,14 +53,38 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
       <if test="color != null" >
         color,
       </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="material != null" >
+        material,
+      </if>
+      <if test="mainstorespec != null" >
+        mainStoreSpec,
+      </if>
+      <if test="handsize != null" >
+        handSize,
+      </if>
+      <if test="necklaceLen != null" >
+        necklace_len,
+      </if>
+      <if test="braceletLen != null" >
+        bracelet_len,
+      </if>
+      <if test="exprice != null" >
+        exprice,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
       <if test="stocknumber != null" >
         stocknumber,
-      </if>
-      <if test="goodId != null" >
-        good_id,
       </if>
       <if test="imgurl != null" >
         imgurl,
@@ -64,14 +103,38 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=INTEGER},
+      </if>
       <if test="color != null" >
         #{color,jdbcType=VARCHAR},
       </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="material != null" >
+        #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="mainstorespec != null" >
+        #{mainstorespec,jdbcType=VARCHAR},
+      </if>
+      <if test="handsize != null" >
+        #{handsize,jdbcType=VARCHAR},
+      </if>
+      <if test="necklaceLen != null" >
+        #{necklaceLen,jdbcType=VARCHAR},
+      </if>
+      <if test="braceletLen != null" >
+        #{braceletLen,jdbcType=VARCHAR},
+      </if>
+      <if test="exprice != null" >
+        #{exprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
       <if test="stocknumber != null" >
         #{stocknumber,jdbcType=INTEGER},
-      </if>
-      <if test="goodId != null" >
-        #{goodId,jdbcType=INTEGER},
       </if>
       <if test="imgurl != null" >
         #{imgurl,jdbcType=VARCHAR},
@@ -90,14 +153,38 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.jinlele.model.GoodChild" >
     update goodchild
     <set >
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=INTEGER},
+      </if>
       <if test="color != null" >
         color = #{color,jdbcType=VARCHAR},
       </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="material != null" >
+        material = #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="mainstorespec != null" >
+        mainStoreSpec = #{mainstorespec,jdbcType=VARCHAR},
+      </if>
+      <if test="handsize != null" >
+        handSize = #{handsize,jdbcType=VARCHAR},
+      </if>
+      <if test="necklaceLen != null" >
+        necklace_len = #{necklaceLen,jdbcType=VARCHAR},
+      </if>
+      <if test="braceletLen != null" >
+        bracelet_len = #{braceletLen,jdbcType=VARCHAR},
+      </if>
+      <if test="exprice != null" >
+        exprice = #{exprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
       <if test="stocknumber != null" >
         stocknumber = #{stocknumber,jdbcType=INTEGER},
-      </if>
-      <if test="goodId != null" >
-        good_id = #{goodId,jdbcType=INTEGER},
       </if>
       <if test="imgurl != null" >
         imgurl = #{imgurl,jdbcType=VARCHAR},
@@ -116,9 +203,17 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.GoodChild" >
     update goodchild
-    set color = #{color,jdbcType=VARCHAR},
+    set good_id = #{goodId,jdbcType=INTEGER},
+      color = #{color,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      material = #{material,jdbcType=VARCHAR},
+      mainStoreSpec = #{mainstorespec,jdbcType=VARCHAR},
+      handSize = #{handsize,jdbcType=VARCHAR},
+      necklace_len = #{necklaceLen,jdbcType=VARCHAR},
+      bracelet_len = #{braceletLen,jdbcType=VARCHAR},
+      exprice = #{exprice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
       stocknumber = #{stocknumber,jdbcType=INTEGER},
-      good_id = #{goodId,jdbcType=INTEGER},
       imgurl = #{imgurl,jdbcType=VARCHAR},
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

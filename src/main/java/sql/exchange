@@ -1,6 +1,19 @@
 
 
 
+#查询换款购物车选中个数
+select count(1) as count
+ where  service_id = ? and checked = 0
+
+
+
+
+# 预选合计 sql
+select sum(gc.price) from exchange_chart ec
+left join goodchild gc on gc.id = ec.goodchild_id
+where service_id = ? and checked = 0
+
+
 # 选款列表sql  免费换
 select g.id,gc.price,gc.id childId from (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
 where g.id = gc.good_id
