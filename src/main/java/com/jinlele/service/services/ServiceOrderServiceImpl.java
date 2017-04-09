@@ -285,7 +285,6 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             Integer storeId = Integer.valueOf(barterInfo.get("storeId").toString());//门店id
             String sendWay = barterInfo.get("sendWay").toString();//送货方式
             String getWay = barterInfo.get("getWay").toString();//取货方式
-            Boolean useflag = Boolean.valueOf(barterInfo.get("useflag").toString());//使用余额标志
             Integer serviceId = Integer.valueOf(barterInfo.get("serviceId").toString());//serviceId
             List<Map<String, Object>> addressinfo = (List) barterInfo.get("addressinfo");//地址信息
             //获取地址id
@@ -295,11 +294,9 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             }
             Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
             Double evaluatePrice = serviceMapper.selectByPrimaryKey(serviceId).getPrice();//估价金额
+            Integer buyTotalNum = 0;//购买总数量
             Double buyTotalPrice = 0.0;//购买总金额
             Double totalPrice = 0.0;//订单总金额
-            Double amount = 0.0;//余额变动
-            Integer buyTotalNum = 0;//购买总数量
-            Double balance = userService.selectWalletBalanceByUserId(userId);//我的余额
             Date orderTime = new Date();
             try {
                 List<Map<String, Object>> goodInfo = (List) barterInfo.get("products");//商品信息
@@ -314,21 +311,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                     ServiceGood serviceGood = new ServiceGood(orderno, goodId, goodChildId, buynum, price);
                     serviceGoodMapper.insertSelective(serviceGood);
                 }
-                //余额变动
                 buyTotalPrice = (new BigDecimal(buyTotalPrice)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-                //购买总金额大于估价
-                if (buyTotalPrice > evaluatePrice) {
-                    if (useflag) {//使用余额
-                        totalPrice = balance + evaluatePrice - buyTotalPrice > 0 ? 0.0 : buyTotalPrice - evaluatePrice - balance;
-                        amount = balance + evaluatePrice - buyTotalPrice > 0 ? buyTotalPrice - evaluatePrice : balance;//支出
-                        //todo 未完成
-                    } else {
-                        totalPrice = buyTotalPrice - evaluatePrice;
-                    }
-                } else {
-                    amount = evaluatePrice - buyTotalPrice;//收入
-                    walletService.updateWallet(userId, amount, orderno);
-                }
+                totalPrice = buyTotalPrice - evaluatePrice > 0 ? buyTotalPrice - evaluatePrice : 0.0;//总金额
                 //生成订单
                 ShopOrder order = new ShopOrder(orderno, buyTotalNum, totalPrice, null, userId, storeId, type, "005001", Integer.valueOf(result.get("receiptAddressId").toString()), orderTime);
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
@@ -337,10 +321,10 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                 Service service = new Service(serviceId, storeId, orderno, sendWay, getWay);
                 serviceMapper.updateByPrimaryKeySelective(service);
                 resultMap.put("errmsg", "ok");
+                resultMap.put("orderNo", orderno);
             } catch (Exception e) {
                 resultMap.put("errmsg", "error");
             }
-            resultMap.put("orderNo", orderno);
         }
         return resultMap;
     }

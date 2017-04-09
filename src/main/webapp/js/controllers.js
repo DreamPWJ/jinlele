@@ -2236,16 +2236,14 @@
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = localStorage.getItem("barterServiceId");//服务id
-                obj.useflag = JSON.parse(localStorage.getItem("barterInfo"))[0].useflag;//余额使用标志
-                obj.products = JSON.parse(localStorage.getItem("barterInfo"))[0].goodInfo;//产品集合
+                obj.products = JSON.parse(localStorage.getItem("barterInfo"));//产品集合
                 $scope.confirminfo.push(obj);
                 console.log(JSON.stringify($scope.confirminfo));
                 OrderService.addBarterInfo($scope.confirminfo).success(function(data){
                     $scope.useful=false;
-
-
-                    //todo 未完成
-                    console.log(JSON.stringify(data));
+                    if(data&&data.errmsg=="ok") {
+                        $state.go("serviceProgress", {type: "005", orderno: data.orderNo});
+                    }
                 });
             }
         }
@@ -3018,7 +3016,7 @@
                 if (data) {
                     if ($stateParams.name == "exchange") {
                         $state.go("showResult");
-                        localStorage.setItem("barterEvaluatePrice", data.result);
+                        localStorage.setItem("evaluationPrice", data.result);
                         localStorage.setItem("barterServiceId", data.evaluateServiceId);
                     } else {
                         $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3285,7 +3283,7 @@
                     if (data) {
                         if ($stateParams.name == "exchange") {
                             $state.go("showResult");
-                            localStorage.setItem("barterEvaluatePrice", data.result);
+                            localStorage.setItem("evaluationPrice", data.result);
                             localStorage.setItem("barterServiceId", data.evaluateServiceId);
                         } else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3307,7 +3305,7 @@
                     if (data) {
                         if ($stateParams.name == "exchange") {
                             $state.go("showResult");
-                            localStorage.setItem("barterEvaluatePrice", data.result);
+                            localStorage.setItem("evaluationPrice", data.result);
                             localStorage.setItem("barterServiceId", data.evaluateServiceId);
                         } else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
@@ -3457,7 +3455,7 @@
     }])
     //换款列表
     .controller('BarterListCtrl', ['$scope','GoodService',function ($scope,GoodService) {
-        $scope.evaluatePrice=localStorage.getItem("barterEvaluatePrice");
+        $scope.evaluatePrice=localStorage.getItem("evaluationPrice");
         $scope.barterlistinfo = [];
         $scope.page = 0;//当前页数
         $scope.total = 1;//总页数
@@ -3492,7 +3490,7 @@
     //换款详情
     .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService','OrderService','WalletService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService,OrderService,WalletService) {
         $rootScope.commonService = CommonService;
-        $scope.evaluatePrice = localStorage.getItem("barterEvaluatePrice");
+        $scope.evaluatePrice = localStorage.getItem("evaluationPrice");
         function getBanners(arr) {
             var html = "";
             if (arr) {
@@ -3521,7 +3519,6 @@
             goodchildId: "",
             num: 1
         };
-        $scope.useflag=false;//使用余额标志
         $scope.totalprice =0;//合计
         GoodService.getGoodDetail({
             goodId: $stateParams.goodId,
@@ -3569,33 +3566,18 @@
                 $scope.gooddetail.num--;
             }
         }
-        $scope.useAmount=function($event) {
-            $scope.useflag=$event.target.checked;
-            if ($event.target.checked) {
-                $scope.totalprice = $scope.totalprice > $scope.balance ? $scope.totalprice - $scope.balance : 0;
-                $scope.left = ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice) >= $scope.balance ? 0 : $scope.balance - ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice);
-                console.log("总金额---"+$scope.totalprice);
-                console.log("余额剩余---"+$scope.left);
-
-            } else {
-                $scope.totalprice = ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice) > 0 ? $scope.price * $scope.gooddetail.num - $scope.evaluatePrice : 0;
-                console.log("总金额---"+$scope.totalprice);
-                console.log("余额不变");
-            }
-            console.log($scope.useflag);
-        }
-        //结算
+        //购物车结算
         $scope.settleAccounts = function () {
-            console.log($scope.useflag);
+
+
+        }
+        //直接结算
+        $scope.selectThis = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
-            console.log(JSON.stringify($scope.gooddetail));
-            console.log($scope.price);
-            console.log($scope.evaluatePrice);
-            console.log($scope.gooddetail.num);
-            $scope.orderInfo=[];
+            //商品id，商品子id，价格，数量
             $scope.goodInfo=[];
             var good={};
             good.id=$scope.gooddetail.goodId;
@@ -3603,93 +3585,13 @@
             good.buynum=$scope.gooddetail.num;
             good.price=$scope.price;
             $scope.goodInfo.push(good);
-            var obj={};
-            obj.useflag=$scope.useflag;
-            //obj.serviceId=localStorage.getItem("barterServiceId");
-            //obj.userId=localStorage.getItem("jinlele_userId");
-            obj.goodInfo=$scope.goodInfo;
-            $scope.orderInfo.push(obj);
-            localStorage.setItem("barterInfo",JSON.stringify($scope.orderInfo));
+            localStorage.setItem("barterInfo",JSON.stringify($scope.goodInfo));
             $state.go("procphoto",{name:"exchange"});
-        }
-
-        //上一步
-        $scope.back = function () {
-            window.history.go(-1);
-        }
-
-        //换购此款---加入换款购物车
-        $scope.changeThis = function () {
-            if (!$scope.gooddetail.goodchildId) {
-                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
-                return;
-            }
-            console.log(JSON.stringify($scope.gooddetail));
-            console.log($scope.price);
-            console.log($scope.actualprice);
-            console.log($scope.gooddetail.num);
-            if (($scope.price * $scope.gooddetail.num - $scope.actualprice) > 0) {
-                console.log('补：' + ($scope.price * $scope.gooddetail.num - $scope.actualprice));
-                OrderService.addBarterInfo({
-                    orderno: localStorage.getItem("exchangeorderno"),
-                    userId: localStorage.getItem("jinlele_userId"),
-                    goodId: $stateParams.goodId,
-                    goodchildId: $scope.gooddetail.goodchildId,
-                    buynum: $scope.gooddetail.num,
-                    unitprice: $scope.price,
-                    money: 0
-                }).success(function (data) {
-                    if (data && data.n == 1) {
-                        //调用微信支付，支付需补交部分，weixinController
-                        //调用微信支付服务器端接口
-                        $scope.param = {
-                            totalprice: 0.01, //$scope.price*$scope.gooddetail.num-$scope.actualprice,
-                            orderNo: localStorage.getItem("exchangeorderno"),
-                            descrip: '六唯壹珠宝',
-                            openid: localStorage.getItem("openId"),
-                            orderType: JSON.stringify({type: '005'})
-                        }
-                        //调用微信支付服务器端接口
-                        WeiXinService.getweixinPayData($scope.param).success(function (data) {
-                            WeiXinService.wxchooseWXPay(data) //调起微支付接口
-                                .then(function (msg) {
-                                    switch (msg) {
-                                        case "get_brand_wcpay_request:ok":
-                                            CommonService.toolTip("支付成功", "tool-tip-message-success");
-                                            //支付成功，跳转订单列表
-                                            $state.go("orderlist");
-                                            break;
-                                        default :
-                                            //未支付，停留此页面
-                                            break;
-                                    }
-                                });
-                        })
-                    }
-                });
-            } else {
-                //console.log('剩：' + ($scope.actualprice - $scope.price * $scope.gooddetail.num));
-                //扣除定价部分，剩余存入余额，保存换购商品信息到service_good表，修改订单状态，跳转订单列表
-                OrderService.updateBarterInfo({
-                    orderno: localStorage.getItem("exchangeorderno"),
-                    userId: localStorage.getItem("jinlele_userId"),
-                    goodId: $stateParams.goodId,
-                    goodchildId: $scope.gooddetail.goodchildId,
-                    buynum: $scope.gooddetail.num,
-                    unitprice: $scope.price,
-                    money: $scope.actualprice - $scope.price * $scope.gooddetail.num
-                }).success(function (data) {
-                    if (data && data.n == 1) {
-                        CommonService.toolTip("换购成功", "tool-tip-message-success");
-                        $state.go("orderlist");
-                    }
-                });
-            }
         }
     }])
     //估价结果推荐
     .controller('ShowResultCtrl',['$scope','GoodService',function($scope,GoodService){
-        $scope.evaluationPrice=localStorage.getItem("barterEvaluatePrice");
+        $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
         GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
@@ -3707,7 +3609,7 @@
     }])
     //更多款（免费、补差价）
     .controller('MoreCtrl',['$scope','$stateParams','GoodService',function($scope,$stateParams,GoodService) {
-        $scope.evaluationPrice = localStorage.getItem("barterEvaluatePrice");
+        $scope.evaluationPrice = localStorage.getItem("evaluationPrice");
         $scope.type = $stateParams.category;//款式种类
         $scope.barterlistinfo = [];
         $scope.page = 0;//当前页数

@@ -70,7 +70,7 @@
 </section>
 
 <footer class="add_pay">
-    <span class="check"><input id="myAmount" name="myAmount" type="checkbox" ng-if="(price*gooddetail.num-evaluatePrice)>0" ng-model="useflag" ng-click="useAmount($event)"/><a style="width: 27%;" ng-if="(price*gooddetail.num-evaluatePrice)>0">使用余额</a><a style="color: red;width: 60%;float: right;">预选合计：{{totalprice|currency:"￥"}}元</a></span>
+    <span class="check"><a style="color: red;width: 60%;float: right;">预选合计：{{totalprice|currency:"￥"}}元</a></span>
     <a class="cart" ng-click="settleAccounts()">结算</a>
 </footer>
 <!-- FOOTER -->
@@ -83,5 +83,5 @@
             <u>{{totalnum}}</u>
         </a>
     </span>
-    <a class="cart" ng-click="changeThis()">换此款</a>
+    <a class="cart" ng-click="selectThis()">换此款</a>
 </footer>
