@@ -17,7 +17,9 @@
         <i>注：剩余金额将直接存入您的账户余额</i>
     </section>
     <section class="essential_main">
-        <em style="font-size: 80%;">余额还可以选择：<a style="border: 1px solid #000;color:red;font-size: 140%;" ng-href="#/barterlist">选多几款</a></em>
+        <em style="font-size: 80%;">余额还可以选择：
+            <a style="border: 1px solid #000;color:red;font-size: 140%;" ng-click="selectMore()">选多几款</a>
+        </em>
         <span>
         	<i>评价({{goodcommentcount}})</i>
         	<i>库存({{stocknum}})</i>
@@ -74,8 +76,8 @@
 <!-- FOOTER -->
 <footer class="add_submit">
 	<span class="check">
-        <a class="hover back" ng-style="menuWidth">上一步</a>
-        <a ng-style="menuWidth"> <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
+        <a class="back" ng-style="menuWidth" ng-click="back()">上一步</a>
+        <a ng-style="menuWidth" > <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
         <a href="#/bartercart" ng-style="menuWidth">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>

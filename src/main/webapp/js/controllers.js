@@ -3612,6 +3612,12 @@
             localStorage.setItem("barterInfo",JSON.stringify($scope.orderInfo));
             $state.go("procphoto",{name:"exchange"});
         }
+
+        //上一步
+        $scope.back = function () {
+            window.history.go(-1);
+        }
+
         //换购此款---加入换款购物车
         $scope.changeThis = function () {
             if (!$scope.gooddetail.goodchildId) {
