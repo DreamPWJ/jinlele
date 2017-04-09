@@ -3568,8 +3568,10 @@
         }
         //购物车结算
         $scope.settleAccounts = function () {
-
-
+        }
+        //返回上一页
+        $scope.back = function () {
+           window.history.go(-1);
         }
         //直接结算
         $scope.selectThis = function () {

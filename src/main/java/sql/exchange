@@ -15,14 +15,14 @@ where service_id = ? and checked = 0
 
 
 # 选款列表sql  免费换
-select g.id,gc.price,gc.id childId from (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
+select g.id,gc.exprice,gc.id childId from (SELECT min(exprice) as price,id,good_id FROM goodchild group by good_id) as gc,good g
 where g.id = gc.good_id
 and  g.canchange = 0
 and gc.price >= ?
 
 
 # 选款列表sql  补差价
-select g.id,gc.price,gc.id childId from (SELECT min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
+select g.id,gc.exprice,gc.id childId from (SELECT min(exprice) as price,id,good_id FROM goodchild group by good_id) as gc,good g
 where g.id = gc.good_id
 and  g.canchange = 0
 and gc.price <= ?
