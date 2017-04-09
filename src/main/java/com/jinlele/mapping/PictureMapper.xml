@@ -122,6 +122,6 @@
 from picture as p
 join service_picture as sp on p.id=sp.picture_id
 join service as s on sp.service_id=s.id
-where s.deleteCode='001' and p.deleteCode='001' and s.order_no=#{0}
+where s.deleteCode='001' and p.deleteCode='001' and sp.type &lt;'007' and s.order_no=#{0}
   </select>
 </mapper>

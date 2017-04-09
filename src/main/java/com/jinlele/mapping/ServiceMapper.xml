@@ -337,7 +337,7 @@
     select p.url ,s.descrip from service s
     join service_picture sp on s.id=sp.service_id
     JOIN picture p on sp.picture_id=p.id
-    where s.order_no=#{orderno}
+    where s.order_no=#{orderno}  and sp.type &lt; '007'
     order by p.create_time desc
   </select>
   <!--服务订单产品信息详情-->
