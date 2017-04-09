@@ -3699,8 +3699,7 @@ section.logistics ul li em {
     display: block;
     overflow: hidden;
     font-size: 80%;
-    padding: 0 0 15px 0;
-    color: #666;
+    padding: 0 0 10px 0;
     margin: 0 10px 0 20px;
     color: #666;
     text-align: justify;
@@ -3713,7 +3712,7 @@ section.logistics ul li.hover em {
 }
 
 section.logistics ul li.hover em  a{
-    color: #F5D000;
+    color: #666;
 }
 
 section.logistics ul li.hover i {

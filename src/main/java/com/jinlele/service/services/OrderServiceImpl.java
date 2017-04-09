@@ -161,11 +161,6 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Map<String, Object> getOrderInfoByOrderno(String orderno) {
-        return orderMapper.selectOrderInfoByOrderno(orderno);
-    }
-
-    @Override
     public Map<String, Object> getOrderListDetail(Map map , String type) {
         List<Map<String, Object>> orderLists = new ArrayList<>();
         List<Map<String, Object>> orders = (ArrayList) map.get("pagingList");

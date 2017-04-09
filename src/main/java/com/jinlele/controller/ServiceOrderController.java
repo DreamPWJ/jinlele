@@ -34,6 +34,14 @@ public class ServiceOrderController {
     @Resource
     IServiceGoodService serviceGoodService;
 
+    /**
+     * 根据订单号查询service及shoporder
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getProgressInfo/{orderno}", method = RequestMethod.GET)
+    public Map<String, Object> getProgressInfo(@PathVariable String orderno) {
+        return serviceOrderService.getServiceProgressInfoByOrderno(orderno);
+    }
 
     /**
      * 翻新下单完成

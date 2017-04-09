@@ -39,4 +39,6 @@ public interface ServiceMapper {
 
     //查询服务订单定价金额或实际付款价格
     Double selectActualPrice(String orderno);
+
+    Map<String,Object> getServiceProgressInfoByOrderno(String orderno);
 }

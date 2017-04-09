@@ -278,16 +278,4 @@
             </ul>
         </section>
     </section>
-    <!-- 检测报告 -->
-    <section class="report" ng-if="type=='003'">
-        <span class="title">检测报告</span>
-        <section class="report_mian" ng-if="report!=null">
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
-            <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
-        </section>
-        <section class="empty" ng-if="report==null">
-            <i class="icon">&#xe639;</i>
-            <em>检测还没结果，请耐心等待~</em>
-        </section>
-    </section>
 </main>

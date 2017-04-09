@@ -8,6 +8,11 @@ import java.util.Map;
  */
 public interface IServiceOrderService {
 
+    /**
+     * 根据订单号查询service及shoporder
+     */
+    Map<String, Object> getServiceProgressInfoByOrderno(String orderno);
+
     Map<String, Object> saveServiceOrder(Integer serviceId, Integer totalnum, String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products);
 
     /**

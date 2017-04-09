@@ -790,13 +790,13 @@
     }])
     //服务进度
     .controller('ServiceProgressCtrl',['$scope','$stateParams','OrderService',function($scope,$stateParams,OrderService){
-        $scope.type=$stateParams.type;
-        $scope.ordernno=$stateParams.orderno;
+        $scope.orderType=$stateParams.type;
+        $scope.orderno=$stateParams.orderno;
         $scope.normalflag=true;//正常订单
-        OrderService.getOrderInfo({orderno:$stateParams.orderno}).success(function(data){
+        OrderService.getProgressInfo({orderno:$stateParams.orderno}).success(function(data){
             console.log(data);
             $scope.orderInfo=data;
-            if(data.shoporderstatusCode=="001010"||data.shoporderstatusCode=="002012"||data.shoporderstatusCode=="003010"||data.shoporderstatusCode=="004011"||data.shoporderstatusCode=="005018"){
+            if(data.orderstatus=="001010"||data.orderstatus=="002012"||data.orderstatus=="003010"||data.orderstatus=="004011"||data.orderstatus=="005018"){
                 $scope.normalflag=false;
             }
         });
@@ -2448,16 +2448,6 @@
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
-        if($stateParams.type=="003"){
-            //检测报告
-            OrderService.getServiceDetailInfo({orderno:$stateParams.orderNo}).success(function(data){
-                if(data.checkreport) {
-                    $scope.report = data;
-                }else{
-                    $scope.report = null;
-                }
-            });
-        }
     }])
     //流程-验货(五大类服务用户收货验收)
     .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {

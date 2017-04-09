@@ -53,6 +53,11 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     @Resource
     IUserService userService;
 
+    @Override
+    public Map<String, Object> getServiceProgressInfoByOrderno(String orderno) {
+        return serviceMapper.getServiceProgressInfoByOrderno(orderno);
+    }
+
     //生成服务类订单
     @Override
     public Map<String , Object> saveServiceOrder(Integer serviceId, Integer totalnum,String type, Integer userId, Integer storeId, String sendWay, String getWay, Double totalprice, Integer buyeraddresId, String products) {

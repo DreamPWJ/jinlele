@@ -29,11 +29,6 @@ public interface IOrderService {
     Map<String,Object> getOrderListDetail(Map<String,Object> map , String type);
 
     /**
-     * 根据订单号查询订单详情
-     */
-    Map<String, Object> getOrderInfoByOrderno(String orderno);
-
-    /**
      * 根据订单号查询订单明细详情
      */
     Map<String, Object> getOrderDetailByOrderno(String orderno);
