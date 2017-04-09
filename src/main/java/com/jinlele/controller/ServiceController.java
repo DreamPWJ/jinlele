@@ -146,8 +146,8 @@ public class ServiceController {
      * 贵金属估价
      */
     @ResponseBody
-    @RequestMapping(value = "/getPMPrice/{weight}/{purity}" ,method = RequestMethod.GET)
-    public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity) {
-        return metalCalculationService.addPMPrice(purity, weight,true);
+    @RequestMapping(value = "/getPMPrice/{weight}/{purity}/{goodId}/{goodChildId}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity,@PathVariable  Integer goodId,@PathVariable  Integer goodChildId) {
+        return metalCalculationService.addPMPrice(purity, weight,goodId,goodChildId,true);
     }
 }

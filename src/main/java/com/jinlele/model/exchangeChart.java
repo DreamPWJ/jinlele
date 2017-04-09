@@ -23,6 +23,16 @@ public class exchangeChart {
 
     private Integer checked;
 
+    public exchangeChart(){}
+
+    public exchangeChart(Integer serviceId,Integer goodId,Integer goodchildId,Integer num,Integer checked){
+        this.serviceId=serviceId;
+        this.goodId=goodId;
+        this.goodchildId=goodchildId;
+        this.num=num;
+        this.checked=checked;
+    }
+
     public Integer getId() {
         return id;
     }

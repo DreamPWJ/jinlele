@@ -8,13 +8,14 @@ import java.util.Map;
  */
 public interface IMetalCalculationService {
     //获取估价结果
-    Map<String, Object> addPMPrice(String purity, Double weight,Boolean flag);
+    Map<String, Object> addPMPrice(String purity, Double weight, Integer goodId, Integer goodChildId, Boolean flag);
 
     //查询子集
     List getSubSet(String category, Integer pid);
 
     //获取材质
     List getMaterial();
+
     //获取品质
     List getQuality();
 }

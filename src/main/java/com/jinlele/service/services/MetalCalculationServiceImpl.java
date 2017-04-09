@@ -1,12 +1,10 @@
 package com.jinlele.service.services;
 
-import com.jinlele.dao.DayPriceMapper;
-import com.jinlele.dao.EvaluateMetalMapper;
-import com.jinlele.dao.MetalCalculationMapper;
-import com.jinlele.dao.ServiceMapper;
+import com.jinlele.dao.*;
 import com.jinlele.model.DayPrice;
 import com.jinlele.model.EvaluateMetal;
 import com.jinlele.model.MetalCalculation;
+import com.jinlele.model.exchangeChart;
 import com.jinlele.service.interfaces.IMetalCalculationService;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,8 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     ServiceMapper serviceMapper;
     @Resource
     EvaluateMetalMapper evaluateMetalMapper;
+    @Resource
+    exchangeChartMapper exchangeChartMapper;
 
     @Override
     public List getSubSet(String category, Integer pid) {
@@ -46,7 +46,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     }
 
     @Override
-    public Map<String, Object> addPMPrice(String purity, Double weight,Boolean flag) {
+    public Map<String, Object> addPMPrice(String purity, Double weight, Integer goodId, Integer goodChildId,Boolean flag) {
         Map<String, Object> resultMap = new HashMap<>();
         List<DayPrice> list = dayPriceMapper.getCurrentPrice();
         Double goldPrice = 0.0;
@@ -99,6 +99,10 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
             serviceMapper.insertSelective(service);
             evaluateMetalMapper.insertSelective(new EvaluateMetal(service.getId(), type, purity, weight, totalprice));
             resultMap.put("evaluateServiceId", service.getId());//返回serviceid
+            //添加换款购物车
+            if(goodId!=0&&goodChildId!=0){
+                exchangeChartMapper.insertSelective(new exchangeChart(service.getId(),goodId,goodChildId,1,1));
+            }
         }
         //金价  重量   折旧费  结果
         resultMap.put("showFormula",true);

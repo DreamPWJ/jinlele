@@ -1555,7 +1555,7 @@
 
     })
     //商品详情
-    .controller('GoodDetailCtrl',['$scope','$stateParams', '$rootScope', 'GoodService', 'AddtoCartService', 'CommonService', function ($scope,$stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
+    .controller('GoodDetailCtrl',['$scope','$state','$stateParams', '$rootScope', 'GoodService', 'AddtoCartService', 'CommonService', function ($scope,$state,$stateParams, $rootScope, GoodService, AddtoCartService, CommonService) {
         $rootScope.commonService = CommonService;
         $scope.rightFlag = false;
         function getBanners(arr) {
@@ -1669,6 +1669,13 @@
                     }
                 })
             }
+        }
+        $scope.changThis=function() {
+            if (!$scope.gooddetail.goodchildId) {
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            $state.go("evaluate", {name: "exchange", gid: $stateParams.id, gcid: $scope.gooddetail.goodchildId});
         }
     }])
     //流程-拍照(翻新，检测，回收业务只有拍照功能，维修业务包含拍照及下单功能)
@@ -2740,7 +2747,8 @@
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
-        localStorage.setItem("toExchangeGoodId",$stateParams.id);
+        localStorage.setItem("toBarterGoodId", $stateParams.gid ? $stateParams.gid : 0);
+        localStorage.setItem("toBarterGoodChildId", $stateParams.gcid ? $stateParams.gcid : 0);
         var mySwiper = new Swiper('.metal', {
             pagination: '.product_tab',
             paginationClickable: true,
@@ -2768,40 +2776,40 @@
                 return '<a href="javascript:" class="' + className + '">' + name + '</a>';
             }
         });
-        EvaluateService.getCurrentPrice().success(function(data){
-            $scope.dayprice=data.dayprice;
+        EvaluateService.getCurrentPrice().success(function (data) {
+            $scope.dayprice = data.dayprice;
         });
         //黄金
         $scope.goldTypeConfig = {
             data: [{id: 120, text: '首饰'}, {id: 125, text: '金条'}],
             minimumResultsForSearch: -1
         };
-        $scope.goldType=120;
+        $scope.goldType = 120;
         $scope.goldPurityConfig = {
             data: [],
-            minimumResultsForSearch:-1
+            minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"metalCode",pid:$scope.goldType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "metalCode", pid: $scope.goldType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.goldPurityConfig.data.push(obj);
-                if(index==0){
-                    $scope.goldPurity=item.codevalue;
+                if (index == 0) {
+                    $scope.goldPurity = item.codevalue;
                 }
             })
         })
-        $scope.getGoldPurity=function(type){
-            EvaluateService.getSubSet({category:"metalCode",pid:type}).success(function(data){
-                $scope.goldPurityConfig.data=[];
-                angular.forEach(data.result,function(item,index){
-                    var obj={};
-                    obj.id=item.codevalue;
-                    obj.text=item.dictname;
+        $scope.getGoldPurity = function (type) {
+            EvaluateService.getSubSet({category: "metalCode", pid: type}).success(function (data) {
+                $scope.goldPurityConfig.data = [];
+                angular.forEach(data.result, function (item, index) {
+                    var obj = {};
+                    obj.id = item.codevalue;
+                    obj.text = item.dictname;
                     $scope.goldPurityConfig.data.push(obj);
-                    if(index==0){
-                        $scope.goldPurity=item.codevalue;
+                    if (index == 0) {
+                        $scope.goldPurity = item.codevalue;
                     }
                 })
             })
@@ -2809,48 +2817,48 @@
         //铂金
         $scope.boPurityConfig = {
             data: [],
-            minimumResultsForSearch:-1
+            minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"metalCode",pid:121}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "metalCode", pid: 121}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.boPurityConfig.data.push(obj);
-                if(index==0){
-                    $scope.boPurity=item.codevalue;
+                if (index == 0) {
+                    $scope.boPurity = item.codevalue;
                 }
             })
         })
         //K金
         $scope.kPurityConfig = {
-            data:  [],
-            minimumResultsForSearch:-1
+            data: [],
+            minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"metalCode",pid:122}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "metalCode", pid: 122}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.kPurityConfig.data.push(obj);
-                if(index==0){
-                    $scope.kPurity=item.codevalue;
+                if (index == 0) {
+                    $scope.kPurity = item.codevalue;
                 }
             })
         })
         //钯金
         $scope.baPurityConfig = {
             data: [],
-            minimumResultsForSearch:-1
+            minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"metalCode",pid:123}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "metalCode", pid: 123}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.baPurityConfig.data.push(obj);
-                if(index==0){
-                    $scope.baPurity=item.codevalue;
+                if (index == 0) {
+                    $scope.baPurity = item.codevalue;
                 }
             })
         })
@@ -2859,268 +2867,275 @@
             data: [{id: 124, text: '首饰'}, {id: 126, text: '银条'}],
             minimumResultsForSearch: -1
         };
-        $scope.silverType=124;
+        $scope.silverType = 124;
         $scope.silverPurityConfig = {
             data: [],
-            minimumResultsForSearch:-1
+            minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"metalCode",pid:$scope.silverType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "metalCode", pid: $scope.silverType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.silverPurityConfig.data.push(obj);
-                if(index==0){
-                    $scope.silverPurity=item.codevalue;
+                if (index == 0) {
+                    $scope.silverPurity = item.codevalue;
                 }
             })
         });
-        $scope.getSilverPurity=function(type){
-            EvaluateService.getSubSet({category:"metalCode",pid:type}).success(function(data){
-                $scope.silverPurityConfig.data=[];
-                angular.forEach(data.result,function(item,index){
-                    var obj={};
-                    obj.id=item.codevalue;
-                    obj.text=item.dictname;
+        $scope.getSilverPurity = function (type) {
+            EvaluateService.getSubSet({category: "metalCode", pid: type}).success(function (data) {
+                $scope.silverPurityConfig.data = [];
+                angular.forEach(data.result, function (item, index) {
+                    var obj = {};
+                    obj.id = item.codevalue;
+                    obj.text = item.dictname;
                     $scope.silverPurityConfig.data.push(obj);
-                    if(index==0){
-                        $scope.silverPurity=item.codevalue;
+                    if (index == 0) {
+                        $scope.silverPurity = item.codevalue;
                     }
                 })
             })
         }
-        $scope.checkMetal=function(metalType){
+        $scope.checkMetal = function (metalType) {
             switch (metalType) {
                 case 1:
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
-                        $scope.gerrorFlag=false;
-                    }else {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)) {
+                        $scope.gerrorFlag = false;
+                    } else {
                         $scope.gerrorFlag = true;
-                        $scope.gerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.gerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 2:
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
-                        $scope.boerrorFlag=false;
-                    }else {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)) {
+                        $scope.boerrorFlag = false;
+                    } else {
                         $scope.boerrorFlag = true;
-                        $scope.boerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.boerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 3:
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
-                        $scope.kerrorFlag=false;
-                    }else {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)) {
+                        $scope.kerrorFlag = false;
+                    } else {
                         $scope.kerrorFlag = true;
-                        $scope.kerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.kerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 4:
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
-                        $scope.berrorFlag=false;
-                    }else {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)) {
+                        $scope.berrorFlag = false;
+                    } else {
                         $scope.berrorFlag = true;
-                        $scope.berrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.berrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 5:
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
-                        $scope.serrorFlag=false;
-                    }else {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)) {
+                        $scope.serrorFlag = false;
+                    } else {
                         $scope.serrorFlag = true;
-                        $scope.serrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.serrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
             }
         }
         //贵金属估价
-        $scope.calcPMPrice=function(metalType) {
-            var obj={};
+        $scope.calcPMPrice = function (metalType) {
+            var obj = {};
+            obj.goodId = localStorage.getItem("toBarterGoodId");
+            obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
             switch (metalType) {
                 case 1:
-                    obj.purity=$scope.goldPurity;
-                    obj.weight=$scope.goldWeight;
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)){
-                        $scope.gerrorFlag=false;
-                    }else {
+                    obj.purity = $scope.goldPurity;
+                    obj.weight = $scope.goldWeight;
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)) {
+                        $scope.gerrorFlag = false;
+                    } else {
                         $scope.gerrorFlag = true;
-                        $scope.gerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.gerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 2:
-                    obj.purity=$scope.boPurity;
-                    obj.weight=$scope.boWeight;
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.boWeight)){
-                        $scope.boerrorFlag=false;
-                    }else {
+                    obj.purity = $scope.boPurity;
+                    obj.weight = $scope.boWeight;
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)) {
+                        $scope.boerrorFlag = false;
+                    } else {
                         $scope.boerrorFlag = true;
-                        $scope.boerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.boerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 3:
-                    obj.purity=$scope.kPurity;
-                    obj.weight=$scope.kWeight;
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.kWeight)){
-                        $scope.kerrorFlag=false;
-                    }else {
+                    obj.purity = $scope.kPurity;
+                    obj.weight = $scope.kWeight;
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)) {
+                        $scope.kerrorFlag = false;
+                    } else {
                         $scope.kerrorFlag = true;
-                        $scope.kerrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.kerrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 4:
-                    obj.purity=$scope.baPurity;
-                    obj.weight=$scope.baWeight;
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.baWeight)){
-                        $scope.berrorFlag=false;
-                    }else {
+                    obj.purity = $scope.baPurity;
+                    obj.weight = $scope.baWeight;
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)) {
+                        $scope.berrorFlag = false;
+                    } else {
                         $scope.berrorFlag = true;
-                        $scope.berrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.berrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 5:
-                    obj.purity=$scope.silverPurity;
-                    obj.weight=$scope.silverWeight;
-                    if(/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)){
-                        $scope.serrorFlag=false;
-                    }else {
+                    obj.purity = $scope.silverPurity;
+                    obj.weight = $scope.silverWeight;
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)) {
+                        $scope.serrorFlag = false;
+                    } else {
                         $scope.serrorFlag = true;
-                        $scope.serrorInfo="请输入正确范围的数字(最多三位小数)";
+                        $scope.serrorInfo = "请输入正确范围的数字(最多三位小数)";
                         return;
                     }
                     break;
             }
             console.log(JSON.stringify(obj));
-            EvaluateService.getPMPrice({weight:obj.weight,purity:obj.purity}).success(function(data){
-                if(data){
-                    if($stateParams.name=="exchange"){
+            EvaluateService.getPMPrice({
+                weight: obj.weight,
+                purity: obj.purity,
+                goodId: obj.goodId,
+                goodChildId: obj.goodChildId
+            }).success(function (data) {
+                if (data) {
+                    if ($stateParams.name == "exchange") {
                         $state.go("showResult");
-                        localStorage.setItem("barterEvaluatePrice",data.result);
-                        localStorage.setItem("barterServiceId",data.evaluateServiceId);
-                    }else {
+                        localStorage.setItem("barterEvaluatePrice", data.result);
+                        localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                    } else {
                         $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                     }
                 }
             });
         }
         //钻石
-        $scope.certificateType=217;
+        $scope.certificateType = 217;
         $scope.certificateConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.certificateType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.certificateType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.certificateConfig.data.push(obj);
-                if(index==0){
-                    $scope.certificate=item.codevalue;
+                if (index == 0) {
+                    $scope.certificate = item.codevalue;
                 }
             })
         });
-        $scope.colorType=218;
+        $scope.colorType = 218;
         $scope.colorConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.colorType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.colorType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.colorConfig.data.push(obj);
-                if(index==0){
-                    $scope.color=item.codevalue;
+                if (index == 0) {
+                    $scope.color = item.codevalue;
                 }
             })
         });
-        $scope.cleanessType=219;
+        $scope.cleanessType = 219;
         $scope.cleanessConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.cleanessType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.cleanessType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.cleanessConfig.data.push(obj);
-                if(index==0){
-                    $scope.cleaness=item.codevalue;
+                if (index == 0) {
+                    $scope.cleaness = item.codevalue;
                 }
             })
         });
-        $scope.florescenceType=223;
+        $scope.florescenceType = 223;
         $scope.florescenceConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.florescenceType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.florescenceType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.florescenceConfig.data.push(obj);
-                if(index==0){
-                    $scope.florescence=item.codevalue;
+                if (index == 0) {
+                    $scope.florescence = item.codevalue;
                 }
             })
         });
-        $scope.cutType=220;
+        $scope.cutType = 220;
         $scope.cutConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.cutType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.cutType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.cutConfig.data.push(obj);
-                if(index==0){
-                    $scope.cut=item.codevalue;
+                if (index == 0) {
+                    $scope.cut = item.codevalue;
                 }
             })
         });
-        $scope.symmetryType=222;
+        $scope.symmetryType = 222;
         $scope.symmetryConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.symmetryType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.symmetryType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.symmetryConfig.data.push(obj);
-                if(index==0){
-                    $scope.symmetry=item.codevalue;
+                if (index == 0) {
+                    $scope.symmetry = item.codevalue;
                 }
             })
         });
-        $scope.polishType=221;
+        $scope.polishType = 221;
         $scope.polishConfig = {
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getSubSet({category:"dwparam",pid:$scope.polishType}).success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getSubSet({category: "dwparam", pid: $scope.polishType}).success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.polishConfig.data.push(obj);
-                if(index==0){
-                    $scope.polish=item.codevalue;
+                if (index == 0) {
+                    $scope.polish = item.codevalue;
                 }
             })
         });
@@ -3128,9 +3143,9 @@
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getMaterial().success(function(data){
-            angular.forEach(data.result,function(item,index){
-                if(item.dictname=="Pt950"||item.dictname=="Pt900"||item.dictname=="Pd950"||item.dictname=="Pd900"||item.dictname=="18K"||item.dictname=="14K"||item.dictname=="9K") {
+        EvaluateService.getMaterial().success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                if (item.dictname == "Pt950" || item.dictname == "Pt900" || item.dictname == "Pd950" || item.dictname == "Pd900" || item.dictname == "18K" || item.dictname == "14K" || item.dictname == "9K") {
                     var obj = {};
                     obj.id = item.codevalue;
                     obj.text = item.dictname;
@@ -3143,156 +3158,158 @@
             data: [],
             minimumResultsForSearch: -1
         };
-        EvaluateService.getQuality().success(function(data){
-            angular.forEach(data.result,function(item,index){
-                var obj={};
-                obj.id=item.codevalue;
-                obj.text=item.dictname;
+        EvaluateService.getQuality().success(function (data) {
+            angular.forEach(data.result, function (item, index) {
+                var obj = {};
+                obj.id = item.codevalue;
+                obj.text = item.dictname;
                 $scope.qualityConfig.data.push(obj);
-                if(index==0){
-                    $scope.quality=item.codevalue;
+                if (index == 0) {
+                    $scope.quality = item.codevalue;
                 }
             })
         });
-        $scope.choice=true;
-        $scope.change=function ($event) {
+        $scope.choice = true;
+        $scope.change = function ($event) {
             var choose = $event.target;
-            $("input[name='"+choose.name+"']").siblings("label").removeClass("on");
-            $("#"+choose.id).siblings("label").addClass("on");
-            switch (choose.value){
+            $("input[name='" + choose.name + "']").siblings("label").removeClass("on");
+            $("#" + choose.id).siblings("label").addClass("on");
+            switch (choose.value) {
                 case "1":
-                    $scope.choice=true;
+                    $scope.choice = true;
                     break;
                 case "2":
-                    $scope.choice=false;
+                    $scope.choice = false;
                     break;
             }
         }
-        $scope.checkDiamond=function(){
-            if(/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
-                $scope.merrorFlag=false;
+        $scope.checkDiamond = function () {
+            if (/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)) {
+                $scope.merrorFlag = false;
                 $scope.errorFlag = false;
-            }else {
+            } else {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
                 return;
             }
-            if($scope.mainWeight>=0.7||$scope.mainWeight<0.08){
+            if ($scope.mainWeight >= 0.7 || $scope.mainWeight < 0.08) {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
                 return;
-            }else{
-                $scope.merrorFlag=false;
+            } else {
+                $scope.merrorFlag = false;
                 $scope.errorFlag = false;
             }
-            if(/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
-                $scope.serrorFlag=false;
-                $scope.errorFlag=false;
-            }else {
+            if (/^\d+(\.\d{1,3})?$/.test($scope.secWeight)) {
+                $scope.serrorFlag = false;
+                $scope.errorFlag = false;
+            } else {
                 $scope.serrorFlag = true;
-                $scope.errorFlag=true;
-                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                $scope.errorFlag = true;
+                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
                 return;
             }
-            if(/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
-                $scope.terrorFlag=false;
-                $scope.errorFlag=false;
-            }else {
-                $scope.terrorFlag=true;
+            if (/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)) {
+                $scope.terrorFlag = false;
+                $scope.errorFlag = false;
+            } else {
+                $scope.terrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
                 return;
             }
         }
         //钻石估价
-        $scope.calcDiamondPrice=function(){
-            $scope.paras=[];
-            if(/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)){
-                $scope.merrorFlag=false;
+        $scope.calcDiamondPrice = function () {
+            $scope.paras = [];
+            if (/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)) {
+                $scope.merrorFlag = false;
                 $scope.errorFlag = false;
-            }else {
+            } else {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
                 return;
             }
-            if($scope.mainWeight>=0.7||$scope.mainWeight<0.08){
+            if ($scope.mainWeight >= 0.7 || $scope.mainWeight < 0.08) {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
                 return;
-            }else{
-                $scope.merrorFlag=false;
+            } else {
+                $scope.merrorFlag = false;
                 $scope.errorFlag = false;
             }
-            if(/^\d+(\.\d{1,3})?$/.test($scope.secWeight)){
-                $scope.serrorFlag=false;
-                $scope.errorFlag=false;
-            }else {
+            if (/^\d+(\.\d{1,3})?$/.test($scope.secWeight)) {
+                $scope.serrorFlag = false;
+                $scope.errorFlag = false;
+            } else {
                 $scope.serrorFlag = true;
-                $scope.errorFlag=true;
-                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
-                return;
-            }
-            if(/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)){
-                $scope.terrorFlag=false;
-                $scope.errorFlag=false;
-            }else {
-                $scope.terrorFlag=true;
                 $scope.errorFlag = true;
-                $scope.errorInfo="请输入正确范围的数字(最多三位小数)";
+                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
                 return;
             }
-            if($scope.choice){
+            if (/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)) {
+                $scope.terrorFlag = false;
+                $scope.errorFlag = false;
+            } else {
+                $scope.terrorFlag = true;
+                $scope.errorFlag = true;
+                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
+                return;
+            }
+            if ($scope.choice) {
                 //主石+副石+镶嵌材质
-                var obj={};
-                obj.mainWeight=$scope.mainWeight;
-                obj.certificate=$scope.certificate;
-                obj.color=$scope.color;
-                obj.cleaness=$scope.cleaness;
-                obj.florescence=$scope.florescence;
-                obj.cut=$scope.cut;
-                obj.symmetry=$scope.symmetry;
-                obj.polish=$scope.polish;
-                obj.material=$scope.material;
-                obj.secWeight=$scope.secWeight;
-                obj.quality=$scope.quality;
-                obj.totalWeight=$scope.totalWeight;
-                obj.flag=$scope.choice;
-                obj.src=$stateParams.name;
+                var obj = {};
+                obj.mainWeight = $scope.mainWeight;
+                obj.certificate = $scope.certificate;
+                obj.color = $scope.color;
+                obj.cleaness = $scope.cleaness;
+                obj.florescence = $scope.florescence;
+                obj.cut = $scope.cut;
+                obj.symmetry = $scope.symmetry;
+                obj.polish = $scope.polish;
+                obj.material = $scope.material;
+                obj.secWeight = $scope.secWeight;
+                obj.quality = $scope.quality;
+                obj.totalWeight = $scope.totalWeight;
+                obj.flag = $scope.choice;
+                obj.src = $stateParams.name;
+                obj.goodId = localStorage.getItem("toBarterGoodId");
+                obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
                 $scope.paras.push(obj);
-                EvaluateService.getDiamondPrice($scope.paras).success(function(data){
+                EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
-                    if(data){
-                        if($stateParams.name=="exchange"){
+                    if (data) {
+                        if ($stateParams.name == "exchange") {
                             $state.go("showResult");
-                            localStorage.setItem("barterEvaluatePrice",data.result);
-                            localStorage.setItem("barterServiceId",data.evaluateServiceId);
-                        }else {
+                            localStorage.setItem("barterEvaluatePrice", data.result);
+                            localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                        } else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
                     }
                 });
-            }else{
+            } else {
                 //副石+镶嵌材质
-                var obj={};
-                obj.mainWeight=$scope.mainWeight;
-                obj.material=$scope.material;
-                obj.secWeight=$scope.secWeight;
-                obj.quality=$scope.quality;
-                obj.totalWeight=$scope.totalWeight;
-                obj.flag=$scope.choice;
+                var obj = {};
+                obj.mainWeight = $scope.mainWeight;
+                obj.material = $scope.material;
+                obj.secWeight = $scope.secWeight;
+                obj.quality = $scope.quality;
+                obj.totalWeight = $scope.totalWeight;
+                obj.flag = $scope.choice;
                 $scope.paras.push(obj);
-                EvaluateService.getDiamondPrice($scope.paras).success(function(data){
+                EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
-                    if(data){
-                        if($stateParams.name=="exchange"){
+                    if (data) {
+                        if ($stateParams.name == "exchange") {
                             $state.go("showResult");
-                            localStorage.setItem("barterEvaluatePrice",data.result);
-                            localStorage.setItem("barterServiceId",data.evaluateServiceId);
-                        }else {
+                            localStorage.setItem("barterEvaluatePrice", data.result);
+                            localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                        } else {
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
                     }
