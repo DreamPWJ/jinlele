@@ -2310,7 +2310,7 @@
             //根据业务类型判断订单状态
             switch ($stateParams.type) {
                 case "002":
-                    $scope.order.orderstatus = $stateParams.type + "012";
+                    $scope.order.orderstatus = $stateParams.type + "005";
                     break;
                 case "004":
                 case "005":
