@@ -3573,6 +3573,12 @@
         $scope.back = function () {
            window.history.go(-1);
         }
+        $scope.selectMore = function () {
+            if (!$scope.gooddetail.goodchildId) {
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+        }
         //直接结算
         $scope.selectThis = function () {
             if (!$scope.gooddetail.goodchildId) {
