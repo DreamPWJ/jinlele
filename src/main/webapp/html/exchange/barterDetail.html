@@ -9,7 +9,7 @@
 <section class="essential">
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
-        <i>专柜价：{{price | currency:'￥'}}</i>
+        <i>专柜价：{{price | currency:'￥'}}<font style="float: right;border: 1px solid red;padding: 0 10px;" ng-click="addToCar()">加入购物车</font></i>
         <em ng-if="(price*gooddetail.num-evaluatePrice)>0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-evaluatePrice)<=0">换款价格：{{0 | currency:'￥'}}</em>
         <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>

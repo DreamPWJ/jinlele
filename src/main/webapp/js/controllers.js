@@ -3748,6 +3748,25 @@
         $scope.back = function () {
            window.history.go(-1);
         }
+        $scope.addToCar=function() {
+            if (!$scope.gooddetail.goodchildId) {
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            $scope.goodInfo = [];
+            var obj = {};
+            obj.serviceId = localStorage.getItem("barterServiceId");
+            obj.id = $scope.gooddetail.goodId;
+            obj.childId = $scope.gooddetail.goodchildId;
+            obj.buynum = $scope.gooddetail.num;
+            obj.checked = 0;
+            $scope.goodInfo.push(obj);
+            OrderService.addBarterCart($scope.goodInfo).success(function(data){
+                if(data&&data.errmsg=="ok"){
+                    CommonService.toolTip("添加成功", "tool-tip-message-success");
+                }
+            });
+        }
         $scope.selectMore = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
