@@ -45,27 +45,27 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
             if(paras.get("mainWeight")!=null&& paras.get("mainWeight").toString().length()!=0){
                 mainWeight = Double.valueOf(paras.get("mainWeight").toString());//主石重量
             }
-            String weightLevel = "";
+           // String weightLevel = "";
             Double result = 0.0;
-            if(mainWeight>=0.08&&mainWeight<0.13){
-                weightLevel="001";
-            }else if(mainWeight>=0.13&&mainWeight<0.18){
-                weightLevel="002";
-            }else if(mainWeight>=0.18&&mainWeight<0.23){
-                weightLevel="003";
-            }else if(mainWeight>=0.23&&mainWeight<0.3){
-                weightLevel="004";
-            }else if(mainWeight>=0.3&&mainWeight<0.4){
-                weightLevel="005";
-            }else if(mainWeight>=0.4&&mainWeight<0.5){
-                weightLevel="006";
-            }else if(mainWeight>=0.5&&mainWeight<0.6){
-                weightLevel="007";
-            }else if(mainWeight>=0.6&&mainWeight<0.7){
-                weightLevel="008";
-            }
-            //根据weightLevel查询id及price
-            Map<String,Object> map = diamondCalculationMapper.getMainPriceInfo(weightLevel);
+//            if(mainWeight>=0.08&&mainWeight<0.13){
+//                weightLevel="001";
+//            }else if(mainWeight>=0.13&&mainWeight<0.18){
+//                weightLevel="002";
+//            }else if(mainWeight>=0.18&&mainWeight<0.23){
+//                weightLevel="003";
+//            }else if(mainWeight>=0.23&&mainWeight<0.3){
+//                weightLevel="004";
+//            }else if(mainWeight>=0.3&&mainWeight<0.4){
+//                weightLevel="005";
+//            }else if(mainWeight>=0.4&&mainWeight<0.5){
+//                weightLevel="006";
+//            }else if(mainWeight>=0.5&&mainWeight<0.6){
+//                weightLevel="007";
+//            }else if(mainWeight>=0.6&&mainWeight<0.7){
+//                weightLevel="008";
+//            }
+            //根据mainWeight查询id及price
+            Map<String,Object> map = diamondCalculationMapper.getMainPriceInfo(mainWeight);
             Integer dcid =Integer.valueOf(map.get("id").toString());
             Double mainPrice = Double.valueOf(map.get("price").toString());
             Double secWeight = 0.0;//副石重量

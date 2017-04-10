@@ -1,5 +1,8 @@
 
 
+#估价重量查询单价和id
+select * from diamond_calculation where 0.5>=start and 0.5<end and deletecode = '001'
+
 
 #查询换款购物车选中个数
 select count(1) as count

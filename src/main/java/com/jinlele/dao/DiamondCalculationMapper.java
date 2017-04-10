@@ -17,5 +17,5 @@ public interface DiamondCalculationMapper {
 
     int updateByPrimaryKey(DiamondCalculation record);
     //根据总量等级获取主石价格信息
-    Map<String,Object> getMainPriceInfo(String weightLevel);
+    Map<String,Object> getMainPriceInfo(Double weightLevel);
 }
