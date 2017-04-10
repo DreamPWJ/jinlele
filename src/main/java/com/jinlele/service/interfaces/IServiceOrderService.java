@@ -31,10 +31,14 @@ public interface IServiceOrderService {
     Map<String, Object> createServiceOrder(List<Map<String, Object>> list);
 
     /**
+     * 添加换款购物车
+     */
+    Map<String, Object> addBarterCart(List<Map<String, Object>> list);
+
+    /**
      * 创建换款订单
      */
     Map<String, Object> createBarterOrder(List<Map<String, Object>> list);
-
     /**
      * 更新换款订单
      */

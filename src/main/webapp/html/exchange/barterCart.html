@@ -1,107 +1,53 @@
+
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
-    <section class="cart">
+    <div ng-if="isNotData" class="isNotDataHint">
+        <i class="iconfont icon-cry1"></i>
+        <p>购物车暂无商品</p>
+    </div>
+    <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="1" type="checkbox" />
-		<label for="1" class="check_label">
+        <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne($event,m[i.gcid])"/>
+		<label for="{{item.gcid}}" class="check_label">
             <i class="checkbox_icon"></i>
         </label>
         </span>
-        <span class="cart_pic"><a href=""><img src="images/com/01.jpg"></a></span>
+        <span class="cart_pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
         <section class="cart_main">
-            <span class="title"><a href="">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价...</a></span>
+            <span class="title"><a href="#/gooddetail/{{item.goodId}}">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价</a></span>
             <section class="cart_price">
-                <em>换此款&nbsp;&nbsp;余￥258.00</em>
+                <em>{{item.price | currency:'￥'}}</em>
                 <span class="addto">
-                	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
-                	<a class="iconfont icon-add"></a>
+                	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
+                    <input  type="text" ng-model="item.num" ng-change="changenamount(item.gcid)" />
+                	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
                 </span>
             </section>
+            <span class="color"><font>换此款  补：￥50.00</font></span>
         </section>
     </section>
-    <section class="cart">
-    	<span class="check">
-        <input id="2" type="checkbox" />
-		<label for="2" class="check_label">
-            <i class="checkbox_icon"></i>
-        </label>
-        </span>
-        <span class="cart_pic"><a href=""><img src="images/com/01.jpg"></a></span>
-        <section class="cart_main">
-            <span class="title"><a href="">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价...</a></span>
-            <section class="cart_price">
-                <em>换此款&nbsp;&nbsp;余￥258.00</em>
-                <span class="addto">
-                	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
-                	<a class="iconfont icon-add"></a>
-                </span>
-            </section>
-        </section>
-    </section>
-    <section class="cart">
-    	<span class="check">
-        <input id="3" type="checkbox" />
-		<label for="3" class="check_label">
-            <i class="checkbox_icon"></i>
-        </label>
-        </span>
-        <span class="cart_pic"><a href=""><img src="images/com/01.jpg"></a></span>
-        <section class="cart_main">
-            <span class="title"><a href="">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价...</a></span>
-            <section class="cart_price">
-                <em>换此款&nbsp;&nbsp;补￥258.00</em>
-                <span class="addto">
-                	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
-                	<a class="iconfont icon-add"></a>
-                </span>
-            </section>
-        </section>
-    </section>
-    <section class="cart">
-    	<span class="check">
-        <input id="4" type="checkbox" />
-		<label for="4" class="check_label">
-            <i class="checkbox_icon"></i>
-        </label>
-        </span>
-        <span class="cart_pic"><a href=""><img src="images/com/01.jpg"></a></span>
-        <section class="cart_main">
-            <span class="title"><a href="">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价...</a></span>
-            <section class="cart_price">
-                <em>换此款&nbsp;&nbsp;补￥12000258.00</em>
-                <span class="addto">
-                	<a class="icon" href="">&#xe603;</a>
-                    <input value="1" type="text">
-                	<a class="iconfont icon-add"></a>
-                </span>
-            </section>
-        </section>
-    </section>
-    <section class="delete"><a href=""><i class="icon">&#xe721;</i><em>删除</em></a></section>
+    <section class="delete" ng-if="delFlag"><a href="" ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
 </main>
 
 <!-- FOOTER -->
 <footer class="submit">
 	<span class="check">
-        <input id="5" type="checkbox" />
-		<label for="5" class="check_label">
+        <input id="all" type="checkbox" ng-model="select_all" ng-click="selectAll($event)"/>
+		<label for="all" class="check_label">
             <i class="checkbox_icon"></i>
         </label>
         <em>全选</em>
     </span>
-    <span class="total">合计：420000.00</span>
-    <a href="">结算<i>(10)</i></a>
+    <span class="total">合计：{{totalprice | currency:'￥'}}</span>
+    <a href="javascript:void(0);"  ng-click="bill()" >结算<i>({{totalnum}})</i></a>
 </footer>
 
 <!-- 提示 -->
-<section class="mask" style="display:none;">
+<section class="mask" style="display:none;" ng-style="delstyle">
     <section class="layer prompt">
-        <p>确定要删除这件商品？</p>
+        <p>确定要删除选中的商品？</p>
         <section class="submit">
-            <a href="">确定</a>
-            <a href="">取消</a>
+            <a href="" ng-click="confirm()">确定</a>
+            <a href="" ng-click="cancle()">取消</a>
         </section>
     </section>
 </section>

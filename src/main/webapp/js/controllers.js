@@ -313,6 +313,181 @@
             }
         }
     }])
+    //换款购物车
+    .controller('BarterCartCtrl', ['$scope', 'CartService', 'CommonService', '$state', '$rootScope', function ($scope, CartService, CommonService, $state, $rootScope) {
+        $rootScope.commonService=CommonService;
+        $scope.init = {
+            userid: localStorage.getItem("jinlele_userId"),
+            pagenow: 1
+        };
+        $scope.delstyle = {display: 'none'};
+        CartService.getcartinfo($scope.init).success(function (data) {
+            //console.log(data);
+            $scope.isNotData = false;
+            if (data.pagingList.length == 0) {
+                $scope.isNotData = true;
+                return
+            }
+            $scope.cartlist = data;
+        });
+        //初始化数据
+        $scope.totalnum = 0;
+        $scope.totalprice = 0;
+        $scope.m = [];
+        $scope.checkedGcIds = [];
+        $scope.checkedinfo = [];
+        $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
+        //全选
+        $scope.selectAll = function ($event) {
+            //去除重复，记录最后一遍数据
+            $scope.totalnum = 0;
+            $scope.totalprice = 0;
+            $scope.checkedinfo = [];
+            var choseall = $event.target;
+            if ($scope.select_all) {
+                $scope.delFlag = true;
+                $scope.select_one = true;
+                $scope.checkedGcIds = [];
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    $scope.checkedGcIds.push(data.gcid);
+                    $scope.m[data.gcid] = true;
+                    $scope.checkedinfo.push(data);
+                    $scope.totalnum += parseInt(data.num);
+                    $scope.totalprice += parseInt(data.num) * data.price;
+                })
+                $('#' + choseall.id).siblings("label").addClass("on");
+                angular.forEach($scope.checkedGcIds, function (i, index) {
+                    $('#' + i).siblings("label").addClass("on");
+                })
+            } else {
+                $scope.delFlag = false;
+                $scope.select_one = false;
+                $scope.checkedGcIds = [];
+                $scope.checkedinfo = [];
+                $scope.m = [];
+                $scope.totalnum = 0;
+                $scope.totalprice = 0;
+                $('.check_label').removeClass("on");
+            }
+        };
+        //单选
+        $scope.selectOne = function ($event, select) {
+            var choseone = $event.target;
+            angular.forEach($scope.m, function (data, id) {
+                var index = $scope.checkedGcIds.indexOf(id);
+                if (data && index === -1) {
+                    $scope.checkedGcIds.push(id);
+                    $('#' + choseone.id).siblings("label").addClass("on");
+                } else if (!data && index !== -1) {
+                    $scope.checkedGcIds.splice(index, 1);
+                    $('#' + choseone.id).siblings("label").removeClass("on");
+                }
+            })
+            if ($scope.cartlist.pagingList.length === $scope.checkedGcIds.length) {
+                $scope.select_all = true;
+                $('#all').siblings("label").addClass("on");
+            } else {
+                $scope.select_all = false;
+                $('#all').siblings("label").removeClass("on");
+            }
+            $scope.totalnum = 0;//去除重复，记录最后一遍数据
+            $scope.totalprice = 0;
+            $scope.checkedinfo = [];
+            angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                var f = $scope.checkedGcIds.indexOf(data.gcid);
+                if (data && f !== -1) {
+                    $scope.checkedinfo.push(data);
+                    $scope.totalnum += parseInt(data.num);
+                    $scope.totalprice += parseInt(data.num) * data.price;
+                }
+            })
+            $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
+
+
+        }
+        //删除
+        $scope.del = function () {
+            if ($scope.checkedGcIds.length > 0) {
+                $scope.delstyle = {};
+            }
+        }
+        //确认删除
+        $scope.confirm = function () {
+            console.log($scope.checkedGcIds);
+            $scope.delstyle = {display: 'none'};
+            CartService.deleteCart({userid: localStorage.getItem("jinlele_userId"), gcIdStr: $scope.checkedGcIds.join('-').trim()}).success(function (data) {
+                console.log(data);
+                CartService.getcartinfo($scope.init).success(function (data) {
+                    $scope.cartlist = data;
+                    $scope.isNotData = false;
+                    if (data.pagingList.length == 0) {
+                        $scope.isNotData = true;
+                    }
+                });
+            })
+        }
+        //取消删除
+        $scope.cancle = function () {
+            $scope.delstyle = {display: 'none'};
+        }
+        //点击更新数量
+        $scope.updateamount = function (id, count) {
+            $scope.totalnum = 0;
+            $scope.totalprice = 0;
+            $scope.checkedinfo = [];
+            for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                var item = $scope.cartlist.pagingList[i];
+                if (item.gcid == id) {
+                    item.num = parseInt(item.num) + count;//这里可以增加上下限制
+                    if (item.num < 1) {
+                        //$scope.cartlist.pagingList.splice(i, 1);
+                        item.num = 1;
+                    }
+                    if (parseInt(item.num) > item.stocknumber) {
+                        item.num = item.stocknumber;
+                    }
+                }
+                var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
+                if (item && f !== -1) {
+                    $scope.checkedinfo.push(item);
+                    $scope.totalnum += parseInt(item.num);
+                    $scope.totalprice += parseInt(item.num) * item.price;
+                }
+            }
+        }
+        //手改更新数量
+        $scope.changenamount = function (id) {
+            $scope.totalnum = 0;
+            $scope.totalprice = 0;
+            $scope.checkedinfo = [];
+            for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                var item = $scope.cartlist.pagingList[i];
+                if (item.gcid == id) {
+                    if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
+                        item.num = 1;
+                    }
+                    if (parseInt(item.num) > item.stocknumber) {
+                        item.num = item.stocknumber;
+                    }
+                }
+                var f = $scope.checkedGcIds.indexOf(item.gcid);
+                if (item && f !== -1) {
+                    $scope.checkedinfo.push(item);
+                    $scope.totalnum += parseInt(item.num);
+                    $scope.totalprice += parseInt(item.num) * item.price;
+                }
+            }
+        }
+        //结算
+        $scope.bill = function () {
+            if ($scope.checkedGcIds.length > 0) {
+                $state.go("confirmorder");
+                localStorage.setItem(localStorage.getItem("openId"), JSON.stringify($scope.checkedinfo));
+            } else {
+                CommonService.toolTip("您还没有选择要购买的商品哦！","tool-tip-message-success");
+            }
+        }
+    }])
     //确认订单
     .controller('ConfirmOrderCtrl', ['$rootScope','$scope', '$state', 'CartService', 'AddressService', 'OrderService', 'WeiXinService', 'CommonService',function ($rootScope,$scope, $state, CartService, AddressService, OrderService, WeiXinService,CommonService) {
         $rootScope.commonService=CommonService;
@@ -3578,23 +3753,40 @@
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
+            $scope.goodInfo = [];
+            var obj = {};
+            obj.serviceId = localStorage.getItem("barterServiceId");
+            obj.id = $scope.gooddetail.goodId;
+            obj.childId = $scope.gooddetail.goodchildId;
+            obj.buynum = $scope.gooddetail.num;
+            obj.checked = 1;
+            $scope.goodInfo.push(obj);
+            OrderService.addBarterCart($scope.goodInfo).success(function(data){
+                if(data&&data.errmsg=="ok"){
+                    $state.go("showResult");//跳转筛选页
+                }
+            });
         }
-        //直接结算
+        //换此款
         $scope.selectThis = function () {
+            //添加购物车
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
-            //商品id，商品子id，价格，数量
-            $scope.goodInfo=[];
-            var good={};
-            good.id=$scope.gooddetail.goodId;
-            good.childId=$scope.gooddetail.goodchildId;
-            good.buynum=$scope.gooddetail.num;
-            good.price=$scope.price;
-            $scope.goodInfo.push(good);
-            localStorage.setItem("barterInfo",JSON.stringify($scope.goodInfo));
-            $state.go("procphoto",{name:"exchange"});
+            $scope.goodInfo = [];
+            var obj = {};
+            obj.serviceId = localStorage.getItem("barterServiceId");
+            obj.id = $scope.gooddetail.goodId;
+            obj.childId = $scope.gooddetail.goodchildId;
+            obj.buynum = $scope.gooddetail.num;
+            obj.checked = 1;
+            $scope.goodInfo.push(obj);
+            OrderService.addBarterCart($scope.goodInfo).success(function(data){
+                if(data&&data.errmsg=="ok"){
+                    $state.go("procphoto", {name: "exchange"});//跳转拍照页
+                }
+            });
         }
     }])
     //估价结果推荐

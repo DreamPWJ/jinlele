@@ -130,4 +130,12 @@ public class ServiceOrderController {
     public  Map<String,Object> createBarterOrder(@RequestBody List<Map<String,Object>> list) {
         return serviceOrderService.createBarterOrder(list);
     }
+    /**
+     * 添加到换款购物车
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addBarterCart" ,method = RequestMethod.POST)
+    public  Map<String,Object> addBarterCart(@RequestBody List<Map<String,Object>> list) {
+        return serviceOrderService.addBarterCart(list);
+    }
 }

@@ -150,4 +150,7 @@
       checked = #{checked,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByUQ" parameterType="java.lang.Integer" resultType="Map">
+    select * from exchange_chart where service_id = #{0} and good_id = #{1} and goodchild_id = #{2}
+  </select>
 </mapper>

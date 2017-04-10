@@ -230,7 +230,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                  .state('bartercart', {  //换购购物车
                      url: '/bartercart',
                      templateUrl: 'html/exchange/barterCart.html',
-                     controller: 'ShowResultCtrl'
+                     controller: 'BarterCartCtrl'
                  })
                  .state('serviceProgress', {  //服务进度
                      url: '/serviceProgress/:type/:orderno',

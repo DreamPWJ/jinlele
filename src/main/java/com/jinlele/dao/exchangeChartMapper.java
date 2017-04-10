@@ -14,4 +14,6 @@ public interface exchangeChartMapper {
     int updateByPrimaryKeySelective(exchangeChart record);
 
     int updateByPrimaryKey(exchangeChart record);
+
+    exchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
 }
