@@ -1,19 +1,19 @@
 package com.jinlele.dao;
 
-import com.jinlele.model.exchangeChart;
+import com.jinlele.model.ExchangeChart;
 
-public interface exchangeChartMapper {
+public interface ExchangeChartMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(exchangeChart record);
+    int insert(ExchangeChart record);
 
-    int insertSelective(exchangeChart record);
+    int insertSelective(ExchangeChart record);
 
-    exchangeChart selectByPrimaryKey(Integer id);
+    ExchangeChart selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(exchangeChart record);
+    int updateByPrimaryKeySelective(ExchangeChart record);
 
-    int updateByPrimaryKey(exchangeChart record);
+    int updateByPrimaryKey(ExchangeChart record);
 
-    exchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
+    ExchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
 }
