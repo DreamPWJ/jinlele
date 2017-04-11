@@ -53,7 +53,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     @Resource
     IUserService userService;
     @Resource
-    exchangeChartMapper barterMapper;
+    ExchangeChartMapper exchangeChartMapper;
 
     @Override
     public Map<String, Object> getServiceProgressInfoByOrderno(String orderno) {
@@ -283,13 +283,13 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                 Integer serviceId = Integer.valueOf(barterInfo.get("serviceId").toString());//服务id
                 Integer goodId = Integer.valueOf(barterInfo.get("id").toString());//商品id
                 Integer goodChildId = Integer.valueOf(barterInfo.get("childId").toString());//商品子id
-                exchangeChart barter = barterMapper.selectByUQ(serviceId, goodId, goodChildId);//查询记录
+                ExchangeChart barter = exchangeChartMapper.selectByUQ(serviceId, goodId, goodChildId);//查询记录
                 if (barter != null) {
                     continue;
                 }
                 Integer buynum = Integer.valueOf(barterInfo.get("buynum").toString());//购买数量
                 Integer checked = Integer.valueOf(barterInfo.get("checked").toString());//选中状态
-                barterMapper.insertSelective(new exchangeChart(serviceId, goodId, goodChildId, buynum, checked));
+                exchangeChartMapper.insertSelective(new ExchangeChart(serviceId, goodId, goodChildId, buynum, checked));
             }
             resultMap.put("errmsg", "ok");
         }catch (Exception e){

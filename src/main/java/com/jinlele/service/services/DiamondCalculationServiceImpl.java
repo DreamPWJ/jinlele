@@ -2,7 +2,7 @@ package com.jinlele.service.services;
 
 import com.jinlele.dao.*;
 import com.jinlele.model.EvaluateDiamond;
-import com.jinlele.model.exchangeChart;
+import com.jinlele.model.ExchangeChart;
 import com.jinlele.service.interfaces.IDiamondCalculationService;
 import com.jinlele.service.interfaces.IMetalCalculationService;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
     @Resource
     ServiceMapper serviceMapper;
     @Resource
-    exchangeChartMapper exchangeChartMapper;
+    ExchangeChartMapper exchangeChartMapper;
     @Override
     public Map<String, Object> addDiamondPrice(List<Map<String,Object>> list) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -108,7 +108,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 serviceMapper.insertSelective(service);
                 //添加换款购物车
                 if(goodId!=0&&goodChildId!=0){
-                    exchangeChartMapper.insertSelective(new exchangeChart(service.getId(),goodId,goodChildId,1,1));
+                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(),goodId,goodChildId,1,1));
                 }
                 evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,certificate,color,cleaness,florescence,cut,symmetry,polish,quality,totalMetalPrice,totalMainPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
                 resultMap.put("mainPrice",totalMainPrice);
@@ -124,7 +124,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 serviceMapper.insertSelective(service);
                 //添加换款购物车
                 if(goodId!=0&&goodChildId!=0){
-                    exchangeChartMapper.insertSelective(new exchangeChart(service.getId(),goodId,goodChildId,1,1));
+                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(),goodId,goodChildId,1,1));
                 }
                 evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,quality,totalMetalPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
                 resultMap.put("mainPrice","");

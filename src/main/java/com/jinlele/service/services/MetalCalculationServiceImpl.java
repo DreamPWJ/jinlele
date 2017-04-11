@@ -3,8 +3,8 @@ package com.jinlele.service.services;
 import com.jinlele.dao.*;
 import com.jinlele.model.DayPrice;
 import com.jinlele.model.EvaluateMetal;
+import com.jinlele.model.ExchangeChart;
 import com.jinlele.model.MetalCalculation;
-import com.jinlele.model.exchangeChart;
 import com.jinlele.service.interfaces.IMetalCalculationService;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
     @Resource
     EvaluateMetalMapper evaluateMetalMapper;
     @Resource
-    exchangeChartMapper exchangeChartMapper;
+    ExchangeChartMapper exchangeChartMapper;
 
     @Override
     public List getSubSet(String category, Integer pid) {
@@ -101,7 +101,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
             resultMap.put("evaluateServiceId", service.getId());//返回serviceid
             //添加换款购物车
             if(goodId!=0&&goodChildId!=0){
-                exchangeChartMapper.insertSelective(new exchangeChart(service.getId(),goodId,goodChildId,1,1));
+                exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(),goodId,goodChildId,1,1));
             }
         }
         //金价  重量   折旧费  结果
