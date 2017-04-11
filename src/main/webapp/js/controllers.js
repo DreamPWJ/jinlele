@@ -42,7 +42,7 @@
                 // 获取微信签名
                 $scope.wxparams = {
                     url: location.href.split('#')[0] //当前网页的URL，不包含#及其后面部分
-                }
+                };
                 WeiXinService.getWCSignature($scope.wxparams).success(function (data) {
                     localStorage.setItem("timestamp", data.timestamp);//生成签名的时间戳
                     localStorage.setItem("noncestr", data.nonceStr);//生成签名的随机串
@@ -51,13 +51,13 @@
                     WeiXinService.weichatConfig(data.timestamp, data.nonceStr, data.signature);
                 })
             }
-        })
+        });
         //主页搜索
         $scope.search = '';//搜索内容
         $scope.searchquery = function (searchcontent) {
             $scope.search = searchcontent;
             $scope.getNewProducts();
-        }
+        };
 
         //获取首页分页新产品
         $scope.newProductsinfo = [];
@@ -74,7 +74,7 @@
                 $scope.search = '';//清空搜索条件
                 angular.forEach(data.pagingList, function (item) {
                     $scope.newProductsinfo.push(item);
-                })
+                });
                 $scope.total = data.myPageCount;
                 console.log(data);
                 $ionicScrollDelegate.resize();//解决添加数据后页面不能及时滚动刷新造成卡顿
@@ -82,7 +82,7 @@
                 $scope.$broadcast('scroll.refreshComplete');
                 $scope.$broadcast('scroll.infiniteScrollComplete');
             })
-        }
+        };
         $scope.getNewProducts();
         CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
             $scope.cartTotalNum=data.totalnum;
@@ -179,7 +179,7 @@
                     $scope.checkedinfo.push(data);
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.price;
-                })
+                });
                 $('#' + choseall.id).siblings("label").addClass("on");
                 angular.forEach($scope.checkedGcIds, function (i, index) {
                     $('#' + i).siblings("label").addClass("on");
@@ -207,7 +207,7 @@
                     $scope.checkedGcIds.splice(index, 1);
                     $('#' + choseone.id).siblings("label").removeClass("on");
                 }
-            })
+            });
             if ($scope.cartlist.pagingList.length === $scope.checkedGcIds.length) {
                 $scope.select_all = true;
                 $('#all').siblings("label").addClass("on");
@@ -225,17 +225,17 @@
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.price;
                 }
-            })
+            });
             $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
 
 
-        }
+        };
         //删除
         $scope.del = function () {
             if ($scope.checkedGcIds.length > 0) {
                 $scope.delstyle = {};
             }
-        }
+        };
         //确认删除
         $scope.confirm = function () {
             console.log($scope.checkedGcIds);
@@ -250,11 +250,11 @@
                     }
                 });
             })
-        }
+        };
         //取消删除
         $scope.cancle = function () {
             $scope.delstyle = {display: 'none'};
-        }
+        };
         //点击更新数量
         $scope.updateamount = function (id, count) {
             $scope.totalnum = 0;
@@ -279,7 +279,7 @@
                     $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
-        }
+        };
         //手改更新数量
         $scope.changenamount = function (id) {
             $scope.totalnum = 0;
@@ -302,7 +302,7 @@
                     $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
-        }
+        };
         //结算
         $scope.bill = function () {
             if ($scope.checkedGcIds.length > 0) {
@@ -354,7 +354,7 @@
                     $scope.checkedinfo.push(data);
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.price;
-                })
+                });
                 $('#' + choseall.id).siblings("label").addClass("on");
                 angular.forEach($scope.checkedGcIds, function (i, index) {
                     $('#' + i).siblings("label").addClass("on");
@@ -382,7 +382,7 @@
                     $scope.checkedGcIds.splice(index, 1);
                     $('#' + choseone.id).siblings("label").removeClass("on");
                 }
-            })
+            });
             if ($scope.cartlist.pagingList.length === $scope.checkedGcIds.length) {
                 $scope.select_all = true;
                 $('#all').siblings("label").addClass("on");
@@ -400,17 +400,17 @@
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.price;
                 }
-            })
+            });
             $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
 
 
-        }
+        };
         //删除
         $scope.del = function () {
             if ($scope.checkedGcIds.length > 0) {
                 $scope.delstyle = {};
             }
-        }
+        };
         //确认删除
         $scope.confirm = function () {
             console.log($scope.checkedGcIds);
@@ -425,11 +425,11 @@
                     }
                 });
             })
-        }
+        };
         //取消删除
         $scope.cancle = function () {
             $scope.delstyle = {display: 'none'};
-        }
+        };
         //点击更新数量
         $scope.updateamount = function (id, count) {
             $scope.totalnum = 0;
@@ -454,7 +454,7 @@
                     $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
-        }
+        };
         //手改更新数量
         $scope.changenamount = function (id) {
             $scope.totalnum = 0;
@@ -477,7 +477,7 @@
                     $scope.totalprice += parseInt(item.num) * item.price;
                 }
             }
-        }
+        };
         //结算
         $scope.bill = function () {
             if ($scope.checkedGcIds.length > 0) {
@@ -515,7 +515,7 @@
             wx.ready(function () {
                 WeiXinService.wxopenAddress($scope);
             })
-        }
+        };
         $scope.submitorder=function() {
             //确认信息
             $scope.confirminfo = [];
@@ -549,7 +549,7 @@
                         descrip: '六唯壹珠宝',
                         openid: localStorage.getItem("openId"),
                         orderType:JSON.stringify({type:'006'})
-                    }
+                    };
                     //调用微信支付服务器端接口
                     WeiXinService.getweixinPayData($scope.param).success(function (data) {
                         WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -721,7 +721,7 @@
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
                 orderType:JSON.stringify({type:$scope.order.orderType})
-            }
+            };
             //通过config接口注入权限验证配置
             WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
             //通过ready接口处理成功验证
@@ -745,7 +745,7 @@
                         });
                 });
             })
-        }
+        };
         //物流页面
         $scope.addLogisticsInfo = function () {
             var obj = {
@@ -754,7 +754,7 @@
             };
             console.log('procreceive===' + JSON.stringify(obj));
             $state.go('procreceive', obj);
-        }
+        };
         //服务追踪
         $scope.traceProgress = function (type,orderno,createTime,shoporderstatusCode,totalprice) {
             console.log('type=='+type);
@@ -1005,7 +1005,7 @@
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
                 orderType:JSON.stringify({type:'006'})
-            }
+            };
             //调用微信支付服务器端接口
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
                 WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -1058,14 +1058,14 @@
                     $scope.localIds[gcid] = $scope.images;
                     $scope.jsonmedia.push({"gcid":  gcid ,"media": WeiXinService.mediaIds });
                     $scope.$apply();
-                })
+                });
                 WeiXinService.mediaIds = []; //置空媒体id数组
             })
-        }
+        };
         //描述等级
         $scope.paint=function(id) {
             $scope.currentId = id + 1;
-        }
+        };
         //提交评论
         $scope.submitcomment = function () {
             $scope.comment = [];//评论整体信息
@@ -1089,10 +1089,10 @@
                             $scope.mediaIds.push(mediaitem.media[i]);
                         }
                     }
-                })
+                });
                 iteminfo.mediaIds = $scope.mediaIds;
                 $scope.itemsinfo.push(iteminfo);
-            })
+            });
             commentinfo.itemsinfo=$scope.itemsinfo;
             $scope.comment.push(commentinfo);
             if(flag) {
@@ -1156,7 +1156,7 @@
             }).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
                     $scope.orderlistsinfo.push(item);
-                })
+                });
                 if (data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
                 if ($scope.total > $scope.orderlistsinfo.length) {
@@ -1164,7 +1164,7 @@
                     console.log("moreFlag ==" + $scope.moreFlag);
                 }
             })
-        }
+        };
         $scope.getOrderLists();
         //取消订单
         $scope.cancelOrder = function (orderno,typeCode) {
@@ -1175,7 +1175,7 @@
                     $scope.getOrderLists(0);
                 }
             });
-        }
+        };
         //确认收货
         $scope.confirmReceive = function (shoporderstatus,orderno){
             var orderStatus="";
@@ -1211,7 +1211,7 @@
                     $state.reload();
                 }
             });
-        }
+        };
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype) {
             $scope.param = {
@@ -1239,16 +1239,16 @@
                         }
                     });
             })
-        }
+        };
 
         //跳转到商城订单详情页
         $scope.orderdetail = function (orderno , orderType) {
             $state.go("orderdetail", {orderNo: orderno, orderType: orderType});
-        }
+        };
         //跳转到服务订单详情页
         $scope.servicedetail = function (orderno , orderType) {
             $state.go("servicedetail", {orderNo: orderno, orderType: orderType});
-        }
+        };
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
@@ -1329,7 +1329,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //参数
         $scope.order = {
             userlogisticsnoComp:"",//买方发货快递公司编码
@@ -1349,7 +1349,7 @@
                 obj.id=item.number;
                 obj.text=item.company;
                 $scope.userlogisticsnoConfig.data.push(obj);
-            })
+            });
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
             if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
         });
@@ -1378,13 +1378,13 @@
                             obj.id=item.number;
                             obj.text=item.company;
                             $scope.userlogisticsnoConfig.data.push(obj);
-                        })
+                        });
                         if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
                         if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
                     });
                 }
             });
-        }
+        };
         //修改物流信息
         $scope.editUsrLogisticsInfo=function(){
             $scope.orderinfo.userlogisticsno=null;
@@ -1409,10 +1409,10 @@
                 }
                 angular.forEach(data.pagingList, function (item) {
                     $scope.walletdetailArr.push(item);
-                })
+                });
                 $scope.moreDataFlag = (data.myrows > $scope.walletdetailArr.length) ?  true : false;
             })
-        }
+        };
         $scope.getData();
     })
     //充值成功页面
@@ -1450,13 +1450,13 @@
                         $scope.weixinPay(data.orderno, data.price, data.type, data.orderstatus);
                     }else{
                         CommonService.toolTip("网络异常", "");
-                        return;
+
                     }
                 }).error(function (res) {
                     console.log(JSON.stringify(res));
                     CommonService.toolTip("网络异常", "");
                 });
-        }
+        };
 
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
@@ -1559,20 +1559,20 @@
                 }
                 angular.forEach(data.pagingList, function (item) {
                     $scope.FavArr.push(item);
-                })
+                });
                 $scope.moreDataFlag = (data.myrows > $scope.FavArr.length) ?  true : false;
             })
-        }
+        };
         $scope.getFavs();
         $scope.del = function (fid,index) {
             $scope.rmFlag = true;
             $scope.rmFid = fid;
             $scope.rmIndex = index;
-        }
+        };
 
         $scope.cancelRemove = function () {
             $scope.rmFlag = false;
-        }
+        };
         $scope.confirmRemove = function () {
             GoodService.delFavourite({fid : $scope.rmFid}).success(function (data) {
                 if(data && data.n == 1){
@@ -1584,7 +1584,7 @@
                     $scope.noDataFlag = true;
                 }
             });
-        }
+        };
         $scope.detail = function (gid) {
             console.log(gid);
             $state.go("gooddetail" , {id:gid});
@@ -1668,7 +1668,7 @@
             }else{
                 CommonService.toolTip("手机号码格式错误","tool-tip-message-success");
             }
-        }
+        };
         //绑定手机号码
         $scope.bindingphone=function(phoneNumber,code){
             //再次校验手机号码及验证码
@@ -1723,7 +1723,7 @@
                 $scope.priceFlag = $scope.priceFlag == 1 ? 0 : 1;
                 getData(index , $scope.priceFlag);
             }
-        }
+        };
         //页面初始加载
         getData(1 , 1);//默认按照 时间倒序
 
@@ -1802,7 +1802,7 @@
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
             )
-        }
+        };
         $scope.changeNum = function () {
             if (!/^\+?[1-9][0-9]*$/.test($scope.gooddetail.num)) {
                 $scope.gooddetail.num = 1;
@@ -1810,17 +1810,17 @@
             if ($scope.gooddetail.num > $scope.stocknum) {
                 $scope.gooddetail.num = $scope.stocknum;
             }
-        }
+        };
         $scope.addNum = function () {
             if ($scope.gooddetail.num < $scope.stocknum) {
                 $scope.gooddetail.num++;
             }
-        }
+        };
         $scope.minusNum = function () {
             if ($scope.gooddetail.num > 1) {
                 $scope.gooddetail.num--;
             }
-        }
+        };
 
         $scope.fav = function () {
             //去后台收藏表 保存或删除数据
@@ -1844,7 +1844,7 @@
                     }
                 })
             }
-        }
+        };
         $scope.changThis=function() {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
@@ -1883,14 +1883,14 @@
             }else{
                 CommonService.toolTip("最多上传五张图片", "");
             }
-        }
+        };
         //删除图片
         $scope.delthisImage=function(index){
             $scope.imgSrcs.splice(index,1);
             WeiXinService.mediaIds.splice(index,1);
             $scope.count = $scope.imgSrcs.length;
             $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
-        }
+        };
         //根据路由获取服务类型代码
         $scope.typeCode = ProcCommitOrderService.getType($scope.pagetheme).code;
         //服务类实体
@@ -1966,7 +1966,7 @@
                             }
                         })
                     });
-                }
+                };
                 //维修项目
                 CategoryService.getItems({typename: 'repairitem'}).success(function (data) {
                     angular.forEach(data.selectedItems,function(item,index){
@@ -1982,9 +1982,9 @@
                 //计算总数量和总价格
                 $scope.getTotal = function (number) {
                     //遍历
-                    $scope.totalnum = number;;
+                    $scope.totalnum = number;
                     console.log(" $scope.totalnum ==" + $scope.totalnum);
-                }
+                };
                 $scope.errorFlag=false;
                 $scope.checkNum=function(number){
                     if(/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/.test(number)){
@@ -1993,7 +1993,7 @@
                         $scope.errorFlag = true;
                         $scope.errorInfo="请输入数字";
                     }
-                }
+                };
                 break;
             case "detect"://检测
                 ProcPhotoService.getdetectPrice().success(function (data) {
@@ -2122,14 +2122,14 @@
         $scope.addsendway = function (val) {
             $scope.sendwayFlag = !$scope.sendwayFlag;
             $scope.order.sendway = val;
-        }
+        };
         $scope.addgetway = function (val) {
             $scope.getwayFlag = !$scope.getwayFlag;
             $scope.order.getway = val;
-        }
+        };
         $scope.goback = function () {
             $window.history.back();
-        }
+        };
         $scope.sendwayFlag = false;//寄件方式切换
         $scope.getwayFlag = false; //取件方式切换
         $scope.sendwayValue = ['001', '002'];//寄件取件方式值
@@ -2149,7 +2149,7 @@
             wx.ready(function () {
                 WeiXinService.wxopenAddress($scope);
             })
-        }
+        };
         //门店
         $scope.storeConfig= {
             data: [],
@@ -2177,7 +2177,7 @@
                     $scope.order.address=item.address;
                 }
             });
-        }
+        };
         $scope.product = {
             firstCatogoryId: "",//一级分类id
             secondCatogoryId: "", //二级分类id
@@ -2233,13 +2233,13 @@
                     }
                 })
             });
-        }
+        };
         //计算总价格
         $scope.calcTotalPrice=function(num){
             $scope.totalprice = num * $scope.aturalprice;
             $scope.totalnum = num;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
-        }
+        };
         //生成订单并付款
         $scope.useful=false;//控制下单按钮,防止重复下单
         $scope.errorFlag=false;
@@ -2304,7 +2304,7 @@
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
                             orderType:JSON.stringify({type:$scope.type.code})
-                        }
+                        };
                         //调用支付接口
                         console.log(JSON.stringify($scope.param));
                         //微信支付调用
@@ -2355,7 +2355,7 @@
                 console.log(JSON.stringify($scope.confirminfo));
                 //保存订单 并去支付订单
                 ProcCommitOrderService.updateRepairOrder($scope.confirminfo).success(function (data) {
-                    console.log('data='+JSON.stringify(data))
+                    console.log('data='+JSON.stringify(data));
                     if (data) {
                         $scope.useful=false;
                         //调用支付接口
@@ -2447,7 +2447,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //参数
         $scope.order = {
             userlogisticsnoComp:"",//买方发货快递公司编码
@@ -2467,7 +2467,7 @@
                 obj.id=item.number;
                 obj.text=item.company;
                 $scope.userlogisticsnoConfig.data.push(obj);
-            })
+            });
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //保存客户填写的物流信息
@@ -2509,12 +2509,12 @@
                             obj.id=item.number;
                             obj.text=item.company;
                             $scope.userlogisticsnoConfig.data.push(obj);
-                        })
+                        });
                         if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
                     });
                 }
             });
-        }
+        };
         //修改物流信息
         $scope.editUsrLogisticsInfo=function(){
             $scope.orderInfo.userlogisticsno=null;
@@ -2543,7 +2543,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             $scope.orderInfo = data.order;
@@ -2582,7 +2582,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
             $scope.orderInfo = data.order;console.log(data);
@@ -2621,7 +2621,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             $scope.orderInfo = data.order;
@@ -2655,7 +2655,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             $scope.orderInfo = data.order;
@@ -2689,7 +2689,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         $rootScope.commonService=CommonService;
         //服务名
         if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
@@ -2709,7 +2709,7 @@
         $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
         $scope.paint=function(id) {
             $scope.currentId = id + 1;
-        }
+        };
         OrderService.getOrderDetailInfo({orderno: $stateParams.orderno}).success(function (data) {
             $scope.orderinfo = data.order;//订单总信息
             $scope.servicedetail = data.servicedetail;//地址详情
@@ -2742,14 +2742,14 @@
             }else{
                 CommonService.toolTip("最多上传五张图片", "");
             }
-        }
+        };
         //删除图片
         $scope.delthisImage=function(index){
             $scope.imgSrcs.splice(index,1);
             WeiXinService.mediaIds.splice(index,1);
             $scope.count = $scope.imgSrcs.length;
             $scope.perUploadNumber = 5 - $scope.imgSrcs.length;
-        }
+        };
         //提交评论
         $scope.addcomment=function(){
             //一条评论  多张图片  orderno
@@ -2809,7 +2809,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             $scope.orderInfo = data.order;
@@ -2854,7 +2854,7 @@
                     },1000);
                 }
             });
-        }
+        };
         //确认维修
         $scope.commit = function () {
             OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002003'}).success(function (data) {
@@ -2893,7 +2893,7 @@
                     $scope.mine="retrofit";
                     break;
             }
-        }
+        };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
             $scope.orderInfo = data.order;
@@ -2972,7 +2972,7 @@
                     $scope.goldPurity = item.codevalue;
                 }
             })
-        })
+        });
         $scope.getGoldPurity = function (type) {
             EvaluateService.getSubSet({category: "metalCode", pid: type}).success(function (data) {
                 $scope.goldPurityConfig.data = [];
@@ -2986,7 +2986,7 @@
                     }
                 })
             })
-        }
+        };
         //铂金
         $scope.boPurityConfig = {
             data: [],
@@ -3002,7 +3002,7 @@
                     $scope.boPurity = item.codevalue;
                 }
             })
-        })
+        });
         //K金
         $scope.kPurityConfig = {
             data: [],
@@ -3018,7 +3018,7 @@
                     $scope.kPurity = item.codevalue;
                 }
             })
-        })
+        });
         //钯金
         $scope.baPurityConfig = {
             data: [],
@@ -3034,7 +3034,7 @@
                     $scope.baPurity = item.codevalue;
                 }
             })
-        })
+        });
         //白银
         $scope.silverTypeConfig = {
             data: [{id: 124, text: '首饰'}, {id: 126, text: '银条'}],
@@ -3069,7 +3069,7 @@
                     }
                 })
             })
-        }
+        };
         $scope.checkMetal = function (metalType) {
             switch (metalType) {
                 case 1:
@@ -3118,7 +3118,7 @@
                     }
                     break;
             }
-        }
+        };
         //贵金属估价
         $scope.calcPMPrice = function (metalType) {
             var obj = {};
@@ -3198,7 +3198,7 @@
                     }
                 }
             });
-        }
+        };
         //钻石
         $scope.certificateType = 217;
         $scope.certificateConfig = {
@@ -3355,7 +3355,7 @@
                     $scope.choice = false;
                     break;
             }
-        }
+        };
         $scope.checkDiamond = function () {
             if (/^\d+(\.\d{1,3})?$/.test($scope.mainWeight)) {
                 $scope.merrorFlag = false;
@@ -3391,9 +3391,9 @@
                 $scope.terrorFlag = true;
                 $scope.errorFlag = true;
                 $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
-                return;
+
             }
-        }
+        };
         //钻石估价
         $scope.calcDiamondPrice = function () {
             $scope.paras = [];
@@ -3561,7 +3561,7 @@
                     }, 1000);
                 }
             });
-        }
+        };
         //放弃变现
         $scope.dropCash = function () {
             var tip;
@@ -3618,7 +3618,7 @@
                     }
                 }
             });
-        }
+        };
         //放弃换款
         $scope.dropBarter = function () {
             OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012'}).success(function (data) {
@@ -3652,14 +3652,14 @@
             }).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
                     $scope.barterlistinfo.push(item);
-                })
+                });
                 if (data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
                 if ($scope.total > $scope.barterlistinfo.length) {
                     $scope.moreFlag = true;
                 }
             })
-        }
+        };
         $scope.getBarterList();
     }])
     //换款详情
@@ -3715,7 +3715,7 @@
                 });
             }
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
-            $scope.totalprice = ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice) > 0 ? $scope.price * $scope.gooddetail.num - $scope.evaluatePrice : 0;
+            $scope.totalprice = ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice) > 0 ? $scope.price * $scope.gooddetail.num - $scope.evaluatePrice : 0;//预选合计总金额
         });
         GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {
             $scope.goodcommentcount = data.total;
@@ -3730,24 +3730,25 @@
             if ($scope.gooddetail.num > $scope.stocknum) {
                 $scope.gooddetail.num = $scope.stocknum;
             }
-        }
+        };
         $scope.addNum = function () {
             if ($scope.gooddetail.num < $scope.stocknum) {
                 $scope.gooddetail.num++;
             }
-        }
+        };
         $scope.minusNum = function () {
             if ($scope.gooddetail.num > 1) {
                 $scope.gooddetail.num--;
             }
-        }
+        };
         //购物车结算
         $scope.settleAccounts = function () {
-        }
+
+        };
         //返回上一页
         $scope.back = function () {
            window.history.go(-1);
-        }
+        };
         $scope.addToCar=function() {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
@@ -3766,7 +3767,7 @@
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
             });
-        }
+        };
         $scope.selectMore = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
@@ -3785,7 +3786,7 @@
                     $state.go("showResult");//跳转筛选页
                 }
             });
-        }
+        };
         //换此款
         $scope.selectThis = function () {
             //添加购物车
@@ -3851,13 +3852,13 @@
             }).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
                     $scope.barterlistinfo.push(item);
-                })
+                });
                 if (data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
                 if ($scope.total > $scope.barterlistinfo.length) {
                     $scope.moreFlag = true;
                 }
             })
-        }
+        };
         $scope.getBarterList();
-    }])
+    }]);
