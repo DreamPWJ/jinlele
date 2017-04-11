@@ -3374,6 +3374,7 @@ section.depict_week {
     margin: 10px 0 60px 0;
     background: #FFF;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding-bottom: 2rem;
 }
 
 section.depict_week span.title {
