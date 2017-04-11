@@ -2,7 +2,7 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ExchangeChart;
 
-public interface ExchangeChartMapper {
+public interface exchangeChartMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(ExchangeChart record);
