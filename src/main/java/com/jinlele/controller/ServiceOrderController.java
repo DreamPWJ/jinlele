@@ -1,5 +1,6 @@
 package com.jinlele.controller;
 
+import com.jinlele.dao.ExchangeChartMapper;
 import com.jinlele.model.ServiceGood;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IServiceGoodService;
@@ -33,6 +34,8 @@ public class ServiceOrderController {
 
     @Resource
     IServiceGoodService serviceGoodService;
+    @Resource
+    ExchangeChartMapper exchangeChartMapper;
 
     /**
      * 根据订单号查询service及shoporder
@@ -137,5 +140,14 @@ public class ServiceOrderController {
     @RequestMapping(value = "/addBarterCart" ,method = RequestMethod.POST)
     public  Map<String,Object> addBarterCart(@RequestBody List<Map<String,Object>> list) {
         return serviceOrderService.addBarterCart(list);
+    }
+
+    /**
+     * 获取购物车计算数据
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getCalcData/{serviceId}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getCalcData(@PathVariable Integer serviceId) {
+        return exchangeChartMapper.getCalcData(serviceId);
     }
 }

@@ -3680,11 +3680,21 @@
                 autoplay: false
             });
         }
+
         //初始化参数
         $scope.balance = 0;//账户余额
         WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.balance = data.balance;
         });
+        $scope.carData = {cartotalnum: 0, cartotalprice: 0};
+        if (localStorage.getItem("barterServiceId")) {
+            OrderService.getCalcData({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+                if (data) {
+                    $scope.carData.cartotalnum = data.cartotalnum;
+                    $scope.carData.cartotalprice = data.cartotalprice;
+                }
+            });
+        }
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
         $scope.menuWidth = {"width": "33.333%"};
@@ -3694,7 +3704,7 @@
             goodchildId: "",
             num: 1
         };
-        $scope.totalprice =0;//合计
+        $scope.totalprice = 0;//合计
         GoodService.getGoodDetail({
             goodId: $stateParams.goodId,
             userId: $scope.gooddetail.userId
@@ -3715,7 +3725,7 @@
                 });
             }
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
-            $scope.totalprice = ($scope.price * $scope.gooddetail.num - $scope.evaluatePrice) > 0 ? $scope.price * $scope.gooddetail.num - $scope.evaluatePrice : 0;//预选合计总金额
+            $scope.totalprice = $scope.price * $scope.gooddetail.num + $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
         });
         GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {
             $scope.goodcommentcount = data.total;
@@ -3743,13 +3753,30 @@
         };
         //购物车结算
         $scope.settleAccounts = function () {
-
+            if (!$scope.gooddetail.goodchildId) {
+                CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            $scope.goodInfo = [];
+            var obj = {};
+            obj.serviceId = localStorage.getItem("barterServiceId");
+            obj.id = $scope.gooddetail.goodId;
+            obj.childId = $scope.gooddetail.goodchildId;
+            obj.buynum = $scope.gooddetail.num;
+            obj.checked = 1;
+            $scope.goodInfo.push(obj);
+            OrderService.addBarterCart($scope.goodInfo).success(function (data) {
+                if (data && data.errmsg == "ok") {
+                    $state.go("bartercart");//跳转购物车
+                }
+            });
         };
         //返回上一页
         $scope.back = function () {
-           window.history.go(-1);
+            window.history.go(-1);
         };
-        $scope.addToCar=function() {
+        //添加购物车
+        $scope.addToCar = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
@@ -3762,12 +3789,13 @@
             obj.buynum = $scope.gooddetail.num;
             obj.checked = 0;
             $scope.goodInfo.push(obj);
-            OrderService.addBarterCart($scope.goodInfo).success(function(data){
-                if(data&&data.errmsg=="ok"){
+            OrderService.addBarterCart($scope.goodInfo).success(function (data) {
+                if (data && data.errmsg == "ok") {
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
             });
         };
+        //选多几款
         $scope.selectMore = function () {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
@@ -3781,8 +3809,8 @@
             obj.buynum = $scope.gooddetail.num;
             obj.checked = 1;
             $scope.goodInfo.push(obj);
-            OrderService.addBarterCart($scope.goodInfo).success(function(data){
-                if(data&&data.errmsg=="ok"){
+            OrderService.addBarterCart($scope.goodInfo).success(function (data) {
+                if (data && data.errmsg == "ok") {
                     $state.go("showResult");//跳转筛选页
                 }
             });
@@ -3802,8 +3830,8 @@
             obj.buynum = $scope.gooddetail.num;
             obj.checked = 1;
             $scope.goodInfo.push(obj);
-            OrderService.addBarterCart($scope.goodInfo).success(function(data){
-                if(data&&data.errmsg=="ok"){
+            OrderService.addBarterCart($scope.goodInfo).success(function (data) {
+                if (data && data.errmsg == "ok") {
                     $state.go("procphoto", {name: "exchange"});//跳转拍照页
                 }
             });

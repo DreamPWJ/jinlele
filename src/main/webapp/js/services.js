@@ -22,7 +22,7 @@ angular.module('starter.services', [])
         return {
             getIndexInfo: function (params) { //获取首页信息
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/index/getIndexInfo"
@@ -35,7 +35,7 @@ angular.module('starter.services', [])
             },
             getNewProducts: function (params) { //首页新品推荐分页显示
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/index/getNewProducts/" + params.pagenow,
@@ -197,7 +197,7 @@ angular.module('starter.services', [])
             //根据类型获取一级下拉列表元素
             getItems: function (params) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getSelectedItems/" + params.typename
@@ -326,7 +326,7 @@ angular.module('starter.services', [])
         return {
             login: function (datas) { //登录
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'POST',
                     url: JinLeLe.api + "/user/login",
@@ -350,7 +350,7 @@ angular.module('starter.services', [])
             //最新地址信息
             getlatestinfo:function(params){
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getLatestInfo/"+params.userid
@@ -364,7 +364,7 @@ angular.module('starter.services', [])
             //获取数据库地址id，有则查，无则创建
             getReceiptAddressId: function (datas) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/createReceiptAddressId",
@@ -441,7 +441,7 @@ angular.module('starter.services', [])
             //门店
             findAllStores: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/store/findAllStores/"+ params.latitude + '/' + params.longitude
@@ -455,7 +455,7 @@ angular.module('starter.services', [])
             //生成订单
             createServiceOrder: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'POST',
                     url: JinLeLe.api + "/serviceOrder/createServiceOrder",
@@ -470,7 +470,7 @@ angular.module('starter.services', [])
             //新增服务订单
             saveServiceOrder:function (datas) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/serviceOrder/saveServiceOrder",
@@ -509,7 +509,7 @@ angular.module('starter.services', [])
             //更新维修订单
             updateRepairOrder:function(params){
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'POST',
                     url: JinLeLe.api + "/serviceOrder/updateRepairOrder",
@@ -529,7 +529,7 @@ angular.module('starter.services', [])
             //获取子集
             getSubSet: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getSubSet/"+ params.category + '/' + params.pid
@@ -543,7 +543,7 @@ angular.module('starter.services', [])
             //获取材质
             getMaterial: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getMaterial/"
@@ -557,7 +557,7 @@ angular.module('starter.services', [])
             //获取品质
             getQuality: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getQuality/"
@@ -586,7 +586,7 @@ angular.module('starter.services', [])
             //贵金属估价
             getPMPrice:function(params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/service/getPMPrice/" + params.weight + '/' + params.purity + '/' + params.goodId + '/' + params.goodChildId
@@ -618,7 +618,7 @@ angular.module('starter.services', [])
             //添加购物车
             addtocart: function (datas) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/addtocart",
@@ -637,7 +637,7 @@ angular.module('starter.services', [])
             //遍历购物车数据
             getcartinfo: function (params) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/getCartList/" + params.pagenow + '/' + params.userid
@@ -651,7 +651,7 @@ angular.module('starter.services', [])
             //获取购物车中商品数量
             getCartTotalNum: function (params) { //商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/getCartTotalNum/" + params.userid
@@ -665,7 +665,7 @@ angular.module('starter.services', [])
             //删除购物车数据
             deleteCart:function(params){//商品
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/deleteShoppingCart/" + params.userid + '/' + params.gcIdStr
@@ -679,7 +679,7 @@ angular.module('starter.services', [])
             //生成订单
             saveOrder: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
-                var promise = deferred.promise
+                var promise = deferred.promise;
                 promise = $http({
                     method: 'POST',
                     url: JinLeLe.api + "/order/createOrder",
@@ -942,6 +942,19 @@ angular.module('starter.services', [])
                 promise = $http({
                     method: 'GET',
                     url: JinLeLe.api + "/order/getPostbackImg/" + params.orderno
+                }).success(function (data) {
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            getCalcData:function(params){
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/serviceOrder/getCalcData/" + params.serviceId
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {
@@ -1434,4 +1447,4 @@ angular.module('starter.services', [])
                 return response;
             }
         };
-    })
+    });

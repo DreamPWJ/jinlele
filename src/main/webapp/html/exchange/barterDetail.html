@@ -70,8 +70,8 @@
 </section>
 
 <footer class="add_pay">
-    <span class="check"><a style="color: red;width: 60%;float: right;">预选合计：{{totalprice|currency:"￥"}}元</a></span>
-    <a class="cart" ng-click="settleAccounts()">结算</a>
+    <span class="check"><a style="color: red;width: 60%;float: right;" ng-if="totalprice>=0">预选合计：￥{{totalprice|number:2}}元</a><a style="color: red;width: 60%;float: right;" ng-if="totalprice<0">预选合计：￥{{totalprice|number:2}}元</a></span>
+    <a class="cart" ng-click="settleAccounts()">结算<i>({{carData.cartotalnum}})</i></a>
 </footer>
 <!-- FOOTER -->
 <footer class="add_submit">

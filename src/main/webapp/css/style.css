@@ -3336,7 +3336,6 @@ section.essential ul li span.amount a {
     text-align: center;
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
-
 section.essential ul li:nth-child(3) {
     height: 36px;
     padding: 0;
@@ -3446,6 +3445,11 @@ footer.add_pay a.cart {
     font-size: 94%;
     background: #F5D000;
     margin-right: 50px;
+}
+footer.add_pay a.cart i {
+    font-style: normal;
+    color: #FFF;
+    font-size: 76%;
 }
 
 footer.add_submit {

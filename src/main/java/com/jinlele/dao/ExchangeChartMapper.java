@@ -2,6 +2,8 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ExchangeChart;
 
+import java.util.Map;
+
 public interface ExchangeChartMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface ExchangeChartMapper {
     int updateByPrimaryKey(ExchangeChart record);
 
     ExchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
+
+    Map<String,Object> getCalcData(Integer serviceId);
 }
