@@ -37,7 +37,7 @@
         <!-- 栏目类型 -->
         <section class="assortment">
             <ul>
-                <li ng-repeat="item in indexinfo.secondCatogory"><a href="#/goodlist/{{item.name}}">{{item.name}}</a></li>
+                <li ng-repeat="item in indexinfo.secondCatogory"><a  ng-click="goolist(item.name)">{{item.name}}</a></li>
             </ul>
         </section>
 
