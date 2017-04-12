@@ -175,6 +175,43 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         return resultMap;
     }
 
+    @Override
+    public Map<String, Object> updateBarterCar(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
+        try {
+            Integer serviceId = Integer.valueOf(list.get(0).get("serviceId").toString());
+            exchangeChartMapper.updateByServiceId(serviceId);
+            for (Map<String, Object> barterInfo : list) {
+                Integer id = Integer.valueOf(barterInfo.get("id").toString());
+                Integer num = Integer.valueOf(barterInfo.get("num").toString());
+                ExchangeChart exchangeChart = new ExchangeChart();
+                exchangeChart.setId(id);
+                exchangeChart.setNum(num);
+                exchangeChart.setChecked(1);
+                exchangeChartMapper.updateByPrimaryKeySelective(exchangeChart);
+            }
+            resultMap.put("errmsg", "ok");
+        } catch (Exception e) {
+            resultMap.put("errmsg", "error");
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> deleteBarterCar(List<Map<String, Object>> list) {
+        Map<String, Object> resultMap = new HashedMap();
+        try {
+            for (Map<String, Object> barterInfo : list) {
+                Integer id = Integer.valueOf(barterInfo.get("id").toString());
+                exchangeChartMapper.deleteByPrimaryKey(id);
+            }
+            resultMap.put("errmsg", "ok");
+        } catch (Exception e) {
+            resultMap.put("errmsg", "error");
+        }
+        return resultMap;
+    }
+
 
     @Override
     public Map<String, Object> updateRepairOrder(List<Map<String, Object>> list) {
@@ -264,7 +301,6 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                     productMapper.insertSelective(product);
                 }
                 resultMap.put("errmsg", "ok");
-
             } catch (Exception e) {
                 resultMap.put("errmsg", "error");
             }

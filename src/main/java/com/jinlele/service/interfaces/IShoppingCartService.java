@@ -17,6 +17,7 @@ public interface IShoppingCartService {
      * @return
      */
     Map<String, Object> getShoppingCartPaging(int pagenow, int userId);
+    Map<String, Object> getBarterCartPaging(int pagenow, int serviceid);
 
     //插入数据到购物车
     int insertSelective(ShoppingCart record);

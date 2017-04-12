@@ -5,7 +5,6 @@ import com.jinlele.dao.ShoppingCartMapper;
 import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IShoppingCartService;
 import com.jinlele.util.CommonUtil;
-import com.jinlele.util.SysConstants;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +39,21 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         paramMap.put("pageSize", 100);
         paramMap.put("wherecase", " m.sdelCode='001' AND m.gdelCode='001' AND m.userId= "+userId);
         paramMap.put("orderField", " m.create_time ");
+        paramMap.put("orderFlag", 1);
+        this.baseMapper.getPaging(paramMap);
+        paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));
+        return CommonUtil.removePaingMap(paramMap) ;
+    }
+
+    @Override
+    public Map<String, Object> getBarterCartPaging(int pagenow, int serviceid) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("tableName", " exchange_chart ec join good g on g.id=ec.good_id join goodchild gc on gc.id=ec.goodchild_id join service s on ec.service_id=s.id ");
+        paramMap.put("fields", " ec.id,g.id goodId,gc.id gcid,g.title,g.bannerurl,gc.exprice,gc.stocknumber,ec.num,s.price,ec.checked,ec.service_id serviceId  ");
+        paramMap.put("pageNow", pagenow);
+        paramMap.put("pageSize", 100);
+        paramMap.put("wherecase", " gc.deleteCode='001' and ec.service_id= "+serviceid);
+        paramMap.put("orderField", " ec.create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);
         paramMap.put("pagingList", this.baseMapper.getPaging(paramMap));

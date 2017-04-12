@@ -13,19 +13,20 @@
         </span>
         <span class="cart_pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
         <section class="cart_main">
-            <span class="title"><a href="#/gooddetail/{{item.goodId}}">六福珠宝黄金吊坠女香港热卖款招财猫金镶玉髓吊坠定价</a></span>
+            <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>15?item.title.substr(0,15)+"....":item.title}}</a></span>
             <section class="cart_price">
-                <em>{{item.price | currency:'￥'}}</em>
+                <em>{{item.exprice | currency:'￥'}}</em>
                 <span class="addto">
                 	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
                     <input  type="text" ng-model="item.num" ng-change="changenamount(item.gcid)" />
                 	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
                 </span>
             </section>
-            <span class="color"><font>换此款  补：￥50.00</font></span>
+            <span class="color"><font ng-if="item.exprice*item.num>item.price">换此款  补：{{item.exprice*item.num-item.price | currency:'￥'}}</font><font ng-if="item.exprice*item.num<=item.price" ng-style="{color: '#FE2E2E'}">换此款  剩：{{item.price-item.exprice*item.num | currency:'￥'}}</font></span>
         </section>
     </section>
-    <section class="delete" ng-if="delFlag"><a href="" ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
+    <section class="delete" ng-if="delFlag"><a ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
+    <section class="amount"><a><i class="icon"></i><em>我的余额：{{balance|currency:"￥"}}</em></a></section>
 </main>
 
 <!-- FOOTER -->
@@ -37,7 +38,7 @@
         </label>
         <em>全选</em>
     </span>
-    <span class="total">合计：{{totalprice | currency:'￥'}}</span>
+    <span class="total">预选合计：￥{{totalprice|number:2}}</span>
     <a href="javascript:void(0);"  ng-click="bill()" >结算<i>({{totalnum}})</i></a>
 </footer>
 

@@ -52,6 +52,11 @@ public class OrderController {
         return  shoppingCartService.getShoppingCartPaging(pagenow, userid);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getBarterCartInfo/{pagenow}/{serviceid}", method = RequestMethod.GET)
+    public Map<String, Object> getBarterCartInfo(@PathVariable int pagenow, @PathVariable  int serviceid) {
+        return  shoppingCartService.getBarterCartPaging(pagenow, serviceid);
+    }
     /**
      * 获取用户加入购车商品总数量
      */

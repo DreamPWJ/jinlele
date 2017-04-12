@@ -21,6 +21,16 @@ public interface IServiceOrderService {
     Map<String, Object> saveRepairOrder(List<Map<String, Object>> list);
 
     /**
+     * 更新换款购物车信息
+     */
+    Map<String, Object> updateBarterCar(List<Map<String, Object>> list);
+
+    /**
+     * 删除换款购物车商品
+     */
+    Map<String, Object> deleteBarterCar(List<Map<String, Object>> list);
+
+    /**
      * 更新维修订单
      */
     Map<String, Object> updateRepairOrder(List<Map<String, Object>> list);

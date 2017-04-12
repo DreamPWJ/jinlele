@@ -150,4 +150,22 @@ public class ServiceOrderController {
     public  Map<String,Object> getCalcData(@PathVariable Integer serviceId) {
         return exchangeChartMapper.getCalcData(serviceId);
     }
+
+    /**
+     * 更新换款购物车信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateBarterCar",method = RequestMethod.POST)
+    public Map<String , Object> updateBarterCar(@RequestBody List<Map<String,Object>> list) {
+        return  serviceOrderService.updateBarterCar(list);
+    }
+
+    /**
+     * 删除换款购物车商品
+     */
+    @ResponseBody
+    @RequestMapping(value = "/delBarterCar",method = RequestMethod.POST)
+    public Map<String , Object> delBarterCar(@RequestBody List<Map<String,Object>> list) {
+        return  serviceOrderService.deleteBarterCar(list);
+    }
 }

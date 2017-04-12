@@ -17,6 +17,8 @@ public interface ExchangeChartMapper {
 
     int updateByPrimaryKey(ExchangeChart record);
 
+    int updateByServiceId(Integer serviceId);
+
     ExchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
 
     Map<String,Object> getCalcData(Integer serviceId);
