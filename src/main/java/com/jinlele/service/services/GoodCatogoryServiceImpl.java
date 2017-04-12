@@ -84,7 +84,7 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         paramMap.put("tableName", " good g join g_category gc on g.id=gc.good_id ");
         paramMap.put("fields", " g.id,g.title,g.hotimgurl,g.price,g.oldprice,g.description ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("pageSize", 500);
         paramMap.put("wherecase", "gc.category_id = " + catogoryId + " and g.deleteCode = '001' ");
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);

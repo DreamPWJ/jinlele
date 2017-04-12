@@ -7,7 +7,7 @@
 
 
     //APP首页面
-    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', 'CartService',function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate,CartService) {
+    .controller('MainCtrl', ['$scope', '$rootScope', 'CommonService', 'MainService', 'WeiXinService', '$ionicScrollDelegate', 'CartService','$state',function ($scope, $rootScope, CommonService, MainService, WeiXinService, $ionicScrollDelegate,CartService,$state) {
         $scope.rightFlag = false;//右侧栏控制，true显示 false不显示
         function getBanners(arr) {
             var html = "";
@@ -87,6 +87,11 @@
         CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
             $scope.cartTotalNum=data.totalnum;
         });
+
+        //跳转到goodlist页面
+        $scope.goolist = function (name) {
+            $state.go("goodlist",{name:name});
+        }
     }])
 
 
@@ -1475,9 +1480,9 @@
 
                     }
                 }).error(function (res) {
-                    console.log(JSON.stringify(res));
-                    CommonService.toolTip("网络异常", "");
-                });
+                console.log(JSON.stringify(res));
+                CommonService.toolTip("网络异常", "");
+            });
         };
 
         //微信支付调用
