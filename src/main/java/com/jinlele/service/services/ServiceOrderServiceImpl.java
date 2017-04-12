@@ -18,7 +18,6 @@ import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -354,28 +353,11 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                 address = new ReceiptAddress(item.get("userName").toString(), item.get("postalCode").toString(), item.get("provinceName").toString(), item.get("cityName").toString(), item.get("countryName").toString(), item.get("detailInfo").toString(), item.get("nationalCode").toString(), item.get("telNumber").toString(), userId);
             }
             Map<String, Object> result = receiptAddressService.createReceiptAddressId(address);
-            Double evaluatePrice = serviceMapper.selectByPrimaryKey(serviceId).getPrice();//估价金额
-            Integer buyTotalNum = 0;//购买总数量
-            Double buyTotalPrice = 0.0;//购买总金额
-            Double totalPrice = 0.0;//订单总金额
+
             Date orderTime = new Date();
             try {
-                List<Map<String, Object>> goodInfo = (List) barterInfo.get("products");//商品信息
-                for (Map<String, Object> item : goodInfo) {
-                    Integer goodId = Integer.valueOf(item.get("id").toString());
-                    Integer goodChildId = Integer.valueOf(item.get("childId").toString());
-                    Integer buynum = Integer.valueOf(item.get("buynum").toString());
-                    Double price = Double.valueOf(item.get("price").toString());
-                    buyTotalPrice += price * buynum;
-                    buyTotalNum += buynum;
-                    //记录明细
-                    ServiceGood serviceGood = new ServiceGood(orderno, goodId, goodChildId, buynum, price);
-                    serviceGoodMapper.insertSelective(serviceGood);
-                }
-                buyTotalPrice = (new BigDecimal(buyTotalPrice)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-                totalPrice = buyTotalPrice - evaluatePrice > 0 ? buyTotalPrice - evaluatePrice : 0.0;//总金额
                 //生成订单
-                ShopOrder order = new ShopOrder(orderno, buyTotalNum, totalPrice, null, userId, storeId, type, "005001", Integer.valueOf(result.get("receiptAddressId").toString()), orderTime);
+                ShopOrder order = new ShopOrder(orderno, null, null, null, userId, storeId, type, "005001", Integer.valueOf(result.get("receiptAddressId").toString()), orderTime);
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
                 shopOrderMapper.insertSelective(order);
                 //更新服务表

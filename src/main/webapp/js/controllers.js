@@ -2429,7 +2429,6 @@
                 address.nationalCode = $scope.address.nationalCode;
                 address.telNumber = $scope.address.telNumber;
                 $scope.addressinfo.push(address);
-                $scope.products.push($scope.product);
                 var obj = {};
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
@@ -2438,7 +2437,6 @@
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = localStorage.getItem("barterServiceId");//服务id
-                obj.products = JSON.parse(localStorage.getItem("barterInfo"));//产品集合
                 $scope.confirminfo.push(obj);
                 console.log(JSON.stringify($scope.confirminfo));
                 OrderService.addBarterInfo($scope.confirminfo).success(function(data){
