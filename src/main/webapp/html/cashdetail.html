@@ -1,7 +1,5 @@
 <main class="content bottom">
 
-
-
 	<div ng-if="noDataFlag" class="isNotDataHint">
 		<i class="iconfont icon-cry1"></i>
 		<p>暂无数据</p>
@@ -16,11 +14,13 @@
 		</section>
 		<section class="money">
         	<span class="money_title2">
-            	<em ><span> {{item.money}}</span></em>
-            	<i>元</i>
+                <em ng-if="item.dealname=='申请中'"> <span >{{item.money}}</span></em>
+			    <em ng-if="item.dealname=='已通过'"> <span style="color: green;">{{item.money}}</span></em>
+			    <em ng-if="item.dealname=='已驳回'"> <span style="color: red;">{{item.money}}</span></em>
+                 <i ng-if="item.dealname=='申请中'"> <span >元</span></i>
+			    <i ng-if="item.dealname=='已通过'"> <span style="color: green;">元</span></i>
+			    <i ng-if="item.dealname=='已驳回'"> <span style="color: red;">元</span></i>
             </span>
-
-
 		</section>
 	</section>
 
