@@ -1,26 +1,30 @@
 <main class="content bottom">
 
 
+
 	<div ng-if="noDataFlag" class="isNotDataHint">
 		<i class="iconfont icon-cry1"></i>
 		<p>暂无数据</p>
 	</div>
 
-    <section class="list_take" ng-repeat="item in arr | orderBy : '-createTime'">
-    	<section class="title">
-        	<em>提现金额</em>
-			<u>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'  }}</u>
-
+	<section class="list_take" ng-repeat="item in arr | orderBy : '-createTime'">
+		<section class="title">
+			<em>{{item.createTime | date:'yyyy-MM-dd HH:mm:ss'  }}</em>
+			<em ng-if="item.dealname=='申请中'"> <span >{{item.dealname}}</span></em>
+			<em ng-if="item.dealname=='已通过'"> <span style="color: green;">{{item.dealname}}</span></em>
+			<em ng-if="item.dealname=='已驳回'"> <span style="color: red;">{{item.dealname}}</span></em>
 		</section>
-        <section class="money">
-        	<span class="money_title">
-            	<em>{{item.money}}</em>
+		<section class="money">
+        	<span class="money_title2">
+            	<em ><span> {{item.money}}</span></em>
             	<i>元</i>
             </span>
-        </section>
+
+
+		</section>
 	</section>
 
-	<!--<section class="load"><a href="">加载更多</a></section>-->
+	<section class="collection_load" ng-click="getData()" ng-if="moreDataFlag"><a href="">加载更多</a></section>
 </main>
 
 <footer class="bottom">

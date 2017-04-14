@@ -1730,9 +1730,7 @@
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
         //属性分别为:  数据集合 页号 是否更多标示  是否无数据标示  查询条件标示  正序（0）倒序（1）标示
-        // sale
-        // time
-        // price
+        // sale   time  price
         $scope.arr = [
             {data:[],page:0,moreDataFlag:false,noDataFlag:false,querytype:0,flag:1},
             {data:[],page:0,moreDataFlag:false,noDataFlag:false,querytype:1,flag:1},
