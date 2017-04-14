@@ -3559,6 +3559,10 @@
                 EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
                     if (data) {
+                        if(data.status=="error"){
+                            CommonService.toolTip('该重量的估价没有数据','');
+                            return;
+                        }
                         if ($stateParams.name == "exchange") {
                             $state.go("showResult");
                             localStorage.setItem("evaluationPrice", data.result);
