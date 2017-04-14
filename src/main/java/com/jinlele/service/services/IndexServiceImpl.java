@@ -63,7 +63,7 @@ public class IndexServiceImpl implements IIndexService {
         paramMap.put("tableName", " good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc ");
         paramMap.put("fields", " g.id ,g.title,g.hotimgurl,g.oldprice,gc.minprice,g.description,g.shortinfo ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", 10);
+        paramMap.put("pageSize", 8);
         paramMap.put("wherecase", wherecase.toString());
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);
