@@ -265,7 +265,7 @@
             <dt>请输入钻石产品参数</dt>
             <dd>
                 <u>主石重量：</u>
-                <span><input placeholder="必填项" type="number" ng-model="mainWeight" ng-class={true:"has-error",false:"has-no-error"}[merrorFlag] ng-blur="checkDiamond()"></span>
+                <span><input placeholder="必填项" type="number" ng-model="mainWeight" ng-class={true:"has-error",false:"has-no-error"}[merrorFlag] ng-blur="checkmainWeight(0,mainWeight)"></span>
                 <em ng-class={true:"has-error-right",false:"has-no-error-right"}[merrorFlag]>克拉</em>
             </dd>
             <dd  ng-switch-when="exchange">
@@ -329,7 +329,7 @@
             </dd>
             <dd>
                 <u>副石重量：</u>
-                <span><input placeholder="必填项" type="number" ng-model="secWeight" ng-class={true:"has-error",false:"has-no-error"}[serrorFlag] ng-blur="checkDiamond()"></span>
+                <span><input placeholder="必填项" type="number" ng-model="secWeight" ng-class={true:"has-error",false:"has-no-error"}[serrorFlag] ng-blur="checkmainWeight(1,secWeight)"></span>
                 <em ng-class={true:"has-error-right",false:"has-no-error-right"}[serrorFlag]>克拉</em>
             </dd>
             <dd>
@@ -340,7 +340,7 @@
             </dd>
             <dd>
                 <u>产品总重：</u>
-                <span><input placeholder="必填项" type="number" ng-model="totalWeight" ng-class={true:"has-error",false:"has-no-error"}[terrorFlag] ng-blur="checkDiamond()"></span>
+                <span><input placeholder="必填项" type="number" ng-model="totalWeight" ng-class={true:"has-error",false:"has-no-error"}[terrorFlag] ng-blur="checkmainWeight(2,totalWeight)"></span>
                 <em ng-class={true:"has-error-right",false:"has-no-error-right"}[terrorFlag]>克</em>
             </dd>
             <dd ng-show="errorFlag">
