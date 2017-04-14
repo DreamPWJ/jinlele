@@ -1729,80 +1729,38 @@
     }])
     //商品列表
     .controller('GoodListCtrl', function ($scope, GoodService, $stateParams) {
-
-
-        $scope.saleFlag = 1; //综合(销售)排序方式 正序还是倒序
-        $scope.timeFlag = 1; //时间
-        $scope.priceFlag = 1; //价格
-
-        $scope.noDataFlag = false;  //暂无数据标示
-
-        $scope.salegoodList = [];
-        $scope.timegoodList = [];
-        $scope.pricegoodList = [];
-
-        $scope.salepage = 0;//当前页数
-        $scope.timepage = 0;//当前页数
-        $scope.pricepage = 0;//当前页数
-
-        $scope.moreDataFlag = false; //是否显示 加载更多的点击按钮
-
-
-        $scope.dataList = [
-            {data:$scope.salegoodList,page:$scope.salepage,moreData:$scope.moreDataFlag},
-            {},
-            {}
+        //属性分别为:  数据集合 页号 是否更多标示  是否无数据标示  查询条件标示  正序（0）倒序（1）标示
+        // sale
+        // time
+        // price
+        $scope.arr = [
+            {data:[],page:0,moreDataFlag:false,noDataFlag:false,querytype:0,flag:1},
+            {data:[],page:0,moreDataFlag:false,noDataFlag:false,querytype:1,flag:1},
+            {data:[],page:0,moreDataFlag:false,noDataFlag:false,querytype:2,flag:0}
         ];
-
-
-
-
-        $scope.getData=function(list,querytype,flag,page) {
-            if(list==0){
-                $scope.goodList =  $scope.salegoodList;
-            }
-            if(list==1){
-                $scope.goodList =  $scope.timegoodList;
-            }
-            if(list==2){
-                $scope.goodList =  $scope.pricegoodList;
-            }
-            alert(querytype+"=="+flag+"==="+page);
-            $scope.noDataFlag = false;
-            page++;
+        $scope.getData=function(index) {
+            $scope.arr[index].noDataFlag  = false;
+            $scope.arr[index].page++;
 
             //获取产品列表
-            GoodService.getGoodList({pagenow: page, categoryname: encodeURIComponent($stateParams.name), querytype:querytype , flag:flag}).success(function (data) {
+            GoodService.getGoodList({pagenow: $scope.arr[index].page, categoryname: encodeURIComponent($stateParams.name), querytype:$scope.arr[index].querytype , flag:$scope.arr[index].flag}).success(function (data) {
                 console.log(data.myrows);
                 console.log(data.pagingList);
                 if(data.myrows == 0) {
-                    $scope.noDataFlag = true;
+                    $scope.arr[index].noDataFlag = true;
                     return;
                 }
                 angular.forEach(data.pagingList, function (item) {
-                    $scope.goodList.push(item);
+                    $scope.arr[index].data.push(item);
                 });
-                $scope.moreDataFlag = (data.myrows > $scope.goodList.length) ?  true : false;
+                $scope.arr[index].moreDataFlag = (data.myrows > $scope.arr[index].data.length) ?  true : false;
             })
         }
 
-        $scope.test = function (index){
-            $scope.goodList = [];
-            if(index == 0){
-                $scope.saleFlag = $scope.saleFlag == 1 ? 0 : 1;
-                $scope.getData(0,index ,  $scope.saleFlag,$scope.salepage);    //暂时先按照时间吧  以后需要 用销量来分
-            }
-            if(index == 1){
-                $scope.timeFlag = $scope.timeFlag == 1 ? 0 : 1;
-                $scope.getData(1,index ,  $scope.timeFlag,$scope.timepage);
-            }
-            if(index == 2){
-                $scope.priceFlag = $scope.priceFlag == 1 ? 0 : 1;
-                $scope.getData(2,index , $scope.priceFlag,$scope.pricepage);
-            }
-        };
         //页面初始加载
-        $scope.getData(0, 1,$scope.salepage);//默认按照 时间倒序  //参数分别为: tab索引  是否更多标示 页码
+        $scope.getData(0);
+        $scope.getData(1);
+        $scope.getData(2);
 
 
     })

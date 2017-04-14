@@ -9,7 +9,13 @@
         <!-- 综合 -->
         <section class="swiper-slide" >
             <section class="product_list ">
-                <section class="product" ng-repeat="item in goodList.pagingList">
+
+                <div ng-if="arr[0].noDataFlag" class="isNotDataHint">
+                    <i class="iconfont icon-cry1"></i>
+                    <p>暂无数据</p>
+                </div>
+
+                <section class="product" ng-repeat="item in arr[0].data">
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                     <section class="text">
                         <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
@@ -19,13 +25,42 @@
                     </section>
                 </section>
             </section>
-            <section class="load"><a href="">加载更多</a></section>
+            <section class="load" ng-if="arr[0].moreDataFlag" ng-click="getData(0)"><a href="">加载更多</a></section>
+        </section>
+
+
+        <!-- 价格 -->
+        <section class="swiper-slide">
+            <section class="product_list">
+
+                <div ng-if="arr[2].noDataFlag" class="isNotDataHint">
+                    <i class="iconfont icon-cry1"></i>
+                    <p>暂无数据</p>
+                </div>
+
+                <section class="product" ng-repeat="item in arr[2].data">
+                    <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+                    <section class="text">
+                        <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
+                        <em>现价：{{item.price | currency:'￥'}}</em>
+                        <em>指导价：{{item.oldprice | currency:'￥'}}</em>
+                        <a class="icon" href="">&#xe68d;</a>
+                    </section>
+                </section>
+            </section>
+            <section class="load" ng-if="arr[2].moreDataFlag" ng-click="test(2)"><a href="">加载更多</a></section>
         </section>
 
         <!-- 最新 -->
         <section class="swiper-slide"  >
             <section class="product_list">
-                <section class="product" ng-repeat="item in goodList.pagingList" >
+
+                <div ng-if="arr[1].noDataFlag" class="isNotDataHint">
+                    <i class="iconfont icon-cry1"></i>
+                    <p>暂无数据</p>
+                </div>
+
+                <section class="product" ng-repeat="item in arr[1].data" >
                     <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                     <section class="text">
                         <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
@@ -35,24 +70,10 @@
                     </section>
                 </section>
             </section>
-            <section class="load"><a href="">加载更多</a></section>
+            <section class="load" ng-if="arr[1].moreDataFlag" ng-click="test(1)"><a href="">加载更多</a></section>
         </section>
 
-        <!-- 价格 -->
-        <section class="swiper-slide">
-            <section class="product_list">
-                <section class="product" ng-repeat="item in goodList.pagingList | orderBy : 'saleprice'">
-                    <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
-                    <section class="text">
-                        <p><a ng-href="#/gooddetail/{{item.id}}" >{{item.title}}</a></p>
-                        <em>现价：{{item.price | currency:'￥'}}</em>
-                        <em>指导价：{{item.oldprice | currency:'￥'}}</em>
-                        <a class="icon" href="">&#xe68d;</a>
-                    </section>
-                </section>
-            </section>
-            <section class="load"><a href="">加载更多</a></section>
-        </section>
+
     </section>
 
 </main>
@@ -75,8 +96,8 @@
         paginationBulletRender: function (index, className) {
             switch (index) {
                 case 0: name='综合';break;
-                case 1: name='最新';break;
-                case 2: name='价格';break;
+                case 1: name='价格';break;
+                case 2: name='最新';break;
                 default: name='';
             }
             return '<a  ng-click="test('+index+')" href="javascript:" class="' + className + '">' + name + '</a>';
