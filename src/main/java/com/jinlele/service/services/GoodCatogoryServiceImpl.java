@@ -5,10 +5,11 @@ import com.jinlele.dao.GoodCatogoryMapper;
 import com.jinlele.service.interfaces.IGoodCatogoryService;
 import com.jinlele.util.CommonUtil;
 import com.jinlele.util.SysConstants;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,11 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
      */
     @Override
     public Map<String, Object> getGoodListPaging(int pagenow, String categoryname, int querytype , int flag) {
+        try {
+            categoryname =  java.net.URLDecoder.decode(categoryname,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String orderKey = "";
         if(querytype == 2){
             orderKey = " price ";
@@ -52,7 +58,7 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
         paramMap.put("tableName", " good g join g_category gc ON gc.good_id=g.id ");
         paramMap.put("fields", " distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("pageSize",6);   //每次加载显示6个
         paramMap.put("wherecase", " gc.category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
         paramMap.put("orderField",  orderKey );
         paramMap.put("orderFlag", flag);

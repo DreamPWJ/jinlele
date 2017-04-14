@@ -286,7 +286,9 @@
   </update>
   <!-- 获取首页新品推荐 -->
   <select id="getNewProducts" resultType="map">
-    select id ,title,bannerurl,price FROM good  WHERE  ishotCode='001' and deleteCode='001' ORDER BY create_time DESC LIMIT 0,3
+    select g.id ,g.title,g.hotimgurl,g.oldprice,g.bannerurl,gc.minprice,g.description,g.shortinfo
+    from good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc
+    where g.id = gc.gid and ishotCode ='001' and deleteCode = '001' order by g.create_time desc  LIMIT 0,3
   </select>
 
   <!-- 获取产品详情 -->

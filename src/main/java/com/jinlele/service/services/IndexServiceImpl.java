@@ -1,5 +1,4 @@
 package com.jinlele.service.services;
-
 import com.jinlele.dao.BaseMapper;
 import com.jinlele.dao.GoodCatogoryMapper;
 import com.jinlele.dao.GoodMapper;
@@ -54,18 +53,17 @@ public class IndexServiceImpl implements IIndexService {
     /**
      * 首页新品推荐分页显示
      */
-
     @Override
     public Map<String, Object> getNewProductsPaging(int pagenow, String searchcontent) {
-        StringBuilder wherecase = new StringBuilder("ishotCode ='001' and deleteCode = '001'");
+        StringBuilder wherecase = new StringBuilder(" g.id = gc.gid and ishotCode ='001' and deleteCode = '001' ");
         if (!("".equals(searchcontent)||searchcontent==null)) {
-            wherecase.append(" and title like'%" + searchcontent + "%'");
+            wherecase.append(" and g.title like'%" + searchcontent + "%'");
         }
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " good ");
-        paramMap.put("fields", " id ,title,hotimgurl,price,oldprice,description,shortinfo ");
+        paramMap.put("tableName", " good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc ");
+        paramMap.put("fields", " g.id ,g.title,g.hotimgurl,g.oldprice,gc.minprice,g.description,g.shortinfo ");
         paramMap.put("pageNow", pagenow);
-        paramMap.put("pageSize", SysConstants.PAGESIZE);
+        paramMap.put("pageSize", 10);
         paramMap.put("wherecase", wherecase.toString());
         paramMap.put("orderField", " create_time ");
         paramMap.put("orderFlag", 1);

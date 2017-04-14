@@ -1,12 +1,17 @@
 
 
+#首页新品推荐sql
+select g.id ,g.title,g.hotimgurl,g.oldprice,gc.minprice,g.description,g.shortinfo
+from good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc
+where g.id = gc.gid and ishotCode ='001' and deleteCode = '001'
+
+
 #估价重量查询单价和id
 select * from diamond_calculation where 0.5>=start and 0.5<end and deletecode = '001'
 
 
 #查询换款购物车选中个数
-select count(1) as count
- where  service_id = ? and checked = 0
+select count(1) as count  where  service_id = ? and checked = 0
 
 
 
