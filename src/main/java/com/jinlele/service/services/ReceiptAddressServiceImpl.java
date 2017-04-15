@@ -37,4 +37,6 @@ public class ReceiptAddressServiceImpl  implements IReceiptAddressService{
     public Map<String, Object> getLatestInfo(Integer userid) {
         return receiptAddressMapper.getLatestInfo(userid);
     }
+
+
 }

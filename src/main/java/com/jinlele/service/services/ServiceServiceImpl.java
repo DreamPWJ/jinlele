@@ -1,9 +1,6 @@
 package com.jinlele.service.services;
 
-import com.jinlele.dao.BaseMapper;
-import com.jinlele.dao.PictureMapper;
-import com.jinlele.dao.ServiceMapper;
-import com.jinlele.dao.ServicePictureMapper;
+import com.jinlele.dao.*;
 import com.jinlele.model.Picture;
 import com.jinlele.model.Service;
 import com.jinlele.model.ServicePicture;
@@ -34,6 +31,8 @@ public class ServiceServiceImpl implements IServiceService {
     PictureMapper pictureMapper;
     @Resource
     ServicePictureMapper servicePictureMapper;
+    @Resource
+    ExchangeChartMapper exchangeChartMapper;
 
     @Override
     public Map<String , Object> saveService(Integer userId, Double totalprice, String type ,String[] mediaIds) throws IOException {
@@ -116,5 +115,10 @@ public class ServiceServiceImpl implements IServiceService {
         Map<String , Object> map = new HashedMap();
         map.put("selectedItems",serviceMapper.getDictInfo(typename));
         return map;
+    }
+
+    @Override
+    public int getExChartTotalnum(Integer serviceId) {
+        return exchangeChartMapper.getExChartTotalnum(serviceId);
     }
 }

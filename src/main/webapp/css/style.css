@@ -5427,6 +5427,8 @@ section.change ul li section.collection_main {
     display: block;
     overflow: hidden;
     margin: 0 5px 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 0.2rem;
 }
 
 section.change ul li span.pic {

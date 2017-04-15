@@ -177,8 +177,9 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     @Override
     public Map<String, Object> updateBarterCar(List<Map<String, Object>> list) {
         Map<String, Object> resultMap = new HashedMap();
+        Integer serviceId = null;
         try {
-            Integer serviceId = Integer.valueOf(list.get(0).get("serviceId").toString());
+            serviceId = Integer.valueOf(list.get(0).get("serviceId").toString());
             exchangeChartMapper.updateByServiceId(serviceId);
             for (Map<String, Object> barterInfo : list) {
                 Integer id = Integer.valueOf(barterInfo.get("id").toString());
@@ -193,6 +194,7 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         } catch (Exception e) {
             resultMap.put("errmsg", "error");
         }
+        resultMap.put("totalnum",exchangeChartMapper.getExChartTotalnum(serviceId));
         return resultMap;
     }
 
@@ -313,9 +315,10 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
     @Override
     public Map<String, Object> addBarterCart(List<Map<String, Object>> list) {
         Map<String, Object> resultMap = new HashedMap();
+        Integer serviceId = null;
         try {
             for (Map<String, Object> barterInfo : list) {
-                Integer serviceId = Integer.valueOf(barterInfo.get("serviceId").toString());//服务id
+                serviceId = Integer.valueOf(barterInfo.get("serviceId").toString());//服务id
                 Integer goodId = Integer.valueOf(barterInfo.get("id").toString());//商品id
                 Integer goodChildId = Integer.valueOf(barterInfo.get("childId").toString());//商品子id
                 ExchangeChart barter = exchangeChartMapper.selectByUQ(serviceId, goodId, goodChildId);//查询记录
@@ -330,6 +333,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         }catch (Exception e){
             resultMap.put("errmsg", "error");
         }
+        resultMap.put("totalnum",exchangeChartMapper.getExChartTotalnum(serviceId));
+
         return resultMap;
     }
 

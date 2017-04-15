@@ -3726,7 +3726,7 @@
         $scope.getBarterList();
     }])
     //换款详情
-    .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService','OrderService','WalletService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService,OrderService,WalletService) {
+    .controller('BarterDetailCtrl', ['$rootScope','$scope','$state','$stateParams','GoodService','CommonService','WeiXinService','OrderService','WalletService','EvaluateService',function ($rootScope,$scope,$state,$stateParams,GoodService,CommonService,WeiXinService,OrderService,WalletService,EvaluateService) {
         $rootScope.commonService = CommonService;
         $scope.evaluatePrice = localStorage.getItem("evaluationPrice");
         function getBanners(arr) {
@@ -3749,6 +3749,14 @@
         WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.balance = data.balance;
         });
+        $scope.getTotalnum = function () {
+            EvaluateService.getShopcharTotalNum({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+                $scope.totalnum = data.totalnum;
+            });
+        }
+        $scope.getTotalnum();
+
+
         $scope.carData = {cartotalnum: 0, cartotalprice: 0};
         if (localStorage.getItem("barterServiceId")) {
             OrderService.getCalcData({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
@@ -3776,7 +3784,7 @@
             $scope.goodDetail = data.good;
             $scope.goodChilds = data.goodchilds;
             $scope.favourites = data.favourites;
-            $scope.totalnum = data.totalnum;
+            //$scope.totalnum = data.totalnum;
             $scope.bannerurl = data.imgurls;
             $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
             getBanners($scope.bannerurl);
@@ -3856,6 +3864,10 @@
                 if (data && data.errmsg == "ok") {
                     CommonService.toolTip("添加成功", "tool-tip-message-success");
                 }
+                if (data && data.errmsg == "error") {
+                    CommonService.toolTip("已添加", "tool-tip-message-success");
+                }
+                $scope.totalnum = data.totalnum;
             });
         };
         //选多几款

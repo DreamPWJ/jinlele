@@ -150,4 +150,15 @@ public class ServiceController {
     public  Map<String,Object> getPMPrice(@PathVariable Double weight,@PathVariable  String purity,@PathVariable  Integer goodId,@PathVariable  Integer goodChildId) {
         return metalCalculationService.addPMPrice(purity, weight,goodId,goodChildId,true);
     }
+
+    //获取某次换款服务中选择的换款商品个数
+    @ResponseBody
+    @RequestMapping(value = "/getShopcharTotalNum/{serviceId}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getShopcharTotalNum(@PathVariable  Integer serviceId) {
+        HashMap<String,Object> result= new HashMap<>();
+        int n = serviceService.getExChartTotalnum(serviceId);
+        result.put("totalnum",n);
+        return result;
+    }
+
 }

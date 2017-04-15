@@ -22,4 +22,7 @@ public interface IServiceService {
 
     //根据类型查询字典信息
     Map<String , Object> getDictInfo(String typename);
+    //获取某次换款服务中选择的换款商品个数
+    int getExChartTotalnum(Integer serviceId);
+
 }

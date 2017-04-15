@@ -22,4 +22,8 @@ public interface ExchangeChartMapper {
     ExchangeChart selectByUQ(Integer serviceId,Integer goodId,Integer goodChildId);
 
     Map<String,Object> getCalcData(Integer serviceId);
+
+    //获取某次换款服务中选择的换款商品个数
+    int getExChartTotalnum(Integer serviceId);
+
 }
