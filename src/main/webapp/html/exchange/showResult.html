@@ -91,7 +91,7 @@
         <ul class="change_main">
             <li ng-repeat="item in newList">
                 <section class="collection_main">
-                    <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
+                    <span class="pic"><a href="/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
                         <h2><a href="#/barterdetailfor{{item.id}}">{{item.title.length>15?item.title.substr(0,15)+'....':item.title}}</a></h2>
                         <span class="price">

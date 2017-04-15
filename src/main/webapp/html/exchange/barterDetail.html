@@ -10,14 +10,20 @@
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
         <i>专柜价：{{price | currency:'￥'}}<font style="float: right;border: 1px solid red;padding: 0 10px;" ng-click="addToCar()">加入购物车</font></i>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)>0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)<=0">换款价格：{{0 | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>
-        <em ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>
-        <i>注：剩余金额将直接存入您的账户余额</i>
+         <em ng-if="(price*gooddetail.num-evaluatePrice)>0">补：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
+
+          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">免费换此款</em>
+          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>
+          <i  ng-if="(price*gooddetail.num-evaluatePrice)<0" style="font-size: 0.4rem">注：剩余金额换款后直接存入您的账户余额</i>
+
+        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)>0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>-->
+        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)<=0">换款价格：{{0 | currency:'￥'}}</em>-->
+        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>-->
+        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>-->
+
     </section>
     <section class="essential_main">
-        <em style="font-size: 80%;" ng-if="">余额还可以选择：
+        <em style="font-size: 80%;" ng-if="(price*gooddetail.num-evaluatePrice)<0">余额还可以：
             <a style="border: 1px solid #000;color:red;font-size: 140%;" ng-click="selectMore()">选多几款</a>
         </em>
         <span>
