@@ -24,7 +24,7 @@ select g.id,gc.exprice,gc.price,gc.id childId
 from (SELECT min(exprice) as exprice,min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
 where g.id = gc.good_id
 and  g.canchange = 0
-and gc.price >= ?
+and gc.exprice >= ?
 
 
 # 选款列表sql  补差价
@@ -32,4 +32,4 @@ select g.id,gc.exprice,gc.price,gc.id childId
 from (SELECT min(exprice) as exprice,min(price) as price,id,good_id FROM goodchild group by good_id) as gc,good g
 where g.id = gc.good_id
 and  g.canchange = 0
-and gc.price <= ?
+and gc.exprice <= ?

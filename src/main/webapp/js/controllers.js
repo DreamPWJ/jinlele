@@ -3791,6 +3791,8 @@
                     item.flag = false;
                 });
             }
+            $scope.haspriceflag = ($scope.evaluatePrice-$scope.exprice*$scope.gooddetail.num)>0? true : false;//剩余金额
+            $scope.hasprice = Math.abs($scope.exprice*$scope.gooddetail.num - $scope.evaluatePrice) ;//补的金额
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
         });
         GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {

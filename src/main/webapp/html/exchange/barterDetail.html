@@ -10,16 +10,15 @@
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
         <i>专柜价：{{price | currency:'￥'}}<font style="float: right;border: 1px solid red;padding: 0 10px;" ng-click="addToCar()">加入购物车</font></i>
-         <em ng-if="(price*gooddetail.num-evaluatePrice)>0">补：￥{{evaluatePrice-exprice*gooddetail.num}}</em>
+         <em ng-if="!haspriceflag">补：￥{{hasprice|number:2}}</em>
 
-          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">免费换此款</em>
-          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{evaluatePrice-exprice*gooddetail.num | currency:'￥'}}</em>
-          <i  ng-if="(price*gooddetail.num-evaluatePrice)<0" style="font-size: 0.4rem">注：剩余金额换款后直接存入您的账户余额</i>
-
-
+          <em  ng-if="haspriceflag">免费换此款</em>
+          <em  ng-if="haspriceflag">剩余金额：￥{{hasprice|number:2}}</em>
+          <i  ng-if="haspriceflag" style="font-size: 0.4rem">注：剩余金额换款后直接存入您的账户余额</i>
     </section>
+
     <section class="essential_main">
-        <em style="font-size: 80%;" ng-if="(price*gooddetail.num-evaluatePrice)<0">余额还可以：
+        <em style="font-size: 80%;" ng-if="haspriceflag">余额还可以：
             <a style="border: 1px solid #000;color:red;font-size: 140%;" ng-click="selectMore()">选多几款</a>
         </em>
         <span>
@@ -31,7 +30,7 @@
         <li>
             <em>颜色分类：</em>
         	<span class="colour"  >
-                <toggle-colors e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" totalprice="totalprice" price="price" goodchild-id="gooddetail.goodchildId" evalu="evaluatePrice">
+                <toggle-colors e-obj="goodChilds" stock-num="stocknum" haspriceflag="haspriceflag" evaluateprice="evaluatePrice" gooddetail-num="gooddetail.num" exprice="exprice" price="price" hasprice="hasprice" totalprice="totalprice" goodchild-id="gooddetail.goodchildId" >
                     <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
                 </toggle-colors>
             </span>
@@ -72,8 +71,11 @@
 </section>
 
 <footer class="add_pay">
-    <span class="check"><a style="color: red;width: 60%;float: right;" ng-if="totalprice>=0">预选合计：￥{{totalprice|number:2}}元</a><a style="color: red;width: 60%;float: right;" ng-if="totalprice<0">预选合计：￥{{totalprice|number:2}}元</a></span>
+    <span class="check">
+        <a style="color: red;width: 60%;float: right;">预选合计：￥{{totalprice|number:2}}</a>
+         </span>
     <a class="cart" ng-click="settleAccounts()">结算<i>({{carData.cartotalnum}})</i></a>
+
 </footer>
 <!-- FOOTER -->
 <footer class="add_submit">

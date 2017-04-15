@@ -158,8 +158,11 @@ angular.module('starter.directive', [])
                 price:'=',
                 goodchildId:'=',
                 gooddetailNum:'=',
+                exprice:'=',
+                hasprice:'=',
                 totalprice:'=',
-                evalu:'='
+                evaluateprice:'=',
+                haspriceflag:'='
             },
             link:function(scope,elem,attrs){
                 angular.element(elem).on('click', function(event) {
@@ -176,9 +179,17 @@ angular.module('starter.directive', [])
                             scope.goodchildId = scope.eObj[index].id;
                             scope.gooddetailNum = 1;
                             console.log('scope.exprice=='+scope.eObj[index].exprice);
-                            console.log('scope.evalu=='+scope.evalu);
-                            scope.totalprice = scope.eObj[index].exprice * 1 -  scope.evalu;
-                            console.log('scope.evalu=='+scope.evalu);
+                            scope.exprice = scope.eObj[index].exprice * 1 ;
+                            scope.totalprice = scope.exprice*1 - scope.evaluateprice;
+                            scope.hasprice = Math.abs(scope.totalprice);
+                            if(scope.totalprice>0) {
+                                scope.haspriceflag = false;
+                            }else if(scope.totalprice<0){
+                                scope.haspriceflag = true;
+                            }else {
+                                scope.haspriceflag = '';
+                            }
+                            console.log('scope.exprice=='+scope.exprice);
                             //console.log(JSON.stringify(scope.eObj[index]));
                             scope.$apply();
                             return;

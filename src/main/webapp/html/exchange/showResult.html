@@ -76,7 +76,7 @@
                             <em style="color:#111">专柜价：{{item.price|currency:"￥"}}</em>
                         </span>
                         <span class="price">
-                        <em>剩：{{evaluationPrice-item.exprice|currency:"￥"}}</em>
+                        <em>剩：￥{{(evaluationPrice-item.exprice)|number:2}}</em>
                         </span>
                     </section>
                 </section>
@@ -98,7 +98,7 @@
                             <em style="color:#111">专柜价：{{item.price|currency:"￥"}}</em>
                         </span>
                         <span class="price">
-                        <em style="color:#333;">补：￥{{evaluationPrice-item.exprice}}</em>
+                        <em style="color:#333;">补：￥{{(item.exprice-evaluationPrice)|number:2}}</em>
                         </span>
                     </section>
                 </section>
