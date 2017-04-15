@@ -293,7 +293,11 @@
 
   <!-- 获取产品详情 -->
   <select id="getGoodDetail" resultType="map">
-    select  g.id as goodid,g.title,g.bannerurl,g.description,g.stocknum,g.price,g.oldprice,g.canchange FROM good g WHERE  g.id=#{gooodId}
+    select g.id as goodid,g.title,g.bannerurl,
+    g.description,g.stocknum,g.price,g.oldprice,
+    g.canchange ,gc.minprice
+    FROM good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc
+    WHERE g.id = gc.gid and g.id = #{gooodId}
   </select>
 
   <!--根据商品的id 查询所有的子商品信息-->

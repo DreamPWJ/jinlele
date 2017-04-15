@@ -1800,8 +1800,8 @@
             $scope.bannerurl = data.imgurls;
             $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
             getBanners($scope.bannerurl);
-            $scope.price = $scope.goodChilds[0].price;
-            $scope.stocknum = $scope.goodChilds[0].stocknumber;
+            $scope.price = data.good.minprice;
+            $scope.stocknum = data.good.stocknum;
             if (data.good.canchange == 0) {
                 $scope.menuWidth = {"width": "25%"};
             }
@@ -3749,12 +3749,9 @@
         WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.balance = data.balance;
         });
-        $scope.getTotalnum = function () {
-            EvaluateService.getShopcharTotalNum({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
-                $scope.totalnum = data.totalnum;
-            });
-        }
-        $scope.getTotalnum();
+        EvaluateService.getShopcharTotalNum({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+            $scope.totalnum = data.totalnum;
+        });
 
 
         $scope.carData = {cartotalnum: 0, cartotalprice: 0};
@@ -3784,12 +3781,11 @@
             $scope.goodDetail = data.good;
             $scope.goodChilds = data.goodchilds;
             $scope.favourites = data.favourites;
-            //$scope.totalnum = data.totalnum;
             $scope.bannerurl = data.imgurls;
             $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
             getBanners($scope.bannerurl);
-            $scope.price = $scope.goodChilds[0].price;
-            $scope.stocknum = $scope.goodChilds[0].stocknumber;
+            $scope.price = data.good.minprice;
+            $scope.stocknum = data.good.stocknum;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
                 angular.forEach($scope.goodChilds, function (item) {
                     item.flag = false;
@@ -3870,6 +3866,7 @@
                 $scope.totalnum = data.totalnum;
             });
         };
+
         //选多几款
         $scope.selectMore = function () {
             if (!$scope.gooddetail.goodchildId) {
@@ -3885,7 +3882,8 @@
             obj.checked = 1;
             $scope.goodInfo.push(obj);
             OrderService.addBarterCart($scope.goodInfo).success(function (data) {
-                if (data && data.errmsg == "ok") {
+                $scope.totalnum = data.totalnum;
+                if (data) {
                     $state.go("showResult");//跳转筛选页
                 }
             });
