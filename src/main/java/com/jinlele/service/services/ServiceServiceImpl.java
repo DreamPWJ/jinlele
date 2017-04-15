@@ -121,4 +121,19 @@ public class ServiceServiceImpl implements IServiceService {
     public int getExChartTotalnum(Integer serviceId) {
         return exchangeChartMapper.getExChartTotalnum(serviceId);
     }
+
+    @Override
+    public int getExChartcheckTotalnum(Integer serviceId) {
+        return exchangeChartMapper.getExChartcheckTotalnum(serviceId);
+    }
+
+    @Override
+    public double getEcheckTotalPrice(Integer serviceId) {
+        return exchangeChartMapper.getEcheckTotalPrice(serviceId);
+    }
+
+    @Override
+    public Map<String, Object> getCalcData(Integer serviceId) {
+        return exchangeChartMapper.getCalcData(serviceId);
+    }
 }

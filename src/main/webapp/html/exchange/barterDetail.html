@@ -10,16 +10,12 @@
     <h1>{{goodDetail.title}}</h1>
     <section class="huankuan">
         <i>专柜价：{{price | currency:'￥'}}<font style="float: right;border: 1px solid red;padding: 0 10px;" ng-click="addToCar()">加入购物车</font></i>
-         <em ng-if="(price*gooddetail.num-evaluatePrice)>0">补：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>
+         <em ng-if="(price*gooddetail.num-evaluatePrice)>0">补：￥{{evaluatePrice-exprice*gooddetail.num}}</em>
 
           <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">免费换此款</em>
-          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>
+          <em  ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{evaluatePrice-exprice*gooddetail.num | currency:'￥'}}</em>
           <i  ng-if="(price*gooddetail.num-evaluatePrice)<0" style="font-size: 0.4rem">注：剩余金额换款后直接存入您的账户余额</i>
 
-        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)>0">换款价格：{{(price*gooddetail.num-evaluatePrice) | currency:'￥'}}</em>-->
-        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)<=0">换款价格：{{0 | currency:'￥'}}</em>-->
-        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)>=0">剩余金额：{{0 | currency:'￥'}}</em>-->
-        <!--<em ng-if="(price*gooddetail.num-evaluatePrice)<0">剩余金额：{{(evaluatePrice-price*gooddetail.num) | currency:'￥'}}</em>-->
 
     </section>
     <section class="essential_main">
@@ -35,9 +31,9 @@
         <li>
             <em>颜色分类：</em>
         	<span class="colour"  >
-                <toggle-color e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" price="price" goodchild-id="gooddetail.goodchildId">
+                <toggle-colors e-obj="goodChilds" stock-num="stocknum"  gooddetail-num="gooddetail.num" totalprice="totalprice" price="price" goodchild-id="gooddetail.goodchildId" evalu="evaluatePrice">
                     <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
-                </toggle-color>
+                </toggle-colors>
             </span>
         </li>
         <li>

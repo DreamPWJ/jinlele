@@ -26,4 +26,12 @@ public interface ExchangeChartMapper {
     //获取某次换款服务中选择的换款商品个数
     int getExChartTotalnum(Integer serviceId);
 
+    //获取某次换款服务中选择的结算商品个数
+    int getExChartcheckTotalnum(Integer serviceId);
+
+
+    //获取换款购物车的选中商品的总价格
+    double getEcheckTotalPrice(Integer serviceId);
+
+
 }

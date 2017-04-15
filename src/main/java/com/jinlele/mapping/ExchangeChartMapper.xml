@@ -172,4 +172,21 @@ where ec.checked=1 and service_id=#{0}
     AND deleteCode = '001'
   </select>
 
+  <!--获取某次换款服务中选择的结算商品个数-->
+  <select id="getExChartcheckTotalnum" parameterType="java.lang.Integer" resultType="int">
+    select
+    COALESCE(SUM(num),0) as totalnum
+    from exchange_chart
+    where  service_id = #{0} and  checked = 1
+    AND deleteCode = '001'
+  </select>
+
+  <!--获取换款购物车的选中商品的总价格-->
+  <select id="getEcheckTotalPrice" parameterType="java.lang.Integer" resultType="double">
+    select COALESCE(SUM(gc.exprice*ec.num),0)  from exchange_chart ec
+    left join goodchild gc on gc.id = ec.goodchild_id
+    where  ec.checked = 1 and ec.deleteCode = '001' and ec.service_id = #{0}
+  </select>
+
+
 </mapper>

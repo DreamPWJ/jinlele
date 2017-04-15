@@ -295,14 +295,14 @@
   <select id="getGoodDetail" resultType="map">
     select g.id as goodid,g.title,g.bannerurl,
     g.description,g.stocknum,g.price,g.oldprice,
-    g.canchange ,gc.minprice
-    FROM good g,(SELECT min(price) as minprice,id cid,good_id gid FROM goodchild group by good_id) gc
+    g.canchange ,gc.minprice,gc.minexprice
+    FROM good g,(SELECT min(price) as minprice,min(exprice) as minexprice,id cid,good_id gid FROM goodchild group by good_id) gc
     WHERE g.id = gc.gid and g.id = #{gooodId}
   </select>
 
   <!--根据商品的id 查询所有的子商品信息-->
   <select id="getGoodChildsByGoodId" resultType="map">
-    select id,good_id as goodId,color,weight,material,mainstorespec,handsize,necklace_len,bracelet_len,stocknumber,price  from goodchild where good_id =#{gooodId} and deletecode='001'
+    select id,good_id as goodId,color,weight,material,mainstorespec,handsize,necklace_len,bracelet_len,stocknumber,price,exprice  from goodchild where good_id =#{gooodId} and deletecode='001'
   </select>
   <!-- 获取换款产品 -->
   <select id="getExchangeProducts" resultType="map">

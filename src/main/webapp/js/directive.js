@@ -147,6 +147,49 @@ angular.module('starter.directive', [])
         }
     }
 })
+   //换款详情专用
+    .directive('toggleColors', function() { //利用angular指令监听ng-repeat渲染完成后执行脚本
+        return {
+            restrict: 'ACE',
+            replace:true,
+            scope:{
+                eObj:'=',
+                stockNum:'=',
+                price:'=',
+                goodchildId:'=',
+                gooddetailNum:'=',
+                totalprice:'=',
+                evalu:'='
+            },
+            link:function(scope,elem,attrs){
+                angular.element(elem).on('click', function(event) {
+                    var target = event.target;
+                    while (target && target.nodeType == 1) {
+                        if (target.tagName.toLocaleLowerCase() == 'a'){
+                            var index=target.getAttribute('attr');
+                            angular.forEach(scope.eObj,function(item){
+                                item.flag = false;
+                            });
+                            scope.eObj[index].flag=true;
+                            scope.stockNum = scope.eObj[index].stocknumber;
+                            scope.price = scope.eObj[index].price;
+                            scope.goodchildId = scope.eObj[index].id;
+                            scope.gooddetailNum = 1;
+                            console.log('scope.exprice=='+scope.eObj[index].exprice);
+                            console.log('scope.evalu=='+scope.evalu);
+                            scope.totalprice = scope.eObj[index].exprice * 1 -  scope.evalu;
+                            console.log('scope.evalu=='+scope.evalu);
+                            //console.log(JSON.stringify(scope.eObj[index]));
+                            scope.$apply();
+                            return;
+                        } else {
+                            target = target.parentNode;
+                        }
+                    }
+                })
+            }
+        }
+    })
 
 //微信图片src处理
 .directive('wxImg', function() {

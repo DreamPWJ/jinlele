@@ -3746,23 +3746,22 @@
 
         //初始化参数
         $scope.balance = 0;//账户余额
+
         WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.balance = data.balance;
         });
-        EvaluateService.getShopcharTotalNum({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
-            $scope.totalnum = data.totalnum;
-        });
-
 
         $scope.carData = {cartotalnum: 0, cartotalprice: 0};
-        if (localStorage.getItem("barterServiceId")) {
-            OrderService.getCalcData({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
-                if (data) {
-                    $scope.carData.cartotalnum = data.cartotalnum;
-                    $scope.carData.cartotalprice = data.cartotalprice;
-                }
-            });
-        }
+        EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+            $scope.totalnum = data.totalnum;
+            if(data.echeck){
+                $scope.carData.cartotalnum = data.echeck.cartotalnum;
+                $scope.carData.cartotalprice = data.echeck.cartotalprice;
+            }
+            $scope.totalprice =  $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
+
+        });
+
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
         $scope.menuWidth = {"width": "33.333%"};
@@ -3785,6 +3784,7 @@
             $scope.bannerurl.splice(0, 0, {"imgurl": data.good.bannerurl});
             getBanners($scope.bannerurl);
             $scope.price = data.good.minprice;
+            $scope.exprice = data.good.minexprice;
             $scope.stocknum = data.good.stocknum;
             if ($scope.goodChilds && $scope.goodChilds.length > 0) {
                 angular.forEach($scope.goodChilds, function (item) {
@@ -3792,7 +3792,6 @@
                 });
             }
             console.log("$scope.goodChilds==" + JSON.stringify($scope.goodChilds));
-            $scope.totalprice = $scope.price * $scope.gooddetail.num + $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
         });
         GoodService.getGoodCommentCount({goodId: $stateParams.goodId}).success(function (data) {
             $scope.goodcommentcount = data.total;

@@ -151,14 +151,17 @@ public class ServiceController {
         return metalCalculationService.addPMPrice(purity, weight,goodId,goodChildId,true);
     }
 
-    //获取某次换款服务中选择的换款商品个数
+    //获取某次换款服务中选择的换款商品个数 结算总价 结算个数
     @ResponseBody
-    @RequestMapping(value = "/getShopcharTotalNum/{serviceId}" ,method = RequestMethod.GET)
-    public  Map<String,Object> getShopcharTotalNum(@PathVariable  Integer serviceId) {
+    @RequestMapping(value = "/getShopcharTotal/{serviceId}" ,method = RequestMethod.GET)
+    public  Map<String,Object> getShopcharTotal(@PathVariable  Integer serviceId) {
         HashMap<String,Object> result= new HashMap<>();
-        int n = serviceService.getExChartTotalnum(serviceId);
-        result.put("totalnum",n);
+        int totalnum = serviceService.getExChartTotalnum(serviceId);
+        Map<String,Object> map = serviceService.getCalcData(serviceId);
+        result.put("totalnum",totalnum);   //购物车中的数量
+        result.put("echeck",map); //结算数量 和 结算总价
         return result;
     }
+
 
 }
