@@ -30,7 +30,7 @@
         <li>
             <em>颜色分类：</em>
         	<span class="colour"  >
-                <toggle-colors e-obj="goodChilds" stock-num="stocknum" haspriceflag="haspriceflag" evaluateprice="evaluatePrice" gooddetail-num="gooddetail.num" exprice="exprice" price="price" hasprice="hasprice" totalprice="totalprice" goodchild-id="gooddetail.goodchildId" >
+                <toggle-colors e-obj="goodChilds" stock-num="stocknum" haspriceflag="haspriceflag" cartotalprice="carData.cartotalprice" evaluateprice="evaluatePrice" gooddetail-num="gooddetail.num" exprice="exprice" price="price" hasprice="hasprice" totalprice="totalprice" goodchild-id="gooddetail.goodchildId" >
                     <a  href="" ng-repeat="item in goodChilds" ng-class="{true:'hover'}[item.flag]" attr="{{$index}}">{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【约"+item.bracelet_len+"】":""}}</a>
                 </toggle-colors>
             </span>

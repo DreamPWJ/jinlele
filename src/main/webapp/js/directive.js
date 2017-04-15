@@ -162,7 +162,8 @@ angular.module('starter.directive', [])
                 hasprice:'=',
                 totalprice:'=',
                 evaluateprice:'=',
-                haspriceflag:'='
+                haspriceflag:'=',
+                cartotalprice:'='
             },
             link:function(scope,elem,attrs){
                 angular.element(elem).on('click', function(event) {
@@ -180,7 +181,7 @@ angular.module('starter.directive', [])
                             scope.gooddetailNum = 1;
                             console.log('scope.exprice=='+scope.eObj[index].exprice);
                             scope.exprice = scope.eObj[index].exprice * 1 ;
-                            scope.totalprice = scope.exprice*1 - scope.evaluateprice;
+                            scope.totalprice = scope.exprice*1 + scope.cartotalprice - scope.evaluateprice  ;
                             scope.hasprice = Math.abs(scope.totalprice);
                             if(scope.totalprice>0) {
                                 scope.haspriceflag = false;
@@ -190,7 +191,6 @@ angular.module('starter.directive', [])
                                 scope.haspriceflag = '';
                             }
                             console.log('scope.exprice=='+scope.exprice);
-                            //console.log(JSON.stringify(scope.eObj[index]));
                             scope.$apply();
                             return;
                         } else {

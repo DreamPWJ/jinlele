@@ -3809,14 +3809,28 @@
                 $scope.gooddetail.num = $scope.stocknum;
             }
         };
+        //选择数量时:动态改变价格剩补价，和合计金额
+        $scope.changePrice =  function(){
+            $scope.totalprice = $scope.gooddetail.num * $scope.exprice  + $scope.carData.cartotalprice -  $scope.evaluatePrice;
+            $scope.hasprice = Math.abs($scope.totalprice);
+            if($scope.totalprice>0) {
+                $scope.haspriceflag = false;
+            }else if($scope.totalprice<0){
+                $scope.haspriceflag = true;
+            }else {
+                $scope.haspriceflag = '';
+            }
+        }
         $scope.addNum = function () {
             if ($scope.gooddetail.num < $scope.stocknum) {
                 $scope.gooddetail.num++;
+                $scope.changePrice();
             }
         };
         $scope.minusNum = function () {
             if ($scope.gooddetail.num > 1) {
                 $scope.gooddetail.num--;
+                $scope.changePrice();
             }
         };
         //购物车结算
