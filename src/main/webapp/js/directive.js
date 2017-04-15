@@ -180,13 +180,17 @@ angular.module('starter.directive', [])
                             scope.goodchildId = scope.eObj[index].id;
                             scope.gooddetailNum = 1;
                             console.log('scope.exprice=='+scope.eObj[index].exprice);
+                            console.log('scope.cartotalprice=='+scope.cartotalprice);
                             scope.exprice = scope.eObj[index].exprice * 1 ;
                             scope.totalprice = scope.exprice*1 + scope.cartotalprice - scope.evaluateprice  ;
                             scope.hasprice = Math.abs(scope.totalprice);
+                            console.log('scope.cartotalprice=='+scope.hasprice);
                             if(scope.totalprice>0) {
                                 scope.haspriceflag = false;
+                                console.log('补');
                             }else if(scope.totalprice<0){
                                 scope.haspriceflag = true;
+                                console.log('剩');
                             }else {
                                 scope.haspriceflag = '';
                             }
