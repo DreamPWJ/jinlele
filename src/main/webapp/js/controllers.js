@@ -347,7 +347,6 @@
             $scope.cartlist = data;
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
                 data.checkflag = data.checked == 1 ?true:false;
-
             });
             $scope.barterprice =data.pagingList[0].price;
         });

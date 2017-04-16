@@ -157,10 +157,11 @@
     select * from exchange_chart where service_id = #{0} and good_id = #{1} and goodchild_id = #{2}
   </select>
   <select id="getCalcData" parameterType="java.lang.Integer" resultType="Map">
-    select sum(ec.num) cartotalnum,sum(gc.exprice) cartotalprice from exchange_chart ec
-join goodchild gc on ec.goodchild_id=gc.id
-join service s on ec.service_id=s.id
-where ec.checked=1 and service_id=#{0}
+    select sum(ec.num) cartotalnum,sum(gc.exprice)*ec.num cartotalprice
+    from exchange_chart ec
+    join goodchild gc on ec.goodchild_id=gc.id
+    join service s on ec.service_id=s.id
+    where ec.checked=1 and service_id=#{0} and and ec.deleteCode = '001'
   </select>
 
   <!--获取某次换款服务中选择的换款商品个数-->
