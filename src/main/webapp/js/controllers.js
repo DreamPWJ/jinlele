@@ -466,7 +466,6 @@
                 }
             }
             $scope.totalprice=$scope.totalprice-$scope.barterprice;
-
         };
 
 

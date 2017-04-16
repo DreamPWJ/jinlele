@@ -55,11 +55,11 @@ public class GoodCatogoryServiceImpl implements IGoodCatogoryService {
             orderKey = " create_time ";
         }
         Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("tableName", " good g join g_category gc ON gc.good_id=g.id ");
-        paramMap.put("fields", " distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description ");
+        paramMap.put("tableName", " good g ,g_category gc,(SELECT min(price) as minprice,good_id  FROM goodchild group by good_id) gcc ");
+        paramMap.put("fields", " distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description,gcc.minprice ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize",6);   //每次加载显示6个
-        paramMap.put("wherecase", " gc.category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and deleteCode = '001' ");
+        paramMap.put("wherecase", " gc.good_id=g.id and gcc.good_id = g.id and  gc.category_id in (SELECT id FROM goodcatogory WHERE  name='" + categoryname + "')  and g.deleteCode = '001' ");
         paramMap.put("orderField",  orderKey );
         paramMap.put("orderFlag", flag);
         this.baseMapper.getPaging(paramMap);
