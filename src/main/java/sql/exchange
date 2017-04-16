@@ -1,4 +1,13 @@
 
+#推荐栏目sql
+select
+distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description,gcc.minprice
+from
+good g ,g_category gc,(SELECT min(price) as minprice,good_id  FROM goodchild group by good_id) gcc
+where
+gc.good_id=g.id and  gcc.good_id = g.id and gc.category_id in (SELECT id FROM goodcatogory WHERE  name=？)
+and g.deleteCode = '001'
+
 
 #首页新品推荐sql
 select g.id ,g.title,g.hotimgurl,g.oldprice,gc.minprice,g.description,g.shortinfo
