@@ -184,10 +184,11 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
             for (Map<String, Object> barterInfo : list) {
                 Integer id = Integer.valueOf(barterInfo.get("id").toString());
                 Integer num = Integer.valueOf(barterInfo.get("num").toString());
+                Integer checkedcode = Integer.valueOf(barterInfo.get("checked").toString());
                 ExchangeChart exchangeChart = new ExchangeChart();
                 exchangeChart.setId(id);
                 exchangeChart.setNum(num);
-                exchangeChart.setChecked(1);
+                exchangeChart.setChecked(checkedcode);
                 exchangeChartMapper.updateByPrimaryKeySelective(exchangeChart);
             }
             resultMap.put("errmsg", "ok");

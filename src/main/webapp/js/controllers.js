@@ -469,7 +469,11 @@
                 if (item.gcid == id) {
                     item.num = parseInt(item.num) + count;//这里可以增加上下限制
                     if (item.num < 1) item.num = 1;
-                    if (parseInt(item.num) > item.stocknumber)  item.num = item.stocknumber;
+                    if (parseInt(item.num) > item.stocknumber){
+                        item.num = item.stocknumber;
+                        CommonService.toolTip("已经是该商品最大库存数了奥！","");
+
+                    }
                 }
                 if (item && item.checkflag) {
                     $scope.totalnum += parseInt(item.num);
@@ -493,6 +497,8 @@
                     }
                     if (parseInt(item.num) > item.stocknumber) {
                         item.num = item.stocknumber;
+                        CommonService.toolTip("已经是该商品最大库存数了哦！","");
+
                     }
                 }
                 if (item && item.checkflag) {
@@ -507,16 +513,35 @@
 
         //结算
         $scope.bill = function () {
-            //将选中的商品id传到后台，更改checked为1
-            if ($scope.checkedGcIds.length > 0) {
-                CartService.selectBarterCartInfo($scope.checkedinfo).success(function(data) {
-                    if (data && data.errmsg == "ok") {
-                        $state.go("procphoto", {name: "exchange"});//跳转拍照页
-                    }
-                });
-            } else {
-                CommonService.toolTip("您还没有选择要购买的商品哦！","tool-tip-message-success");
+            if($scope.totalnum<=0){
+                CommonService.toolTip("还没有要结算的商品！","");
+                return;
             }
+            //将选中的商品id传到后台，更改checked为1
+            $scope.checkedinfo = [];
+            angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                var obj = {};
+                if (data) {
+                    obj.checked = data.checkflag ? 1 : 0 ;
+                    obj.id = data.id;
+                    obj.num = data.num;
+                    obj.serviceId = localStorage.getItem("barterServiceId");
+                }
+                $scope.checkedinfo.push(obj);
+            });
+            CartService.selectBarterCartInfo($scope.checkedinfo).success(function(data) {
+                console.log("结算返回数据");
+                console.log(data);
+                if (data ) {
+                    if(data.errmsg == "ok"){
+                        $state.go("procphoto", {name: "exchange"});//跳转拍照页
+                    }else{
+                        CommonService.toolTip("结算失败！","");
+                    }
+
+                }
+            });
+
         };
         //删除
         $scope.del = function () {
