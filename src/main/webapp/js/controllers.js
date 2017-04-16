@@ -399,6 +399,7 @@
         $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
 
         $scope.cartotalprice =0;
+
         EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
             if(data.echeck){
                 $scope.cartotalprice = data.echeck.cartotalprice; // 选中的商品的总价格
@@ -439,15 +440,22 @@
             $scope.totalnum = 0;//去除重复，记录最后一遍数据
             $scope.totalprice = 0;
             $scope.delFlag = false;//  //控制删除按钮是否显示
+            var selectAllCount  = 0; //控制全选的计数器
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
                 if(data.gcid == id) data.checkflag = !data.checkflag ;
                 if (data && data.checkflag) {
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.exprice;
                     $scope.delFlag = true;
+                    selectAllCount++;
                 }
             });
              $scope.totalprice=$scope.totalprice-$scope.barterprice;
+            if(selectAllCount == $scope.cartlist.pagingList.length){
+                $scope.checkAllflag = true;
+            }else{
+                $scope.checkAllflag = false;
+            }
 
         };
 
