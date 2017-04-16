@@ -153,7 +153,7 @@
   <update id="updateByServiceId" parameterType="java.lang.Integer">
     update exchange_chart set checked=0 where service_id=#{0}
   </update>
-  <select id="selectByUQ" parameterType="java.lang.Integer" resultType="Map">
+  <select id="selectByUQ" parameterType="java.lang.Integer" resultType="com.jinlele.model.ExchangeChart">
     select * from exchange_chart where service_id = #{0} and good_id = #{1} and goodchild_id = #{2}
   </select>
   <select id="getCalcData" parameterType="java.lang.Integer" resultType="Map">
@@ -161,7 +161,7 @@
     from exchange_chart ec
     join goodchild gc on ec.goodchild_id=gc.id
     join service s on ec.service_id=s.id
-    where ec.checked=1 and service_id=#{0} and and ec.deleteCode = '001'
+    where ec.checked=1 and service_id=#{0}  and ec.deleteCode = '001'
   </select>
 
   <!--获取某次换款服务中选择的换款商品个数-->

@@ -6,7 +6,7 @@
     </div>
     <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
-        <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne($event,m[i.gcid])"/>
+        <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne(item.gcid)"/>
 		<label for="{{item.gcid}}" class="check_label" ng-class="{true:'on',false:''}[item.checkflag]">
             <i class="checkbox_icon"></i>
         </label>
@@ -18,7 +18,7 @@
                 <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
                 <span class="addto">
                 	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
-                    <input  type="text" ng-model="item.num" ng-change="changenamount(item.gcid)" />
+                    <input  type="text" ng-model="item.num" ng-blur="changenamount(item.gcid)" />
                 	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
                 </span>
             </section>
@@ -35,8 +35,8 @@
 <!-- FOOTER -->
 <footer class="submit">
 	<span class="check">
-        <input id="all" type="checkbox" ng-model="select_all" ng-click="selectAll($event)"/>
-		<label for="all" class="check_label">
+        <input id="all" type="checkbox" ng-model="select_all" ng-click="selectAll()"/>
+		<label for="all" class="check_label"  ng-class="{true:'on',false:''}[checkAllflag]">
             <i class="checkbox_icon"></i>
         </label>
         <em>全选</em>

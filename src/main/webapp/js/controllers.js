@@ -290,6 +290,33 @@
                 }
             }
         };
+
+
+        //点击更新数量
+        $scope.updateamount = function (id, count) {
+            $scope.totalnum = 0;
+            $scope.totalprice = 0;
+            $scope.checkedinfo = [];
+            for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                var item = $scope.cartlist.pagingList[i];
+                if (item.gcid == id) {
+                    item.num = parseInt(item.num) + count;//这里可以增加上下限制
+                    if (item.num < 1) {
+                        //$scope.cartlist.pagingList.splice(i, 1);
+                        item.num = 1;
+                    }
+                    if (parseInt(item.num) > item.stocknumber) {
+                        item.num = item.stocknumber;
+                    }
+                }
+                var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
+                if (item && f !== -1) {
+                    $scope.checkedinfo.push(item);
+                    $scope.totalnum += parseInt(item.num);
+                    $scope.totalprice += parseInt(item.num) * item.price;
+                }
+            }
+        };
         //手改更新数量
         $scope.changenamount = function (id) {
             $scope.totalnum = 0;
@@ -337,18 +364,29 @@
         });
         $scope.delstyle = {display: 'none'};
         $scope.checkflag = false;//默认复选框不选中
+        $scope.checkAllflag = false;
+        var selectAllCount  = 0; //控制全选的计数器
         CartService.getBarterCartInfo($scope.init).success(function (data) {
             console.log(data);
             $scope.isNotData = false;
             if (data.pagingList.length == 0) {
                 $scope.isNotData = true;
-                return
+                return;
             }
             $scope.cartlist = data;
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
-                data.checkflag = data.checked == 1 ?true:false;
+                if(data.checked == 1){
+                    selectAllCount++;
+                    data.checkflag = true;  //该子商品初始是否选中状态
+                }else{
+                    data.checkflag = false; //该子商品初始是否选中状态
+                }
             });
-            $scope.barterprice =data.pagingList[0].price;
+            if(selectAllCount == $scope.cartlist.pagingList.length){
+                $scope.checkAllflag = true;
+            }
+            console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
+            $scope.barterprice =data.pagingList[0].price; //估价价格
         });
         //初始化数据
         $scope.totalnum = 0;
@@ -360,121 +398,83 @@
 
         $scope.cartotalprice =0;
         EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
-            $scope.totalnum = data.totalnum;
             if(data.echeck){
-                $scope.cartotalprice = data.echeck.cartotalprice;
+                $scope.cartotalprice = data.echeck.cartotalprice; // 选中的商品的总价格
+                $scope.totalnum = data.echeck.cartotalnum; // 选中的商品的总价格
+                if($scope.totalnum >0) $scope.delFlag = true;
             }
             $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
             console.log( $scope.totalprice);
         });
 
+
         //全选
-        $scope.selectAll = function ($event) {
-            //去除重复，记录最后一遍数据
+        $scope.selectAll = function () {
+            $scope.checkAllflag = !$scope.checkAllflag;
+            // //去除重复，记录最后一遍数据
             $scope.totalnum = 0;
             $scope.totalprice = 0;
-            $scope.checkedinfo = [];
-            var choseall = $event.target;
-            if ($scope.select_all) {
-                $scope.delFlag = true;
-                $scope.select_one = true;
-                $scope.checkedGcIds = [];
+            if ($scope.checkAllflag) {
                 angular.forEach($scope.cartlist.pagingList, function (data, index) {
-                    $scope.checkedGcIds.push(data.gcid);
-                    $scope.m[data.gcid] = true;
-                    $scope.checkedinfo.push(data);
+                    data.checkflag = true;//选中
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.exprice;
                 });
-                if($scope.totalprice>0){
-                    $scope.totalprice=$scope.totalprice-$scope.barterprice;
-                }
-                $('#' + choseall.id).siblings("label").addClass("on");
-                angular.forEach($scope.checkedGcIds, function (i, index) {
-                    $('#' + i).siblings("label").addClass("on");
-                })
+                $scope.totalprice=$scope.totalprice-$scope.barterprice;
+                $scope.delFlag = true;
             } else {
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    data.checkflag = false;//不选中
+                });
                 $scope.delFlag = false;
-                $scope.select_one = false;
-                $scope.checkedGcIds = [];
-                $scope.checkedinfo = [];
-                $scope.m = [];
                 $scope.totalnum = 0;
-                $scope.totalprice = 0;
-                $('.check_label').removeClass("on");
+                $scope.totalprice= 0 - $scope.barterprice;
             }
         };
-        //单选
-        $scope.selectOne = function ($event, select) {
-            var choseone = $event.target;
-            angular.forEach($scope.m, function (data, id) {
-                var index = $scope.checkedGcIds.indexOf(id);
-                if (data && index === -1) {
-                    $scope.checkedGcIds.push(id);
-                    $('#' + choseone.id).siblings("label").addClass("on");
-                } else if (!data && index !== -1) {
-                    $scope.checkedGcIds.splice(index, 1);
-                    $('#' + choseone.id).siblings("label").removeClass("on");
-                }
-            });
-            if ($scope.cartlist.pagingList.length === $scope.checkedGcIds.length) {
-                $scope.select_all = true;
-                $('#all').siblings("label").addClass("on");
-            } else {
-                $scope.select_all = false;
-                $('#all').siblings("label").removeClass("on");
-            }
+
+        //单选事件
+        $scope.selectOne = function (id) {
             $scope.totalnum = 0;//去除重复，记录最后一遍数据
             $scope.totalprice = 0;
-            $scope.checkedinfo = [];
+            $scope.delFlag = false;//  //控制删除按钮是否显示
             angular.forEach($scope.cartlist.pagingList, function (data, index) {
-                var f = $scope.checkedGcIds.indexOf(data.gcid);
-                if (data && f !== -1) {
-                    $scope.checkedinfo.push(data);
+                if(data.gcid == id) data.checkflag = !data.checkflag ;
+                if (data && data.checkflag) {
                     $scope.totalnum += parseInt(data.num);
                     $scope.totalprice += parseInt(data.num) * data.exprice;
+                    $scope.delFlag = true;
                 }
             });
-            if($scope.totalprice>0){
-                $scope.totalprice=$scope.totalprice-$scope.barterprice;
-            }
-            $scope.delFlag = $scope.totalprice ?   true : false; //控制删除按钮是否显示
-
+             $scope.totalprice=$scope.totalprice-$scope.barterprice;
 
         };
+
         //点击更新数量
-        $scope.updateamount = function (id, count) {
+        $scope.updateamount = function (id,count) {
             $scope.totalnum = 0;
             $scope.totalprice = 0;
-            $scope.checkedinfo = [];
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
                 var item = $scope.cartlist.pagingList[i];
                 if (item.gcid == id) {
                     item.num = parseInt(item.num) + count;//这里可以增加上下限制
-                    if (item.num < 1) {
-                        //$scope.cartlist.pagingList.splice(i, 1);
-                        item.num = 1;
-                    }
-                    if (parseInt(item.num) > item.stocknumber) {
-                        item.num = item.stocknumber;
-                    }
+                    if (item.num < 1) item.num = 1;
+                    if (parseInt(item.num) > item.stocknumber)  item.num = item.stocknumber;
                 }
-                var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
-                if (item && f !== -1) {
-                    $scope.checkedinfo.push(item);
+                if (item && item.checkflag) {
                     $scope.totalnum += parseInt(item.num);
                     $scope.totalprice += parseInt(item.num) * item.exprice;
                 }
             }
-            if($scope.totalprice>0){
-                $scope.totalprice=$scope.totalprice-$scope.barterprice;
-            }
+            $scope.totalprice=$scope.totalprice-$scope.barterprice;
+
         };
+
+
         //手改更新数量
         $scope.changenamount = function (id) {
+            console.log(22);
             $scope.totalnum = 0;
             $scope.totalprice = 0;
-            $scope.checkedinfo = [];
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
                 var item = $scope.cartlist.pagingList[i];
                 if (item.gcid == id) {
@@ -485,9 +485,7 @@
                         item.num = item.stocknumber;
                     }
                 }
-                var f = $scope.checkedGcIds.indexOf(item.gcid);
-                if (item && f !== -1) {
-                    $scope.checkedinfo.push(item);
+                if (item && item.checkflag) {
                     $scope.totalnum += parseInt(item.num);
                     $scope.totalprice += parseInt(item.num) * item.exprice;
                 }
@@ -496,6 +494,7 @@
                 $scope.totalprice=$scope.totalprice-$scope.barterprice;
             }
         };
+
         //结算
         $scope.bill = function () {
             //将选中的商品id传到后台，更改checked为1
@@ -3774,7 +3773,6 @@
                 $scope.carData.cartotalprice = data.echeck.cartotalprice;
             }
             $scope.totalprice =  $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
-
         });
 
         $scope.bannerurl = "";

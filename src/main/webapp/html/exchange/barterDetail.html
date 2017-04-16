@@ -38,9 +38,9 @@
         <li>
             <em>数量：</em>
            	<span class="amount">
-            	<a class="icon" href="" ng-click="minusNum()">&#xe603;</a>
+            	<a class="icon"  ng-click="minusNum()">&#xe603;</a>
                 <input  type="text" ng-model="gooddetail.num" ng-change="changeNum()">
-                <a class="iconfont icon-add" href="" ng-click="addNum()"></a>
+                <a class="iconfont icon-add"  ng-click="addNum()"></a>
            	</span>
         </li>
     </ul>
@@ -73,7 +73,7 @@
 <footer class="add_pay">
     <span class="check">
         <a style="color: red;width: 60%;float: right;">预选合计：￥{{totalprice|number:2}}</a>
-         </span>
+    </span>
     <a class="cart" ng-click="settleAccounts()">结算<i>({{carData.cartotalnum}})</i></a>
 
 </footer>
