@@ -3943,8 +3943,21 @@
         }
     }])
     //估价结果推荐
-    .controller('ShowResultCtrl',['$scope','GoodService',function($scope,GoodService){
+    .controller('ShowResultCtrl',['$scope','GoodService','EvaluateService',function($scope,GoodService,EvaluateService){
+
         $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
+        $scope.cartotalnum = 0;
+        $scope.cartotalprice = 0;
+        $scope.totalprice =0;
+        EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+            $scope.totalnum = data.totalnum;
+            if(data.echeck){
+                $scope.cartotalnum = data.echeck.cartotalnum;
+                $scope.cartotalprice = data.echeck.cartotalprice;
+            }
+            $scope.totalprice =  $scope.cartotalprice - $scope.evaluatePrice;//预选合计总金额
+            console.log($scope.totalprice);
+        });
         GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
