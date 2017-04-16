@@ -76,7 +76,9 @@
                             <em style="color:#111">专柜价：{{item.price|currency:"￥"}}</em>
                         </span>
                         <span class="price">
-                        <em>剩：￥{{(evaluationPrice-item.exprice)|number:2}}</em>
+                        <em>剩：￥{{(evaluationPrice-item.exprice)|number:2}}
+                            <i style="float:right;color:red" ng-if="$index%2==0">√</i>
+                        </em>
                         </span>
                     </section>
                 </section>

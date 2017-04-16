@@ -189,5 +189,13 @@
     where  ec.checked = 1 and ec.deleteCode = '001' and ec.service_id = #{0}
   </select>
 
+  <!--获取换款购物车中的所有商品id集合-->
+  <select id="getAllGoodIds" parameterType="java.lang.Integer" resultType="Integer">
+  select distinct good_id from exchange_chart where service_id = #{0} and deleteCode = '001'
+  </select>
+
+
+  <!--select distinct good_id from exchange_chart where service_id = 730-->
+  <!--and deleteCode = '001'-->
 
 </mapper>

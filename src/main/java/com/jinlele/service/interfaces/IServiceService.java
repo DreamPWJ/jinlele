@@ -1,6 +1,7 @@
 package com.jinlele.service.interfaces;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +34,9 @@ public interface IServiceService {
     double getEcheckTotalPrice(Integer serviceId);
 
     Map<String,Object> getCalcData(Integer serviceId);
+
+    List<Integer> getAllGoodIds(Integer serviceId);
+
 
 
 }

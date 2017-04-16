@@ -3985,14 +3985,21 @@
         $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
         console.log('$scope.evaluationPrice=='+$scope.evaluationPrice);
         $scope.cartotalnum = 0;
-        $scope.cartotalprice = 0;
+        $scope.cartotalprice = 0;//选中的商品的价格
         $scope.totalprice = 0;
+        $scope.goodids = [];
         EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
-            $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
-
             console.log(data);
             console.log(1);
-            $scope.totalnum = data.totalnum;
+            if(data){
+                $scope.totalnum = data.totalnum;
+            }
+            if(data.goodids){
+                $scope.goodids = data.goodids;
+                console.log(' $scope.goodids');
+                console.log( $scope.goodids);
+                console.log( '$scope.goodids.length=='+$scope.goodids.length);
+            }
             console.log('$scope.totalnum='+ $scope.totalnum);
             if(data.echeck){
                 console.log("=="+1);
@@ -4015,13 +4022,28 @@
             $scope.balance = data.balance;
         });
 
-
+        // $scope.goodids
         GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
             type: "free"
         }).success(function (data) {
             $scope.freeList=data.pagingList;
+            angular.forEach(data.pagingList, function (item,index) {
+                console.log("item===");
+                console.log(item);
+                item.checkflag = false;
+                console.log(item.checkflag  +"=1");
+                console.log("$scope.goodids.length=="+$scope.goodids.length);
+
+                for(var i= 0,len=$scope.goodids.length;i<len;i++){
+                    console.log($scope.goodids[i] +"=item.id=="+item.id);
+                    if($scope.goodids[i]==item.id){
+                        item.checkflag = true;
+                    };
+                }
+                console.log(item.checkflag +"=2");
+            });
         });
         GoodService.getBarterList({
             amount: $scope.evaluationPrice,
@@ -4029,6 +4051,16 @@
             type: "new"
         }).success(function (data) {
             $scope.newList=data.pagingList;
+            angular.forEach(data.pagingList, function (item) {
+                item.checkflag = false;
+                console.log(item.checkflag );
+                for(var i= 0,len=$scope.goodids.length;i<len;i++){
+                    if($scope.goodids[i]==item.id){
+                        item.checkflag = true;
+                    };
+                }
+                console.log(item.checkflag );
+            });
         });
     }])
     //更多款（免费、补差价）

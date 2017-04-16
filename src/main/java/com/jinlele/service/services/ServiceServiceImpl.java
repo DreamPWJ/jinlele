@@ -13,6 +13,7 @@ import org.apache.commons.collections.map.HashedMap;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -135,5 +136,10 @@ public class ServiceServiceImpl implements IServiceService {
     @Override
     public Map<String, Object> getCalcData(Integer serviceId) {
         return exchangeChartMapper.getCalcData(serviceId);
+    }
+
+    @Override
+    public List<Integer> getAllGoodIds(Integer serviceId) {
+        return exchangeChartMapper.getAllGoodIds(serviceId);
     }
 }

@@ -158,8 +158,10 @@ public class ServiceController {
         HashMap<String,Object> result= new HashMap<>();
         int totalnum = serviceService.getExChartTotalnum(serviceId);
         Map<String,Object> map = serviceService.getCalcData(serviceId);
+       List<Integer> goodids = serviceService.getAllGoodIds(serviceId);
         result.put("totalnum",totalnum);   //购物车中的数量
         result.put("echeck",map); //结算数量 和 结算总价
+        result.put("goodids",goodids); //商品id集合
         return result;
     }
 

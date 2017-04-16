@@ -2,6 +2,7 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ExchangeChart;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ExchangeChartMapper {
@@ -32,6 +33,9 @@ public interface ExchangeChartMapper {
 
     //获取换款购物车的选中商品的总价格
     double getEcheckTotalPrice(Integer serviceId);
+
+    //获取换款购物车中的所有商品id集合
+    List<Integer> getAllGoodIds(Integer serviceId);
 
 
 }
