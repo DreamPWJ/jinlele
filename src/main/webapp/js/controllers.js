@@ -336,6 +336,7 @@
             $scope.balance = data.balance;
         });
         $scope.delstyle = {display: 'none'};
+        $scope.checkflag = false;//默认复选框不选中
         CartService.getBarterCartInfo($scope.init).success(function (data) {
             console.log(data);
             $scope.isNotData = false;
@@ -344,6 +345,10 @@
                 return
             }
             $scope.cartlist = data;
+            angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                data.checkflag = data.checked == 1 ?true:false;
+
+            });
             $scope.barterprice =data.pagingList[0].price;
         });
         //初始化数据
@@ -362,7 +367,6 @@
             }
             $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
             console.log( $scope.totalprice);
-
         });
 
         //全选

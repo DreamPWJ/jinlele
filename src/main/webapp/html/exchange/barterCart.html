@@ -7,7 +7,7 @@
     <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
         <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne($event,m[i.gcid])"/>
-		<label for="{{item.gcid}}" class="check_label">
+		<label for="{{item.gcid}}" class="check_label" ng-class="{true:'on',false:''}[item.checkflag]">
             <i class="checkbox_icon"></i>
         </label>
         </span>
