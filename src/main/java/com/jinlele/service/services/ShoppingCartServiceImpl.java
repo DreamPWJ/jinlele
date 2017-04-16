@@ -49,7 +49,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
     public Map<String, Object> getBarterCartPaging(int pagenow, int serviceid) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("tableName", " exchange_chart ec join good g on g.id=ec.good_id join goodchild gc on gc.id=ec.goodchild_id join service s on ec.service_id=s.id ");
-        paramMap.put("fields", " ec.id,g.id goodId,gc.id gcid,g.title,g.bannerurl,gc.exprice,gc.stocknumber,ec.num,s.price,ec.checked,ec.service_id serviceId  ");
+        paramMap.put("fields", " ec.id,g.id goodId,gc.id gcid,g.title,g.bannerurl,gc.price as gprice,gc.exprice,gc.stocknumber,ec.num,s.price,ec.checked,ec.service_id serviceId  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 100);
         paramMap.put("wherecase", " gc.deleteCode='001' and ec.service_id= "+serviceid);

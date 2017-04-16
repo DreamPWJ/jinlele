@@ -2,7 +2,7 @@
 <section class="process_title">
     <i>产品换款</i>
 </section>
-<main class="content">
+<main class="content" style="padding-bottom: 2rem">
     <!--换款流程 -->
     <section class="process fanx">
         <b class="right"></b>
@@ -113,3 +113,24 @@
         <p></p><p></p><p></p>
     </section>
 </main>
+
+
+<footer class="add_pay">
+    <span class="check">
+        <a style="color: red;width: 60%;float: right;">预选合计：￥{{totalprice|number:2}}</a>
+         </span>
+    <a class="cart" ng-click="settleAccounts()">结算<i>({{carData.cartotalnum}})</i></a>
+
+</footer>
+<!-- FOOTER -->
+<footer class="add_submit">
+	<span class="check">
+        <a class="back" ng-style="menuWidth" ng-click="back()">上一步</a>
+        <a ng-style="menuWidth" > <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
+        <a href="#/bartercart" ng-style="menuWidth">
+            <i class="icon">&#xe68d;</i><em>购物车</em>
+            <u>{{totalnum}}</u>
+        </a>
+    </span>
+    <a class="cart" ng-click="selectThis()">换此款</a>
+</footer>

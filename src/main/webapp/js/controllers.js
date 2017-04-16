@@ -324,7 +324,7 @@
         }
     }])
     //换款购物车
-    .controller('BarterCartCtrl', ['$scope', 'CartService', 'CommonService', '$state', '$rootScope','WalletService', function ($scope, CartService, CommonService, $state, $rootScope,WalletService) {
+    .controller('BarterCartCtrl', ['$scope', 'CartService', 'CommonService', '$state', '$rootScope','WalletService', 'EvaluateService',function ($scope, CartService, CommonService, $state, $rootScope,WalletService,EvaluateService) {
         $rootScope.commonService=CommonService;
         $scope.init = {
             serviceid: localStorage.getItem("barterServiceId"),
@@ -353,6 +353,18 @@
         $scope.checkedGcIds = [];
         $scope.checkedinfo = [];
         $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
+
+        $scope.cartotalprice =0;
+        EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+            $scope.totalnum = data.totalnum;
+            if(data.echeck){
+                $scope.cartotalprice = data.echeck.cartotalprice;
+            }
+            $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
+            console.log( $scope.totalprice);
+
+        });
+
         //全选
         $scope.selectAll = function ($event) {
             //去除重复，记录最后一遍数据
