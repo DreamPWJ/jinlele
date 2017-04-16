@@ -3993,6 +3993,7 @@
             console.log(data);
             console.log(1);
             $scope.totalnum = data.totalnum;
+            console.log('$scope.totalnum='+ $scope.totalnum);
             if(data.echeck){
                 console.log("=="+1);
                 $scope.cartotalnum = data.echeck.cartotalnum;
