@@ -387,6 +387,8 @@
             }
             console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
             $scope.barterprice =data.pagingList[0].price; //估价价格
+
+            $scope.totalprice = -$scope.barterprice;
         });
         //初始化数据
         $scope.totalnum = 0;
