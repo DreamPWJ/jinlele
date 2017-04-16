@@ -453,6 +453,7 @@
 
         //点击更新数量
         $scope.updateamount = function (id,count) {
+            console.log(1);
             $scope.totalnum = 0;
             $scope.totalprice = 0;
             for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
@@ -3776,6 +3777,7 @@
             $scope.totalprice =  $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
         });
 
+
         $scope.bannerurl = "";
         $scope.stocknum = 0;//库存数
         $scope.menuWidth = {"width": "33.333%"};
@@ -3945,21 +3947,41 @@
         }
     }])
     //估价结果推荐
-    .controller('ShowResultCtrl',['$scope','GoodService','EvaluateService',function($scope,GoodService,EvaluateService){
+    .controller('ShowResultCtrl',['$scope','GoodService','EvaluateService','WalletService',function($scope,GoodService,EvaluateService,WalletService){
 
         $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
+        console.log('$scope.evaluationPrice=='+$scope.evaluationPrice);
         $scope.cartotalnum = 0;
         $scope.cartotalprice = 0;
-        $scope.totalprice =0;
+        $scope.totalprice = 0;
         EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+            $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
+
+            console.log(data);
+            console.log(1);
             $scope.totalnum = data.totalnum;
             if(data.echeck){
+                console.log("=="+1);
                 $scope.cartotalnum = data.echeck.cartotalnum;
                 $scope.cartotalprice = data.echeck.cartotalprice;
+                console.log('$scope.cartotalprice=='+ $scope.cartotalprice);
+                console.log('$scope.evaluatePrice=='+ $scope.evaluationPrice);
+                $scope.totalprice =  $scope.cartotalprice - $scope.evaluationPrice*1;//预选合计总金额
+                console.log('$scope.totalprice=='+ ($scope.cartotalprice - $scope.evaluationPrice));
+            }else{
+               $scope.totalprice =  - $scope.evaluationPrice;//预选合计总金额
+                console.log(  $scope.totalprice );
             }
-            $scope.totalprice =  $scope.cartotalprice - $scope.evaluatePrice;//预选合计总金额
-            console.log($scope.totalprice);
         });
+        $scope.menuWidth = {"width": "33.333%"};
+        //初始化参数
+        $scope.balance = 0;//账户余额
+
+        WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
+            $scope.balance = data.balance;
+        });
+
+
         GoodService.getBarterList({
             amount: $scope.evaluationPrice,
             pagenow: 1,
