@@ -1,3 +1,27 @@
+<style>
+    main.content section.cart section.cart_main {
+        height: 92px;
+        display: block;
+        overflow: hidden;
+        padding: 0 0 0 10px;
+    }
+    main.content section.cart section.cart_main span.title {
+        width: 100%;
+        height: 20px;
+        float: left;
+        text-align: justify;
+    }
+    main.content section.cart section.cart_main section.cart_price span.addto input[type="text"] {
+        width: 40px;
+        height: 22px;
+        float: left;
+        font-size: 80%;
+        text-align: center;
+        border-bottom: 1px solid #F5D000;
+        border-top: 1px solid #F5D000;
+    }
+</style>
+
 
 <main class="content bottom amputate"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
     <div ng-if="isNotData" class="isNotDataHint">
@@ -16,16 +40,19 @@
             <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>15?item.title.substr(0,15)+"....":item.title}}</a></span>
             <section class="cart_price">
                 <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
-                <span class="addto">
-                	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
-                    <input  type="text" ng-model="item.num" ng-blur="changenamount(item.gcid)" />
-                	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
-                </span>
             </section>
             <span class="color">
                 <font ng-if="item.exprice*item.num>item.price">换此款  补：{{item.exprice*item.num-item.price | currency:'￥'}}</font>
                 <font ng-if="item.exprice*item.num<=item.price" ng-style="{color: '#FE2E2E'}">换此款  剩：{{item.price-item.exprice*item.num | currency:'￥'}}</font>
             </span>
+            <section class="cart_price">
+                 <span class="addto">
+                	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
+                    <input  type="text" ng-model="item.num" ng-blur="changenamount(item.gcid)" />
+                	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
+                </span>
+            </section>
+
         </section>
     </section>
     <section class="delete" ng-if="delFlag"><a ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>

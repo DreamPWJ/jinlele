@@ -42,8 +42,6 @@ import java.util.*;
 @Controller
 public class WeiXinController {
 
-//    public static String openIds;
-//    public static Integer userIds;
     @Resource
     IUserService userService;
     @Resource
