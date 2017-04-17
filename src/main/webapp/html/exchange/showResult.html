@@ -68,7 +68,7 @@
     </span>
         <ul class="change_main">
             <li ng-repeat="item in freeList">
-                <section class="collection_main">
+                <section class="collection_main" ng-style="item.border">
                     <span class="pic"><a  ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
                         <h2><a href="#/barterdetailfor{{item.id}}">{{item.title.length>15?item.title.substr(0,15)+'....':item.title}}</a></h2>
@@ -77,7 +77,7 @@
                         </span>
                         <span class="price">
                         <em>剩：￥{{(evaluationPrice-item.exprice)|number:2}}
-                            <i style="float:right;color:red" ng-if="$index%2==0">√</i>
+                            <i style="float:right;color:red" ng-if="item.checkflag">√</i>
                         </em>
                         </span>
                     </section>
@@ -92,7 +92,7 @@
     </span>
         <ul class="change_main">
             <li ng-repeat="item in newList">
-                <section class="collection_main">
+                <section class="collection_main" ng-style="item.border">
                     <span class="pic"><a href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
                         <h2><a href="#/barterdetailfor{{item.id}}">{{item.title.length>15?item.title.substr(0,15)+'....':item.title}}</a></h2>

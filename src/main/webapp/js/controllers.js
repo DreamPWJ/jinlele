@@ -3988,21 +3988,29 @@
         $scope.cartotalprice = 0;//选中的商品的价格
         $scope.totalprice = 0;
         $scope.goodids = [];
+        $scope.border1 = {
+            "border-width":"1px",
+            "border-style":"solid",
+            "border-color":"#ccc"
+        };
+        $scope.border2 = {
+            "border-width":"1px",
+            "border-style":"solid",
+            "border-color":"#b37373"
+        };
         EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
             console.log(data);
-            console.log(1);
             if(data){
                 $scope.totalnum = data.totalnum;
             }
             if(data.goodids){
                 $scope.goodids = data.goodids;
-                console.log(' $scope.goodids');
-                console.log( $scope.goodids);
-                console.log( '$scope.goodids.length=='+$scope.goodids.length);
+                console.log('$scope.goodids');
+                console.log($scope.goodids);
+                console.log('$scope.goodids.length=='+$scope.goodids.length);
             }
             console.log('$scope.totalnum='+ $scope.totalnum);
             if(data.echeck){
-                console.log("=="+1);
                 $scope.cartotalnum = data.echeck.cartotalnum;
                 $scope.cartotalprice = data.echeck.cartotalprice;
                 console.log('$scope.cartotalprice=='+ $scope.cartotalprice);
@@ -4013,8 +4021,57 @@
                $scope.totalprice =  - $scope.evaluationPrice;//预选合计总金额
                 console.log(  $scope.totalprice );
             }
-        });
+        }).then(function () {
+            GoodService.getBarterList({
+                amount: $scope.evaluationPrice,
+                pagenow: 1,
+                type: "free"
+            }).success(function (data) {
+                $scope.freeList=data.pagingList;
+                angular.forEach(data.pagingList, function (item,index) {
+                    console.log("item===");
+                    console.log(item);
+                    item.checkflag = false;
+                    console.log(item.checkflag  +"=1");
+                    console.log("$scope.goodids.length=="+$scope.goodids.length);
+                    item.checkflag = false;
+                    item.border = $scope.border1;
+                    for(var i= 0,len=$scope.goodids.length;i<len;i++){
+                        console.log($scope.goodids[i] +"=item.id=="+item.id);
+                        if($scope.goodids[i]==item.id){
+                            item.checkflag = true;
+                            item.border = $scope.border2;
+                        }
+                    }
+                    console.log(item.checkflag +"=1");
+                });
+            });
+
+            GoodService.getBarterList({
+                amount: $scope.evaluationPrice,
+                pagenow: 1,
+                type: "new"
+            }).success(function (data) {
+                $scope.newList=data.pagingList;
+                angular.forEach(data.pagingList, function (item) {
+                    item.checkflag = false;
+                    console.log(item.checkflag );
+                    item.checkflag = false;
+                    item.border = $scope.border1;
+                    for(var i= 0,len=$scope.goodids.length;i<len;i++){
+                        if($scope.goodids[i]==item.id){
+                            if($scope.goodids[i]==item.id){
+                                item.checkflag = true;
+                                item.border = $scope.border2;
+                            }
+                        };
+                    }
+                    console.log(item.checkflag+"=2" );
+                });
+            });
+        })
         $scope.menuWidth = {"width": "33.333%"};
+
         //初始化参数
         $scope.balance = 0;//账户余额
 
@@ -4023,48 +4080,11 @@
         });
 
         // $scope.goodids
-        GoodService.getBarterList({
-            amount: $scope.evaluationPrice,
-            pagenow: 1,
-            type: "free"
-        }).success(function (data) {
-            $scope.freeList=data.pagingList;
-            angular.forEach(data.pagingList, function (item,index) {
-                console.log("item===");
-                console.log(item);
-                item.checkflag = false;
-                console.log(item.checkflag  +"=1");
-                console.log("$scope.goodids.length=="+$scope.goodids.length);
 
-                for(var i= 0,len=$scope.goodids.length;i<len;i++){
-                    console.log($scope.goodids[i] +"=item.id=="+item.id);
-                    if($scope.goodids[i]==item.id){
-                        item.checkflag = true;
-                    };
-                }
-                console.log(item.checkflag +"=2");
-            });
-        });
-        GoodService.getBarterList({
-            amount: $scope.evaluationPrice,
-            pagenow: 1,
-            type: "new"
-        }).success(function (data) {
-            $scope.newList=data.pagingList;
-            angular.forEach(data.pagingList, function (item) {
-                item.checkflag = false;
-                console.log(item.checkflag );
-                for(var i= 0,len=$scope.goodids.length;i<len;i++){
-                    if($scope.goodids[i]==item.id){
-                        item.checkflag = true;
-                    };
-                }
-                console.log(item.checkflag );
-            });
-        });
+
     }])
     //更多款（免费、补差价）
-    .controller('MoreCtrl',['$scope','$stateParams','GoodService',function($scope,$stateParams,GoodService) {
+    .controller('MoreCtrl',['$scope','$stateParams','GoodService','EvaluateService',function($scope,$stateParams,GoodService,EvaluateService) {
         $scope.evaluationPrice = localStorage.getItem("evaluationPrice");
         $scope.type = $stateParams.category;//款式种类
         $scope.barterlistinfo = [];
@@ -4072,6 +4092,17 @@
         $scope.total = 1;//总页数
         $scope.moreFlag = false; //是否显示加载更多
         $scope.noDataFlag = false;  //没有数据显示
+        $scope.goodids = [];
+        $scope.border1 = {
+            "border-width":"1px",
+            "border-style":"solid",
+            "border-color":"#ccc"
+        };
+        $scope.border2 = {
+            "border-width":"1px",
+            "border-style":"solid",
+            "border-color":"#b37373"
+        };
         $scope.getBarterList = function () {
             if ((arguments != [] && arguments[0] == 0)) {
                 $scope.page = 0;
@@ -4087,14 +4118,37 @@
                 type: $scope.type
             }).success(function (data) {
                 angular.forEach(data.pagingList, function (item) {
+                    if (data.myrows == 0) $scope.noDataFlag = true;
                     $scope.barterlistinfo.push(item);
+                    item.checkflag = false;
+                    item.border = $scope.border1;
+                    for(var i= 0,len=$scope.goodids.length;i<len;i++){
+                        if($scope.goodids[i]==item.id){
+                            if($scope.goodids[i]==item.id){
+                                item.checkflag = true;
+                                item.border = $scope.border2;
+                            }
+                        };
+                    }
                 });
-                if (data.myrows == 0) $scope.noDataFlag = true;
                 $scope.total = data.myrows;
                 if ($scope.total > $scope.barterlistinfo.length) {
                     $scope.moreFlag = true;
                 }
+
             })
         };
-        $scope.getBarterList();
+        $scope.getdata = function () {
+            EvaluateService.getShopcharTotal({serviceId: localStorage.getItem("barterServiceId")}).success(function (data) {
+                console.log(data);
+                if(data.goodids){
+                    $scope.goodids = data.goodids;
+                    console.log($scope.goodids);
+                    console.log('$scope.goodids.length=='+$scope.goodids.length);
+                }
+            }).then(function () {
+                $scope.getBarterList();
+            });
+        }
+        $scope.getdata();
     }]);

@@ -4,14 +4,17 @@
 </div>
 <main class="content">
     <section class="change">
-        <ul class="change_main">
-            <li ng-repeat="item in barterlistinfo" ng-if="type=='free'">
-                <section class="collection_main">
+        <ul class="change_main" >
+            <li ng-repeat="item in barterlistinfo" ng-if="type=='free'" >
+                <section class="collection_main" ng-style="item.border">
                     <span class="pic"><a ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
                         <h2><a ng-href="#/barterdetailfor{{item.id}}">{{item.title.length>15?item.title.substr(0,15)+'....':item.title}}</a></h2>
                         <span class="price">
-                            <em>剩：{{evaluationPrice-item.exprice|currency:'￥'}}</em>
+                            <em>
+                                剩：{{evaluationPrice-item.exprice|currency:'￥'}}
+                                 <i style="float:right;color:red" ng-if="item.checkflag">√</i>
+                            </em>
                         </span>
                     </section>
                 </section>
@@ -22,12 +25,16 @@
                     <section class="text">
                         <h2><a ng-href="#/barterdetailfor{{item.id}}">{{item.title.length>15?item.title.substr(0,15)+'....':item.title}}</a></h2>
                         <span class="price">
-                            <em>补：{{item.exprice-evaluationPrice|currency:'￥'}}</em>
+                            <em>
+                                补：{{item.exprice-evaluationPrice|currency:'￥'}}
+                                 <i style="float:right;color:red" ng-if="item.checkflag">√</i>
+
+                            </em>
                         </span>
                     </section>
                 </section>
             </li>
         </ul>
     </section>
-    <section class="collection_load" ng-click="getBarterList()" ng-if="moreFlag"><a href="">加载更多</a></section>
+    <section class="collection_load" ng-click="getdata()" ng-if="moreFlag"><a href="">加载更多</a></section>
 </main>
