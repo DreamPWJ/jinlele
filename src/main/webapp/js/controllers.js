@@ -3980,7 +3980,8 @@
         }
     }])
     //估价结果推荐
-    .controller('ShowResultCtrl',['$scope','GoodService','EvaluateService','WalletService',function($scope,GoodService,EvaluateService,WalletService){
+    .controller('ShowResultCtrl',['$scope','$rootScope','GoodService','EvaluateService','WalletService','CommonService',function($scope,$rootScope,GoodService,EvaluateService,WalletService,CommonService){
+        $rootScope.commonService = CommonService;
 
         $scope.evaluationPrice=localStorage.getItem("evaluationPrice");
         console.log('$scope.evaluationPrice=='+$scope.evaluationPrice);
@@ -4079,7 +4080,9 @@
             $scope.balance = data.balance;
         });
 
-        // $scope.goodids
+        $scope.selectThis = function () {
+            CommonService.toolTip("请选择您要的商品信息", "");
+        }
 
 
     }])
