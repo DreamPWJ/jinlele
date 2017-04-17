@@ -121,7 +121,7 @@
     <span class="check">
         <a style="color: red;width: 60%;float: right;">预选合计：￥{{totalprice|number:2}}</a>
          </span>
-    <a class="cart" ng-click="settleAccounts()">结算<i>({{cartotalnum}})</i></a>
+    <a class="cart" ng-href="#/bartercart">结算<i>({{cartotalnum}})</i></a>
 
 </footer>
 <!-- FOOTER -->
@@ -129,7 +129,7 @@
 	<span class="check">
         <a class="back" ng-style="menuWidth" ng-click="back()">上一步</a>
         <a ng-style="menuWidth" > <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
-        <a href="#/bartercart" ng-style="menuWidth">
+        <a ng-href="#/bartercart" ng-style="menuWidth">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>
         </a>
