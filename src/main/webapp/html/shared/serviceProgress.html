@@ -9,70 +9,98 @@
         <span class="title"><a>下单时间：</a><a>{{orderInfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</a></span>
     </section>
     <!-- 服务进度-->
-        <section class="logistics" ng-switch on="orderType">
-            <ul ng-switch-when="001">
-                <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-                <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em></li>
-                <li><i></i><em>待发货----商品翻新已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em>待发货----商品翻新已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em></li>
-                <li><i></i><em>待翻新----商品检测已完成，下一步将进行翻新，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
-                <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
-                <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-                <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em></li>
-                <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-            </ul>
-            <ul ng-switch-when="002">
-                <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-                <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
-                <li><i></i><em>待发货----商品维修已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em>待发货----商品维修已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
-                <li><i></i><em>待维修----商品检测已完成，下一步将进行维修，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
-                <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
-                <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-                <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em></li>
-                <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-                <li><i></i><em>待确认----实际维修金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
-                <li><i></i><em>待定价----下单成功，等待门店审核维修金额</em></li>
-            </ul>
-            <ul ng-switch-when="003">
-                <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-                <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em></li>
-                <li><i></i><em>待返回----商品检测已完成，下一步准备返回，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em><em>待返回----商品检测已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
-                <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
-                <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-                <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em></li>
-                <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-            </ul>
-            <ul ng-switch-when="004">
-                <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-                <li><i></i><em>待评价----回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>待审核----变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
-                <li><i></i><em>交易关闭----宝贝已签收，交易关闭</em></li>
-                <li><i></i><em>待收货----商品已出发，<a href="">点击这里</a>&nbsp;签收您的宝贝</em></li>
-                <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a href="">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em></li>
-                <li><i></i><em>待确认----实际回收金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
-                <li><i></i><em>待定价----商品检测已完成，等待门店审核回收金额</em></li>
-                <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
-                <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-                <li><i></i><em>等待客户发货----（寄件选择送到店）下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em>等待客户发货----（寄件选择邮寄）下单成功，请尽快将商品邮寄到门店，<a href="">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
-                <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-            </ul>
-            <ul ng-switch-when="005">
-                <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-                <li><i></i><em>待评价----宝贝已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>回收完成----回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
-                <li><i></i><em>回收待审核----变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
-                <li><i></i><em>交易关闭----宝贝已签收，交易关闭</em></li>
-                <li><i></i><em>待收货（返回待确认）----商品已出发，<a href="">点击这里</a>&nbsp;签收您的宝贝</em></li>
-                <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a href="">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em></li>
-                <li><i></i><em>回收待确认----您已放弃换款，<a href="">点击这里</a>&nbsp;可选择变现</em></li>
-                <li><i></i><em>已付款----（取货选择邮寄）换款成功，下一步准备为您寄出新款，<a>点击这里</a>&nbsp;查看商品发货动态</em><em>已付款----（取货选择到店取）换款成功，正在为您准备新款，请到****门店提取</em></li>
-                <li><i></i><em>待定价（待选款、待付款、换款待确认）----商品检测已完成，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测结果</em></li>
-                <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
-                <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-                <li><i></i><em>等待客户发货----（寄件选择送到店）下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em>等待客户发货----（寄件选择邮寄）下单成功，请尽快将商品邮寄到门店，<a href="">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
-                <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-            </ul>
-        </section>
+    <section class="logistics" ng-switch on="orderType">
+        <ul ng-switch-when="001">
+            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
+            <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em>
+            </li>
+            <li><i></i><em>待发货----商品翻新已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em>待发货----商品翻新已完成，请尽快到店领取，<a
+                    ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em></li>
+            <li><i></i><em>待翻新----商品检测已完成，下一步将进行翻新，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em>
+            </li>
+            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
+            </li>
+            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
+            <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em>
+            </li>
+            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+        </ul>
+        <ul ng-switch-when="002">
+            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
+            <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em>
+            </li>
+            <li><i></i><em>待发货----商品维修已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em>待发货----商品维修已完成，请尽快到店领取，<a
+                    ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
+            <li><i></i><em>待维修----商品检测已完成，下一步将进行维修，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em>
+            </li>
+            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
+            </li>
+            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
+            <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em>
+            </li>
+            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+            <li><i></i><em>待确认----实际维修金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
+            <li><i></i><em>待定价----下单成功，等待门店审核维修金额</em></li>
+        </ul>
+        <ul ng-switch-when="003">
+            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
+            <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em>
+            </li>
+            <li><i></i><em>待返回----商品检测已完成，下一步准备返回，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em><em>待返回----商品检测已完成，请尽快到店领取，<a
+                    ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
+            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
+            </li>
+            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
+            <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em>
+            </li>
+            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+        </ul>
+        <ul ng-switch-when="004">
+            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
+            <li><i></i><em>待评价----回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>待审核----变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
+            <li><i></i><em>交易关闭----宝贝已签收，交易关闭</em></li>
+            <li><i></i><em>待收货----商品已出发，<a href="">点击这里</a>&nbsp;签收您的宝贝</em></li>
+            <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a href="">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em>
+            </li>
+            <li><i></i><em>待确认----实际回收金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
+            <li><i></i><em>待定价----商品检测已完成，等待门店审核回收金额</em></li>
+            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
+            </li>
+            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
+            <li><i></i><em>等待客户发货----（寄件选择送到店）下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em>等待客户发货----（寄件选择邮寄）下单成功，请尽快将商品邮寄到门店，<a
+                    href="">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
+            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+        </ul>
+        <ul ng-switch-when="005">
+            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
+            <li><i></i><em>待评价----宝贝已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>回收完成----回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
+            </li>
+            <li><i></i><em>回收待审核----变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
+            <li><i></i><em>交易关闭----宝贝已签收，交易关闭</em></li>
+            <li><i></i><em>待收货（返回待确认）----商品已出发，<a href="">点击这里</a>&nbsp;签收您的宝贝</em></li>
+            <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a href="">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em>
+            </li>
+            <li><i></i><em>回收待确认----您已放弃换款，<a href="">点击这里</a>&nbsp;可选择变现</em></li>
+            <li><i></i><em>已付款----（取货选择邮寄）换款成功，下一步准备为您寄出新款，<a>点击这里</a>&nbsp;查看商品发货动态</em><em>已付款----（取货选择到店取）换款成功，正在为您准备新款，请到****门店提取</em>
+            </li>
+            <li><i></i><em>待定价（待选款、待付款、换款待确认）----商品检测已完成，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测结果</em>
+            </li>
+            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
+            </li>
+            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
+            <li><i></i><em>等待客户发货----（寄件选择送到店）下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em>等待客户发货----（寄件选择邮寄）下单成功，请尽快将商品邮寄到门店，<a
+                    href="">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
+            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+        </ul>
+    </section>
 </main>
