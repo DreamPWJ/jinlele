@@ -2639,7 +2639,7 @@
         });
     }])
     //流程-检测报告
-    .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService','$rootScope','CommonService','WalletService','CartService','EvaluateService','WeiXinService', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService,$rootScope,CommonService,WalletService,CartService,EvaluateService,WeiXinService) {
+    .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService','$rootScope','CommonService','WalletService','CartService','EvaluateService','WeiXinService','$state', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService,$rootScope,CommonService,WalletService,CartService,EvaluateService,WeiXinService,$state) {
         $rootScope.commonService=CommonService;
         $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
         $scope.orderType=$stateParams.type;
@@ -2861,14 +2861,19 @@
                         obj.checked = data.checkflag ? 1 : 0 ;
                         obj.id = data.id;
                         obj.num = data.num;
-                        obj.serviceId = localStorage.getItem("barterServiceId");
+                        obj.serviceId =  $scope.report.id;
                     }
                     $scope.checkedinfo.push(obj);
                 });
+                console.log('$scope.checkedinfo');
+                console.log($scope.checkedinfo);
                 CartService.selectBarterCartInfo($scope.checkedinfo).success(function(data) {
                     $scope.barterCar = data;
                 }).then(function () {
+                    console.log('$scope.barterCar=='+$scope.barterCar);
+                    console.log($scope.barterCar);
                     if(!$scope.barterCar || $scope.barterCar.errmsg !="ok"){
+                        console.log($scope.barterCar);
                         CommonService.toolTip("结算失败！","");
                         return;
                     }
