@@ -238,7 +238,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      controller: 'ServiceProgressCtrl'
                  })
                  .state('checkReport', {  //流程-检测报告
-                     url: '/checkReport/:type/:orderno',
+                     url: '/checkReportfor{type}with{orderno}',
                      templateUrl: 'html/shared/checkReport.html',
                      controller: 'CheckReportCtrl'
                  })
