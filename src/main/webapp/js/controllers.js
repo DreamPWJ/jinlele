@@ -3556,6 +3556,10 @@
                 EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
                     if (data) {
+                        if(data.status=="paramserr"){
+                            CommonService.toolTip('该参数范围的估价没有数据','');
+                            return;
+                        }
                         if(data.status=="error"){
                             CommonService.toolTip('该重量的估价没有数据','');
                             return;

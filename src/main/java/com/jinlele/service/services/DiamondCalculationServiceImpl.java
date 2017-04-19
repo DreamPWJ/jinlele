@@ -87,6 +87,11 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 Double cutRate = diamondParmCalculationMapper.getRate(cut.substring(0, 3), cut, dcid);
                 Double symmetryRate = diamondParmCalculationMapper.getRate(symmetry.substring(0, 3), symmetry, dcid);
                 Double polishRate = diamondParmCalculationMapper.getRate(polish.substring(0, 3), polish, dcid);
+
+                if (certificateRate == null||colorRate == null||cleanessRate == null||florescenceRate == null||cutRate == null||symmetryRate == null||polishRate == null) {
+                    resultMap.put("status", "paramserr");  //如果没有参数的话，就提示给前台，后面不能继续走了
+                    return resultMap;
+                }
                 Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//主石总价格
                 result = totalMainPrice + totalSecPrice + totalMetalPrice;
                 com.jinlele.model.Service service = new com.jinlele.model.Service();
