@@ -1108,7 +1108,7 @@
         }
     }])
     //发表评论
-    .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state','$rootScope', 'WeiXinService', 'OrderService','CommonService', function ($scope, $stateParams, $state, $rootScope,WeiXinService, OrderService,CommonService) {
+    .controller('AddCommentCtrl', ['$scope', '$stateParams', '$state','$rootScope', 'WeiXinService', 'OrderService','CommonService','$state', function ($scope, $stateParams, $state, $rootScope,WeiXinService, OrderService,CommonService,$state) {
         $rootScope.commonService=CommonService;
         $scope.currentId=5;
         $scope.colors = [{id:1},{id:2},{id:3},{id:4},{id:5}];
@@ -2488,7 +2488,7 @@
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
                 obj.storeId = $scope.order.storeId;//后续需要根据客户选择传入
-                obj.sendWay=$scope.order.sendway;     //送货方式
+                obj.sendWay=$scope.order.sendway;  //送货方式
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = localStorage.getItem("barterServiceId");//服务id
@@ -2639,14 +2639,17 @@
         });
     }])
     //流程-检测报告
-    .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService) {
+    .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService','$rootScope','CommonService','WalletService','CartService','EvaluateService','WeiXinService','$state', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService,$rootScope,CommonService,WalletService,CartService,EvaluateService,WeiXinService,$state) {
+        $rootScope.commonService=CommonService;
         $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
         $scope.orderType=$stateParams.type;
+        console.log('$scope.orderType=='+$scope.orderType);
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
         $scope.jinflag=false;
         $scope.myflag=false;
+        $scope.checkflag = true; //检测报告的结果是否正确，如果估价和实际价格相同则为true，否则为false
         $scope.showwuliuInfo=function(index){
             switch (index){
                 case 0:
@@ -2665,17 +2668,279 @@
         };
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
-            $scope.orderInfo = data.order;console.log(data);
+            $scope.orderInfo = data.order;
+            $scope.orderno = data.order.orderno;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //检测报告
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
             if(data.checkreport) {
                 $scope.report = data;
+
+                $scope.checkflag = $scope.report.price == $scope.report.aturalprice;
+                console.log(data);
+
             }else{
                 $scope.report = null;
             }
+        }).then(function () {
+            if($scope.report == null){
+                return;
+            }
+
+            $scope.init = {
+                serviceid:$scope.report.id,
+                pagenow: 1
+            };
+
+            $scope.barterprice = 0;
+            $scope.balance = 0;//账户余额
+            WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
+                $scope.balance = data.balance;
+            });
+            $scope.delstyle = {display: 'none'};
+            $scope.checkflag = false;//默认复选框不选中
+            $scope.checkAllflag = false;
+            var selectAllCount  = 0; //控制全选的计数器
+            CartService.getBarterCartInfo($scope.init).success(function (data) {
+                console.log(data);
+                $scope.isNotData = false;
+                if (data.pagingList.length == 0) {
+                    $scope.isNotData = true;
+                    return;
+                }
+                $scope.cartlist = data;
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    if(data.checked == 1){
+                        selectAllCount++;
+                        data.checkflag = true;  //该子商品初始是否选中状态
+                    }else{
+                        data.checkflag = false; //该子商品初始是否选中状态
+                    }
+                });
+                if(selectAllCount == $scope.cartlist.pagingList.length){
+                    $scope.checkAllflag = true;
+                }
+                console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
+                $scope.barterprice =$scope.report.aturalprice; //估价价格
+
+               // $scope.totalprice = -$scope.barterprice;
+            });
+            //初始化数据
+            $scope.totalnum = 0;
+            $scope.totalprice = 0;
+            $scope.m = [];
+            $scope.checkedGcIds = [];
+            $scope.checkedinfo = [];
+            $scope.delFlag = false; //删除按钮默认不显示 选择了商品后才显示
+
+            $scope.cartotalprice =0;
+
+            EvaluateService.getShopcharTotal({serviceId: $scope.report.id}).success(function (data) {
+                if(data.echeck){
+                    $scope.cartotalprice = data.echeck.cartotalprice; // 选中的商品的总价格
+                    $scope.totalnum = data.echeck.cartotalnum; // 选中的商品的总价格
+                    if($scope.totalnum >0) $scope.delFlag = true;
+                }
+                $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
+                console.log( $scope.totalprice);
+            });
+
+
+            //全选
+            $scope.selectAll = function () {
+                $scope.checkAllflag = !$scope.checkAllflag;
+                // //去除重复，记录最后一遍数据
+                $scope.totalnum = 0;
+                $scope.totalprice = 0;
+                if ($scope.checkAllflag) {
+                    angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                        data.checkflag = true;//选中
+                        $scope.totalnum += parseInt(data.num);
+                        $scope.totalprice += parseInt(data.num) * data.exprice;
+                    });
+                    $scope.totalprice=$scope.totalprice-$scope.barterprice;
+                    $scope.delFlag = true;
+                } else {
+                    angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                        data.checkflag = false;//不选中
+                    });
+                    $scope.delFlag = false;
+                    $scope.totalnum = 0;
+                    $scope.totalprice= 0 - $scope.barterprice;
+                }
+            };
+
+            //单选事件
+            $scope.selectOne = function (id) {
+                $scope.totalnum = 0;//去除重复，记录最后一遍数据
+                $scope.totalprice = 0;
+                $scope.delFlag = false;//  //控制删除按钮是否显示
+                var selectAllCount  = 0; //控制全选的计数器
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    if(data.gcid == id) data.checkflag = !data.checkflag ;
+                    if (data && data.checkflag) {
+                        $scope.totalnum += parseInt(data.num);
+                        $scope.totalprice += parseInt(data.num) * data.exprice;
+                        $scope.delFlag = true;
+                        selectAllCount++;
+                    }
+                });
+                $scope.totalprice=$scope.totalprice-$scope.barterprice;
+                if(selectAllCount == $scope.cartlist.pagingList.length){
+                    $scope.checkAllflag = true;
+                }else{
+                    $scope.checkAllflag = false;
+                }
+
+            };
+
+            //点击更新数量
+            $scope.updateamount = function (id,count) {
+                console.log(1);
+                $scope.totalnum = 0;
+                $scope.totalprice = 0;
+                for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                    var item = $scope.cartlist.pagingList[i];
+                    if (item.gcid == id) {
+                        item.num = parseInt(item.num) + count;//这里可以增加上下限制
+                        if (item.num < 1) item.num = 1;
+                        if (parseInt(item.num) > item.stocknumber){
+                            item.num = item.stocknumber;
+                            CommonService.toolTip("已经是该商品最大库存数了奥！","");
+
+                        }
+                    }
+                    if (item && item.checkflag) {
+                        $scope.totalnum += parseInt(item.num);
+                        $scope.totalprice += parseInt(item.num) * item.exprice;
+                    }
+                }
+                $scope.totalprice=$scope.totalprice-$scope.barterprice;
+            };
+
+
+            //手改更新数量
+            $scope.changenamount = function (id) {
+                console.log(22);
+                $scope.totalnum = 0;
+                $scope.totalprice = 0;
+                for (var i = 0; i < $scope.cartlist.pagingList.length; i++) {
+                    var item = $scope.cartlist.pagingList[i];
+                    if (item.gcid == id) {
+                        if (!/^\+?[1-9][0-9]*$/.test(item.num)) {
+                            item.num = 1;
+                        }
+                        if (parseInt(item.num) > item.stocknumber) {
+                            item.num = item.stocknumber;
+                            CommonService.toolTip("已经是该商品最大库存数了哦！","");
+
+                        }
+                    }
+                    if (item && item.checkflag) {
+                        $scope.totalnum += parseInt(item.num);
+                        $scope.totalprice += parseInt(item.num) * item.exprice;
+                    }
+                }
+                if($scope.totalprice>0){
+                    $scope.totalprice=$scope.totalprice-$scope.barterprice;
+                }
+            };
+
+            //结算
+            $scope.bill = function () {
+                if($scope.totalnum<=0){
+                    CommonService.toolTip("还没有要结算的商品！","");
+                    return;
+                }
+                //将选中的商品id传到后台，更改checked为1
+                $scope.checkedinfo = [];
+                angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                    var obj = {};
+                    if (data) {
+                        obj.checked = data.checkflag ? 1 : 0 ;
+                        obj.id = data.id;
+                        obj.num = data.num;
+                        obj.serviceId =  $scope.report.id;
+                    }
+                    $scope.checkedinfo.push(obj);
+                });
+                console.log('$scope.checkedinfo');
+                console.log($scope.checkedinfo);
+                CartService.selectBarterCartInfo($scope.checkedinfo).success(function(data) {
+                    $scope.barterCar = data;
+                }).then(function () {
+                    console.log('$scope.barterCar=='+$scope.barterCar);
+                    console.log($scope.barterCar);
+                    if(!$scope.barterCar || $scope.barterCar.errmsg !="ok"){
+                        console.log($scope.barterCar);
+                        CommonService.toolTip("结算失败！","");
+                        return;
+                    }
+                    //如果结算金额大
+                    $scope.param = {
+                        totalprice: 0.01, //data.totalprice
+                        orderNo: $scope.orderno,
+                        descrip: '六唯壹珠宝',
+                        openid: localStorage.getItem("openId"),
+                        orderType:JSON.stringify({type:$scope.orderType})
+                    };
+                    //调用支付接口
+                    console.log(JSON.stringify($scope.param));
+                    //微信支付调用
+                    WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                        WeiXinService.wxchooseWXPay(data)
+                            .then(function (msg) {
+                                switch (msg) {
+                                    case "get_brand_wcpay_request:ok":
+                                        CommonService.toolTip("支付成功","tool-tip-message-success");
+                                        //支付成功，跳转订单详情
+                                        sessionStorage.setItem($scope.param.orderNo ,"ok");
+                                        $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.type.code});
+                                        break;
+                                    default :
+                                        //未支付，跳转支付进度
+                                        sessionStorage.setItem($scope.param.orderNo,"");
+                                        var order = {orderno:$scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
+                                        $state.go("payresult", {order: JSON.stringify(order)});
+                                        break;
+                                }
+                            });
+                    });
+                });
+
+            };
+            //删除
+            $scope.del = function () {
+                if ($scope.checkedGcIds.length > 0) {
+                    $scope.delstyle = {};
+                }
+            };
+            //确认删除
+            $scope.confirm = function () {
+                console.log($scope.checkedGcIds);
+                $scope.delstyle = {display: 'none'};
+                CartService.delBarterCartInfo($scope.checkedinfo).success(function (data) {
+                    CartService.getBarterCartInfo($scope.init).success(function (data) {
+                        $scope.isNotData = false;
+                        if (data.pagingList.length == 0) {
+                            $scope.isNotData = true;
+                            return;
+                        }
+                        $scope.cartlist = data;
+                    });
+                })
+            };
+            //取消删除
+            $scope.cancle = function () {
+                $scope.delstyle = {display: 'none'};
+            };
+
         });
+
+
+
+
     }])
     //流程-邮寄(五大类服务返回产品物流)
     .controller('ProcPostCtrl', ['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {
