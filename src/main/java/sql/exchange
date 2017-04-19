@@ -1,4 +1,41 @@
 
+#查询砖石商品的sql
+select e.id , e.service_id,main_diamond_weight, sec_diamond_weight,
+(select dictname from vw_dictdetail where eng = 'metalCode' and pid is null
+and codevalue = material_type_value) as material_type,
+(select dictname from vw_dictdetail where eng = 'metalCode' and pid is not null
+and codevalue = purity_value) as purity_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = certificate_value) as certificate_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = color_value) as color_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = cleaness_value) as cleaness_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = florescence_value) as florescence_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = cut_value) as cut_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = symmetry_value) as symmetry_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = polish_value) as polish_value,
+(select dictname from vw_dictdetail where eng = 'dwparam'
+and codevalue = quality_value) as quality_value
+from  evaluate_diamond e
+where e.service_id  = (select id from service where order_no = ？ limit 1)
+
+
+#查询估价贵金属商品的sql
+select e.id , e.service_id,
+(select dictname from vw_dictdetail where eng = 'metalCode' and pid is null
+and codevalue = material_type_value) as material_type,
+(select dictname from vw_dictdetail where eng = 'metalCode' and pid is not  null
+and codevalue = purity_value) as purity_value,
+e.material_weight
+from  evaluate_metal e
+where  e.service_id  = (select id from service where order_no = ？ limit 1)
+
+
 #推荐栏目sql
 select
 distinct g.id,g.title,g.bannerurl,g.price,g.oldprice,g.description,gcc.minprice
