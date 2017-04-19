@@ -51,13 +51,13 @@ public class GoodServiceImpl implements IGoodService {
         paramMap.put("pageSize", 4);
         switch (type){
             case "free":
-                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.exprice <=" + amount);
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and g.deleteCode = '001' and gc.exprice <=" + amount);
                 break;
             case "new":
-                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and gc.exprice >" + amount);
+                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 and g.deleteCode = '001' and gc.exprice >" + amount);
                 break;
             default:
-                paramMap.put("wherecase", " g.id = gc.good_id and  g.canchange = 0 ");
+                paramMap.put("wherecase", " g.id = gc.good_id and g.deleteCode = '001' and  g.canchange = 0 ");
                 break;
         }
         paramMap.put("orderField", "  g.create_time ");
