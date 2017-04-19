@@ -35,42 +35,42 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
     @Override
     public Map<String, Object> addDiamondPrice(List<Map<String,Object>> list) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("showFormula",false);
+        resultMap.put("showFormula", false);
         for (Map<String, Object> paras : list) {
-            Integer goodId =Integer.valueOf(paras.get("goodId").toString());
-            Integer goodChildId =Integer.valueOf(paras.get("goodChildId").toString());
+            Integer goodId = Integer.valueOf(paras.get("goodId").toString());
+            Integer goodChildId = Integer.valueOf(paras.get("goodChildId").toString());
             Boolean flag = Boolean.valueOf(paras.get("flag").toString());
-            String src=paras.get("src")!=null&&paras.get("src").toString().length()!=0?paras.get("src").toString():"";
+            String src = paras.get("src") != null && paras.get("src").toString().length() != 0 ? paras.get("src").toString() : "";
             Double mainWeight = 0.0;//主石重量
-            if(paras.get("mainWeight")!=null&& paras.get("mainWeight").toString().length()!=0){
+            if (paras.get("mainWeight") != null && paras.get("mainWeight").toString().length() != 0) {
                 mainWeight = Double.valueOf(paras.get("mainWeight").toString());//主石重量
             }
             Double result = 0.0;
             //根据mainWeight查询id及price
-            Map<String,Object> map = diamondCalculationMapper.getMainPriceInfo(mainWeight);
-            if(map==null){
-                resultMap.put("status","error");  //如果没有改重量级别的话，就提示给前台，后面不能继续走了
+            Map<String, Object> map = diamondCalculationMapper.getMainPriceInfo(mainWeight);
+            if (map == null) {
+                resultMap.put("status", "error");  //如果没有改重量级别的话，就提示给前台，后面不能继续走了
                 return resultMap;
             }
-            Integer dcid =Integer.valueOf(map.get("id").toString());
+            Integer dcid = Integer.valueOf(map.get("id").toString());
             Double mainPrice = Double.valueOf(map.get("price").toString());
             Double secWeight = 0.0;//副石重量
-            if(paras.get("secWeight")!=null&& paras.get("secWeight").toString().length()!=0){
+            if (paras.get("secWeight") != null && paras.get("secWeight").toString().length() != 0) {
                 secWeight = Double.valueOf(paras.get("secWeight").toString());//副石重量
             }
             String quality = paras.get("quality").toString();//副石品质
-            Double secPrice=diamondSideCalulationMapper.getDiamondSidePrice(quality);//副石价格
+            Double secPrice = diamondSideCalulationMapper.getDiamondSidePrice(quality);//副石价格
             Double totalSecPrice = (new BigDecimal(secPrice * secWeight)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//副石总价格
 
             Double totalWeight = 0.0;//副石重量
-            if( paras.get("totalWeight")!=null&& paras.get("totalWeight").toString().length()!=0) {
+            if (paras.get("totalWeight") != null && paras.get("totalWeight").toString().length() != 0) {
                 totalWeight = Double.valueOf(paras.get("totalWeight").toString());//副石重量
             }
             String purity = paras.get("material").toString();//镶嵌材质
-            Double materialWeight = (new BigDecimal(totalWeight - (mainWeight +secWeight)*0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
-            Map<String,Object> metalMap =  metalCalculationService.addPMPrice(purity, materialWeight,goodId,goodChildId,false);
+            Double materialWeight = secWeight == 0 || totalWeight == 0 ? 0 : (new BigDecimal(totalWeight - (mainWeight + secWeight) * 0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            Map<String, Object> metalMap = metalCalculationService.addPMPrice(purity, materialWeight, goodId, goodChildId, false);
             Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//材质总价格
-            if (flag||"recycle".equals(src)) {
+            if (flag || "recycle".equals(src)) {
                 //主石+镶嵌材质+副石
                 String certificate = paras.get("certificate").toString();//证书
                 String color = paras.get("color").toString();//颜色
@@ -88,39 +88,39 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 Double symmetryRate = diamondParmCalculationMapper.getRate(symmetry.substring(0, 3), symmetry, dcid);
                 Double polishRate = diamondParmCalculationMapper.getRate(polish.substring(0, 3), polish, dcid);
                 Double totalMainPrice = (new BigDecimal(mainPrice * mainWeight * certificateRate * colorRate * cleanessRate * florescenceRate * cutRate * symmetryRate * polishRate)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//主石总价格
-                result = totalMainPrice+totalSecPrice+totalMetalPrice;
-                com.jinlele.model.Service service =new com.jinlele.model.Service();
+                result = totalMainPrice + totalSecPrice + totalMetalPrice;
+                com.jinlele.model.Service service = new com.jinlele.model.Service();
                 service.setPrice(result);//估价结果
                 serviceMapper.insertSelective(service);
                 //添加换款购物车
-                if(goodId!=0&&goodChildId!=0){
-                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(),goodId,goodChildId,1,1));
+                if (goodId != 0 && goodChildId != 0) {
+                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(), goodId, goodChildId, 1, 1));
                 }
-                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,certificate,color,cleaness,florescence,cut,symmetry,polish,quality,totalMetalPrice,totalMainPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
-                resultMap.put("mainPrice",totalMainPrice);
-                resultMap.put("secPrice",totalSecPrice);
-                resultMap.put("metalPrice",totalMetalPrice);
-                resultMap.put("result",result);
-                resultMap.put("evaluateServiceId", service.getId());//返回serviceid
-                resultMap.put("status","ok");
-
-            }else {
-                //镶嵌材质+副石
-                result = totalSecPrice+totalMetalPrice;
-                com.jinlele.model.Service service =new com.jinlele.model.Service();
-                service.setPrice(result);//估价结果
-                serviceMapper.insertSelective(service);
-                //添加换款购物车
-                if(goodId!=0&&goodChildId!=0){
-                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(),goodId,goodChildId,1,1));
-                }
-                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(),metalMap.get("type").toString(),purity,quality,totalMetalPrice,totalSecPrice,materialWeight,mainWeight,secWeight));
-                resultMap.put("mainPrice","");
-                resultMap.put("secPrice",totalSecPrice);
-                resultMap.put("metalPrice",totalMetalPrice);
+                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(), metalMap.get("type").toString(), purity, certificate, color, cleaness, florescence, cut, symmetry, polish, quality, totalMetalPrice, totalMainPrice, totalSecPrice, materialWeight, mainWeight, secWeight));
+                resultMap.put("mainPrice", totalMainPrice);
+                resultMap.put("secPrice", totalSecPrice);
+                resultMap.put("metalPrice", totalMetalPrice);
                 resultMap.put("result", result);
                 resultMap.put("evaluateServiceId", service.getId());//返回serviceid
-                resultMap.put("status","ok");
+                resultMap.put("status", "ok");
+
+            } else {
+                //镶嵌材质+副石
+                result = totalSecPrice + totalMetalPrice;
+                com.jinlele.model.Service service = new com.jinlele.model.Service();
+                service.setPrice(result);//估价结果
+                serviceMapper.insertSelective(service);
+                //添加换款购物车
+                if (goodId != 0 && goodChildId != 0) {
+                    exchangeChartMapper.insertSelective(new ExchangeChart(service.getId(), goodId, goodChildId, 1, 1));
+                }
+                evaluateDiamondMapper.insertSelective(new EvaluateDiamond(service.getId(), metalMap.get("type").toString(), purity, quality, totalMetalPrice, totalSecPrice, materialWeight, mainWeight, secWeight));
+                resultMap.put("mainPrice", "");
+                resultMap.put("secPrice", totalSecPrice);
+                resultMap.put("metalPrice", totalMetalPrice);
+                resultMap.put("result", result);
+                resultMap.put("evaluateServiceId", service.getId());//返回serviceid
+                resultMap.put("status", "ok");
 
             }
         }

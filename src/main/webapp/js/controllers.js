@@ -1802,7 +1802,7 @@
                 });
                 $scope.arr[index].moreDataFlag = (data.myrows > $scope.arr[index].data.length) ?  true : false;
             })
-        }
+        };
 
         //页面初始加载
         $scope.getData(0);
@@ -3445,53 +3445,46 @@
                 } else {
                     $scope.merrorFlag = true;
                     $scope.errorFlag = true;
-                    $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
+                    $scope.errorInfo = "主石填写出错";
                     return;
                 }
                 if (x >= 10.999 || x <0.001) {
                     $scope.merrorFlag = true;
                     $scope.errorFlag = true;
-                    $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
+                    $scope.errorInfo = "主石填写出错";
                     return;
                 } else {
                     $scope.merrorFlag = false;
                     $scope.errorFlag = false;
                 }
             }
-            if(index == 1){
-                if (/^\d+(\.\d{1,3})?$/.test(x)) {
-                    $scope.serrorFlag = false;
-                    $scope.errorFlag = false;
-                } else {
-                    $scope.serrorFlag = true;
-                    $scope.errorFlag = true;
-                    $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
-                    return;
-                }
-
-                if (x >= 10.999 || x <0.001) {
-                    $scope.serrorFlag = true;
-                    $scope.errorFlag = true;
-                    $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
-                    return;
-                } else {
-                    $scope.serrorFlag = false;
-                    $scope.errorFlag = false;
+            if(index == 1) {
+                if (angular.isNumber(x)) {
+                    if (/^\d+(\.\d{1,3})?$/.test(x)) {
+                        $scope.serrorFlag = false;
+                        $scope.errorFlag = false;
+                    } else {
+                        $scope.serrorFlag = true;
+                        $scope.errorFlag = true;
+                        $scope.errorInfo = "副石填写出错";
+                        return;
+                    }
                 }
             }
-            if(index == 2){
-                if (/^\d+(\.\d{1,3})?$/.test(x)) {
-                    $scope.terrorFlag = false;
-                    $scope.errorFlag = false;
-                } else {
-                    $scope.terrorFlag = true;
-                    $scope.errorFlag = true;
-                    $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
-                    return;
+            if(index == 2) {
+                if (angular.isNumber(x)) {
+                    if (/^\d+(\.\d{1,3})?$/.test(x)) {
+                        $scope.terrorFlag = false;
+                        $scope.errorFlag = false;
+                    } else {
+                        $scope.terrorFlag = true;
+                        $scope.errorFlag = true;
+                        $scope.errorInfo = "总重填写出错";
+
+                    }
                 }
             }
-
-        }
+        };
 
         //钻石估价
         $scope.calcDiamondPrice = function () {
@@ -3502,44 +3495,43 @@
             } else {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "主石填写出错";
                 return;
             }
             if ($scope.mainWeight >= 10.999 || $scope.mainWeight <0.001) {
                 $scope.merrorFlag = true;
                 $scope.errorFlag = true;
-                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
+                $scope.errorInfo = "主石填写出错";
                 return;
             } else {
                 $scope.merrorFlag = false;
                 $scope.errorFlag = false;
             }
-            if (/^\d+(\.\d{1,3})?$/.test($scope.secWeight)) {
-                $scope.serrorFlag = false;
-                $scope.errorFlag = false;
-            } else {
-                $scope.serrorFlag = true;
-                $scope.errorFlag = true;
-                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
+            if (angular.isNumber($scope.secWeight)) {
+                if (/^\d+(\.\d{1,3})?$/.test($scope.secWeight)) {
+                    $scope.serrorFlag = false;
+                    $scope.errorFlag = false;
+                } else {
+                    $scope.serrorFlag = true;
+                    $scope.errorFlag = true;
+                    $scope.errorInfo = "副石填写出错";
+                }
                 return;
+            }else{
+                $scope.secWeight="";
             }
-            if ($scope.secWeight >= 10.999 || $scope.secWeight <0.001) {
-                $scope.merrorFlag = true;
-                $scope.errorFlag = true;
-                $scope.errorInfo = "请输入正确范围的数字(0.001~10.999)";
+            if (angular.isNumber($scope.totalWeight)) {
+                if (/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)) {
+                    $scope.terrorFlag = false;
+                    $scope.errorFlag = false;
+                } else {
+                    $scope.terrorFlag = true;
+                    $scope.errorFlag = true;
+                    $scope.errorInfo = "总重填写出错";
+                }
                 return;
-            } else {
-                $scope.merrorFlag = false;
-                $scope.errorFlag = false;
-            }
-            if (/^\d+(\.\d{1,3})?$/.test($scope.totalWeight)) {
-                $scope.terrorFlag = false;
-                $scope.errorFlag = false;
-            } else {
-                $scope.terrorFlag = true;
-                $scope.errorFlag = true;
-                $scope.errorInfo = "请输入正确范围的数字(最多三位小数)";
-                return;
+            }else{
+                $scope.totalWeight="";
             }
             if ($scope.choice) {
                 //主石+副石+镶嵌材质
@@ -3874,7 +3866,7 @@
             }else {
                 $scope.haspriceflag = '';
             }
-        }
+        };
         $scope.addNum = function () {
             if ($scope.gooddetail.num < $scope.stocknum) {
                 $scope.gooddetail.num++;
@@ -4065,12 +4057,12 @@
                                 item.checkflag = true;
                                 item.border = $scope.border2;
                             }
-                        };
+                        }
                     }
                     console.log(item.checkflag+"=2" );
                 });
             });
-        })
+        });
         $scope.menuWidth = {"width": "33.333%"};
 
         //初始化参数
@@ -4131,7 +4123,7 @@
                                 item.checkflag = true;
                                 item.border = $scope.border2;
                             }
-                        };
+                        }
                     }
                 });
                 $scope.total = data.myrows;
@@ -4152,6 +4144,6 @@
             }).then(function () {
                 $scope.getBarterList();
             });
-        }
+        };
         $scope.getdata();
     }]);
