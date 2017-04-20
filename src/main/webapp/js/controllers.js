@@ -2683,7 +2683,7 @@
         //获取买方地址信息及物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
             $scope.orderInfo = data.order;
-            $scope.orderno = data.order.orderno;
+            $scope.orderno = $stateParams.orderno;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //检测报告
