@@ -75,7 +75,7 @@
         <a style="color: red;width: 60%;float: right;">预选合计：￥{{totalprice|number:2}}</a>
     </span>
     <a class="cart" ng-click="settleAccounts()"  ng-if="!fixorderno">结算<i>({{carData.cartotalnum}})</i></a>
-    <a class="cart" ng-href="#/checkReportfor{{fixorderType}}with{{orderno}}"  ng-if="fixorderno">结算<i>({{cartotalnum}})</i></a>
+    <a class="cart" ng-href="#/checkReportfor{{fixorderType}}with{{orderno}}"  ng-if="fixorderno">结算<i>({{carData.cartotalnum}})</i></a>
 </footer>
 <!-- FOOTER -->
 <footer class="add_submit">
