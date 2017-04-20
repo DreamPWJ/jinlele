@@ -8,7 +8,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                  url: '/auth',
                  templateUrl: 'html/auth.html',
                  controller: 'AuthCtrl'
-             })
+             });
              $urlRouterProvider.otherwise('auth')
          }else{
              $stateProvider.state('main', {  //APP首页面
@@ -242,8 +242,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/shared/checkReport.html',
                      controller: 'CheckReportCtrl'
                  })
-
+                 .state('balancePayResult', {  //换款-余额支付结果
+                     url: '/balancePayResult/:orderno',
+                     templateUrl: 'html/exchange/balancePayResult.html',
+                     controller: 'BalancePayResultCtrl'
+                 })
+                 .state('cashPayResult', {  //换款-现金支付结果
+                     url: '/cashPayResult/:orderno',
+                     templateUrl: 'html/exchange/cashPayResult.html',
+                     controller: 'CashPayResultCtrl'
+                 });
              $urlRouterProvider.otherwise('main')
          }
 
-    })
+    });

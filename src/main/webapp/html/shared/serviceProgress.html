@@ -90,7 +90,7 @@
             <li><i></i><em>待收货（返回待确认）----商品已出发，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;签收您的宝贝</em></li>
             <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em>
             </li>
-            <li><i></i><em>回收待确认----您已放弃换款，<a ng-href="#/cfmrecycle/{{orderno}}/005012">点击这里</a>&nbsp;可选择变现</em></li>
+            <li><i></i><em>回收待确认----您已放弃换款，<a ng-href="#/cfmrecycle/{{orderno}}/{{orderInfo.orderstatus}}">点击这里</a>&nbsp;可选择变现</em></li>
             <li><i></i><em>已付款----（取货选择邮寄）换款成功，下一步准备为您寄出新款，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品发货动态</em><em>已付款----（取货选择到店取）换款成功，正在为您准备新款，请到****门店提取</em>
             </li>
             <li><i></i><em>待定价（待选款、待付款、换款待确认）----商品检测已完成，<a ng-href="#/checkReportfor{{orderType}}with{{orderno}}">点击这里</a>&nbsp;查看检测结果</em>

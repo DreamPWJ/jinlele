@@ -3837,7 +3837,7 @@
                 obj.goodId = localStorage.getItem("toBarterGoodId");
                 obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
                 $scope.paras.push(obj);
-                EvaluateService.getDiamondPr
+                EvaluateService.getDiamondPr;
                 ice($scope.paras).success(function (data) {
                     console.log(data);
                     if (data) {
@@ -4259,6 +4259,12 @@
                 }
             });
         }
+    }])
+    .controller('BalancePayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
+
+    }])
+    .controller('CashPayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
+
     }])
     //估价结果推荐
     .controller('ShowResultCtrl',['$scope','$rootScope','GoodService','EvaluateService','WalletService','CommonService',function($scope,$rootScope,GoodService,EvaluateService,WalletService,CommonService){
