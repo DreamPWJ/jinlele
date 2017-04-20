@@ -327,6 +327,12 @@
 <br>  <br>
 
 <main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
+    <section class="numbers_button">
+        <span ng-click="changeOther()"><a href="javascript:">选择其他款</a></span>
+        <span ng-click="" ><a href="javascript:">放弃换款 </a></span>
+    </section>
+
+
     <div ng-if="isNotData" class="isNotDataHint">
         <i class="iconfont icon-cry1"></i>
         <p>购物车暂无商品</p>
@@ -357,13 +363,17 @@
             </section>
 
         </section>
+
     </section>
     <section class="delete" ng-if="delFlag"><a ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
     <section class="amount"><a><i class="icon"></i><em>我的余额：{{balance|currency:"￥"}}</em></a></section>
 </main>
 
+
 <!-- FOOTER -->
 <footer class="submit">
+
+
 	<span class="check">
         <input id="all" type="checkbox" ng-model="select_all" ng-click="selectAll()"/>
 		<label for="all" class="check_label"  ng-class="{true:'on',false:''}[checkAllflag]">
