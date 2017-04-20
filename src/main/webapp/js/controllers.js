@@ -2877,36 +2877,22 @@
                         CommonService.toolTip("结算失败！","");
                         return;
                     }
+                    console.log('$scope.totalprice=='+$scope.totalprice);
+                    console.log('$scope.jinlele_userId=='+localStorage.getItem("jinlele_userId"));
+                    console.log('$scope.changeprice=='+Math.abs($scope.totalprice.toFixed(2)));
                     //如果结算金额大
-                    $scope.param = {
-                        totalprice: 0.01, //data.totalprice
-                        orderNo: $scope.orderno,
-                        descrip: '六唯壹珠宝',
-                        openid: localStorage.getItem("openId"),
-                        orderType:JSON.stringify({type:$scope.orderType})
-                    };
-                    //调用支付接口
-                    console.log(JSON.stringify($scope.param));
-                    //微信支付调用
-                    WeiXinService.getweixinPayData($scope.param).success(function (data) {
-                        WeiXinService.wxchooseWXPay(data)
-                            .then(function (msg) {
-                                switch (msg) {
-                                    case "get_brand_wcpay_request:ok":
-                                        CommonService.toolTip("支付成功","tool-tip-message-success");
-                                        //支付成功，跳转订单详情
-                                        sessionStorage.setItem($scope.param.orderNo ,"ok");
-                                        $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.type.code});
-                                        break;
-                                    default :
-                                        //未支付，跳转支付进度
-                                        sessionStorage.setItem($scope.param.orderNo,"");
-                                        var order = {orderno:$scope.param.orderNo ,orderType:$scope.type.code ,orderStatus:""};
-                                        $state.go("payresult", {order: JSON.stringify(order)});
-                                        break;
-                                }
+                    if($scope.totalprice>0){
+                        $scope.pay();  //去支付
+                    }else{
+                        //改变订单状态为已付款 把剩余的钱放入余额中
+
+                        OrderService.updateBarter({orderno:$scope.orderno,userId:localStorage.getItem("jinlele_userId"),changeprice:Math.abs($scope.totalprice.toFixed(2))})
+                            .success(function (data) {
+                                 console.log("返回的信息");
+                                 console.log(data);
                             });
-                    });
+
+                    }
                 });
 
             };
@@ -2937,6 +2923,39 @@
             };
 
         });
+
+
+        $scope.pay = function () {
+            $scope.param = {
+                totalprice: 0.01, //data.totalprice
+                orderNo: $scope.orderno,
+                descrip: '六唯壹珠宝',
+                openid: localStorage.getItem("openId"),
+                orderType:JSON.stringify({type:$scope.orderType})
+            };
+            //调用支付接口
+            console.log(JSON.stringify($scope.param));
+            //微信支付调用
+            WeiXinService.getweixinPayData($scope.param).success(function (data) {
+                WeiXinService.wxchooseWXPay(data)
+                    .then(function (msg) {
+                        switch (msg) {
+                            case "get_brand_wcpay_request:ok":
+                                CommonService.toolTip("支付成功","tool-tip-message-success");
+                                //支付成功，跳转订单详情
+                                sessionStorage.setItem($scope.param.orderNo ,"ok");
+                                $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.orderType});
+                                break;
+                            default :
+                                //未支付，跳转支付进度
+                                sessionStorage.setItem($scope.param.orderNo,"");
+                                var order = {orderno:$scope.param.orderNo ,orderType:$scope.orderType ,orderStatus:""};
+                                $state.go("payresult", {order: JSON.stringify(order)});
+                                break;
+                        }
+                    });
+            });
+        }
 
 
 
@@ -3818,7 +3837,8 @@
                 obj.goodId = localStorage.getItem("toBarterGoodId");
                 obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
                 $scope.paras.push(obj);
-                EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
+                EvaluateService.getDiamondPr
+                ice($scope.paras).success(function (data) {
                     console.log(data);
                     if (data) {
                         if(data.status=="paramserr"){

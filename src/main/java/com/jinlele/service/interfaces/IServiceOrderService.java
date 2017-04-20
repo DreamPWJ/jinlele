@@ -55,4 +55,6 @@ public interface IServiceOrderService {
     int updateExchangeOrder(Integer userId, Double leftAmount, String orderno,Integer goodId, Integer goodchildId, Integer num,Double price);
 
 
+    public int updateExchange(Integer userId, Double leftAmount, String orderno);
+
 }

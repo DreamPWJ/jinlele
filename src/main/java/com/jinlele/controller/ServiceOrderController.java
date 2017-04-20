@@ -168,4 +168,18 @@ public class ServiceOrderController {
     public Map<String , Object> delBarterCar(@RequestBody List<Map<String,Object>> list) {
         return  serviceOrderService.deleteBarterCar(list);
     }
+
+    /**
+     * 更新换款订单支付信息(剩余金额的时候,余额放入虚拟账户中)
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateExchange", method = RequestMethod.GET)
+    public Map<String, Object> updateExchange(String orderno,int userId,Double changeprice) {
+        Map<String , Object> map = new HashedMap();
+        int n = serviceOrderService.updateExchange(userId,changeprice,orderno);
+        map.put("n" ,n);
+        return map;
+    }
+
+
 }

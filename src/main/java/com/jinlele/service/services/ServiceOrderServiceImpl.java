@@ -397,5 +397,22 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         }
     }
 
+    public int updateExchange(Integer userId, Double leftAmount, String orderno){
+
+        try {
+            //更新订单状态
+            ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
+            order.setActualpayprice(0.0);//实付款
+            order.setShoporderstatuscode("005008");//已付款
+            shopOrderMapper.updateByPrimaryKeySelective(order);
+            //更新账户
+            walletService.updateWallet(userId, leftAmount, orderno);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+
 
 }
