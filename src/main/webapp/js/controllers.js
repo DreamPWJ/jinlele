@@ -3582,6 +3582,8 @@
                 if (data) {
                     if ($stateParams.name == "exchange") {
                         $rootScope.evaluation = "";//很关键，用于区分 后面的预选合计价格
+                        $rootScope.serviceId =  ""; //取数据库中的定价值
+                        $rootScope.fixorderno =  ""; //定价过的订单号
                         $state.go("showResult");
                         localStorage.setItem("evaluationPrice", data.result);
                         localStorage.setItem("barterServiceId", data.evaluateServiceId);
