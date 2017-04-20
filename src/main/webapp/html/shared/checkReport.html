@@ -326,11 +326,15 @@
 
 <br>  <br>
 
-<main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
-    <section class="numbers_button">
-        <span ng-click="changeOther()"><a href="javascript:">选择其他款</a></span>
-        <span ng-click="" ><a href="javascript:">放弃换款 </a></span>
+<section class="numbers">
+    <section  class="numbers_button">
+        <span ng-click="changeOther()" class="hover"><a href="javascript:">选择其他款</a></span>
+        <span ng-click="" class="hover"><a href="javascript:">放弃换款 </a></span>
     </section>
+</section>
+
+<main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
+
 
 
     <div ng-if="isNotData" class="isNotDataHint">

@@ -409,7 +409,7 @@
             console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
             $scope.barterprice = $scope.barterprice==0 ? data.pagingList[0].price : $scope.barterprice; //估价价格
 
-             $scope.totalprice = -$scope.barterprice;
+            $scope.totalprice = -$scope.barterprice;
         }).then(function () {
             EvaluateService.getShopcharTotal({serviceId: $scope.init.serviceid}).success(function (data) {
                 if(data.echeck){
@@ -464,7 +464,7 @@
                     selectAllCount++;
                 }
             });
-             $scope.totalprice=$scope.totalprice-$scope.barterprice;
+            $scope.totalprice=$scope.totalprice-$scope.barterprice;
             if(selectAllCount == $scope.cartlist.pagingList.length){
                 $scope.checkAllflag = true;
             }else{
@@ -2739,7 +2739,7 @@
                 console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
                 $scope.barterprice =$scope.report.aturalprice; //估价价格
 
-               // $scope.totalprice = -$scope.barterprice;
+                // $scope.totalprice = -$scope.barterprice;
             });
             //初始化数据
             $scope.totalnum = 0;
@@ -2911,8 +2911,8 @@
 
                         OrderService.updateBarter({orderno:$scope.orderno,userId:localStorage.getItem("jinlele_userId"),changeprice:Math.abs($scope.totalprice.toFixed(2))})
                             .success(function (data) {
-                                 console.log("返回的信息");
-                                 console.log(data);
+                                console.log("返回的信息");
+                                console.log(data);
                             });
 
                     }
@@ -4317,7 +4317,7 @@
         if($rootScope.evaluation){
             $scope.evaluationPrice = $rootScope.evaluation;  //来自定价
             $scope.serviceId = $rootScope.serviceId;
-            $scope.orderType  = "005";
+            $scope.fixorderType  = "005";
 
         }else{
             $scope.evaluationPrice=localStorage.getItem("evaluationPrice");  //来自估价
@@ -4359,7 +4359,7 @@
                 $scope.totalprice =  $scope.cartotalprice - $scope.evaluationPrice*1;//预选合计总金额
                 console.log('$scope.totalprice=='+ ($scope.cartotalprice - $scope.evaluationPrice));
             }else{
-               $scope.totalprice =  - $scope.evaluationPrice;//预选合计总金额
+                $scope.totalprice =  - $scope.evaluationPrice;//预选合计总金额
                 console.log(  $scope.totalprice );
             }
         }).then(function () {
@@ -4421,7 +4421,7 @@
         });
 
         $scope.selectThis = function () {
-             CommonService.toolTip("请选择您要的商品信息", "");
+            CommonService.toolTip("请选择您要的商品信息", "");
         }
 
         $scope.bartercart = function () {
