@@ -112,6 +112,13 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
+    public Map<String, Object> getReportImages(String orderno, String orderType) {
+        Map<String , Object> map = new HashedMap();
+        map.put("images",serviceMapper.getServicePictures(orderno,orderType));
+        return map;
+    }
+
+    @Override
     public Map<String, Object> getDictInfo(String typename) {
         Map<String , Object> map = new HashedMap();
         map.put("selectedItems",serviceMapper.getDictInfo(typename));

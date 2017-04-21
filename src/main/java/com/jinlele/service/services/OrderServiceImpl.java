@@ -229,7 +229,7 @@ public class OrderServiceImpl implements IOrderService {
                 if("005".equals(type)){
                     resultMap.put("buyinfo",serviceGoodMapper.getBuyInfo(orderno));
                 }
-                resultMap.put("pictures", serviceMapper.getServicePictures(orderno));
+                resultMap.put("pictures", serviceMapper.getServicePictures(orderno,type));
                 break;
         }
         resultMap.put("order",orderinfo);

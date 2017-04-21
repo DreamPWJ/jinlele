@@ -21,6 +21,9 @@ public interface IServiceService {
     //根据订单号查询服务信息
     Map<String , Object> getServiceInfo(String orderno);
 
+    //获得服务信息订单所有图片
+    Map<String , Object> getReportImages(String orderno,String orderType);
+
     //根据类型查询字典信息
     Map<String , Object> getDictInfo(String typename);
     //获取某次换款服务中选择的换款商品个数

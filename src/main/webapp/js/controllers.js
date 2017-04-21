@@ -420,7 +420,7 @@
                 $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
                 console.log( $scope.totalprice);
             });
-        })
+        });
 
 
 
@@ -2864,7 +2864,7 @@
                 $rootScope.serviceId =  $scope.report.id; //取数据库中的定价值
                 $rootScope.fixorderno =  $stateParams.orderno; //定价过的订单号
                 $state.go("showResult");
-            }
+            };
 
             //结算
             $scope.bill = function () {
@@ -2949,6 +2949,14 @@
 
         });
 
+        OrderService.getReportImages({orderno:$stateParams.orderno,orderType:"007"}).success(function(data){
+            if(data) {
+                $scope.images = data.images;
+            }else{
+                $scope.images = null;
+            }
+        });
+
 
         $scope.pay = function () {
             $scope.param = {
@@ -2981,8 +2989,17 @@
                         }
                     });
             });
-        }
+        };
 
+
+        //放弃换款
+        $scope.dropBarter = function () {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012'}).success(function (data) {
+                if(data && data.n==1){
+                    $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
+                }
+            });
+        }
 
 
 
@@ -4425,7 +4442,7 @@
 
         $scope.selectThis = function () {
             CommonService.toolTip("请选择您要的商品信息", "");
-        }
+        };
 
         $scope.bartercart = function () {
             if($rootScope.orderno){

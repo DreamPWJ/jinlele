@@ -322,6 +322,10 @@
     <section class="report" ng-if="orderType=='002'">
         <section class="report_mian"><img src="images/com/wx01.jpg"></section>
     </section>
+    <!-- 维修中 -->
+    <section class="report" ng-if="orderType=='005'&&images!=null">
+        <section class="report_mian" ng-repeat="item in images"><img ng-src="{{item.url}}"/></section>
+    </section>
 </main>
 
 <br>  <br>
@@ -329,7 +333,7 @@
 <section class="numbers">
     <section  class="numbers_button">
         <span ng-click="changeOther()" class="hover"><a href="javascript:">选择其他款</a></span>
-        <span ng-click="" class="hover"><a href="javascript:">放弃换款 </a></span>
+        <span ng-click="dropBarter()" class="hover"><a href="javascript:">放弃换款 </a></span>
     </section>
 </section>
 

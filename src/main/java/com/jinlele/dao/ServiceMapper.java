@@ -27,7 +27,7 @@ public interface ServiceMapper {
     List selectServiceDetailByOrderno(String orderno);
 
     //获得服务信息订单所有图片
-    List getServicePictures(String orderno);
+    List getServicePictures(String orderno,String orderType);
 
     //服务订单产品信息详情
     Map<String , Object> getServiceProducts(String orderno);
