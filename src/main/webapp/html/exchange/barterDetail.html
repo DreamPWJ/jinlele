@@ -91,5 +91,7 @@
             <u>{{totalnum}}</u>
         </a>
     </span>
-    <a class="cart" ng-click="selectThis()">换此款</a>
+    <a class="cart" ng-click="selectThis()" ng-if="!fixorderno">换此款</a>
+    <a class="cart" ng-click="selectThis()" ng-if="fixorderno && !gooddetail.goodchildId">换此款</a>
+    <a class="cart" ng-href="#/checkReportfor{{fixorderType}}with{{orderno}}" ng-if="fixorderno && gooddetail.goodchildId">换此款</a>
 </footer>
