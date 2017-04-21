@@ -292,7 +292,7 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
 
   <!--服务翻新详情页面 根据订单号查询买买方物流单号 买卖方收货地址信息-->
   <select id="findReceiptServiceByOrderno" parameterType="java.lang.String" resultType="Map">
-    select o.orderno , o.create_time ,o.store_id, o.receipt_address_id ,o.userlogisticsno ,o.userlogisticsnoComp,
+    select o.orderno , o.create_time ,o.store_id, o.receipt_address_id ,o.userlogisticsno ,o.userlogisticsnoComp,o.shoporderstatusCode,
 (select company from express_company where number=o.userlogisticsnoComp) usrLogisticsCompName,
  o.logisticsno ,O.logisticsnoComp ,(select company from express_company where number=o.logisticsnoComp) logisticsCompName,
  a.user_name , a.tel_number ,a.province_name ,a.city_name ,a.country_name,a.detail_info,s.`name`,s.phone,s.address

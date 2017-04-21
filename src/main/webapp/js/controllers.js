@@ -2663,7 +2663,6 @@
         $scope.mine="hide";
         $scope.jinflag=false;
         $scope.myflag=false;
-        $scope.checkflag = true; //检测报告的结果是否正确，如果估价和实际价格相同则为true，否则为false
         $scope.showwuliuInfo=function(index){
             switch (index){
                 case 0:
@@ -2684,13 +2683,14 @@
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
             $scope.orderInfo = data.order;
             $scope.orderno = $stateParams.orderno;
+            console.log('$scope.orderInfo');
+            console.log($scope.orderInfo);
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
         });
         //检测报告
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
             if(data.checkreport) {
                 $scope.report = data;
-                $scope.checkflag = $scope.report.price == $scope.report.aturalprice;
                 console.log(data);
 
             }else{
@@ -2700,14 +2700,10 @@
             if($scope.report == null){
                 return;
             }
-
-
-
             $scope.init = {
                 serviceid:$scope.report.id,
                 pagenow: 1
             };
-
             $scope.barterprice = 0;
             $scope.balance = 0;//账户余额
             WalletService.getBalance({userId: localStorage.getItem("jinlele_userId")}).success(function (data) {
@@ -2913,6 +2909,9 @@
                             .success(function (data) {
                                 console.log("返回的信息");
                                 console.log(data);
+                                if(data && data.n == 1){
+                                    $state.go('balancePayResult',{orderno:$scope.orderno,price:Math.abs($scope.totalprice)});
+                                }
                             });
 
                     }
@@ -4305,6 +4304,8 @@
         }
     }])
     .controller('BalancePayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
+        $scope.price = $stateParams.price;
+        $scope.orderno = $stateParams.orderno;
 
     }])
     .controller('CashPayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){

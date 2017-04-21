@@ -243,7 +243,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      controller: 'CheckReportCtrl'
                  })
                  .state('balancePayResult', {  //换款-余额支付结果
-                     url: '/balancePayResult/:orderno',
+                     url: '/balancePayResult/:orderno/:price',
                      templateUrl: 'html/exchange/balancePayResult.html',
                      controller: 'BalancePayResultCtrl'
                  })
