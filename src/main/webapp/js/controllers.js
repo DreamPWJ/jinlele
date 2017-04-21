@@ -2970,7 +2970,8 @@
                                 CommonService.toolTip("支付成功","tool-tip-message-success");
                                 //支付成功，跳转订单详情
                                 sessionStorage.setItem($scope.param.orderNo ,"ok");
-                                $state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.orderType});
+                                //$state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.orderType});
+                                $state.go("cashPayResult", {orderno: $scope.orderno ,price:$scope.totalprice});
                                 break;
                             default :
                                 //未支付，跳转支付进度

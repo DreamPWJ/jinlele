@@ -248,7 +248,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      controller: 'BalancePayResultCtrl'
                  })
                  .state('cashPayResult', {  //换款-现金支付结果
-                     url: '/cashPayResult/:orderno',
+                     url: '/cashPayResult/:orderno/:price',
                      templateUrl: 'html/exchange/cashPayResult.html',
                      controller: 'CashPayResultCtrl'
                  });
