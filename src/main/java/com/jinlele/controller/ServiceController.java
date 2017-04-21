@@ -97,7 +97,10 @@ public class ServiceController {
     @ResponseBody
     @RequestMapping(value = "/getServiceInfo/{orderno}", method = RequestMethod.GET)
     public Map<String, Object> getServiceInfo(@PathVariable String orderno) {
-        return serviceService.getServiceInfo(orderno);
+        Map map = new HashMap();
+        map.put("service", serviceService.getServiceInfo(orderno));
+        map.put("status", serviceService.getStatusByOrderno(orderno));
+        return map;
     }
 
     /**

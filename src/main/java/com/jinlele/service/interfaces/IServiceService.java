@@ -40,6 +40,8 @@ public interface IServiceService {
 
     List<Integer> getAllGoodIds(Integer serviceId);
 
+    String getStatusByOrderno(String orderno);
+
 
 
 }

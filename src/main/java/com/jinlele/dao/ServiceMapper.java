@@ -41,4 +41,7 @@ public interface ServiceMapper {
     Double selectActualPrice(String orderno);
 
     Map<String,Object> getServiceProgressInfoByOrderno(String orderno);
+
+    String getStatusByOrderno(String orderno);
+
 }

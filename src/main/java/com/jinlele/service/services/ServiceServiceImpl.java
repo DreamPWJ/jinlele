@@ -149,4 +149,9 @@ public class ServiceServiceImpl implements IServiceService {
     public List<Integer> getAllGoodIds(Integer serviceId) {
         return exchangeChartMapper.getAllGoodIds(serviceId);
     }
+
+    @Override
+    public String getStatusByOrderno(String orderno) {
+        return serviceMapper.getStatusByOrderno(orderno);
+    }
 }

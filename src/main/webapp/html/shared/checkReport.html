@@ -329,57 +329,57 @@
 </main>
 
 <br>  <br>
+ <div ng-if="status == '005005'">
+     <section class="numbers">
+         <section  class="numbers_button">
+             <span ng-click="changeOther()" class="hover"><a href="javascript:">选择其他款</a></span>
+             <span ng-click="dropBarter()" class="hover"><a href="javascript:">放弃换款 </a></span>
+         </section>
+     </section>
 
-<section class="numbers">
-    <section  class="numbers_button">
-        <span ng-click="changeOther()" class="hover"><a href="javascript:">选择其他款</a></span>
-        <span ng-click="dropBarter()" class="hover"><a href="javascript:">放弃换款 </a></span>
-    </section>
-</section>
-
-<main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
+     <main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
 
 
 
-    <div ng-if="isNotData" class="isNotDataHint">
-        <i class="iconfont icon-cry1"></i>
-        <p>购物车暂无商品</p>
-    </div>
-    <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
+         <div ng-if="isNotData" class="isNotDataHint">
+             <i class="iconfont icon-cry1"></i>
+             <p>购物车暂无商品</p>
+         </div>
+         <section class="cart" ng-repeat="item in cartlist.pagingList" id="list">
     	<span class="check">
         <input id="{{item.gcid}}" type="checkbox"  ng-model="m[item.gcid]" ng-checked = "select_one" ng-click="selectOne(item.gcid)"/>
 		<label for="{{item.gcid}}" class="check_label" ng-class="{true:'on',false:''}[item.checkflag]">
             <i class="checkbox_icon"></i>
         </label>
         </span>
-        <span class="cart_pic"><a href="#/gooddetail/{{item.goodId}}"><img ng-src="{{item.bannerurl}}"></a></span>
-        <section class="cart_main">
-            <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>15?item.title.substr(0,15)+"....":item.title}}</a></span>
-            <section class="cart_price">
-                <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
-            </section>
-            <span class="color">
+             <span class="cart_pic"><a href="#/gooddetail/{{item.goodId}}"><img ng-src="{{item.bannerurl}}"></a></span>
+             <section class="cart_main">
+                 <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>15?item.title.substr(0,15)+"....":item.title}}</a></span>
+                 <section class="cart_price">
+                     <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
+                 </section>
+                 <span class="color">
                 <font ng-if="item.exprice*item.num>item.price">换此款  补：{{item.exprice*item.num-item.price | currency:'￥'}}</font>
                 <font ng-if="item.exprice*item.num<=item.price" ng-style="{color: '#FE2E2E'}">换此款  剩：{{item.price-item.exprice*item.num | currency:'￥'}}</font>
             </span>
-            <section class="cart_price">
+                 <section class="cart_price">
                  <span class="addto">
                 	<a class="icon" href="" ng-click="updateamount(item.gcid,-1)">&#xe603;</a>
                     <input  type="text" ng-model="item.num" ng-blur="changenamount(item.gcid)" />
                 	<a class="iconfont icon-add" href="" ng-click="updateamount(item.gcid,1)"></a>
                 </span>
-            </section>
+                 </section>
 
-        </section>
+             </section>
 
-    </section>
-    <section class="delete" ng-if="delFlag"><a ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
-    <section class="amount"><a><i class="icon"></i><em>我的余额：{{balance|currency:"￥"}}</em></a></section>
-</main>
+         </section>
+         <section class="delete" ng-if="delFlag"><a ng-click="del()"><i class="icon">&#xe721;</i><em>删除</em></a></section>
+         <section class="amount"><a><i class="icon"></i><em>我的余额：{{balance|currency:"￥"}}</em></a></section>
+     </main>
 
 
-<!-- FOOTER -->
-<footer class="submit">
+     <!-- FOOTER -->
+     <footer class="submit">
 
 
 	<span class="check">
@@ -389,17 +389,19 @@
         </label>
         <em>全选</em>
     </span>
-    <span class="total">预选合计：￥{{totalprice|number:2}}</span>
-    <a href="javascript:void(0);"  ng-click="bill()" >付款<i>({{totalnum}})</i></a>
-</footer>
+         <span class="total">预选合计：￥{{totalprice|number:2}}</span>
+         <a href="javascript:void(0);"  ng-click="bill()" >付款<i>({{totalnum}})</i></a>
+     </footer>
 
-<!-- 提示 -->
-<section class="mask" style="display:none;" ng-style="delstyle">
-    <section class="layer prompt">
-        <p>确定要删除选中的商品？</p>
-        <section class="submit">
-            <a href="" ng-click="confirm()">确定</a>
-            <a href="" ng-click="cancle()">取消</a>
-        </section>
-    </section>
-</section>
+     <!-- 提示 -->
+     <section class="mask" style="display:none;" ng-style="delstyle">
+         <section class="layer prompt">
+             <p>确定要删除选中的商品？</p>
+             <section class="submit">
+                 <a href="" ng-click="confirm()">确定</a>
+                 <a href="" ng-click="cancle()">取消</a>
+             </section>
+         </section>
+     </section>
+
+ </div>

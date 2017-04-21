@@ -2689,9 +2689,10 @@
         });
         //检测报告
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
-            if(data.checkreport) {
-                $scope.report = data;
-                console.log(data);
+           $scope.status = data.status;
+            if(data.service.checkreport) {
+                $scope.report = data.service;
+                console.log(data.service);
 
             }else{
                 $scope.report = null;
