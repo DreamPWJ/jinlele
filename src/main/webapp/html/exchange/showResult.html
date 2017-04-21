@@ -130,11 +130,11 @@
 	<span class="check">
         <a class="back" ng-style="menuWidth" ng-click="back()">上一步</a>
         <a ng-style="menuWidth" > <i class="title">我的余额</i><em >{{balance|currency:"￥"}}</em></a>
-        <a ng-href="#/bartercart" ng-style="menuWidth" ng-if="fixorderno==null">
+        <a ng-href="#/bartercart" ng-style="menuWidth" ng-if="!fixorderno">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>
         </a>
-         <a ng-href="#/checkReportfor{{fixorderType}}with{{orderno}}"  ng-style="menuWidth" ng-if="fixorderno!=null">
+         <a ng-href="#/checkReportfor{{fixorderType}}with{{orderno}}"  ng-style="menuWidth" ng-if="fixorderno">
             <i class="icon">&#xe68d;</i><em>购物车</em>
             <u>{{totalnum}}</u>
         </a>

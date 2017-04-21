@@ -2904,7 +2904,6 @@
                         $scope.pay();  //去支付
                     }else{
                         //改变订单状态为已付款 把剩余的钱放入余额中
-
                         OrderService.updateBarter({orderno:$scope.orderno,userId:localStorage.getItem("jinlele_userId"),changeprice:Math.abs($scope.totalprice.toFixed(2))})
                             .success(function (data) {
                                 console.log("返回的信息");
@@ -3311,6 +3310,9 @@
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
         $rootScope.commonService = CommonService;
         $scope.pagetheme = $stateParams.name;
+        $rootScope.evaluation = "";//很关键，用于区分 后面的预选合计价格
+        $rootScope.serviceId =  ""; //取数据库中的定价值
+        $rootScope.fixorderno =  ""; //定价过的订单号
         localStorage.setItem("toBarterGoodId", $stateParams.gid ? $stateParams.gid : 0);
         localStorage.setItem("toBarterGoodChildId", $stateParams.gcid ? $stateParams.gcid : 0);
         var mySwiper = new Swiper('.metal', {
@@ -3581,9 +3583,7 @@
             }).success(function (data) {
                 if (data) {
                     if ($stateParams.name == "exchange") {
-                        $rootScope.evaluation = "";//很关键，用于区分 后面的预选合计价格
-                        $rootScope.serviceId =  ""; //取数据库中的定价值
-                        $rootScope.fixorderno =  ""; //定价过的订单号
+
                         $state.go("showResult");
                         localStorage.setItem("evaluationPrice", data.result);
                         localStorage.setItem("barterServiceId", data.evaluateServiceId);
@@ -3867,8 +3867,7 @@
                 obj.goodId = localStorage.getItem("toBarterGoodId");
                 obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
                 $scope.paras.push(obj);
-                EvaluateService.getDiamondPr;
-                ice($scope.paras).success(function (data) {
+                EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
                     if (data) {
                         if(data.status=="paramserr"){
