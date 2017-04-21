@@ -242,13 +242,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/shared/checkReport.html',
                      controller: 'CheckReportCtrl'
                  })
-                 .state('balancePayResult', {  //换款-余额支付结果
-                     url: '/balancePayResult/:orderno/:price',
+                 .state('balancePayResult', {  //换款--余额支付结果
+                     url: '/balancePayResult/:orderno/:price/:getway',
                      templateUrl: 'html/exchange/balancePayResult.html',
                      controller: 'BalancePayResultCtrl'
                  })
-                 .state('cashPayResult', {  //换款-现金支付结果
-                     url: '/cashPayResult/:orderno/:price',
+                 .state('cashPayResult', {  //换款--现金支付结果
+                     url: '/cashPayResult/:orderno/:price/:getway',
                      templateUrl: 'html/exchange/cashPayResult.html',
                      controller: 'CashPayResultCtrl'
                  });

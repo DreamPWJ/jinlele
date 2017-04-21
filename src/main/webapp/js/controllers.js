@@ -2690,6 +2690,7 @@
         //检测报告
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
            $scope.status = data.status;
+           $scope.getway = data.service.getway;
             if(data.service.checkreport) {
                 $scope.report = data.service;
                 console.log(data.service);
@@ -2910,7 +2911,7 @@
                                 console.log("返回的信息");
                                 console.log(data);
                                 if(data && data.n == 1){
-                                    $state.go('balancePayResult',{orderno:$scope.orderno,price:Math.abs($scope.totalprice)});
+                                    $state.go('balancePayResult',{orderno:$scope.orderno,price:Math.abs($scope.totalprice),getway:$scope.getway});
                                 }
                             });
 
@@ -2979,7 +2980,7 @@
                                 //支付成功，跳转订单详情
                                 sessionStorage.setItem($scope.param.orderNo ,"ok");
                                 //$state.go("servicedetail", {orderNo: $scope.param.orderNo ,orderType:$scope.orderType});
-                                $state.go("cashPayResult", {orderno: $scope.orderno ,price:$scope.totalprice});
+                                $state.go("cashPayResult", {orderno: $scope.orderno,price:$scope.totalprice,getway:$scope.getway});
                                 break;
                             default :
                                 //未支付，跳转支付进度
@@ -4324,10 +4325,13 @@
     .controller('BalancePayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
         $scope.price = $stateParams.price;
         $scope.orderno = $stateParams.orderno;
+        $scope.getway = $stateParams.getway;
 
     }])
     .controller('CashPayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
-
+        $scope.price = $stateParams.price;
+        $scope.orderno = $stateParams.orderno;
+        $scope.getway = $stateParams.getway;
     }])
     //估价结果推荐
     .controller('ShowResultCtrl',['$scope','$rootScope','GoodService','EvaluateService','WalletService','CommonService','$state',function($scope,$rootScope,GoodService,EvaluateService,WalletService,CommonService,$state){
