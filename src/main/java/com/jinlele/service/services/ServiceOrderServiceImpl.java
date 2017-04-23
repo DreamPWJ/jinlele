@@ -402,7 +402,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         try {
             //更新订单状态
             ShopOrder order = shopOrderMapper.selectByPrimaryKey(orderno);
-            order.setActualpayprice(0.0);//实付款
+            //order.setActualpayprice(0.0);//实付款
+            order.setActualpayprice(-leftAmount);//实付款此处为负数，代表打入了余额
             order.setShoporderstatuscode("005008");//已付款
             shopOrderMapper.updateByPrimaryKeySelective(order);
             //更新账户
