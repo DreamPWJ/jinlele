@@ -1,3 +1,13 @@
+#换款的商城商品信息
+    select g.goodno,g.title,g.bannerurl , gc.color,gc.weight,gc.material,gc.mainStoreSpec,gc.handSize,
+    gc.necklace_len,gc.bracelet_len,gc.price,gc.exprice,c.num
+    from exchange_chart c
+    left join good g on g.id = c.good_id
+    left join goodchild gc on gc.id = c.goodchild_id
+    where c.checked = 1 and c.deleteCode = '001'
+    and c.service_id = #{0}
+
+
 
 #查询砖石商品的sql
 select e.id , e.service_id,main_diamond_weight, sec_diamond_weight,
