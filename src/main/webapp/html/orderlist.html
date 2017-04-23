@@ -42,11 +42,15 @@
                 <section class="product_list" ng-if="item.type != '006'">
                     <section class="product">
                         <span class="pic"><a  ng-click="previewImg(item.pictures)" ng-repeat="imgurl in item.pictures"><img ng-src="{{imgurl.url}}" ng-if="$index==0"></a></span>
-                        <section class="text" ng-repeat="subitem in item.products"  ng-click="servicedetail(item.orderno , item.type)">
+                        <section class="text" ng-repeat="subitem in item.products"  ng-click="servicedetail(item.orderno , item.type)" ng-if="item.type!='005'">
                             <span style="font-size: 86%;color: #393939;padding-top: 0;"><a>{{subitem.categoryName}}</a></span>
                             <p style="font-size: 76%;color: #6E6E6E;" ng-if="subitem.memo">备注：{{subitem.memo}}</p>
                         </section>
-                        <section class="price_1"  ng-click="servicedetail(item.orderno , item.type)">
+                        <section class="text" ng-click="servicedetail(item.orderno , item.type)" ng-if="item.type=='005'">
+                            <span style="font-size: 86%;color: #393939;padding-top: 0;"><a>点击查看</a></span>
+
+                        </section>
+                        <section class="price_1"  ng-click="servicedetail(item.orderno , item.type)" ng-if="item.type!='005'">
                             <i>X {{item.totalnum}}</i>
                         </section>
                     </section>
@@ -54,7 +58,7 @@
                 <!--商城订单按钮-->
                 <section class="check_button" ng-switch on="item.shoporderstatusCode">
                         <span>
-                            <em>共{{item.totalnum}}件商品</em>
+                            <em ng-if="item.type!='005'">共{{item.totalnum}}件商品</em>
                             <em ng-if="item.totalprice!=null&&item.totalprice!=0">合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
                         </span>
                         <span ng-switch-when="001001">
@@ -162,27 +166,27 @@
                         <!--</span>-->
                 <!--</section>-->
                 <!--服务类订单按钮-->
-                <section class="check_button" ng-if="item.type!='006'">
-                        <span>
-                            <em>共{{item.totalnum}}件商品</em>
-                            <em ng-if="item.totalprice!=0">合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>
-                        </span>
-                        <span >
-                            <!--<a href="">联系卖家</a>-->
-                            <a  ng-click="procreceive(item.type,item.orderno,item.create_time,item.shoporderstatusCode,item.totalprice)">服务进度</a>
-                            <a  ng-click="servicedetail(item.orderno , item.type ,item.shoporderstatusCode)">详情</a>
-                            <a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>
-                            <a ng-if="item.shoporderstatusCode.substring(3,6) == '001'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>
-                            <a class="strike" ng-if="item.shoporderstatusCode=='001007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
-                            <a class="strike" ng-if="item.shoporderstatusCode=='002008'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
-                            <a class="strike" ng-if="item.shoporderstatusCode=='003007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
-                            <a class="strike" ng-if="item.shoporderstatusCode=='005012'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>
-                        </span>
-                        <span ng-if="item.shoporderstatusCode=='003'">
-                            <a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>
-                            <a ng-href="#/returnapply/{{item.orderno}}">退款</a>
-                        </span>
-                </section>
+                <!--<section class="check_button" ng-if="item.type!='006'">-->
+                        <!--<span>-->
+                            <!--<em>共{{item.totalnum}}件商品</em>-->
+                            <!--<em ng-if="item.totalprice!=0">合计：<i>{{(item.totalprice+item.freightprice) | currency:'￥'}}</i>(含运费{{item.freightprice | currency:'￥'}})</em>-->
+                        <!--</span>-->
+                        <!--<span >-->
+                            <!--&lt;!&ndash;<a href="">联系卖家</a>&ndash;&gt;-->
+                            <!--<a  ng-click="procreceive(item.type,item.orderno,item.create_time,item.shoporderstatusCode,item.totalprice)">服务进度</a>-->
+                            <!--<a  ng-click="servicedetail(item.orderno , item.type ,item.shoporderstatusCode)">详情</a>-->
+                            <!--<a href="javascript:void(0);" ng-click="cancelOrder(item.orderno,item.type)">取消订单</a>-->
+                            <!--<a ng-if="item.shoporderstatusCode.substring(3,6) == '001'" class="strike" ng-click="weixinPay(item.orderno , item.totalprice,item.type,item.shoporderstatusCode)">付款</a>-->
+                            <!--<a class="strike" ng-if="item.shoporderstatusCode=='001007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>-->
+                            <!--<a class="strike" ng-if="item.shoporderstatusCode=='002008'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>-->
+                            <!--<a class="strike" ng-if="item.shoporderstatusCode=='003007'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>-->
+                            <!--<a class="strike" ng-if="item.shoporderstatusCode=='005012'" ng-click="confirmReceive(item.type,item.orderno)">确认收货</a>-->
+                        <!--</span>-->
+                        <!--<span ng-if="item.shoporderstatusCode=='003'">-->
+                            <!--<a ng-href="#/orderdetail{{item.orderno}}">查看物流</a>-->
+                            <!--<a ng-href="#/returnapply/{{item.orderno}}">退款</a>-->
+                        <!--</span>-->
+                <!--</section>-->
             </section>
         </section>
     </section>

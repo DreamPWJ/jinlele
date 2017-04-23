@@ -181,6 +181,9 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         try {
             serviceId = Integer.valueOf(list.get(0).get("serviceId").toString());
             exchangeChartMapper.updateByServiceId(serviceId);
+            //根据serviceid查询得到订单号orderno
+            //删除service_good的所有记录
+            //循环遍历填写service_good的记录
             for (Map<String, Object> barterInfo : list) {
                 Integer id = Integer.valueOf(barterInfo.get("id").toString());
                 Integer num = Integer.valueOf(barterInfo.get("num").toString());
