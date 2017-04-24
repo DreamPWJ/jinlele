@@ -1071,6 +1071,16 @@
         OrderService.getProgressInfo({orderno:$stateParams.orderno}).success(function(data){
             console.log(data);
             $scope.orderInfo=data;
+            switch(data.orderflag){
+                case "cancel":
+                    $scope.process=1;
+                case "normal":
+                    $scope.process=2;
+                case "recycle":
+                    $scope.process=3;
+                case "drop":
+                    $scope.process=4;
+            }
             if(data.orderstatus=="001010"||data.orderstatus=="002012"||data.orderstatus=="003010"||data.orderstatus=="004011"||data.orderstatus=="005018"){
                 $scope.normalflag=false;
             }

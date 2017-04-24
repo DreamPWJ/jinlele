@@ -359,7 +359,7 @@
     select aturalprice from service where order_no= #{orderno}
   </select>
   <select id="getServiceProgressInfoByOrderno" parameterType="java.lang.String" resultType="map">
-    select o.orderno,s.sendway,s.getway,o.shoporderstatusCode as orderstatus,o.create_time
+    select o.orderno,s.sendway,s.getway,o.shoporderstatusCode as orderstatus,o.order_flag as orderflag,(select v.seqval from vw_dictdetail v where v.codevalue=o.shoporderstatusCode and v.eng='orderstatus') as seqval,o.create_time
     from shoporder o join service s on o.orderno=s.order_no where o.orderno=#{0};
   </select>
   <!--根据订单号查询订单状态-->
