@@ -2,7 +2,6 @@ package com.jinlele.dao;
 
 import com.jinlele.model.ServiceGood;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ServiceGoodMapper {
@@ -21,4 +20,6 @@ public interface ServiceGoodMapper {
     Map<String,Object> getGoodId(String orderno);
 
     Map<String,Object> getBuyInfo(String orderno);
+
+    int deleteBefore(String orderno); //删除订单号下的记录
 }

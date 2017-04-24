@@ -44,4 +44,6 @@ public interface ServiceMapper {
 
     String getStatusByOrderno(String orderno);
 
+    String getOrderById(Integer id);
+
 }

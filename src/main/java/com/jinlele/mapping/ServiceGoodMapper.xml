@@ -123,4 +123,7 @@
     join goodchild as gc on sg.goodchild_id=gc.id
     where orderno=#{0}
   </select>
+  <delete id="deleteBefore" parameterType="String">
+      delete from service_good where orderno = #{0}
+  </delete>
 </mapper>

@@ -23,12 +23,12 @@
     <result column="checkreport_url" property="checkreportUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, price, order_no, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress, 
-    servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time, 
+    id, price, order_no, aturalprice, user_id, descrip, store_id, sendway, getway, serviceaddress,
+    servciephone, servicelinkman, checkreport, buyertransno, deleteCode, create_time,
     update_time, comment_id, checkreport_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from service
     where id = #{id,jdbcType=INTEGER}
@@ -38,20 +38,20 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.Service" >
-    insert into service (id, price, order_no, 
-      aturalprice, user_id, descrip, 
-      store_id, sendway, getway, 
-      serviceaddress, servciephone, servicelinkman, 
-      checkreport, buyertransno, deleteCode, 
-      create_time, update_time, comment_id, 
-      checkreport_url)
-    values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{orderNo,jdbcType=VARCHAR}, 
-      #{aturalprice,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR}, 
-      #{storeId,jdbcType=INTEGER}, #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR}, 
-      #{serviceaddress,jdbcType=VARCHAR}, #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR}, 
-      #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER}, 
-      #{checkreportUrl,jdbcType=VARCHAR})
+    insert into service (id, price, order_no,
+    aturalprice, user_id, descrip,
+    store_id, sendway, getway,
+    serviceaddress, servciephone, servicelinkman,
+    checkreport, buyertransno, deleteCode,
+    create_time, update_time, comment_id,
+    checkreport_url)
+    values (#{id,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{orderNo,jdbcType=VARCHAR},
+    #{aturalprice,jdbcType=DOUBLE}, #{userId,jdbcType=INTEGER}, #{descrip,jdbcType=VARCHAR},
+    #{storeId,jdbcType=INTEGER}, #{sendway,jdbcType=CHAR}, #{getway,jdbcType=CHAR},
+    #{serviceaddress,jdbcType=VARCHAR}, #{servciephone,jdbcType=VARCHAR}, #{servicelinkman,jdbcType=VARCHAR},
+    #{checkreport,jdbcType=VARCHAR}, #{buyertransno,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentId,jdbcType=INTEGER},
+    #{checkreportUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.Service" useGeneratedKeys="true" keyProperty="id">
     insert into service
@@ -237,23 +237,23 @@
   <update id="updateByPrimaryKey" parameterType="com.jinlele.model.Service" >
     update service
     set price = #{price,jdbcType=DOUBLE},
-      order_no = #{orderNo,jdbcType=VARCHAR},
-      aturalprice = #{aturalprice,jdbcType=DOUBLE},
-      user_id = #{userId,jdbcType=INTEGER},
-      descrip = #{descrip,jdbcType=VARCHAR},
-      store_id = #{storeId,jdbcType=INTEGER},
-      sendway = #{sendway,jdbcType=CHAR},
-      getway = #{getway,jdbcType=CHAR},
-      serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
-      servciephone = #{servciephone,jdbcType=VARCHAR},
-      servicelinkman = #{servicelinkman,jdbcType=VARCHAR},
-      checkreport = #{checkreport,jdbcType=VARCHAR},
-      buyertransno = #{buyertransno,jdbcType=VARCHAR},
-      deleteCode = #{deletecode,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      comment_id = #{commentId,jdbcType=INTEGER},
-      checkreport_url = #{checkreportUrl,jdbcType=VARCHAR}
+    order_no = #{orderNo,jdbcType=VARCHAR},
+    aturalprice = #{aturalprice,jdbcType=DOUBLE},
+    user_id = #{userId,jdbcType=INTEGER},
+    descrip = #{descrip,jdbcType=VARCHAR},
+    store_id = #{storeId,jdbcType=INTEGER},
+    sendway = #{sendway,jdbcType=CHAR},
+    getway = #{getway,jdbcType=CHAR},
+    serviceaddress = #{serviceaddress,jdbcType=VARCHAR},
+    servciephone = #{servciephone,jdbcType=VARCHAR},
+    servicelinkman = #{servicelinkman,jdbcType=VARCHAR},
+    checkreport = #{checkreport,jdbcType=VARCHAR},
+    buyertransno = #{buyertransno,jdbcType=VARCHAR},
+    deleteCode = #{deletecode,jdbcType=CHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    comment_id = #{commentId,jdbcType=INTEGER},
+    checkreport_url = #{checkreportUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByOrdernoSelective" parameterType="com.jinlele.model.Service" >
@@ -360,10 +360,14 @@
   </select>
   <select id="getServiceProgressInfoByOrderno" parameterType="java.lang.String" resultType="map">
     select o.orderno,s.sendway,s.getway,o.shoporderstatusCode as orderstatus,o.create_time
- from shoporder o join service s on o.orderno=s.order_no where o.orderno=#{0};
+    from shoporder o join service s on o.orderno=s.order_no where o.orderno=#{0};
   </select>
   <!--根据订单号查询订单状态-->
   <select id="getStatusByOrderno" parameterType="java.lang.String" resultType="String">
     select shoporderstatusCode from shoporder where orderno = #{0}
+  </select>
+
+  <select id="getOrderById" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select order_no from service where id = #{0}
   </select>
 </mapper>
