@@ -4020,7 +4020,8 @@
             }
             OrderService.update({
                 orderno: $stateParams.orderno,
-                shoporderstatuscode: $scope.orderstatus
+                shoporderstatuscode: $scope.orderstatus,
+                orderFlag:'drop'
             }).success(function (data) {
                 if (data && data.n == 1) {
                     CommonService.toolTip(tip, '');
@@ -4064,7 +4065,8 @@
         };
         //放弃换款
         $scope.dropBarter = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012'}).success(function (data) {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012',
+                orderFlag:'recycle'}).success(function (data) {
                 if(data && data.n==1){
                     $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
                 }

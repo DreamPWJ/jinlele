@@ -23,23 +23,17 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="pay_result" property="payResult" jdbcType="VARCHAR" />
+    <result column="order_flag" property="orderFlag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    orderno, totalprice, totalnum, freightprice, actualpayprice,userlogisticsnoComp, userlogisticsno,logisticsnoComp, logisticsno,
-    user_id, store_id, type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,pay_result
+    orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsnoComp, 
+    userlogisticsno, logisticsnoComp, logisticsno, user_id, store_id, type, qrcode_url, 
+    descriplevel, shoporderstatusCode, receipt_address_id, comment, deleteCode, create_time, 
+    update_time, pay_result, order_flag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from shoporder
-    where orderno = #{orderno,jdbcType=VARCHAR}
-  </select>
-  <select id="selectOrderInfoByOrderno" resultType="map" parameterType="java.lang.String" >
-    select orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
-(select e.company from express_company as e where e.number=logisticsnoComp) as logisticsCompany,user_id, store_id,
-type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,
-(select dictname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showuserstatus,
-(select shortname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showplatstatus
     from shoporder
     where orderno = #{orderno,jdbcType=VARCHAR}
   </select>
@@ -54,16 +48,16 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
       user_id, store_id, type, 
       qrcode_url, descriplevel, shoporderstatusCode, 
       receipt_address_id, comment, deleteCode, 
-      create_time, update_time, pay_result
-      )
+      create_time, update_time, pay_result, 
+      order_flag)
     values (#{orderno,jdbcType=VARCHAR}, #{totalprice,jdbcType=DOUBLE}, #{totalnum,jdbcType=INTEGER}, 
       #{freightprice,jdbcType=DOUBLE}, #{actualpayprice,jdbcType=DOUBLE}, #{userlogisticsnocomp,jdbcType=VARCHAR}, 
       #{userlogisticsno,jdbcType=VARCHAR}, #{logisticsnocomp,jdbcType=VARCHAR}, #{logisticsno,jdbcType=VARCHAR}, 
       #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, 
       #{qrcodeUrl,jdbcType=VARCHAR}, #{descriplevel,jdbcType=INTEGER}, #{shoporderstatuscode,jdbcType=VARCHAR}, 
       #{receiptAddressId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{deletecode,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payResult,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payResult,jdbcType=VARCHAR}, 
+      #{orderFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.ShopOrder" >
     insert into shoporder
@@ -131,6 +125,9 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
       <if test="payResult != null" >
         pay_result,
       </if>
+      <if test="orderFlag != null" >
+        order_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderno != null" >
@@ -195,6 +192,9 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
       </if>
       <if test="payResult != null" >
         #{payResult,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFlag != null" >
+        #{orderFlag,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -261,6 +261,9 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
       <if test="payResult != null" >
         pay_result = #{payResult,jdbcType=VARCHAR},
       </if>
+      <if test="orderFlag != null" >
+        order_flag = #{orderFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     where orderno = #{orderno,jdbcType=VARCHAR}
   </update>
@@ -285,21 +288,21 @@ type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,cre
       deleteCode = #{deletecode,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      pay_result = #{payResult,jdbcType=VARCHAR}
+      pay_result = #{payResult,jdbcType=VARCHAR},
+      order_flag = #{orderFlag,jdbcType=VARCHAR}
     where orderno = #{orderno,jdbcType=VARCHAR}
   </update>
-
 
   <!--服务翻新详情页面 根据订单号查询买买方物流单号 买卖方收货地址信息-->
   <select id="findReceiptServiceByOrderno" parameterType="java.lang.String" resultType="Map">
     select o.orderno , o.create_time ,o.store_id, o.receipt_address_id ,o.userlogisticsno ,o.userlogisticsnoComp,o.shoporderstatusCode,
-(select company from express_company where number=o.userlogisticsnoComp) usrLogisticsCompName,
- o.logisticsno ,O.logisticsnoComp ,(select company from express_company where number=o.logisticsnoComp) logisticsCompName,
- a.user_name , a.tel_number ,a.province_name ,a.city_name ,a.country_name,a.detail_info,s.`name`,s.phone,s.address
-from shoporder o
-LEFT JOIN receipt_address a on a.id = o.receipt_address_id
-LEFT JOIN store s on s.id=o.store_id
-where  o.orderno = #{orderno}
+    (select company from express_company where number=o.userlogisticsnoComp) usrLogisticsCompName,
+    o.logisticsno ,O.logisticsnoComp ,(select company from express_company where number=o.logisticsnoComp) logisticsCompName,
+    a.user_name , a.tel_number ,a.province_name ,a.city_name ,a.country_name,a.detail_info,s.`name`,s.phone,s.address
+    from shoporder o
+    LEFT JOIN receipt_address a on a.id = o.receipt_address_id
+    LEFT JOIN store s on s.id=o.store_id
+    where  o.orderno = #{orderno}
   </select>
 
   <!--查询所有的快递公司-->
@@ -309,12 +312,12 @@ where  o.orderno = #{orderno}
 
   <!--根据订单号查询服务的id-->
   <select id="selectServiceIdByOrderNo" parameterType="java.lang.String" resultType="java.lang.Integer">
-      select id  from service where order_no = #{orderno}
+    select id  from service where order_no = #{orderno}
   </select>
 
   <!--查询订单的下单时间-->
   <select id="selectCreateTime" resultType="java.util.Date" parameterType="java.lang.String">
-        select create_time from shoporder where orderno = #{orderno}
+    select create_time from shoporder where orderno = #{orderno}
   </select>
   <!--获取收货证明信息-->
   <select id="getCertificationInfo" parameterType="java.lang.String" resultType="Map">
@@ -322,9 +325,9 @@ where  o.orderno = #{orderno}
   </select>
   <!--获取拍照邮寄图片-->
   <select id="getPostbackImg" parameterType="java.lang.String" resultType="Map">
-select p.url from order_picture op
-join picture p on op.picture_id=p.id
-where p.deleteCode='001' and order_no=#{orderno}
+    select p.url from order_picture op
+    join picture p on op.picture_id=p.id
+    where p.deleteCode='001' and order_no=#{orderno}
   </select>
 
   <!--根据订单号查询用户id-->
@@ -343,8 +346,8 @@ where p.deleteCode='001' and order_no=#{orderno}
 
   <!--根据订单号查询门店显示-->
   <select id="getStoreByOrderno" parameterType="java.lang.String" resultType="Store">
-      select name , phone , address from store
-      where id = (select store_id from service where order_no = #{orderno})
+    select name , phone , address from store
+    where id = (select store_id from service where order_no = #{orderno})
   </select>
 
   <!--删除重复订单-->
@@ -353,4 +356,13 @@ where p.deleteCode='001' and order_no=#{orderno}
     where orderno = (select order_no from  service where id = #{0} )
   </delete>
 
+  <select id="selectOrderInfoByOrderno" resultType="map" parameterType="java.lang.String" >
+    select orderno, totalprice, totalnum, freightprice, actualpayprice, userlogisticsno, logisticsno,
+    (select e.company from express_company as e where e.number=logisticsnoComp) as logisticsCompany,user_id, store_id,
+    type,qrcode_url,shoporderstatusCode, receipt_address_id, comment, deleteCode,create_time, update_time, descriplevel,
+    (select dictname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showuserstatus,
+    (select shortname from vw_dictdetail where eng='orderstatus' and codevalue=shoporderstatusCode) as showplatstatus
+    from shoporder
+    where orderno = #{orderno,jdbcType=VARCHAR}
+  </select>
 </mapper>

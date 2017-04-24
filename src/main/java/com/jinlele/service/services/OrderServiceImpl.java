@@ -314,13 +314,16 @@ public class OrderServiceImpl implements IOrderService {
             case "001"://翻新
             case "003"://检测
                 shopOrder.setShoporderstatuscode(typeCode+"010");
+                shopOrder.setOrderFlag("cancel");
                 break;
             case "002"://维修
             case "004"://回收
                 shopOrder.setShoporderstatuscode(typeCode+"011");
+                shopOrder.setOrderFlag("cancel");
                 break;
             case "005"://换款
                 shopOrder.setShoporderstatuscode(typeCode+"018");
+                shopOrder.setOrderFlag("cancel");
                 break;
             case "006":
                 //增加订单明细中商品原有库存数量

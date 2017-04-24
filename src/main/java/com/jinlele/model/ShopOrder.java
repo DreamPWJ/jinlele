@@ -45,8 +45,11 @@ public class ShopOrder {
 
     private String payResult;
 
+    private String orderFlag;
+
     public ShopOrder() {
     }
+
     public ShopOrder(String orderno, Double totalprice, Integer userId, String type ,String shoporderstatuscode) {
         this.orderno = orderno;
         this.totalprice = totalprice;
@@ -283,7 +286,11 @@ public class ShopOrder {
         this.payResult = payResult == null ? null : payResult.trim();
     }
 
+    public String getOrderFlag() {
+        return orderFlag;
+    }
 
-
-
+    public void setOrderFlag(String orderFlag) {
+        this.orderFlag = orderFlag == null ? null : orderFlag.trim();
+    }
 }
