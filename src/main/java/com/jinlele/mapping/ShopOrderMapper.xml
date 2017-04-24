@@ -347,4 +347,10 @@ where p.deleteCode='001' and order_no=#{orderno}
       where id = (select store_id from service where order_no = #{orderno})
   </select>
 
+  <!--删除重复订单-->
+  <delete id="deleteOrderBySid" parameterType="java.lang.Integer" >
+    delete from shoporder
+    where orderno = (select order_no from  service where id = #{0} )
+  </delete>
+
 </mapper>

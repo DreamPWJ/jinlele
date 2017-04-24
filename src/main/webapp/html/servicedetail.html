@@ -22,7 +22,7 @@
         <span class="title" ng-switch-when="003">检测产品</span>
         <span class="title" ng-switch-when="004">回收产品</span>
         <span class="title" ng-switch-when="005">原有产品</span>
-        <section class="product_list">
+        <section class="product_list" ng-if="orderinfo.type!='005'">
             <section class="product">
                 <section class="text">
                     <p>产品类别：{{products.name}}</a></p>
@@ -31,6 +31,37 @@
                 <section class="price_1" ng-style="{'font-size':'76%'}">
                     <i>X {{products.num}}</i>
                     <!--<em>{{products.price|currency:'￥'}}</em>-->
+                </section>
+            </section>
+        </section>
+        <section class="product_list" ng-if="orderinfo.type=='005' && metal">
+            <section class="product">
+                <section class="text" style="font-size: 0.8rem;font-weight: normal;padding:0.3rem 0">
+                    <!--<p>产品类别：{{products.name}}</a></p>-->
+                    <!--<span>产品材质：{{products.pname}}</span>-->
+                    <div>贵金属材质:{{metal.material_type}} </div>
+                    <div>贵金属纯度:{{metal.purity_value}} </div>
+                    <div>贵金属重量:{{metal.material_weight}}g</div>
+                </section>
+            </section>
+        </section>
+        <section class="product_list" ng-if="orderinfo.type=='005' && diamond">
+            <section class="product">
+                <section class="text" style="font-size: 0.8rem;font-weight: normal;padding:0.3rem 0">
+                    <!--<p>产品类别：{{products.name}}</a></p>-->
+                    <!--<span>产品材质：{{products.pname}}</span>-->
+                    <div>贵金属材质:{{diamond.material_type}} </div>
+                    <div>贵金属纯度:{{diamond.purity_value}}  </div>
+                    <div>证书:{{diamond.certificate_value}} </div>
+                    <div>颜色:{{diamond.color_value}} </div>
+                    <div>净度:{{diamond.cleaness_value}} </div>
+                    <div>荧光:{{diamond.florescence_value}} </div>
+                    <div>切工:{{diamond.cut_value}} </div>
+                    <div>对称:{{diamond.symmetry_value}} </div>
+                    <div>抛光:{{diamond.polish_value}} </div>
+                    <div>品质:{{diamond.quality_value}} </div>
+                    <div>主石重量（克拉）:{{diamond.main_diamond_weight}} </div>
+                    <div>副石重量（克拉）:{{diamond.sec_diamond_weight}} </div>
                 </section>
             </section>
         </section>

@@ -46,4 +46,9 @@ public interface ServiceMapper {
 
     String getOrderById(Integer id);
 
+    Map<String, Object> getMetal(String orderno);
+
+    Map<String, Object> getDiamond(String orderno);
+
+
 }

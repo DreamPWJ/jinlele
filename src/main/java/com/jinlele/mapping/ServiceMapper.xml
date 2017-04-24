@@ -370,4 +370,44 @@
   <select id="getOrderById" parameterType="java.lang.Integer" resultType="java.lang.String">
     select order_no from service where id = #{0}
   </select>
+
+  <!--查询估计贵金属信息-->
+  <select id="getMetal" parameterType="java.lang.String" resultType="Map">
+    select e.id , e.service_id,
+	(select dictname from vw_dictdetail where eng = 'metalCode' and pid is null
+	and codevalue = material_type_value) as material_type,
+	(select dictname from vw_dictdetail where eng = 'metalCode' and pid is not  null
+	and codevalue = purity_value) as purity_value,
+	e.material_weight
+	from  evaluate_metal e
+	where  e.service_id  = (select id from service where order_no = #{orderno} limit 1)
+  </select>
+
+  <!--查询估价砖石商品-->
+  <select id="getDiamond" parameterType="java.lang.String" resultType="Map">
+    select e.id , e.service_id,main_diamond_weight, sec_diamond_weight,
+    (select dictname from vw_dictdetail where eng = 'metalCode' and pid is null
+    and codevalue = material_type_value) as material_type,
+    (select dictname from vw_dictdetail where eng = 'metalCode' and pid is not null
+    and codevalue = purity_value) as purity_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = certificate_value) as certificate_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = color_value) as color_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = cleaness_value) as cleaness_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = florescence_value) as florescence_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = cut_value) as cut_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = symmetry_value) as symmetry_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = polish_value) as polish_value,
+    (select dictname from vw_dictdetail where eng = 'dwparam'
+    and codevalue = quality_value) as quality_value
+    from  evaluate_diamond e
+    where e.service_id  = (select id from service where order_no = #{orderno} limit 1)
+  </select>
+
 </mapper>

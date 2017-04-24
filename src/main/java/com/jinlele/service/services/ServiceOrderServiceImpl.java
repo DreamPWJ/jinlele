@@ -287,7 +287,8 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
                         break;
                 }
                 order.setQrcodeUrl(MatrixToImageWriter.makeQRCode(type, orderno));//生成二维码
-
+                //查询是否已经存在改service对应的订单，如果存在就删除掉再新增
+                shopOrderMapper.deleteOrderBySid(serviceId);
                 //生成订单
                 shopOrderMapper.insertSelective(order);
                 //更新服务表

@@ -45,4 +45,6 @@ public interface ShopOrderMapper {
     Map<String, Object> getRechargeResult(String orderno);
 
     Store getStoreByOrderno(String orderno);
+
+    int deleteOrderBySid(Integer serviceId);
 }
