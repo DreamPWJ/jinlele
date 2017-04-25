@@ -356,7 +356,7 @@
   </select>
   <!--查询维修订单定价金额-->
   <select id="selectActualPrice" parameterType="java.lang.String" resultType="java.lang.Double">
-    select aturalprice from service where order_no= #{orderno}
+    select aturalprice from service where order_no= #{orderno}  limit 1
   </select>
   <select id="getServiceProgressInfoByOrderno" parameterType="java.lang.String" resultType="map">
     select o.orderno,s.sendway,s.getway,o.shoporderstatusCode as orderstatus,o.order_flag as orderflag,(select v.seqval from vw_dictdetail v where v.codevalue=o.shoporderstatusCode and v.eng='orderstatus') as seqval,o.create_time
@@ -420,5 +420,7 @@
 		where c.checked = 1 and c.deleteCode = '001'
 		and c.service_id = (select id from service where order_no = #{0} limit 1)
   </select>
+
+
 
 </mapper>
