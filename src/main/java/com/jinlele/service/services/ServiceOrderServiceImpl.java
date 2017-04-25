@@ -217,6 +217,23 @@ public class ServiceOrderServiceImpl implements IServiceOrderService{
         return resultMap;
     }
 
+    public Map<String, Object> deleteBarterCarts(List<Integer> list){
+        Map<String, Object> resultMap = new HashedMap();
+        try {
+            for (Integer id : list) {
+//                ExchangeChart exchangeChart = new ExchangeChart();
+//                exchangeChart.setId(id);
+//                exchangeChart.setDeletecode("002");
+//                exchangeChartMapper.updateByPrimaryKeySelective(exchangeChart);
+                exchangeChartMapper.deleteByPrimaryKey(id);
+            }
+            resultMap.put("errmsg", "ok");
+        } catch (Exception e) {
+            resultMap.put("errmsg", "error");
+        }
+        return resultMap;
+    }
+
 
     @Override
     public Map<String, Object> updateRepairOrder(List<Map<String, Object>> list) {

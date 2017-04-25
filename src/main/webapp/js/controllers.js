@@ -375,6 +375,7 @@
         $scope.checkflag = false;//默认复选框不选中
         $scope.checkAllflag = false;
         var selectAllCount  = 0; //控制全选的计数器
+        $scope.rmFlag  = false; //显示显示删除弹出层
 
         //初始化数据
         $scope.totalnum = 0;
@@ -421,9 +422,6 @@
                 console.log( $scope.totalprice);
             });
         });
-
-
-
 
         //全选
         $scope.selectAll = function () {
@@ -486,7 +484,6 @@
                     if (parseInt(item.num) > item.stocknumber){
                         item.num = item.stocknumber;
                         CommonService.toolTip("已经是该商品最大库存数了奥！","");
-
                     }
                 }
                 if (item && item.checkflag) {
@@ -559,28 +556,41 @@
         };
         //删除
         $scope.del = function () {
-            if ($scope.checkedGcIds.length > 0) {
-                $scope.delstyle = {};
-            }
+            $scope.rmFlag = true;
         };
         //确认删除
         $scope.confirm = function () {
-            console.log($scope.checkedGcIds);
-            $scope.delstyle = {display: 'none'};
-            CartService.delBarterCartInfo($scope.checkedinfo).success(function (data) {
-                CartService.getBarterCartInfo($scope.init).success(function (data) {
-                    $scope.isNotData = false;
-                    if (data.pagingList.length == 0) {
-                        $scope.isNotData = true;
-                        return;
+            $scope.rmFlag = false;
+            var arr = [];
+            angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                if(data.checkflag) {
+                    arr.push(data.id);
+                }
+            });
+            console.log('arr=='+arr);
+            CartService.delBarterCarts(arr).success(function (data) {
+                if(data &&  data.errmsg=='ok'){
+                    for(var i=0,len=arr.length;i<len;i++){
+                        angular.forEach($scope.cartlist.pagingList, function (data, index) {
+                            if(data.id == arr[i]){
+                                $scope.cartlist.pagingList.splice(index,1);
+                            }
+                        });
                     }
-                    $scope.cartlist = data;
-                });
+                    if ($scope.cartlist.pagingList.length == 0) {
+                        $scope.isNotData = true;
+                    }
+                    $scope.delFlag = false;
+                    $scope.totalnum = 0;
+                    $scope.totalprice= 0 - $scope.barterprice;
+                }
+
+
             })
         };
         //取消删除
         $scope.cancle = function () {
-            $scope.delstyle = {display: 'none'};
+            $scope.rmFlag = false;
         };
     }])
     //确认订单
@@ -2699,8 +2709,8 @@
         });
         //检测报告
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
-           $scope.status = data.status;
-           $scope.getway = data.service.getway;
+            $scope.status = data.status;
+            $scope.getway = data.service.getway;
             if(data.service.checkreport) {
                 $scope.report = data.service;
                 console.log(data.service);
