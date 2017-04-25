@@ -164,9 +164,9 @@ public class ServiceOrderController {
      * 删除换款购物车商品
      */
     @ResponseBody
-    @RequestMapping(value = "/delBarterCar",method = RequestMethod.POST)
-    public Map<String , Object> delBarterCar(@RequestBody List<Map<String,Object>> list) {
-        return  serviceOrderService.deleteBarterCar(list);
+    @RequestMapping(value = "/delBarterCarts",method = RequestMethod.POST)
+    public Map<String , Object> delBarterCar(@RequestBody List<Integer> list) {
+        return  serviceOrderService.deleteBarterCarts(list);
     }
 
     /**

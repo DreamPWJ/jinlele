@@ -52,7 +52,7 @@ public class ShoppingCartServiceImpl implements IShoppingCartService {
         paramMap.put("fields", " ec.id,g.id goodId,gc.id gcid,g.title,g.bannerurl,gc.price as gprice,gc.exprice,gc.stocknumber,ec.num,s.price,ec.checked,ec.service_id serviceId  ");
         paramMap.put("pageNow", pagenow);
         paramMap.put("pageSize", 100);
-        paramMap.put("wherecase", " gc.deleteCode='001' and ec.service_id= "+serviceid);
+        paramMap.put("wherecase", " gc.deleteCode='001' and ec.deleteCode='001' and ec.service_id= "+serviceid);
         paramMap.put("orderField", " ec.create_time ");
         paramMap.put("orderFlag", 1);
         this.baseMapper.getPaging(paramMap);

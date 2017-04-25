@@ -75,17 +75,18 @@
             </ul>
             <p>描述信息：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'无':pictures[0].descrip}}</p>
         </section>
-        <span class="title" ng-if="buyinfo!=null">换款产品</span>
-        <section class="product_list" ng-if="buyinfo!=null">
-            <section class="product">
-                <span class="pic"><a href=""><img ng-src="{{buyinfo.bannerurl}}"></a></span>
+        <span class="title" ng-if="exGoods!=null">换款产品</span>
+        <section class="product_list" ng-if="exGoods!=null">
+
+            <section class="product" ng-repeat="item in exGoods">
+                <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
                 <section class="text">
-                    <p><a href="#/gooddetail/{{buyinfo.id}}">{{buyinfo.title}}</a></p>
-                    <span>颜色分类：{{buyinfo.color}}</span>
+                    <p><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></p>
+                    <span>颜色分类：{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【"+item.bracelet_len+"】":""}}</span>
                 </section>
                 <section class="price_1">
-                    <em>{{buyinfo.unit_price|currency:"￥"}}</em>
-                    <i>X {{buyinfo.buynum}}</i>
+                    <em>{{item.price|currency:"￥"}}</em>
+                    <i>X {{item.num}}</i>
                 </section>
             </section>
         </section>
@@ -101,10 +102,10 @@
                 <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
             </ul>
             <ul ng-switch-when="005">
-                <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
-                <li><em class="content content_main">可用总额：</em><i class="content content_main">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
+                <!--<li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>-->
+                <!--<li><em class="content content_main">定价总额：</em><i class="content content_main">{{aturalprice?(aturalprice|currency:'￥'|number:2):'待定'}}</i></li>-->
                 <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
-                <li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>
+                <!--<li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>-->
                 <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>￥{{orderinfo.actualpayprice}}</i></li>
                 <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
             </ul>

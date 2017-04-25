@@ -30,6 +30,8 @@ public interface IServiceOrderService {
      */
     Map<String, Object> deleteBarterCar(List<Map<String, Object>> list);
 
+    Map<String, Object> deleteBarterCarts(List<Integer> list);
+
     /**
      * 更新维修订单
      */
