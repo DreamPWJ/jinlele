@@ -15,7 +15,7 @@
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001008']"><i></i><em>您的商品已签收<font ng-if="orderInfo.seqval==7">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=6&&orderInfo.getway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001007']"><i></i><em>商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001006']"><i></i><em ng-if="orderInfo.getway=='001'">商品翻新已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em ng-if="orderInfo.getway=='002'">商品翻新已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品翻新后的样式</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=4" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001005']"><i></i><em>商品检测已完成，下一步将进行翻新，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=4" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001005']"><i></i><em>商品检测已完成，下一步将进行翻新，<a ng-href="#/checkReportfor{{orderType}}with{{orderno}}">点击这里</a>&nbsp;查看检测结果</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=3" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001004']"><i></i><em>门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=2&&orderInfo.sendway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001003']"><i></i><em>您的发货物流信息已完善，等待门店收货</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=1" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001002']"><i></i><em ng-if="orderInfo.sendway=='001'">付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em><em ng-if="orderInfo.sendway=='002'">付款成功，请尽快将商品送到门店，并填写详细信息</em>
@@ -23,67 +23,63 @@
             <li ng-if="orderInfo.orderflag=='cancel'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='001010']"><i></i><em>您已取消订单，交易关闭</em></li>
         </ul>
         <ul ng-switch-when="002">
-            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-            <li><i></i><em>待评价----您的商品已签收<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
-            </li>
-            <li><i></i><em>待收货----商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em>
-            </li>
-            <li><i></i><em>待发货----商品维修已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em>待发货----商品维修已完成，请尽快到店领取，<a
-                    ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
-            <li><i></i><em>待维修----商品检测已完成，下一步将进行维修，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em>
-            </li>
-            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
-            </li>
-            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-            <li><i></i><em>等待客户发货----付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em>等待客户发货----付款成功，请尽快将商品送到门店，并填写详细信息</em>
-            </li>
-            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002002']"><i></i><em>待确认----实际维修金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002001']"><i></i><em>待定价----下单成功，等待门店审核维修金额</em></li>
+            <li  ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=10" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002011']"><i></i><em>感谢您的评价，交易完成</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=9" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002010']"><i></i><em>您的商品已签收<font ng-if="orderInfo.seqval==9">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=8&&orderInfo.getway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002009']"><i></i><em>商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002008']"><i></i><em ng-if="orderInfo.getway=='001'">商品维修已完成，下一步准备返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em><em ng-if="orderInfo.getway=='002'">商品维修已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品维修后的样式</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002007']"><i></i><em>商品检测已完成，下一步将进行维修，<a ng-href="#/checkReportfor{{orderType}}with{{orderno}}">点击这里</a>&nbsp;查看检测结果</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002006']"><i></i><em>门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=4&&orderInfo.sendway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002005']"><i></i><em>您的发货物流信息已完善，等待门店收货</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=3" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002004']"><i></i><em ng-if="orderInfo.sendway=='001'">付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em ng-if="orderInfo.sendway=='002'">付款成功，请尽快将商品送到门店，并填写详细信息</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=2" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002002']"><i></i><em>实际维修金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
+
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=3" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002012']"><i></i><em>您已放弃维修，交易关闭</em></li>
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=2" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002002']"><i></i><em>实际维修金额已确定</em></li>
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=1" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002001']"><i></i><em>下单成功，等待门店审核维修金额</em></li>
+
+            <li ng-if="orderInfo.orderflag=='cancel'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='002012']"><i></i><em>您已取消订单，交易关闭</em></li>
         </ul>
         <ul ng-switch-when="003">
-            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003009']"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003008']"><i></i><em>待评价----您的商品已签收<font ng-if="orderInfo.seqval==7">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003009']"><i></i><em>感谢您的评价，交易完成</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003008']"><i></i><em>您的商品已签收<font ng-if="orderInfo.seqval==7">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=6&&orderInfo.getway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003007']"><i></i><em>商品已出发，等待您的签收，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货物流动态</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003006']"><i></i><em ng-if="orderInfo.getway=='001'">商品检测已完成，下一步准备返回，<a ng-href="#/checkReport/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em><em ng-if="orderInfo.getway=='002'">商品检测已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
-            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=4" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003004']"><i></i><em>门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003006']"><i></i><em ng-if="orderInfo.getway=='001'">商品检测已完成，下一步准备返回，<a ng-href="#/checkReportfor{{orderType}}with{{orderno}}">点击这里</a>&nbsp;查看检测报告</em><em ng-if="orderInfo.getway=='002'">商品检测已完成，请尽快到店领取，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看检测报告</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=3" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003004']"><i></i><em>门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=2" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003003']"><i></i><em>您的发货物流信息已完善，等待门店收货</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=1" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003002']"><i></i><em ng-if="orderInfo.sendway=='001'">付款成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息并可随时掌握其动态</em><em ng-if="orderInfo.sendway=='002'">付款成功，请尽快将商品送到门店，并填写详细信息</em></li>
+
             <li ng-if="orderInfo.orderflag=='cancel'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='003010']"><i></i><em>您已取消订单，交易关闭</em></li>
         </ul>
         <ul ng-switch-when="004">
-            <li class="hover"><i></i><em>交易成功----感谢您的评价，交易完成</em></li>
-            <li><i></i><em>待评价----回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em>
-            </li>
-            <li><i></i><em>待审核----变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
-            <li><i></i><em>交易关闭----宝贝已签收，交易关闭</em></li>
-            <li><i></i><em>待收货----商品已出发，<a href="">点击这里</a>&nbsp;签收您的宝贝</em></li>
-            <li><i></i><em>待返回----您已放弃变现，下一步准备为您返回，<a href="">点击这里</a>&nbsp;查看商品发货动态</em><em>待返回----您已放弃变现，请到****门店取回您的宝贝</em>
-            </li>
-            <li><i></i><em>待确认----实际回收金额已确定，<a ng-href="#/procfixprice/repair/{{orderno}}">点击这里</a>&nbsp;查看详情</em></li>
-            <li><i></i><em>待定价----商品检测已完成，等待门店审核回收金额</em></li>
-            <li><i></i><em>待检测----门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em>
-            </li>
-            <li><i></i><em>等待门店收货----您的发货物流信息已完善，等待门店收货</em></li>
-            <li><i></i><em>等待客户发货----（寄件选择送到店）下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em>等待客户发货----（寄件选择邮寄）下单成功，请尽快将商品邮寄到门店，<a
-                    href="">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
-            <li><i></i><em>交易关闭----您已取消订单，交易关闭</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004008']"><i></i><em>感谢您的评价，交易完成</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004007']"><i></i><em>回收变现成功<font ng-if="orderInfo.seqval==7">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004006']"><i></i><em>变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004005']"><i></i><em>实际回收金额已确定，<a ng-href="#/cfmrecycle/{{orderno}}/{{orderInfo.orderstatus=='004005'?'004005':'004006'}}">点击这里</a>&nbsp;可选择变现</em></li>
+
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004008']"><i></i><em>宝贝已签收，交易关闭</em></li>
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004010']"><i></i><em>商品已出发，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;验收您的宝贝</em></li>
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004009']"><i></i><em ng-if="orderInfo.getway=='001'">您已放弃变现，下一步为您原样返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品返回物流动态</em><em ng-if="orderInfo.getway=='002'">您已放弃变现，请到门店取回您的宝贝</em></li>
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004005']"><i></i><em>实际回收金额已确定</em></li>
+
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=4" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004004']"><i></i><em>商品检测已完成，等待门店评估回收金额，<a ng-href="#/checkReportfor{{orderType}}with{{orderno}}">点击这里</a>&nbsp;查看检测结果</em></li>
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=3" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004003']"><i></i><em>门店已收到您的商品，下一步将进行无损检测，<a ng-href="#/proctest/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看收货证明</em></li>
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=2&&orderInfo.sendway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004002']"><i></i><em>您的发货物流信息已完善，等待门店收货</em></li>
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=1" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004001']"><i></i><em ng-if="orderInfo.sendway=='002'">下单成功，请尽快将商品送到门店，并正确填写详细信息</em><em ng-if="orderInfo.sendway=='001'">下单成功，请尽快将商品邮寄到门店，<a ng-href="#/procreceivefor{{orderno}}with{{orderType}}">点击这里</a>&nbsp;正确填写物流信息可随时掌握其动态</em></li>
+
+            <li ng-if="orderInfo.orderflag=='cancel'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='004011']"><i></i><em>您已取消订单，交易关闭</em></li>
         </ul>
         <ul ng-switch-when="005">
-            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='recycle'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=9" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005011']"><i></i><em>感谢您的评价，交易完成</em></li>
-            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='recycle'||orderInfo.orderflag=='drop')&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005010']"><i></i><em>宝贝已签收<font ng-if="orderInfo.seqval==8">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
+            <li ng-if="(orderInfo.orderflag=='normal'||orderInfo.orderflag=='recycle')&&orderInfo.seqval>=9" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005011']"><i></i><em>感谢您的评价，交易完成</em></li>
 
             <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005018']"><i></i><em>宝贝已签收，交易关闭</em></li>
             <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=7&&orderInfo.getway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005019']"><i></i><em>商品已出发，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;验收您的宝贝</em></li>
-            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005014']"><i></i><em ng-if="orderInfo.getway=='001'">您已放弃变现，下一步准备为您返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品发货动态</em><em ng-if="orderInfo.getway=='002'">您已放弃变现，请到****门店取回您的宝贝</em></li>
+            <li ng-if="orderInfo.orderflag=='drop'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005014']"><i></i><em ng-if="orderInfo.getway=='001'">您已放弃换款与变现，下一步准备为您返回，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品发货动态</em><em ng-if="orderInfo.getway=='002'">您已放弃变现，请到****门店取回您的宝贝</em></li>
 
-            <li ng-if="orderInfo.orderflag=='recycle'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005015']"><i></i><em>回收变现成功<font>，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
+            <li ng-if="orderInfo.orderflag=='recycle'&&orderInfo.seqval>=7" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005015']"><i></i><em>回收变现成功<font ng-if="orderInfo.seqval==7">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
             <li ng-if="orderInfo.orderflag=='recycle'&&orderInfo.seqval>=6" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005013']"><i></i><em>变现申请已提交，金额将在1-2工作日到账，详情请在"我的钱包"内查看</em></li>
-            <li ng-if="orderInfo.orderflag=='recycle'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005012']"><i></i><em>您已放弃换款，<a ng-href="#/cfmrecycle/{{orderno}}/005012" ng-if="orderInfo.orderstatus=='005012'">点击这里</a><a ng-href="#/cfmrecycle/{{orderno}}/005013" ng-if="orderInfo.orderstatus>'005012'">点击这里</a>&nbsp;可选择变现</em></li>
+            <li ng-if="orderInfo.orderflag=='recycle'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005012']"><i></i><em>您已放弃换款，<a ng-href="#/cfmrecycle/{{orderno}}/{{orderInfo.orderstatus=='005012'?'005012':'005013'}}">点击这里</a>&nbsp;可选择变现</em></li>
 
-
-
-
+            <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=8" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005010']"><i></i><em>宝贝已签收<font ng-if="orderInfo.seqval==8">，<a ng-href="#/procaddcmt/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;评价我们的服务</font></em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=6&&orderInfo.getway=='001'" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005009']"><i></i><em>商品已出发，<a ng-href="#/proccheck/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;验收您的宝贝</em></li>
             <li ng-if="orderInfo.orderflag=='normal'&&orderInfo.seqval>=5" ng-class="{true:'hover',false:''}[orderInfo.orderstatus=='005008']"><i></i><em ng-if="orderInfo.getway=='001'">换款成功，下一步准备为您寄出新款，<a ng-href="#/procpost/{{orderType}}/{{orderno}}">点击这里</a>&nbsp;查看商品发货动态</em><em ng-if="orderInfo.getway=='002'">换款成功，正在为您准备新款，请到****门店提取</em></li>
 

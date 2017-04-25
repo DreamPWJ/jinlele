@@ -1280,8 +1280,8 @@
                 case '001007':
                     orderStatus='001008';
                     break;
-                case '002008':
-                    orderStatus='002009';
+                case '002009':
+                    orderStatus='002010';
                     break;
                 case '003007':
                     orderStatus='003008';
@@ -3034,17 +3034,18 @@
             }
         };
         //获取买方地址信息及物流进度
-        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {
+        OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderNo}).success(function (data) {console.log(data);
             $scope.orderInfo = data.order;
             if(data.userLogistc)$scope.userLogistc = data.userLogistc.Traces;
-            if(data.storeLogistc)$scope.sellerLogistc = data.storeLogistc.Traces;
+            if(data.storeLogistc){
+                $scope.sellerLogistc = data.storeLogistc.Traces;
+            }else{
+                $scope.sellerLogistc = [];
+            }
         });
     }])
     //流程-验货(五大类服务用户收货验收)
     .controller('ProcCheckCtrl',['$scope', '$stateParams', '$location','OrderService','ServeCommonService', function ($scope, $stateParams, $location,OrderService,ServeCommonService) {
-        if ($stateParams.type == "004") {//回收
-            $location.path("/");
-        }
         $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
         //物流样式展示
         $scope.jinlele="hide";
@@ -3257,11 +3258,11 @@
         });
         //放弃维修 修改订单状态，然后进入跳转到订单详情页 ， 暂时跳转到 订单列表
         $scope.drop = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002011'}).success(function (data) {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'002012',orderFlag:'drop'}).success(function (data) {
                 if(data && data.n==1){
-                    CommonService.toolTip('订单已经已经取消','');
+                    CommonService.toolTip('订单已取消','');
                     setTimeout(function () {
-                        $state.go('orderlist');
+                        $state.go('orderlist',{typeName:'repair'});
                     },1000);
                 }
             });

@@ -317,6 +317,8 @@ public class OrderServiceImpl implements IOrderService {
                 shopOrder.setOrderFlag("cancel");
                 break;
             case "002"://维修
+                shopOrder.setShoporderstatuscode(typeCode+"012");
+                shopOrder.setOrderFlag("cancel");
             case "004"://回收
                 shopOrder.setShoporderstatuscode(typeCode+"011");
                 shopOrder.setOrderFlag("cancel");
