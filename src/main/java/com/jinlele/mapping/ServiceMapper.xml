@@ -410,4 +410,15 @@
     where e.service_id  = (select id from service where order_no = #{orderno} limit 1)
   </select>
 
+  <!--查询换款的商城商品信息-->
+  <select id="chartcheckedGood" parameterType="java.lang.String" resultType="Map">
+		select g.goodno,g.title,g.bannerurl ,g.id, gc.color,gc.weight,gc.material,gc.mainStoreSpec,gc.handSize,
+			gc.necklace_len,gc.bracelet_len,gc.price,gc.exprice,c.num
+		from exchange_chart c
+		left join good g on g.id = c.good_id
+		left join goodchild gc on gc.id = c.goodchild_id
+		where c.checked = 1 and c.deleteCode = '001'
+		and c.service_id = (select id from service where order_no = #{0} limit 1)
+  </select>
+
 </mapper>

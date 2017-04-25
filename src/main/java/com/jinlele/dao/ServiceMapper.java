@@ -50,5 +50,7 @@ public interface ServiceMapper {
 
     Map<String, Object> getDiamond(String orderno);
 
+    List<Map<String, Object>> chartcheckedGood(String orderno);
+
 
 }

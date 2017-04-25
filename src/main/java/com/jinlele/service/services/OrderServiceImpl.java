@@ -230,6 +230,7 @@ public class OrderServiceImpl implements IOrderService {
                     resultMap.put("buyinfo",serviceGoodMapper.getBuyInfo(orderno));
                     resultMap.put("metal",serviceMapper.getMetal(orderno));
                     resultMap.put("diamond",serviceMapper.getDiamond(orderno));
+                    resultMap.put("exGoods",serviceMapper.chartcheckedGood(orderno));
                 } else{
                     resultMap.put("products", serviceMapper.getServiceProducts(orderno));
                 }
