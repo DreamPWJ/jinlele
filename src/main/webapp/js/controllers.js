@@ -304,9 +304,11 @@
                     if (item.num < 1) {
                         //$scope.cartlist.pagingList.splice(i, 1);
                         item.num = 1;
+                        CommonService.toolTip("数量最小为1奥！","");
                     }
                     if (parseInt(item.num) > item.stocknumber) {
                         item.num = item.stocknumber;
+                        CommonService.toolTip("选择数量已经是最大库存了！","");
                     }
                 }
                 var f = $scope.checkedGcIds.indexOf(item.gcid);//判断是否存在选中的gcid
