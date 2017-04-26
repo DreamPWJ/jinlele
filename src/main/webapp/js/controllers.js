@@ -3113,7 +3113,7 @@
         });
     }])
     //流程-评价(五大类服务交易结束)
-    .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','$state','CommonService', 'WeiXinService','OrderService',function ($rootScope,$scope, $stateParams,$state,CommonService,WeiXinService,OrderService) {
+    .controller('ProcAddCmtCtrl',['$rootScope','$scope','$stateParams','$state','CommonService', 'WeiXinService','OrderService','ServeCommonService',function ($rootScope,$scope, $stateParams,$state,CommonService,WeiXinService,OrderService,ServeCommonService) {
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
@@ -3137,11 +3137,7 @@
         };
         $rootScope.commonService=CommonService;
         //服务名
-        if($stateParams.type == '001')  $scope.pagetheme = 'refurbish';
-        if($stateParams.type == '002')  $scope.pagetheme = 'repair';
-        if($stateParams.type == '003')  $scope.pagetheme = 'detect';
-        if($stateParams.type == '004')  $scope.pagetheme = 'recycle';
-        if($stateParams.type == '005')  $scope.pagetheme = 'exchange';
+        $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;//页面呈现主题
         $scope.orderno = $stateParams.orderno;//订单号
         //物流进度
         OrderService.findReceiptServiceByOrderno({orderNo:$stateParams.orderno}).success(function (data) {
@@ -3218,7 +3214,7 @@
                 OrderService.AddComment($scope.comment).success(function (data) {
                     if (parseInt(data.row) > 0) {
                         CommonService.toolTip("评论成功！", "tool-tip-message-success");
-                        $state.go("orderlist");
+                        $state.go("orderlist",{typeName:$scope.pagetheme});
                     } else {
                         CommonService.toolTip("评论失败！", "tool-tip-message-success");
                     }
@@ -3999,8 +3995,9 @@
         });
     }])
     //确认回收
-    .controller('CfmRecycleCtrl', ['$scope' ,'$state','$stateParams','OrderService','CommonService',function ($scope ,$state, $stateParams,OrderService,CommonService) {
+    .controller('CfmRecycleCtrl', ['$scope' ,'$state','$stateParams','OrderService','CommonService','ServeCommonService',function ($scope ,$state, $stateParams,OrderService,CommonService,ServeCommonService) {
         $scope.orderstatus = $stateParams.orderstatus;
+        $scope.pagetheme = ServeCommonService.getName($scope.orderstatus.substring(0,3)).name;//页面呈现主题
         switch ($scope.orderstatus){
             case '004005':
             case '005012':
@@ -4034,7 +4031,7 @@
             }).success(function (data) {
                 if (data && data.n == 1) {
                     setTimeout(function () {
-                        $state.go('orderlist');
+                        $state.go('orderlist',{typeName:$scope.pagetheme});
                     }, 1000);
                 }
             });
