@@ -63,7 +63,7 @@
                 <span><i class="t07"></i></span>
                 <em>收货验证</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t06"></i></span>
                 <em>拍照交货</em>
             </li>
@@ -104,7 +104,7 @@
                 <span><i class="t06"></i></span>
                 <em>拍照交货</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t12"></i></span>
                 <em>维修</em>
             </li>
@@ -178,11 +178,11 @@
                 <span><i class="t08"></i></span>
                 <em>评价</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t14"></i></span>
-                <em>放弃回收</em>
+                <em>回收</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t10"></i></span>
                 <em>实际定价</em>
             </li>
@@ -196,7 +196,7 @@
     <section class="process fanx" ng-switch-when="exchange">
         <b class="right huan"></b>
         <b class="left seu"></b>
-        <b class="muye huan"></b>
+        <b class="muye"></b>
         <b class="kuen"></b>
         <ul>
             <li class="hover">
@@ -215,15 +215,15 @@
                 <span><i class="t03"></i></span>
                 <em>门店收货</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t07"></i></span>
-                <em>邮寄</em>
+                <em>拍照交货</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t06"></i></span>
                 <em>确认换款</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t10"></i></span>
                 <em>实际定价</em>
             </li>
@@ -231,7 +231,7 @@
                 <span><i class="t04"></i></span>
                 <em>检测</em>
             </li>
-            <li class="hover">
+            <li>
                 <span><i class="t11"></i></span>
                 <em>收货验收</em>
             </li>
@@ -303,26 +303,19 @@
     <!-- 检测报告 -->
     <section class="report">
         <span class="title">检测报告
-        <em style="float: right;padding-right: 2rem">查看详情</em>
+        <em style="float: right;padding-right: 2rem;font-style: normal">查看详情</em>
         </span>
         <section class="report_mian" ng-if="report!=null">
             <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
-            <p ng-style="{'text-align' : 'center'}"></p>
+            <br/>
+            <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
         </section>
         <section class="empty" ng-if="report==null">
             <i class="icon">&#xe639;</i>
             <em>检测还没结果，请耐心等待~</em>
         </section>
     </section>
-    <!-- 翻新中 -->
-    <section class="report" ng-if="orderType=='001'">
-        <section class="report_mian"><img src="images/com/fx01.jpg"></section>
-    </section>
-    <!-- 维修中 -->
-    <section class="report" ng-if="orderType=='002'">
-        <section class="report_mian"><img src="images/com/wx01.jpg"></section>
-    </section>
-    <!-- 维修中 -->
+    <!-- 换款-->
     <section class="report" ng-if="orderType=='005'&&images!=null">
         <section class="report_mian" ng-repeat="item in images"><img ng-src="{{item.url}}"/></section>
     </section>

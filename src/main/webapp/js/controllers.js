@@ -2412,10 +2412,7 @@
                         $scope.useful=false;
                         //调用支付接口
                         if($scope.type.code == '004') {   //如果是回收订单无需付款，直接进入平台收货页面
-                            $state.go('procreceive', {
-                                type: $scope.type.code,
-                                orderNo: data.orderNo
-                            });
+                            $state.go("serviceProgress", {type: "004", orderno: data.orderNo});
                             return;
                         }
                         $scope.param = {
