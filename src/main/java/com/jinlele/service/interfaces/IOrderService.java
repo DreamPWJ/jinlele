@@ -82,4 +82,8 @@ public interface IOrderService {
 
     //根据订单号查询门店信息
     Store getStoreByOrderno(String orderno);
+
+    //根据订单号查询sendway方式
+    String selectSendwayByOrder(String orderno);
+
 }

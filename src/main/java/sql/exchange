@@ -1,3 +1,10 @@
+
+
+-- 翻新收货开始时间
+select create_time from shoporder  where type='001' and deleteCode = '001' and shoporderstatusCode ='001007'
+order by create_time desc
+
+
 #换款的商城商品信息
     select g.goodno,g.title,g.bannerurl , gc.color,gc.weight,gc.material,gc.mainStoreSpec,gc.handSize,
     gc.necklace_len,gc.bracelet_len,gc.price,gc.exprice,c.num

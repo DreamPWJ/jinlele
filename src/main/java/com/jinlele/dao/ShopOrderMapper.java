@@ -47,4 +47,6 @@ public interface ShopOrderMapper {
     Store getStoreByOrderno(String orderno);
 
     int deleteOrderBySid(Integer serviceId);
+
+    String selectSendwayByOrder(String orderno);
 }
