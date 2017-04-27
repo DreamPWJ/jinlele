@@ -9,7 +9,6 @@ import com.jinlele.service.interfaces.IWalletService;
 import com.jinlele.util.StringHelper;
 import com.jinlele.util.weixinUtils.pay.PayCommonUtil;
 import com.jinlele.util.weixinUtils.service.CoreService;
-import com.jinlele.util.weixinUtils.template.SendOrderPaySuccessMsg;
 import com.jinlele.util.weixinUtils.util.AdvancedUtil;
 import com.jinlele.util.weixinUtils.util.Parameter;
 import com.jinlele.util.weixinUtils.util.SignUtil;
@@ -328,7 +327,7 @@ public class WeiXinController {
                         //如果是维修检测翻新，付款成功后，推送需要发货的模板通知
                         if("001".equals(orderType) || "002".equals(orderType) || "003".equals(orderType)){
                             Store store = orderService.getStoreByOrderno(orderno);
-                            SendOrderPaySuccessMsg.needSendGoodNotice(openid,orderno,orderType,store);
+                            //SendOrderPaySuccessMsg.needSendGoodNotice(openid,orderno,orderType,store);
                         }
                         switch (orderType){
                             case "007":
