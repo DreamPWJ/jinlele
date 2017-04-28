@@ -328,7 +328,10 @@ public class WeiXinController {
                         //如果是维修检测翻新，付款成功后，推送需要发货的模板通知
                         if("001".equals(orderType) || "002".equals(orderType) || "003".equals(orderType)){
                             Store store = orderService.getStoreByOrderno(orderno);
-                            SendOrderPaySuccessMsg.needSendGoodNotice(openid,orderno,orderType,store);
+                            String sendway = orderService.selectSendwayByOrder(orderno);
+                            if(!"".equals(sendway) && "001".equals(sendway)){//自己邮寄的时候才有模板推送
+                                SendOrderPaySuccessMsg.needSendGoodNotice(openid, orderno, orderType, store);
+                            }
                         }
                         switch (orderType){
                             case "007":

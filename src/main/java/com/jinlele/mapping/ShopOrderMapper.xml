@@ -365,4 +365,9 @@
     from shoporder
     where orderno = #{orderno,jdbcType=VARCHAR}
   </select>
+
+  <!--根据订单号查询sendway方式-->
+  <select id="selectSendwayByOrder" parameterType="java.lang.String" resultType="String">
+    select sendway from service where order_no = #{0} limit 1
+  </select>
 </mapper>

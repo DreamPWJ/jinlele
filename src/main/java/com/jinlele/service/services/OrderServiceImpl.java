@@ -442,4 +442,9 @@ public class OrderServiceImpl implements IOrderService {
         return  orderMapper.getStoreByOrderno(orderno);
     }
 
+    public String selectSendwayByOrder(String orderno){
+        return  orderMapper.selectSendwayByOrder(orderno);
+    }
+
+
 }
