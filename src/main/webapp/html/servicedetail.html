@@ -97,6 +97,8 @@
         <section class="order_xq"  ng-switch on="orderinfo.type">
             <ul ng-switch-when="004">
                 <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+                <li><em class="content content_main">寄货方式：</em><i class="content content_main">{{orderinfo.sendway=="001"?"邮寄":"送到店"}}</i></li>
+                <li><em class="content content_main">取货方式：</em><i class="content content_main">{{orderinfo.getway=="001"?"邮寄":"到店取"}}</i></li>
                 <li><em class="subject">回收总额：</em><i class="subject subject_font">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
                 <li class="result" ng-if="orderinfo.totalprice!=0"><em>可实收：</em><i>{{orderinfo.totalprice|currency:'￥'}}</i></li>
                 <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
@@ -105,13 +107,17 @@
                 <!--<li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>-->
                 <!--<li><em class="content content_main">定价总额：</em><i class="content content_main">{{aturalprice?(aturalprice|currency:'￥'|number:2):'待定'}}</i></li>-->
                 <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+                <li><em class="content content_main">寄货方式：</em><i class="content content_main">{{orderinfo.sendway=="001"?"邮寄":"送到店"}}</i></li>
+                <li><em class="content content_main">取货方式：</em><i class="content content_main">{{orderinfo.getway=="001"?"邮寄":"到店取"}}</i></li>
                 <!--<li ng-if="buyinfo!=null"><em  class="subject">换款总额：</em><i class="subject subject_font">{{(buyinfo.buynum*buyinfo.unit_price)|currency:'￥'}}</i></li>-->
                 <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>￥{{orderinfo.actualpayprice}}</i></li>
                 <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>
             </ul>
             <ul ng-switch-default>
                 <li><em class="content">服务总额：</em><i class="content">{{orderinfo.totalprice|currency:'￥'}}</i></li>
-                <li class="underline"><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+                <li><em class="content content_main">运费：</em><i class="content content_main">{{orderinfo.freightprice|currency:'￥'}}</i></li>
+                <li><em class="content content_main">寄货方式：</em><i class="content content_main">{{orderinfo.sendway=="001"?"邮寄":"送到店"}}</i></li>
+                <li class="underline"><em class="content content_main">取货方式：</em><i class="content content_main">{{orderinfo.getway=="001"?"邮寄":"到店取"}}</i></li>
                 <li><em class="subject">订单总额：</em><i class="subject subject_font">{{(orderinfo.totalprice+orderinfo.freightprice)|currency:'￥'}}</i></li>
                 <li class="result" ng-show="orderinfo.actualpayprice!=null"><em>实付款：</em><i>{{orderinfo.actualpayprice|currency:'￥'}}</i></li>
                 <li><u class="create_date">下单时间：{{orderinfo.create_time|date:'yyyy-MM-dd HH:mm:ss'}}</u></li>

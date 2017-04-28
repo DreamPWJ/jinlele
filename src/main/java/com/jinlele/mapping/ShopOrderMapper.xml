@@ -365,6 +365,16 @@
     from shoporder
     where orderno = #{orderno,jdbcType=VARCHAR}
   </select>
+  <select id="selectServiceInfoByOrderno" resultType="map" parameterType="java.lang.String" >
+  select o.orderno, o.totalprice, o.totalnum, o.freightprice, o.actualpayprice,s.sendway,s.getway, o.userlogisticsno, o.logisticsno,
+    (select e.company from express_company as e where e.number=o.logisticsnoComp) as logisticsCompany,o.user_id, o.store_id,
+    o.type,o.qrcode_url,o.shoporderstatusCode, o.receipt_address_id, o.comment, o.deleteCode,o.create_time, o.update_time, o.descriplevel,
+    (select dictname from vw_dictdetail where eng='orderstatus' and codevalue=o.shoporderstatusCode) as showuserstatus,
+    (select shortname from vw_dictdetail where eng='orderstatus' and codevalue=o.shoporderstatusCode) as showplatstatus
+    from shoporder o
+JOIN service s on o.orderno=s.order_no
+    where orderno = #{orderno,jdbcType=VARCHAR}
+</select>
 
   <!--根据订单号查询sendway方式-->
   <select id="selectSendwayByOrder" parameterType="java.lang.String" resultType="String">

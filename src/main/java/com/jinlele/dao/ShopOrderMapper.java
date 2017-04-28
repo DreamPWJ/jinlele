@@ -23,6 +23,8 @@ public interface ShopOrderMapper {
 
     Map<String , Object> selectOrderInfoByOrderno(String orderno);
 
+    Map<String , Object> selectServiceInfoByOrderno(String orderno);
+
     Map<String , Object> findReceiptServiceByOrderno(@Param("orderno")String orderno);
 
     List findAllexpressCompanies();

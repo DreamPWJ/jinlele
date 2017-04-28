@@ -226,6 +226,7 @@ public class OrderServiceImpl implements IOrderService {
                 resultMap.put("orderdetail", detail);
                 break;
             default:
+                orderinfo = orderMapper.selectServiceInfoByOrderno(orderno);
                 if("005".equals(type)){
                     resultMap.put("buyinfo",serviceGoodMapper.getBuyInfo(orderno));
                     resultMap.put("metal",serviceMapper.getMetal(orderno));
