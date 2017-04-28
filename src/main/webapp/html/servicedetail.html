@@ -22,7 +22,7 @@
         <span class="title" ng-switch-when="003">检测产品</span>
         <span class="title" ng-switch-when="004">回收产品</span>
         <span class="title" ng-switch-when="005">原有产品</span>
-        <section class="product_list" ng-if="orderinfo.type!='005'">
+        <section class="product_list" ng-if="orderinfo.type!='005'&&orderinfo.type!='004'">
             <section class="product">
                 <section class="text">
                     <p>产品类别：{{products.name}}</a></p>
@@ -34,7 +34,7 @@
                 </section>
             </section>
         </section>
-        <section class="product_list" ng-if="orderinfo.type=='005' && metal">
+        <section class="product_list" ng-if="(orderinfo.type=='005'||orderinfo.type=='004') && metal">
             <section class="product">
                 <section class="text" style="font-size: 0.8rem;font-weight: normal;padding:0.3rem 0">
                     <!--<p>产品类别：{{products.name}}</a></p>-->
@@ -45,7 +45,7 @@
                 </section>
             </section>
         </section>
-        <section class="product_list" ng-if="orderinfo.type=='005' && diamond">
+        <section class="product_list" ng-if="(orderinfo.type=='005'||orderinfo.type=='004') && diamond">
             <section class="product">
                 <section class="text" style="font-size: 0.8rem;font-weight: normal;padding:0.3rem 0">
                     <!--<p>产品类别：{{products.name}}</a></p>-->

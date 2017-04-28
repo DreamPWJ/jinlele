@@ -822,11 +822,15 @@
                 $scope.address = data.address;//订单总信息
                 $scope.pictures = data.pictures;//图片列表
                 $scope.products = data.products;//产品列表
-                if($stateParams.orderType!='005')$scope.products = data.products;//产品列表
+                if($stateParams.orderType!='005'&&$stateParams.orderType!='004')$scope.products = data.products;//产品列表
                 if($stateParams.orderType=='005'){
                     $scope.metal = data.metal;//换款估价贵金属信息
                     $scope.diamond = data.diamond;//换款估价钻石信息
                     $scope.exGoods = data.exGoods;//换款估价钻石信息
+                }
+                if($stateParams.orderType=='004'){
+                    $scope.metal = data.metal;//换款估价贵金属信息
+                    $scope.diamond = data.diamond;//换款估价钻石信息
                 }
                 console.log($scope.metal);
                 //$scope.buyinfo = data.buyinfo;//产品列表

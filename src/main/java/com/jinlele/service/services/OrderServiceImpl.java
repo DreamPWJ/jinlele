@@ -219,7 +219,7 @@ public class OrderServiceImpl implements IOrderService {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> orderinfo = orderMapper.selectOrderInfoByOrderno(orderno);
         String type=orderinfo.get("type").toString();
-        switch (type){
+        switch (type) {
             case "006":
                 Map<String, Object> detail = new HashMap<>();
                 detail.put("info", shopOrderGoodMapper.selectOrderDetailByOrderno(orderno));
@@ -227,15 +227,22 @@ public class OrderServiceImpl implements IOrderService {
                 break;
             default:
                 orderinfo = orderMapper.selectServiceInfoByOrderno(orderno);
-                if("005".equals(type)){
-                    resultMap.put("buyinfo",serviceGoodMapper.getBuyInfo(orderno));
-                    resultMap.put("metal",serviceMapper.getMetal(orderno));
-                    resultMap.put("diamond",serviceMapper.getDiamond(orderno));
-                    resultMap.put("exGoods",serviceMapper.chartcheckedGood(orderno));
-                } else{
-                    resultMap.put("products", serviceMapper.getServiceProducts(orderno));
+                switch (type) {
+                    case "004":
+                        resultMap.put("metal", serviceMapper.getMetal(orderno));
+                        resultMap.put("diamond", serviceMapper.getDiamond(orderno));
+                        break;
+                    case "005":
+                        resultMap.put("buyinfo", serviceGoodMapper.getBuyInfo(orderno));
+                        resultMap.put("metal", serviceMapper.getMetal(orderno));
+                        resultMap.put("diamond", serviceMapper.getDiamond(orderno));
+                        resultMap.put("exGoods", serviceMapper.chartcheckedGood(orderno));
+                        break;
+                    default:
+                        resultMap.put("products", serviceMapper.getServiceProducts(orderno));
+                        break;
                 }
-                resultMap.put("pictures", serviceMapper.getServicePictures(orderno,type));
+                resultMap.put("pictures", serviceMapper.getServicePictures(orderno, type));
                 break;
         }
         resultMap.put("order",orderinfo);
