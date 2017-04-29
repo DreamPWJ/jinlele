@@ -2192,7 +2192,9 @@
                         if (data) {
                             //③后台处理成功后，跳转到下单页面
                             sessionStorage.setItem("jinlele_procphoto_pathname", $scope.pagetheme);
-                            sessionStorage.setItem("jinlele_procphoto_serviceId", localStorage.getItem("recyleServiceId"));
+                            sessionStorage.setItem("jinlele_procphoto_serviceId", localStorage.getItem("recycleServiceId"));
+                            sessionStorage.setItem("jinlele_procphoto_aturalprice", $scope.service.price);
+
                             $state.go("proccommitorder");
                         }
                     });
