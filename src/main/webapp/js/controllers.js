@@ -2182,6 +2182,21 @@
                         }
                     });
                     break;
+                    // localStorage.setItem("evaluationPrice", data.result);
+                    // localStorage.setItem("recycleServiceId", data.evaluateServiceId);
+                case "004"://回收
+                    //将serviceId与图片关联
+                    $scope.params.serviceId = localStorage.getItem("recycleServiceId");
+                    console.log(JSON.stringify($scope.params));
+                    ProcPhotoService.updateService($scope.params).success(function (data) {
+                        if (data) {
+                            //③后台处理成功后，跳转到下单页面
+                            sessionStorage.setItem("jinlele_procphoto_pathname", $scope.pagetheme);
+                            sessionStorage.setItem("jinlele_procphoto_serviceId", localStorage.getItem("recyleServiceId"));
+                            $state.go("proccommitorder");
+                        }
+                    });
+                    break;
                 case "005"://换款
                     //将serviceId与图片关联
                     $scope.params.serviceId = localStorage.getItem("barterServiceId");
@@ -2401,7 +2416,7 @@
                 obj.userId = localStorage.getItem("jinlele_userId");//用户id
                 obj.type = $scope.type.code;    //翻新001维修002检测003回收004换款005
                 obj.storeId = $scope.order.storeId;//后续需要根据客户选择传入
-                obj.sendWay=$scope.order.sendway;     //送货方式
+                obj.sendWay=$scope.order.sendway;  //送货方式
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.totalprice = $scope.totalprice;//总价格
                 obj.addressinfo = $scope.addressinfo;//地址信息
@@ -3638,11 +3653,12 @@
             }).success(function (data) {
                 if (data) {
                     if ($stateParams.name == "exchange") {
-
-                        $state.go("showResult");
                         localStorage.setItem("evaluationPrice", data.result);
                         localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                        $state.go("showResult");
                     } else {
+                        localStorage.setItem("evaluationPrice", data.result);
+                        localStorage.setItem("recycleServiceId", data.evaluateServiceId);
                         $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                     }
                 }
@@ -3934,10 +3950,12 @@
                             return;
                         }
                         if ($stateParams.name == "exchange") {
-                            $state.go("showResult");
                             localStorage.setItem("evaluationPrice", data.result);
                             localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                            $state.go("showResult");
                         } else {
+                            localStorage.setItem("evaluationPrice", data.result);
+                            localStorage.setItem("recycleServiceId", data.evaluateServiceId);
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
                     }
@@ -3954,12 +3972,15 @@
                 $scope.paras.push(obj);
                 EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
+
                     if (data) {
                         if ($stateParams.name == "exchange") {
-                            $state.go("showResult");
                             localStorage.setItem("evaluationPrice", data.result);
                             localStorage.setItem("barterServiceId", data.evaluateServiceId);
+                            $state.go("showResult");
                         } else {
+                            localStorage.setItem("evaluationPrice", data.result);
+                            localStorage.setItem("recycleServiceId", data.evaluateServiceId);
                             $state.go('evaluationresult', {name: $stateParams.name, result: JSON.stringify(data)});
                         }
                     }

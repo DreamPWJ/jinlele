@@ -151,7 +151,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectOrderDetailByOrderno" resultType="Map" parameterType="java.lang.String">
-    select m.good_id as goodid,m.goodchild_id as gcid,g.title,g.bannerurl,gc.color,m.unitprice as dealprice,m.num as buynum
+    select m.good_id as goodid,m.goodchild_id as gcid,g.title,g.bannerurl,
+    gc.color,gc.weight,gc.material,gc.mainStoreSpec,gc.handSize, gc.necklace_len,gc.bracelet_len,
+    m.unitprice as dealprice,m.num as buynum
     from shoporder_good m
     join good g on g.id=m.good_id
     join goodchild gc on gc.id=m.goodchild_id

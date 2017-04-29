@@ -30,7 +30,7 @@
                         <span class="pic"><a  ng-click="previewImg(subitem.bannerurl)"><img ng-src="{{subitem.bannerurl}}"></a></span>
                         <section class="text" ng-click="orderdetail(item.orderno,item.type)">
                             <p><a>{{subitem.title}}</a></p>
-                            <span>颜色分类：{{subitem.color}}</span>
+                            <span>颜色分类：{{subitem.color}}{{subitem.weight?"【"+subitem.weight+"】":""}}{{subitem.material}} {{subitem.mainstorespec}}{{subitem.handsize?"【"+subitem.handsize+"】":""}}{{subitem.necklace_len?"【"+subitem.necklace_len+"】":""}}{{subitem.bracelet_len?"【"+subitem.bracelet_len+"】":""}}</span>
                         </section>
                         <section class="price_1" ng-click="orderdetail(item.orderno,item.type)">
                             <em>{{subitem.dealprice | currency:'￥'}}</em>
