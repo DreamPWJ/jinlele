@@ -194,8 +194,17 @@
   select distinct good_id from exchange_chart where service_id = #{0} and deleteCode = '001'
   </select>
 
+  <!--根据订单号获取换款购物车的选中商品的总价格-->
+  <select id="getEcheckTotalPriceByOrder" parameterType="java.lang.String" resultType="double">
+    select COALESCE(SUM(gc.exprice*ec.num),0)  from exchange_chart ec
+    left join goodchild gc on gc.id = ec.goodchild_id
+    where  ec.checked = 1 and ec.deleteCode = '001' and ec.service_id =
+    (select id  from service where order_no = #{0} order by create_time desc   limit 1 )
+  </select>
 
-  <!--select distinct good_id from exchange_chart where service_id = 730-->
-  <!--and deleteCode = '001'-->
+  <!--获取估价和实际定价价格-->
+  <select id="getFixPrice" parameterType="java.lang.String" resultType="com.jinlele.model.Service">
+    select price,aturalprice from service where order_no = #{0} order by create_time desc   limit 1
+  </select>
 
 </mapper>

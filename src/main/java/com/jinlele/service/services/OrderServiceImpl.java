@@ -68,6 +68,8 @@ public class OrderServiceImpl implements IOrderService {
 
     @Resource
     ServiceGoodMapper serviceGoodMapper;
+    @Resource
+    ExchangeChartMapper exchangeChartMapper;
 
     @Override
     public ShopOrder selectByPrimaryKey(String orderno) {
@@ -237,6 +239,7 @@ public class OrderServiceImpl implements IOrderService {
                         resultMap.put("metal", serviceMapper.getMetal(orderno));
                         resultMap.put("diamond", serviceMapper.getDiamond(orderno));
                         resultMap.put("exGoods", serviceMapper.chartcheckedGood(orderno));
+                        resultMap.put("prePrice", getPrePrice(orderno));
                         break;
                     default:
                         resultMap.put("products", serviceMapper.getServiceProducts(orderno));
@@ -252,6 +255,14 @@ public class OrderServiceImpl implements IOrderService {
             resultMap.put("address", receiptAddressMapper.selectByPrimaryKey(Integer.valueOf(orderinfo.get("receipt_address_id").toString())));
         }
         return resultMap;
+    }
+    //计算换款订单详情中的预选合计价格
+    public  double getPrePrice(String orderno){
+       com.jinlele.model.Service service =  exchangeChartMapper.getFixPrice(orderno);
+       double chatPrice = exchangeChartMapper.getEcheckTotalPriceByOrder(orderno);
+       double price =  service.getPrice();
+       double aturalprice = service.getAturalprice();
+       return aturalprice<=0 ? (chatPrice-price) : (chatPrice-aturalprice);
     }
 
     @Override
