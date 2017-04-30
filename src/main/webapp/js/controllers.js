@@ -2796,7 +2796,7 @@
                     $scope.totalnum = data.echeck.cartotalnum; // 选中的商品的总价格
                     if($scope.totalnum >0) $scope.delFlag = true;
                 }
-                $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
+                $scope.totalprice = $scope.cartotalprice?($scope.cartotalprice - $scope.barterprice):0 ;//预选合计总金额
                 console.log( $scope.totalprice);
             });
 
@@ -2821,7 +2821,8 @@
                     });
                     $scope.delFlag = false;
                     $scope.totalnum = 0;
-                    $scope.totalprice= 0 - $scope.barterprice;
+                    //$scope.totalprice= 0 - $scope.barterprice;
+                    $scope.totalprice= 0 ;
                 }
             };
 
@@ -2840,7 +2841,7 @@
                         selectAllCount++;
                     }
                 });
-                $scope.totalprice=$scope.totalprice-$scope.barterprice;
+                $scope.totalprice=$scope.totalprice?($scope.totalprice-$scope.barterprice):0;
                 if(selectAllCount == $scope.cartlist.pagingList.length){
                     $scope.checkAllflag = true;
                 }else{
