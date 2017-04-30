@@ -203,7 +203,7 @@
   </select>
 
   <!--获取估价和实际定价价格-->
-  <select id="getFixPrice" parameterType="java.lang.String" resultType="com.jinlele.model.Service">
+  <select id="getFixPrice" parameterType="java.lang.String" resultType="Map">
     select price,aturalprice from service where order_no = #{0} order by create_time desc   limit 1
   </select>
 

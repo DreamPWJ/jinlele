@@ -258,11 +258,16 @@ public class OrderServiceImpl implements IOrderService {
     }
     //计算换款订单详情中的预选合计价格
     public  double getPrePrice(String orderno){
-       com.jinlele.model.Service service =  exchangeChartMapper.getFixPrice(orderno);
+      Map<String, Object> map =  exchangeChartMapper.getFixPrice(orderno);
        double chatPrice = exchangeChartMapper.getEcheckTotalPriceByOrder(orderno);
-       double price =  service.getPrice();
-       double aturalprice = service.getAturalprice();
-       return aturalprice<=0 ? (chatPrice-price) : (chatPrice-aturalprice);
+       double price = (double) map.get("price");
+       Object aturalprice =  map.get("aturalprice");
+       if(aturalprice==null) {
+           return chatPrice-price;
+       }else{
+           return chatPrice- (double)aturalprice;
+       }
+
     }
 
     @Override

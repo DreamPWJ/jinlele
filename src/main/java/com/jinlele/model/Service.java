@@ -238,4 +238,6 @@ public class Service {
     public void setCheckreportUrl(String checkreportUrl) {
         this.checkreportUrl = checkreportUrl == null ? null : checkreportUrl.trim();
     }
+
+
 }

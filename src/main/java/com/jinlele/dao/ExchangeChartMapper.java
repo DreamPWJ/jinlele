@@ -41,5 +41,5 @@ public interface ExchangeChartMapper {
     double getEcheckTotalPriceByOrder(String orderno);
 
     //获取估价和实际定价价格
-    Service getFixPrice(String orderno);
+    Map<String, Object> getFixPrice(String orderno);
 }
