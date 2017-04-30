@@ -23,11 +23,6 @@
                 autoplay: 3000
             });
         }
-
-        //加载此页面的时候
-        //自动读取网页授权接口获取用户的opendId,从而得到用户的信息，得到前台用户的id，这里暂时强制设定用户的id
-        //localStorage.setItem("jinlele_userId", 1); //1应该是从数据库中查到的
-
         //获取首页信息
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
@@ -412,7 +407,8 @@
             console.log('$scope.checkAllflag==' +  $scope.checkAllflag);
             $scope.barterprice = $scope.barterprice==0 ? data.pagingList[0].price : $scope.barterprice; //估价价格
 
-            $scope.totalprice = -$scope.barterprice;
+            //$scope.totalprice = -$scope.barterprice;
+            $scope.totalprice = 0;
         }).then(function () {
             EvaluateService.getShopcharTotal({serviceId: $scope.init.serviceid}).success(function (data) {
                 if(data.echeck){
@@ -420,7 +416,7 @@
                     $scope.totalnum = data.echeck.cartotalnum; // 选中的商品的总价格
                     if($scope.totalnum >0) $scope.delFlag = true;
                 }
-                $scope.totalprice =  $scope.cartotalprice - $scope.barterprice;//预选合计总金额
+                $scope.totalprice = $scope.cartotalprice?($scope.cartotalprice - $scope.barterprice):0;//预选合计总金额
                 console.log( $scope.totalprice);
             });
         });
@@ -445,7 +441,8 @@
                 });
                 $scope.delFlag = false;
                 $scope.totalnum = 0;
-                $scope.totalprice= 0 - $scope.barterprice;
+                //$scope.totalprice= 0 - $scope.barterprice;
+                $scope.totalprice= 0 ;
             }
         };
 
@@ -464,7 +461,7 @@
                     selectAllCount++;
                 }
             });
-            $scope.totalprice=$scope.totalprice-$scope.barterprice;
+            $scope.totalprice=$scope.totalprice?($scope.totalprice-$scope.barterprice):0;
             if(selectAllCount == $scope.cartlist.pagingList.length){
                 $scope.checkAllflag = true;
             }else{
@@ -4212,7 +4209,7 @@
                 $scope.carData.cartotalnum = data.echeck.cartotalnum;
                 $scope.carData.cartotalprice = data.echeck.cartotalprice;
             }
-            $scope.totalprice =  $scope.carData.cartotalprice - $scope.evaluatePrice;//预选合计总金额
+            $scope.totalprice =  $scope.carData.cartotalprice?($scope.carData.cartotalprice - $scope.evaluatePrice):0;//预选合计总金额
         });
 
 
