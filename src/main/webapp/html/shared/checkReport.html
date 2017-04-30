@@ -299,9 +299,9 @@
     <!-- 检测报告 -->
     <section class="report">
         <span class="title">检测报告
-        <em style="float: right;padding-right: 2rem;font-style: normal">查看详情</em>
+        <!--<em style="float: right;padding-right: 2rem;font-style: normal">查看详情</em>-->
         </span>
-        <section class="report_mian" ng-if="report!=null">
+        <section class="report_mian" ng-if="report!=null && orderType=='005'">
             <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
             <br/>
             <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
@@ -312,7 +312,7 @@
         </section>
     </section>
     <!-- 换款-->
-    <section class="report" ng-if="orderType=='005'&&images!=null">
+    <section class="report" ng-if="images!=null" style="padding-bottom: 0.5rem">
         <section class="report_mian" ng-repeat="item in images"><img ng-src="{{item.url}}"/></section>
     </section>
 </main>

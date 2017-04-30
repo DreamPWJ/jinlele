@@ -75,7 +75,7 @@
             </ul>
             <p>描述信息：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'无':pictures[0].descrip}}</p>
         </section>
-        <span class="title" ng-if="exGoods!=null">换款产品 <span style="float:right;padding-right:1rem">预选合计:￥{{prePrice|number:2}}</span></span>
+        <span class="title" ng-if="exGoods!=null">换款产品 <span style="float:right;padding-right:0.5rem">预选合计:￥{{prePrice|number:2}}</span></span>
         <section class="product_list" ng-if="exGoods!=null">
 
             <section class="product" ng-repeat="item in exGoods">
