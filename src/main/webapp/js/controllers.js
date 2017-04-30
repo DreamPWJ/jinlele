@@ -13,7 +13,7 @@
             var html = "";
             if(arr){
                 for(var i=0,len=arr.length;i<len;i++){
-                    html += "<li class='swiper-slide'><a href=''><img src='"+arr[i].imgurl+"'  height='188'></a></li>";
+                    html += "<li class='swiper-slide'><a href='"+arr[i].link+"'><img src='"+arr[i].imgurl+"'  height='188'></a></li>";
                 }
             }
             $(".banner .swiper-wrapper").html(html);
@@ -32,7 +32,7 @@
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
             getBanners(data.banners);
-            //console.log(JSON.stringify(data.banners));
+            console.log('data.banners=='+JSON.stringify(data.banners));
             localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
             localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
         }).then(function () {
@@ -2377,7 +2377,7 @@
         };
         //计算总价格
         $scope.calcTotalPrice=function(num){
-            $scope.totalprice = num * $scope.aturalprice;
+            $scope.totalprice =  $scope.type.code == '004' ? $scope.aturalprice : (num * $scope.aturalprice);
             $scope.totalnum = num;
             console.log(" $scope.totalprice ==" + $scope.totalprice);
         };
@@ -2421,6 +2421,7 @@
                 obj.sendWay=$scope.order.sendway;  //送货方式
                 obj.getWay=$scope.order.getway;    //取货方式
                 obj.totalprice = $scope.totalprice;//总价格
+
                 obj.addressinfo = $scope.addressinfo;//地址信息
                 obj.serviceId = $scope.serviceId;//服务id
                 obj.totalnum = $scope.totalnum;//总数量
