@@ -14,7 +14,7 @@
         <span class="cart_pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
         <section class="cart_main">
             <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title}}</a></span>
-            <span class="color"><font>颜色分类：{{item.color}}</font></span>
+            <span class="color"><font>颜色分类：{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【"+item.bracelet_len+"】":""}}</font></span>
             <section class="cart_price">
                 <em>{{item.price | currency:'￥'}}</em>
                 <span class="addto">
