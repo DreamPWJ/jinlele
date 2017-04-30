@@ -37,7 +37,7 @@
         </span>
         <span class="cart_pic"><a href="#/gooddetail/{{item.goodId}}"><img ng-src="{{item.bannerurl}}"></a></span>
         <section class="cart_main">
-            <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>15?item.title.substr(0,15)+"....":item.title}}</a></span>
+            <span class="title"><a href="#/gooddetail/{{item.goodId}}">{{item.title.length>11?item.title.substr(0,11)+"....":item.title}}</a></span>
             <section class="cart_price">
                 <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
             </section>
