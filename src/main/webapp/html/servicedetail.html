@@ -69,7 +69,7 @@
             <ul>
                 <li ng-repeat="item in pictures">
                 <span>
-                    <img ng-src="{{item.url}}">
+                    <img  ng-click="previewImg(item.url)"  ng-src="{{item.url}}">
                 </span>
                 </li>
             </ul>
@@ -77,9 +77,8 @@
         </section>
         <span class="title" ng-if="exGoods!=null">换款产品 <span style="float:right;padding-right:0.5rem">预选合计:￥{{prePrice|number:2}}</span></span>
         <section class="product_list" ng-if="exGoods!=null">
-
             <section class="product" ng-repeat="item in exGoods">
-                <span class="pic"><a href=""><img ng-src="{{item.bannerurl}}"></a></span>
+                <span class="pic"><a href=""><img ng-click="previewImg(item.bannerurl)" ng-src="{{item.bannerurl}}"></a></span>
                 <section class="text">
                     <p><a href="#/gooddetail/{{item.id}}">{{item.title}}</a></p>
                     <span>颜色分类：{{item.color}}{{item.weight?"【"+item.weight+"】":""}}{{item.material}} {{item.mainstorespec}}{{item.handsize?"【"+item.handsize+"】":""}}{{item.necklace_len?"【"+item.necklace_len+"】":""}}{{item.bracelet_len?"【"+item.bracelet_len+"】":""}}</span>
@@ -124,7 +123,7 @@
             </ul>
         </section>
         <section class="qr_code">
-            <span class="pic"><img ng-src="{{orderinfo.qrcode_url}}"></span>
+            <span class="pic"><img ng-click="previewImg(orderinfo.qrcode_url)" ng-src="{{orderinfo.qrcode_url}}"></span>
         </section>
     </section>
 </main>

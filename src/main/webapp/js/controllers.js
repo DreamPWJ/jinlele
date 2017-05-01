@@ -873,6 +873,19 @@
                 });
             })
         };
+        //图片预览
+        $scope.previewImg=function(src){
+            var imgArray = [];
+            if(angular.isArray(src)){
+                angular.forEach(src,function(item,index){
+                    imgArray.push(item.url);
+                });
+                WeiXinService.wxpreviewImage(imgArray[0],imgArray);
+            }else {
+                imgArray.push(src);
+                WeiXinService.wxpreviewImage(src, imgArray);
+            }
+        }
         //物流页面
         $scope.addLogisticsInfo = function () {
             var obj = {
@@ -1148,6 +1161,19 @@
                         }
                     });
             });
+        }
+        //图片预览
+        $scope.previewImg=function(src){
+            var imgArray = [];
+            if(angular.isArray(src)){
+                angular.forEach(src,function(item,index){
+                    imgArray.push(item.url);
+                });
+                WeiXinService.wxpreviewImage(imgArray[0],imgArray);
+            }else {
+                imgArray.push(src);
+                WeiXinService.wxpreviewImage(src, imgArray);
+            }
         }
     }])
     //发表评论
