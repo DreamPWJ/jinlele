@@ -137,6 +137,94 @@ public class PayCommonUtil {
         return map;
     }
 
+
+
+    /**
+     * 微信退款接口
+     * @param sn 订单号
+     * @param refundAmout 退款金额
+     * @return
+     */
+    public static Map<String, String> refund(String sn, BigDecimal totalAmount,BigDecimal refundAmout) {
+        SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
+        parameterMap.put("appid", PayCommonUtil.APPID);
+        parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
+        parameterMap.put("nonce_str", getRandomString(32));// 随机字符串
+        parameterMap.put("out_trade_no", sn);// 商户订单号
+        parameterMap.put("out_refund_no", sn);// 商户订单号
+        BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
+        BigDecimal refund = refundAmout.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
+        java.text.DecimalFormat df = new java.text.DecimalFormat("0");
+        parameterMap.put("total_fee", df.format(total));// 订单金额
+        parameterMap.put("refund_fee", df.format(refund));// 退款金额
+        parameterMap.put("op_user_id", PayCommonUtil.MCH_ID);//操作员
+        String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
+        parameterMap.put("sign", sign);// 签名
+        String requestXML = PayCommonUtil.getRequestXml(parameterMap);
+        System.out.println("requestXML===============" + requestXML);
+        String result = null;
+        try {
+            result = PayCommonUtil.httpsRequestCertificaten(
+                    "https://api.mch.weixin.qq.com/secapi/pay/refund", "POST",
+                    requestXML);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("result===============" + result);
+        Map<String, String> map = null;
+        try {
+            map = PayCommonUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
+
+    /**
+     * 微信退款查询接口
+     * @param sn 订单号
+     * @return
+     */
+    public static Map<String, String> refundquery(String sn) {
+        SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
+        parameterMap.put("appid", PayCommonUtil.APPID);
+        parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
+        parameterMap.put("nonce_str", getRandomString(32));// 随机字符串
+        parameterMap.put("out_trade_no", sn);// 商户订单号
+        parameterMap.put("refund_id", "");// 商户订单号
+        String sign = PayCommonUtil.createSign("UTF-8", parameterMap);
+        parameterMap.put("sign", sign);// 签名
+        String requestXML = PayCommonUtil.getRequestXml(parameterMap);
+        System.out.println("requestXML===============" + requestXML);
+        String result = null;
+        try {
+            result = PayCommonUtil.httpsRequestCertificaten(
+                    "https://api.mch.weixin.qq.com/pay/refundquery", "POST",
+                    requestXML);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("result===============" + result);
+        Map<String, String> map = null;
+        try {
+            map = PayCommonUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
     /**
      * 随机字符串生成
      */
@@ -299,7 +387,8 @@ public class PayCommonUtil {
     public static String httpsRequestCertificaten(String requestUrl, String requestMethod, String outputStr) throws Exception {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         StringBuilder res = new StringBuilder("");
-        FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
+         FileInputStream instream = new FileInputStream(new File("C:\\work\\apache-tomcat-8.0.21\\conf\\apiclient_cert.p12"));
+        //FileInputStream instream = new FileInputStream(new File("E:\\jinlele\\apiclient_cert.p12"));
         try {
             keyStore.load(instream, PayCommonUtil.MCH_ID.toCharArray());
         } finally {

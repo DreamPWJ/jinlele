@@ -1006,7 +1006,7 @@
             //                $state.go('procreceive', {type: type, orderNo: orderno});//平台收货
             //                break;
             //            case "004003":
-            //                $state.go('proctest', {type: type, orderNo: orderno});//检测
+            //                $state.go('proctest', {type: type, orderNo: orderno});//检测f
             //                break;
             //            case "004004":
             //                $state.go('actualprice', {type: type, orderno: orderno});//实际定价
@@ -1399,6 +1399,25 @@
         $scope.servicedetail = function (orderno , orderType) {
             $state.go("servicedetail", {orderNo: orderno, orderType: orderType});
         };
+        //点击退款
+        $scope.weixinRefund = function(orderno, price, type){
+            $scope.param = {
+                sn: orderno,
+                refundAmout: 0.01, //price
+                totalAmount: 0.01, //price
+                type:type //订单状态
+            };
+            WeiXinService.weixinRefund($scope.param).success(function(data){
+              if(data && data.n && data.n==1){
+                  CommonService.toolTip("退款成功~", "tool-tip-message");
+                  $state.reload();
+              }else{
+                  CommonService.toolTip("退款失败~", "");
+              }
+            }).error(function(d){
+                CommonService.toolTip("退款失败~", "");
+            });
+        }
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];

@@ -50,6 +50,12 @@ public class ShopOrder {
     public ShopOrder() {
     }
 
+    public ShopOrder(String orderno, String type,String shoporderstatuscode) {
+        this.type = type;
+        this.orderno = orderno;
+        this.shoporderstatuscode = shoporderstatuscode;
+    }
+
     public ShopOrder(String orderno, Double totalprice, Integer userId, String type ,String shoporderstatuscode) {
         this.orderno = orderno;
         this.totalprice = totalprice;

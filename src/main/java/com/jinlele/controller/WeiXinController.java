@@ -3,6 +3,7 @@ package com.jinlele.controller;
 import com.jinlele.model.ShopOrder;
 import com.jinlele.model.Store;
 import com.jinlele.model.User;
+import com.jinlele.model.dto.RefundModel;
 import com.jinlele.service.interfaces.IOrderService;
 import com.jinlele.service.interfaces.IUserService;
 import com.jinlele.service.interfaces.IWalletService;
@@ -390,6 +391,76 @@ public class WeiXinController {
         Map<String, String> map = PayCommonUtil.weixinEnterprisePayment(sn, amount, description, openId, randomString, request);
         System.out.println("企业向个人付款==========="+  JSONObject.fromObject(map));
         return null;
+    }
+
+    //退款
+    @ResponseBody
+    @RequestMapping(value = "/weixin/refund", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> refund(RefundModel refundModel, HttpServletRequest request) {
+        Map<String, Object> restultMap = new HashMap();
+        Map<String, String> refundmap = null;
+        Map<String, String> querymap= null;
+        String orderno = refundModel.getSn();
+        String type = refundModel.getType();
+        try{
+            refundmap = PayCommonUtil.refund(orderno, refundModel.getTotalAmount(),refundModel.getRefundAmout());
+            restultMap.put("refundmap",refundmap);
+            System.out.println("退款==========="+  JSONObject.fromObject(refundmap));
+        }catch (Exception e1){
+            e1.printStackTrace();
+            restultMap.put("result1","fail");
+        }
+        try{
+           querymap= PayCommonUtil.refundquery(refundModel.getSn());
+            restultMap.put("querymap",querymap);
+        }catch (Exception e2){
+            e2.printStackTrace();
+            restultMap.put("result2","fail");
+        }
+
+        boolean flag = refundmap!=null && "SUCCESS".equals(refundmap.get("return_code")) && "SUCCESS".equals(refundmap.get("result_code"));
+        System.out.println("refundmap.get(\"return_code\")=="+refundmap.get("return_code"));
+        System.out.println("refundmap.get(\"result_code\")=="+refundmap.get("result_code"));
+        System.out.println("flag=="+flag);
+        boolean flag2 = querymap!=null && "SUCCESS".equals(querymap.get("return_code")) && "SUCCESS".equals(querymap.get("result_code"));
+        System.out.println("querymap.get(\"return_code\")=="+querymap.get("return_code"));
+        System.out.println("querymap.get(\"result_code\")=="+querymap.get("result_code"));
+        System.out.println("flag2=="+flag2);
+        System.out.println("flag || flag2=="+(flag || flag2));
+
+        if(flag || flag2){
+            System.out.println("flag || flag2==加入了吗");
+            System.out.println("type=="+type);
+            //如果查询退款成功的话，修改订单的状态
+            if("006".equals(type)){
+               int n =  orderService.updateByPrimaryKeySelective(new ShopOrder(orderno,type,"010"));//订单状态改成退款成功
+                System.out.println("n==="+n);
+                restultMap.put("n",n);
+            }
+        }
+        return restultMap;
+    }
+
+    //退款查询
+    @ResponseBody
+    @RequestMapping(value = "/weixin/refundquery/{sn}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> refundquery(@PathVariable String sn) {
+        Map<String, String> map = PayCommonUtil.refundquery(sn);
+        System.out.println("退款===========" + JSONObject.fromObject(map));
+        return null;
+    }
+
+//   public static void main(String[] args) {
+//        RefundModel refundModel = new RefundModel();
+//        refundModel.setSn("20170501141300053327");
+//        refundModel.setRefundAmout(new BigDecimal(0.01));
+//        Map<String, String> map = PayCommonUtil.refund(refundModel.getSn(), refundModel.getRefundAmout());
+//   }
+
+    public static void main(String[] args) {
+        RefundModel refundModel = new RefundModel();
+        refundModel.setSn("20170501131100022631");
+        Map<String, String> map = PayCommonUtil.refundquery(refundModel.getSn());
     }
 
 }

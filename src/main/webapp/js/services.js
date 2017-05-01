@@ -1289,6 +1289,46 @@ angular.module('starter.services', [])
                 });
                 return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
             },
+            //退款
+            weixinRefund: function (params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    //url: JinLeLe.api + "/weixin/weixinPay/" + parseInt(new Date().getTime() / 1000) + "/0.01/商品微信支付测试/okhnkvvnLaxUQxAeH6v8SUcu9jZQ"
+                    url: JinLeLe.api + "/weixin/refund",
+                    params:params
+                }).success(function (data) {
+                    console.log(data);
+                    console.log(JSON.stringify(data));
+                    console.log("2222");
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    console.log("11111");
+                    console.log(JSON.stringify(err));
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
+            //退款查询
+            weixinRefundQuery: function (params) {
+                var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
+                var promise = deferred.promise;
+                promise = $http({
+                    method: 'GET',
+                    url: JinLeLe.api + "/weixin/refundquery/" + params.orderNo
+                }).success(function (data) {
+                    console.log(data);
+                    console.log(JSON.stringify(data));
+                    console.log("2222");
+                    deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
+                }).error(function (err) {
+                    console.log("11111");
+                    console.log(JSON.stringify(err));
+                    deferred.reject(err);// 声明执行失败，即服务器返回错误
+                });
+                return promise; // 返回承诺，这里并不是最终数据，而是访问最终数据的API
+            },
             //获取下载微信媒体文件
             getWCMedia: function (params) {
                 var deferred = $q.defer();// 声明延后执行，表示要去监控后面的执行
