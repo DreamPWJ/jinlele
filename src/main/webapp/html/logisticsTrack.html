@@ -18,11 +18,11 @@
         </section>
         <section id="tad" class="numbers_button">
             <span ng-click="showwuliuInfo(0)" ng-class="{hover:jinflag}"><a href="javascript:">收货物流</a></span>
-            <span ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">发货物流 </a></span>
+            <span ng-if="myflag" ng-click="showwuliuInfo(1)" ng-class="{hover:myflag}"><a href="javascript:">发货物流 </a></span>
         </section>
     </section>
     <!-- 我的物流 -->
-    <section class="{{mine}}">
+    <section class="{{mine}}" ng-if="myflag">
         <section class="logistics" ng-if="orderinfo.userlogisticsno != null&&orderinfo.userlogisticsno.length!=0">
             <span class="title"><a>物流详情</a><a style="float:right;padding-right: 10px;" ng-href="#/orderlist">我的订单</a></span>
             <span class="title"><a>承运公司：</a><a>{{orderinfo.usrLogisticsCompName}}</a><a  style="float: right;padding-right: 10px;"  ng-if="userLogistc.length == 0" ng-click="editUsrLogisticsInfo()">修改</a></span>
