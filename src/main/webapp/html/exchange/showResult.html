@@ -67,7 +67,7 @@
                 <section class="collection_main" ng-style="item.border">
                     <span class="pic"><a  ng-href="#/barterdetailfor{{item.id}}"><img ng-src="{{item.bannerurl}}" style="height: 173px;"></a></span>
                     <section class="text">
-                        <h2><a href="#/barterdetailfor{{item.id}}">{{item.title.length>13?item.title.substr(0,13)+'....':item.title}}</a></h2>
+                        <h2><a href="#/barterdetailfor{{item.id}}">{{item.title.length>10?item.title.substr(0,10)+'....':item.title}}</a></h2>
                         <span class="price">
                             <em style="color:#111">专柜价：{{item.price|currency:"￥"}}</em>
                         </span>
