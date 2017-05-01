@@ -2685,13 +2685,14 @@
         }
     }])
     //流程-检测(五大类服务检测报告)
-    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService','MemberService','ServeCommonService', function ($scope, $stateParams,OrderService,MemberService,ServeCommonService) {
+    .controller('ProcTestCtrl',['$scope', '$stateParams','OrderService','MemberService','ServeCommonService','WeiXinService', function ($scope, $stateParams,OrderService,MemberService,ServeCommonService,WeiXinService) {
         $scope.pagetheme = ServeCommonService.getName($stateParams.type).name;
         //物流样式展示
         $scope.jinlele="hide";
         $scope.mine="hide";
         $scope.jinflag=false;
         $scope.myflag=false;
+
         $scope.showwuliuInfo=function(index){
             switch (index){
                 case 0:
@@ -2721,6 +2722,19 @@
         MemberService.getUserInfo(localStorage.getItem("openId")).success(function(data) {
             $scope.user = data.userInfo;
         });
+        //图片预览
+        $scope.previewImg=function(src){
+            var imgArray = [];
+            if(angular.isArray(src)){
+                angular.forEach(src,function(item,index){
+                    imgArray.push(item.url);
+                });
+                WeiXinService.wxpreviewImage(imgArray[0],imgArray);
+            }else {
+                imgArray.push(src);
+                WeiXinService.wxpreviewImage(src, imgArray);
+            }
+        }
     }])
     //流程-检测报告
     .controller('CheckReportCtrl',['$scope', '$stateParams', '$location','OrderService','MemberService','ServeCommonService','$rootScope','CommonService','WalletService','CartService','EvaluateService','WeiXinService','$state', function ($scope, $stateParams, $location,OrderService,MemberService,ServeCommonService,$rootScope,CommonService,WalletService,CartService,EvaluateService,WeiXinService,$state) {
