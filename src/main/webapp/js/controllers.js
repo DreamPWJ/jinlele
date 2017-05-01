@@ -1475,12 +1475,14 @@
                 $scope.mine="retrofit";
                 $scope.jinflag=false;
                 $scope.myflag=true;
+                $scope.nolyFlag=true;
                 break;
             case "T":
                 $scope.jinlele="retrofit";
                 $scope.mine="hide";
                 $scope.jinflag=true;
                 $scope.myflag=false;
+                $scope.nolyFlag=false;
                 break;
         }
         $scope.showwuliuInfo=function(index){
