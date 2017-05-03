@@ -298,7 +298,7 @@
     select o.orderno , o.create_time ,o.store_id, o.receipt_address_id ,o.userlogisticsno ,o.userlogisticsnoComp,o.shoporderstatusCode,
     (select company from express_company where number=o.userlogisticsnoComp) usrLogisticsCompName,
     o.logisticsno ,O.logisticsnoComp ,(select company from express_company where number=o.logisticsnoComp) logisticsCompName,
-    a.user_name , a.tel_number ,a.province_name ,a.city_name ,a.country_name,a.detail_info,s.`name`,s.phone,s.address
+    a.user_name , a.tel_number ,a.province_name ,a.city_name ,a.country_name,a.detail_info,s.name,s.phone,s.address
     from shoporder o
     LEFT JOIN receipt_address a on a.id = o.receipt_address_id
     LEFT JOIN store s on s.id=o.store_id

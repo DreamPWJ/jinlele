@@ -229,6 +229,8 @@ public class OrderServiceImpl implements IOrderService {
                 break;
             default:
                 orderinfo = orderMapper.selectServiceInfoByOrderno(orderno);
+                Map<String, Object>  store = orderMapper.findReceiptServiceByOrderno(orderno);
+                resultMap.put("store", store);
                 switch (type) {
                     case "004":
                         resultMap.put("metal", serviceMapper.getMetal(orderno));

@@ -15,6 +15,17 @@
         <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
         </a>
     </section>
+    <section class="address add" ng-if="address.length!=0">
+        <i class="icon">&#xe617;</i>
+        <a href="javascript:">
+    	<span class="title">
+        	<em>门店信息：{{store.name}}</em>
+        	<em>{{store.phone}}</em>
+        </span>
+            <p>门店地址：{{store.address}}</p>
+        </a>
+    </section>
+
     <!-- 商品列表 -->
     <section class="check"  ng-switch on="orderinfo.type">
         <span class="title" ng-switch-when="001">翻新产品</span>
