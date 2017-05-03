@@ -1970,6 +1970,10 @@
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
+            if (!$scope.stocknum) {
+                CommonService.toolTip("很抱歉,改规格的商品已经缺货了", "");
+                return;
+            }
             $scope.totalnum += parseInt($scope.gooddetail.num || 0);
             AddtoCartService.addtocart($scope.gooddetail).success(
                 function (data) {
@@ -2023,6 +2027,10 @@
         $scope.changThis=function() {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            if (!$scope.stocknum) {
+                CommonService.toolTip("很抱歉,改规格的商品已经缺货了", "");
                 return;
             }
             $state.go("evaluate", {name: "exchange", gid: $stateParams.id, gcid: $scope.gooddetail.goodchildId});

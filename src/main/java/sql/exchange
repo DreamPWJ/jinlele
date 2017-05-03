@@ -1,5 +1,8 @@
 
 
+--批量修改库存的方法
+  update good set stocknum=(stocknum+50) where id in (select good_id from  goodchild where stocknumber <1)
+
 -- 翻新收货开始时间
 select create_time from shoporder  where type='001' and deleteCode = '001' and shoporderstatusCode ='001007'
 order by create_time desc
