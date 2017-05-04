@@ -2810,7 +2810,6 @@
             if(data.service.checkreport) {
                 $scope.report = data.service;
                 console.log(data.service);
-
             }else{
                 $scope.report = null;
             }
@@ -3085,6 +3084,7 @@
         OrderService.getReportImages({orderno:$stateParams.orderno,orderType:"007"}).success(function(data){
             if(data) {
                 $scope.images = data.images;
+                console.log('$scope.images=='+$scope.images.length)
             }else{
                 $scope.images = null;
             }
