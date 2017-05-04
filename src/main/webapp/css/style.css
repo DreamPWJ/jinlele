@@ -6108,3 +6108,11 @@ ion-infinite-scroll:not(.active) .icon:before {
     font-size: 15px; }
 .loading-container .loading h1, .loading-container .loading h2, .loading-container .loading h3, .loading-container .loading h4, .loading-container .loading h5, .loading-container .loading h6 {
     color: #fff; }
+
+
+.containerMap{
+    padding-top: 5rem;
+    max-width: 90%;
+    min-height: 100px;
+    margin: 1rem auto;
+}
