@@ -887,7 +887,7 @@
                 imgArray.push(src);
                 WeiXinService.wxpreviewImage(src, imgArray);
             }
-        }
+        };
         //物流页面
         $scope.addLogisticsInfo = function () {
             var obj = {
@@ -1163,7 +1163,7 @@
                         }
                     });
             });
-        }
+        };
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
@@ -1419,7 +1419,7 @@
             }).error(function(d){
                 CommonService.toolTip("退款失败~", "");
             });
-        }
+        };
         //图片预览
         $scope.previewImg=function(src){
             var imgArray = [];
@@ -3612,47 +3612,47 @@
         $scope.checkMetal = function (metalType) {
             switch (metalType) {
                 case 1:
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)&&$scope.goldWeight>0) {
                         $scope.gerrorFlag = false;
                     } else {
                         $scope.gerrorFlag = true;
-                        $scope.gerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.gerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 2:
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)&&$scope.boWeight>0) {
                         $scope.boerrorFlag = false;
                     } else {
                         $scope.boerrorFlag = true;
-                        $scope.boerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.boerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 3:
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)&&$scope.kWeight>0) {
                         $scope.kerrorFlag = false;
                     } else {
                         $scope.kerrorFlag = true;
-                        $scope.kerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.kerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 4:
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)&&$scope.baWeight>0) {
                         $scope.berrorFlag = false;
                     } else {
                         $scope.berrorFlag = true;
-                        $scope.berrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.berrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 5:
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)&&$scope.silverWeight>0) {
                         $scope.serrorFlag = false;
                     } else {
                         $scope.serrorFlag = true;
-                        $scope.serrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.serrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -3667,55 +3667,55 @@
                 case 1:
                     obj.purity = $scope.goldPurity;
                     obj.weight = $scope.goldWeight;
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.goldWeight)&&$scope.goldWeight>0) {
                         $scope.gerrorFlag = false;
                     } else {
                         $scope.gerrorFlag = true;
-                        $scope.gerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.gerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 2:
                     obj.purity = $scope.boPurity;
                     obj.weight = $scope.boWeight;
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.boWeight)&&$scope.boWeight>0) {
                         $scope.boerrorFlag = false;
                     } else {
                         $scope.boerrorFlag = true;
-                        $scope.boerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.boerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 3:
                     obj.purity = $scope.kPurity;
                     obj.weight = $scope.kWeight;
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.kWeight)&&$scope.kWeight>0) {
                         $scope.kerrorFlag = false;
                     } else {
                         $scope.kerrorFlag = true;
-                        $scope.kerrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.kerrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 4:
                     obj.purity = $scope.baPurity;
                     obj.weight = $scope.baWeight;
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.baWeight)&&$scope.baWeight>0) {
                         $scope.berrorFlag = false;
                     } else {
                         $scope.berrorFlag = true;
-                        $scope.berrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.berrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
                 case 5:
                     obj.purity = $scope.silverPurity;
                     obj.weight = $scope.silverWeight;
-                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)) {
+                    if (/^\d+(\.\d{1,3})?$/.test($scope.silverWeight)&&$scope.silverWeight>0) {
                         $scope.serrorFlag = false;
                     } else {
                         $scope.serrorFlag = true;
-                        $scope.serrorInfo = "请输入正确范围的数字(最多三位小数)";
+                        $scope.serrorInfo = "请输入大于0的数字(最多三位小数)";
                         return;
                     }
                     break;
@@ -3976,8 +3976,8 @@
                     $scope.serrorFlag = true;
                     $scope.errorFlag = true;
                     $scope.errorInfo = "副石填写出错";
+                    return;
                 }
-                return;
             }else{
                 $scope.secWeight="";
             }
@@ -3989,8 +3989,8 @@
                     $scope.terrorFlag = true;
                     $scope.errorFlag = true;
                     $scope.errorInfo = "总重填写出错";
+                    return;
                 }
-                return;
             }else{
                 $scope.totalWeight="";
             }
@@ -4011,8 +4011,8 @@
                 obj.totalWeight = $scope.totalWeight;
                 obj.flag = $scope.choice;
                 obj.src = $stateParams.name;
-                obj.goodId = localStorage.getItem("toBarterGoodId");
-                obj.goodChildId = localStorage.getItem("toBarterGoodChildId");
+                obj.goodId = localStorage.getItem("toBarterGoodId")?localStorage.getItem("toBarterGoodId"):0;
+                obj.goodChildId = localStorage.getItem("toBarterGoodChildId")?localStorage.getItem("toBarterGoodChildId"):0;
                 $scope.paras.push(obj);
                 EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
@@ -4045,6 +4045,8 @@
                 obj.quality = $scope.quality;
                 obj.totalWeight = $scope.totalWeight;
                 obj.flag = $scope.choice;
+                obj.goodId = localStorage.getItem("toBarterGoodId")?localStorage.getItem("toBarterGoodId"):0;
+                obj.goodChildId = localStorage.getItem("toBarterGoodChildId")?localStorage.getItem("toBarterGoodChildId"):0;
                 $scope.paras.push(obj);
                 EvaluateService.getDiamondPrice($scope.paras).success(function (data) {
                     console.log(data);
