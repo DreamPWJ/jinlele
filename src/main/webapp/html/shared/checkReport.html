@@ -333,7 +333,6 @@
      <main class="content bottom amputate" style="margin-top: 20px"><!-- 选中input 在这里添加 “amputate” 显示删除按钮 -->
 
 
-
          <div ng-if="isNotData" class="isNotDataHint">
              <i class="iconfont icon-cry1"></i>
              <p>购物车暂无商品</p>
@@ -352,8 +351,8 @@
                      <em style="color: #000;">专柜价： {{item.gprice | currency:'￥'}}</em>
                  </section>
                  <span class="color">
-                <font ng-if="item.exprice*item.num>item.price">换此款  补：{{item.exprice*item.num-item.price | currency:'￥'}}</font>
-                <font ng-if="item.exprice*item.num<=item.price" ng-style="{color: '#FE2E2E'}">换此款  剩：{{item.price-item.exprice*item.num | currency:'￥'}}</font>
+                <font ng-if="item.exprice*item.num>barterprice">换此款  补：{{item.exprice*item.num-barterprice | currency:'￥'}}</font>
+                <font ng-if="item.exprice*item.num<=barterprice" ng-style="{color: '#FE2E2E'}">换此款  剩：{{barterprice-item.exprice*item.num | currency:'￥'}}</font>
             </span>
                  <section class="cart_price">
                  <span class="addto">
