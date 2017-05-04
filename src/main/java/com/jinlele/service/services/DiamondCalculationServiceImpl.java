@@ -67,7 +67,7 @@ public class DiamondCalculationServiceImpl implements IDiamondCalculationService
                 totalWeight = Double.valueOf(paras.get("totalWeight").toString());//副石重量
             }
             String purity = paras.get("material").toString();//镶嵌材质
-            Double materialWeight = secWeight == 0 || totalWeight == 0 ? 0 : (new BigDecimal(totalWeight - (mainWeight + secWeight) * 0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
+            Double materialWeight =  totalWeight == 0 ? 0 : (new BigDecimal(totalWeight - (mainWeight + secWeight) * 0.2)).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();
             Map<String, Object> metalMap = metalCalculationService.addPMPrice(purity, materialWeight, goodId, goodChildId, false);
             Double totalMetalPrice = (new BigDecimal(Double.valueOf(metalMap.get("result").toString()))).setScale(2, BigDecimal.ROUND_DOWN).doubleValue();//材质总价格
             if (flag || "recycle".equals(src)) {

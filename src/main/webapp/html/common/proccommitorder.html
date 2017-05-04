@@ -1,3 +1,4 @@
+
 <!-- title -->
 <section class="process_title" ng-switch on="pagetheme">
     <i ng-switch-when="refurbish">产品翻新</i>
@@ -259,7 +260,14 @@
             <a href="">
                 <p>门店地址：{{order.address}}</p>
             </a>
+            <!--<section id="containerMaps">-->
+                <!--<section style=""id="" id="containerMap" ng-if="order.storeId==item.id" >-->
+                <!--</section>-->
+            <!--</section>-->
+
+
         </section>
+
         <!-- 收货地址 -->
         <section class="numbers">
             <section id="tad" class="numbers_button">
@@ -277,6 +285,9 @@
                 <p>收货地址：{{address.provinceName}}{{address.cityName}}{{address.countryName}}{{address.detailInfo}}</p>
             </a>
         </section>
+
+
+
         <!-- 产品信息 -->
         <div ng-if="pagetheme != 'repair'&&pagetheme != 'exchange'">
             <dl class="add_product">
@@ -313,6 +324,9 @@
         </section>
     </main>
     <!-- FOOTER -->
+
+
+
     <footer class="submit">
         <span class="total" ng-if="pagetheme != 'exchange'">合计： {{totalprice | currency:'￥'}} </span>
 	<span class="button">
@@ -321,3 +335,4 @@
     </span>
     </footer>
 </form>
+

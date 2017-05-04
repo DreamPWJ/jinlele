@@ -336,7 +336,7 @@
             </dd>
             <dd>
                 <u>产品总重：</u>
-                <span><input placeholder="非必填项" type="number" ng-model="totalWeight" ng-class={true:"has-error",false:"has-no-error"}[terrorFlag] ng-blur="checkmainWeight(2,totalWeight)"></span>
+                <span><input placeholder="{{text}}" type="number" ng-model="totalWeight" ng-class={true:"has-error",false:"has-no-error"}[terrorFlag] ng-blur="checkmainWeight(2,totalWeight)"></span>
                 <em ng-class={true:"has-error-right",false:"has-no-error-right"}[terrorFlag]>克</em>
             </dd>
             <dd ng-show="errorFlag">
