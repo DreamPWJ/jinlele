@@ -650,7 +650,7 @@
                 if (r.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
-                        totalprice: 0.01, //$scope.totalprice,
+                        totalprice: $scope.totalprice,
                         orderNo: r.orderno,
                         descrip: '六唯壹珠宝',
                         openid: localStorage.getItem("openId"),
@@ -845,7 +845,7 @@
             console.log(totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: 0.01, //$scope.totalprice,
+                totalprice: $scope.totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1139,7 +1139,7 @@
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: 0.01, //$scope.totalprice,
+                totalprice: $scope.totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1367,7 +1367,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype) {
             $scope.param = {
-                totalprice: 0.01, //totalprice
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1405,8 +1405,8 @@
         $scope.weixinRefund = function(orderno, price, type){
             $scope.param = {
                 sn: orderno,
-                refundAmout: 0.01, //price
-                totalAmount: 0.01, //price
+                refundAmout: price,
+                totalAmount: price,
                 type:type //订单状态
             };
             WeiXinService.weixinRefund($scope.param).success(function(data){
@@ -1634,7 +1634,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
             $scope.param = {
-                totalprice: 0.01, //totalprice
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -2496,7 +2496,7 @@
                             return;
                         }
                         $scope.param = {
-                            totalprice: 0.01, //data.totalprice
+                            totalprice: data.totalprice,
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -2557,7 +2557,7 @@
                         $scope.useful=false;
                         //调用支付接口
                         $scope.param = {
-                            totalprice: 0.01, //data.totalprice
+                            totalprice: data.totalprice,
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -3092,7 +3092,7 @@
 
         $scope.pay = function () {
             $scope.param = {
-                totalprice: 0.01, //data.totalprice
+                totalprice: data.totalprice,
                 orderNo: $scope.orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
