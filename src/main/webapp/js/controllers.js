@@ -813,7 +813,6 @@
                     $scope.diamond = data.diamond;//换款估价钻石信息
                     $scope.exGoods = data.exGoods;//换款估价钻石信息
                     $scope.prePrice = data.prePrice;//预选合计价格
-
                 }
 
             });
@@ -830,7 +829,7 @@
                     $scope.metal = data.metal;//换款估价贵金属信息
                     $scope.diamond = data.diamond;//换款估价钻石信息
                     $scope.exGoods = data.exGoods;//换款估价钻石信息
-                    $scope.prePrice = data.prePrice;//预选合计价格
+                    $scope.prePrice = $scope.exGoods.length<=0 ? 0 : data.prePrice;//预选合计价格
                 }
                 if($stateParams.orderType=='004'){
                     $scope.metal = data.metal;//换款估价贵金属信息
