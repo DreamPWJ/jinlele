@@ -213,6 +213,8 @@ public class WeiXinUtil {
 
     public static void main(String[] args) {
         //String url = "http://139.224.54.94/hflBlog2/oauthServlet";
+        //www.6weiyi.com%2FoauthServlet
+        //http%3A%2F%2Fwww.6weiyi.com%2FoauthServlet
         String url = "http://www.6weiyi.com/oauthServlet";
         String urlStr = urlEncodeUTF8(url);
         System.out.println(urlStr);
