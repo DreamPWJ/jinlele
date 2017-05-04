@@ -2355,6 +2355,20 @@
             minimumResultsForSearch:-1
         };
         $scope.order.storeId=1;
+        //地图显示方法封装
+        $scope.showmap = function (id,lat, lang) {
+            if(!document.getElementById(id))return;
+            var center = new qq.maps.LatLng(lat,lang);
+            var map = new qq.maps.Map(document.getElementById(id),{
+                center: center,
+                zoom: 13
+            });
+            //创建marker
+            var marker = new qq.maps.Marker({
+                position: center,
+                map: map
+            });
+        }
         //所有门店数据
         ProcCommitOrderService.findAllStores({latitude:angular.isString(localStorage.getItem('latitude'))?localStorage.getItem('latitude'):0,longitude:angular.isString(localStorage.getItem('longitude'))?localStorage.getItem('longitude'):0}).success(function (data) {
             $scope.stores = data;
@@ -2367,13 +2381,18 @@
                 if(index==0){
                     $scope.order.storeId=item.id;
                     $scope.order.address=item.address;
+                    $scope.showmap(item.id,item.lat,item.lan);
                 }
             });
         });
+
+
+
         $scope.getStoreAddress=function(storeid){
             angular.forEach($scope.storeConfig.data,function(item,index){
                 if(item.id==storeid){
                     $scope.order.address=item.address;
+                    $scope.showmap('containerMap',item.lat,item.lan);
                 }
             });
         };
@@ -3455,6 +3474,7 @@
     //估价(回收、换款)
     .controller('EvaluateCtrl', ['$rootScope','$scope','$state','$stateParams','EvaluateService','CommonService',function ($rootScope,$scope ,$state,$stateParams,EvaluateService,CommonService) {
         $rootScope.commonService = CommonService;
+        $scope.text = "非必填项";
         $scope.pagetheme = $stateParams.name;
         $rootScope.evaluation = "";//很关键，用于区分 后面的预选合计价格
         $rootScope.serviceId =  ""; //取数据库中的定价值
@@ -3891,9 +3911,11 @@
             switch (choose.value) {
                 case "1":
                     $scope.choice = true;
+                    $scope.text = "非必填项";
                     break;
                 case "2":
                     $scope.choice = false;
+                    $scope.text = "必填项";
                     break;
             }
         };
@@ -4044,6 +4066,12 @@
                 obj.secWeight = $scope.secWeight;
                 obj.quality = $scope.quality;
                 obj.totalWeight = $scope.totalWeight;
+                if(!$scope.totalWeight) {
+                    $scope.terrorFlag = true;
+                    $scope.errorFlag = true;
+                      $scope.errorInfo = "产品总重不能为空";
+                      return;
+                }
                 obj.flag = $scope.choice;
                 obj.goodId = localStorage.getItem("toBarterGoodId")?localStorage.getItem("toBarterGoodId"):0;
                 obj.goodChildId = localStorage.getItem("toBarterGoodChildId")?localStorage.getItem("toBarterGoodChildId"):0;
