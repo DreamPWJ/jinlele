@@ -157,12 +157,12 @@ public class MenuManager {
         ViewButton btn31 = new ViewButton();
         btn31.setName("我的订单");
         btn31.setType("view");
-        btn31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE31#wechat_redirect");
+        btn31.setUrl("http://www.6weiyi.com/jinlele/mall#/orderlist");
 
         ViewButton btn32 = new ViewButton();
         btn32.setName("个人中心");
         btn32.setType("view");
-        btn32.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE32#wechat_redirect");
+        btn32.setUrl("http://www.6weiyi.com/jinlele/mall#/member");
 
         ViewButton btn33 = new ViewButton();
         btn33.setName("联系客服");
@@ -170,7 +170,7 @@ public class MenuManager {
         btn33.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE33#wechat_redirect");
 
         ViewButton btn34 = new ViewButton();
-        btn34.setName("六个唯壹介绍");
+        btn34.setName("六唯壹介绍");
         btn34.setType("view");
         btn34.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE34#wechat_redirect");
 
