@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
          }else{
              $stateProvider.state('main', {  //APP首页面
                  url: '/main',
-                 cache: true,
+                 // cache: true,
                  templateUrl: 'html/main.html',
                  controller: 'MainCtrl'
              })
