@@ -1527,7 +1527,7 @@ main.content section.cart {
     display: block;
     overflow: hidden;
     margin: 8px 0 0 0;
-    padding: 10px 15px;
+    padding: 10px;
     background: #FFF;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -1636,7 +1636,7 @@ main.content section.cart section.cart_main section.cart_price em {
     float: left;
     font-style: normal;
     color: #FE2E2E;
-    line-height: 26px;
+    line-height: 36px;
     font-size: 80%;
 }
 
