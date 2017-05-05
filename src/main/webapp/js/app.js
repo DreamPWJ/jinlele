@@ -247,6 +247,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/exchange/balancePayResult.html',
                      controller: 'BalancePayResultCtrl'
                  })
+                 .state('platform', {  //换款--余额支付结果
+                     url: '/platform',
+                     templateUrl: 'html/platform.html',
+                     controller: 'PlatformCtrl'
+                 })
                  .state('cashPayResult', {  //换款--现金支付结果
                      url: '/cashPayResult/:orderno/:price/:getway',
                      templateUrl: 'html/exchange/cashPayResult.html',

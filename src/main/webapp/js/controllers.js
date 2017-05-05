@@ -4494,6 +4494,11 @@
         $scope.getway = $stateParams.getway;
 
     }])
+
+    .controller('PlatformCtrl',['$scope','$stateParams',function($scope,$stateParams){
+
+    }])
+
     .controller('CashPayResultCtrl',['$scope','$stateParams',function($scope,$stateParams){
         $scope.price = $stateParams.price;
         $scope.orderno = $stateParams.orderno;

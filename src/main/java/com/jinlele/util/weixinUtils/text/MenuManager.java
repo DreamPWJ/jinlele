@@ -143,16 +143,14 @@ public class MenuManager {
 
     private static Menu getMenu3(){
         ViewButton btn11 = new ViewButton();
-        btn11.setName("珠宝服务");
+        btn11.setName("商城");
         btn11.setType("view");
         btn11.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE11#wechat_redirect");
 
         ViewButton btn21 = new ViewButton();
-        btn21.setName("商城");
+        btn21.setName("珠宝服务");
         btn21.setType("view");
-        btn21.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a6a63e9ee94e24d&redirect_uri=http%3A%2F%2Fwww.6weiyi.com%2Fjinlele%2FoauthServlet&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect");
-
-
+        btn21.setUrl("http://www.6weiyi.com/jinlele/mall#/platform");
 
         ViewButton btn31 = new ViewButton();
         btn31.setName("我的订单");
@@ -188,36 +186,36 @@ public class MenuManager {
 
 
     //测试创建菜单
-//    public static void main(String[] args) {
-//        //调用接口凭证
-//        Token token = WeiXinUtil.getToken(Parameter.corId, Parameter.appsecret);
-//        if(null != token){
-//            //创建菜单
-//            boolean result = MenuUtil.createMenu(getMenu3(), token.getAccessToken());
-//
-//            //判断菜单创建结果
-//            if(result){
-//                //log.info("菜单创建成功");
-//                System.out.println("菜单创建成功!");
-//            }else {
-//               // log.info("菜单创建失败");
-//                System.out.println("菜单创建失败!");
-//            }
-//        }
-//    }
-
-//    //测试查询菜单
     public static void main(String[] args) {
         //调用接口凭证
         Token token = WeiXinUtil.getToken(Parameter.corId, Parameter.appsecret);
         if(null != token){
             //创建菜单
-            String result = MenuUtil.getMenu(token.getAccessToken());
+            boolean result = MenuUtil.createMenu(getMenu3(), token.getAccessToken());
 
-            //查询菜单结果
-            System.out.println("查看菜单查询结果:===" + result);
+            //判断菜单创建结果
+            if(result){
+                //log.info("菜单创建成功");
+                System.out.println("菜单创建成功!");
+            }else {
+               // log.info("菜单创建失败");
+                System.out.println("菜单创建失败!");
+            }
         }
     }
+
+//    //测试查询菜单
+//    public static void main(String[] args) {
+//        //调用接口凭证
+//        Token token = WeiXinUtil.getToken(Parameter.corId, Parameter.appsecret);
+//        if(null != token){
+//            //创建菜单
+//            String result = MenuUtil.getMenu(token.getAccessToken());
+//
+//            //查询菜单结果
+//            System.out.println("查看菜单查询结果:===" + result);
+//        }
+//    }
 
     //测试删除菜单  删除是删除全部菜单
 //    public static void main(String[] args) {
