@@ -2830,9 +2830,10 @@
         OrderService.getServiceDetailInfo({orderno:$stateParams.orderno}).success(function(data){
             $scope.status = data.status;
             $scope.getway = data.service.getway;
-            if(data.service.checkreport) {
+            $scope.images = data.images;
+            console.log('$scope.images=='+$scope.images.length)
+            if($scope.images) {
                 $scope.report = data.service;
-                console.log(data.service);
             }else{
                 $scope.report = null;
             }
@@ -3104,14 +3105,14 @@
 
         });
 
-        OrderService.getReportImages({orderno:$stateParams.orderno,orderType:"007"}).success(function(data){
-            if(data) {
-                $scope.images = data.images;
-                console.log('$scope.images=='+$scope.images.length)
-            }else{
-                $scope.images = null;
-            }
-        });
+        //OrderService.getReportImages({orderno:$stateParams.orderno,orderType:"007"}).success(function(data){
+        //    if(data) {
+        //        $scope.images = data.images;
+        //        console.log('$scope.images=='+$scope.images.length)
+        //    }else{
+        //        $scope.images = null;
+        //    }
+        //});
 
 
         $scope.pay = function () {

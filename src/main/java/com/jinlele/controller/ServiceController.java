@@ -100,6 +100,7 @@ public class ServiceController {
         Map map = new HashMap();
         map.put("service", serviceService.getServiceInfo(orderno));
         map.put("status", serviceService.getStatusByOrderno(orderno));
+        map.put("images",serviceService.getReportImages(orderno,"007"));//007代表检测报告
         return map;
     }
 
