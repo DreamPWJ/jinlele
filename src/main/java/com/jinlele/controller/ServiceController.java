@@ -104,16 +104,16 @@ public class ServiceController {
         return map;
     }
 
-    /**
-     * 获取检测报告
-     * @param orderno
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/getReportImages/{orderno}/{orderType}", method = RequestMethod.GET)
-    public Map<String, Object> getReportImages(@PathVariable String orderno,@PathVariable String orderType) {
-        return serviceService.getReportImages(orderno,orderType);
-    }
+//    /**
+//     * 获取检测报告
+//     * @param orderno
+//     * @return
+//     */
+//    @ResponseBody
+//    @RequestMapping(value = "/getReportImages/{orderno}/{orderType}", method = RequestMethod.GET)
+//    public Map<String, Object> getReportImages(@PathVariable String orderno,@PathVariable String orderType) {
+//        return serviceService.getReportImages(orderno,orderType);
+//    }
 
     /**
      * 获取当日金价

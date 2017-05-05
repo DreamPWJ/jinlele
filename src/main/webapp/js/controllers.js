@@ -2831,7 +2831,7 @@
             $scope.status = data.status;
             $scope.getway = data.service.getway;
             $scope.images = data.images;
-            console.log('$scope.images=='+$scope.images.length)
+            console.log('$scope.images=='+ JSON.stringify($scope.images))
             if($scope.images) {
                 $scope.report = data.service;
             }else{
@@ -3055,7 +3055,6 @@
                                     $state.go('balancePayResult',{orderno:$scope.orderno,price:Math.abs($scope.totalprice),getway:$scope.getway});
                                 }
                             });
-
                     }
                 });
 

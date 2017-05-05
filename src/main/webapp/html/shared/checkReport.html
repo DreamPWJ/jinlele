@@ -308,8 +308,8 @@
         <section class="report_mian" ng-repeat="item in images"><img ng-src="{{item.url}}"/></section>
     </section>
     <section class="report" style="padding-bottom: 0.5rem">
-        <section class="report_mian" ng-if="report!=null && orderType=='005'">
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;{{report.checkreport}}</p>
+        <section class="report_mian" ng-if="images!=null">
+            <p ng-if="report.checkreport!=null" style="padding-right: 2rem">{{report.checkreport}}</p>
             <br/>
             <p ng-style="{'text-align' : 'center'}">以上检测报告只作平台参考，不具备法律效力！</p>
         </section>

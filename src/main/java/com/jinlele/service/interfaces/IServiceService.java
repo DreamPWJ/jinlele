@@ -22,7 +22,7 @@ public interface IServiceService {
     Map<String , Object> getServiceInfo(String orderno);
 
     //获得服务信息订单所有图片
-    Map<String , Object> getReportImages(String orderno,String orderType);
+   List<Map<String , Object>> getReportImages(String orderno, String orderType);
 
     //根据类型查询字典信息
     Map<String , Object> getDictInfo(String typename);

@@ -112,10 +112,8 @@ public class ServiceServiceImpl implements IServiceService {
     }
 
     @Override
-    public Map<String, Object> getReportImages(String orderno, String orderType) {
-        Map<String , Object> map = new HashedMap();
-        map.put("images",serviceMapper.getServicePictures(orderno,orderType));
-        return map;
+    public List<Map<String , Object>> getReportImages(String orderno, String orderType) {
+        return serviceMapper.getServicePictures(orderno, orderType);
     }
 
     @Override
