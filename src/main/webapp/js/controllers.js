@@ -1970,7 +1970,7 @@
                 return;
             }
             if (!$scope.stocknum) {
-                CommonService.toolTip("很抱歉,改规格的商品已经缺货了", "");
+                CommonService.toolTip("很抱歉,该规格的商品已经缺货了", "");
                 return;
             }
             $scope.totalnum += parseInt($scope.gooddetail.num || 0);
@@ -2029,7 +2029,7 @@
                 return;
             }
             if (!$scope.stocknum) {
-                CommonService.toolTip("很抱歉,改规格的商品已经缺货了", "");
+                CommonService.toolTip("很抱歉,该规格的商品已经缺货了", "");
                 return;
             }
             $state.go("evaluate", {name: "exchange", gid: $stateParams.id, gcid: $scope.gooddetail.goodchildId});
@@ -2356,19 +2356,19 @@
         };
         $scope.order.storeId=1;
         //地图显示方法封装
-        $scope.showmap = function (id,lat, lang) {
-            if(!document.getElementById(id))return;
-            var center = new qq.maps.LatLng(lat,lang);
-            var map = new qq.maps.Map(document.getElementById(id),{
-                center: center,
-                zoom: 13
-            });
-            //创建marker
-            var marker = new qq.maps.Marker({
-                position: center,
-                map: map
-            });
-        }
+        // $scope.showmap = function (id,lat, lang) {
+        //     if(!document.getElementById(id))return;
+        //     var center = new qq.maps.LatLng(lat,lang);
+        //     var map = new qq.maps.Map(document.getElementById(id),{
+        //         center: center,
+        //         zoom: 13
+        //     });
+        //     //创建marker
+        //     var marker = new qq.maps.Marker({
+        //         position: center,
+        //         map: map
+        //     });
+        // }
         //所有门店数据
         ProcCommitOrderService.findAllStores({latitude:angular.isString(localStorage.getItem('latitude'))?localStorage.getItem('latitude'):0,longitude:angular.isString(localStorage.getItem('longitude'))?localStorage.getItem('longitude'):0}).success(function (data) {
             $scope.stores = data;
@@ -2381,7 +2381,7 @@
                 if(index==0){
                     $scope.order.storeId=item.id;
                     $scope.order.address=item.address;
-                    $scope.showmap(item.id,item.lat,item.lan);
+                    // $scope.showmap("containerMap",item.lat,item.lan);
                 }
             });
         });
@@ -2392,7 +2392,7 @@
             angular.forEach($scope.storeConfig.data,function(item,index){
                 if(item.id==storeid){
                     $scope.order.address=item.address;
-                    $scope.showmap('containerMap',item.lat,item.lan);
+                    // $scope.showmap('containerMap',item.lat,item.lan);
                 }
             });
         };
