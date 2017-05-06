@@ -1144,7 +1144,7 @@
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: $scope.totalprice,
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
