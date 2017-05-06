@@ -5,13 +5,16 @@
     <title></title>
 </head>
 <body>
-
+        <input id="openid" type="hidden" value="${openId}">
+        <input id="userId" type="hidden" value="${userId}">
 </body>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script>
     $(function(){
-        localStorage.setItem("openId",'${openId}');
-        localStorage.setItem("jinlele_userId",'${userId}');
+        var openid = $('#openid').val();
+        var userId = $('#userId').val();
+        localStorage.setItem("openId",openid);
+        localStorage.setItem("jinlele_userId",userId);
         setTimeout(function(){
           window.location.href="http://www.6weiyi.com/jinlele/mall";
        },10);
