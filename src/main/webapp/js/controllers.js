@@ -3150,7 +3150,7 @@
 
         //放弃换款
         $scope.dropBarter = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012'}).success(function (data) {
+            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012',orderFlag:'recycle'}).success(function (data) {
                 if(data && data.n==1){
                     $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
                 }
@@ -4199,47 +4199,47 @@
             });
         }
     }])
-    //确认换款
-    .controller('CfmExchangeCtrl', ['$scope','$state','$stateParams','OrderService',function ($scope,$state,$stateParams,OrderService) {
-        $scope.orderstatus=$stateParams.orderstatus;
-        switch ($scope.orderstatus){
-            case '005005':
-                //根据订单号查询实际定价金额
-                OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
-                    if(data && data.fixPrice){
-                        $scope.fixPrice = data.fixPrice;
-                    }
-                });
-                break;
-            default:
-                $state.go("main");
-                break;
-        }
-        //确认换款
-        $scope.confirmBarter = function () {
-            localStorage.setItem("actualprice",$scope.fixPrice);
-            localStorage.setItem("exchangeorderno",$stateParams.orderno);
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005006'}).success(function (data) {
-                if(data && data.n==1){
-                    if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
-                        $state.go('barterlist');
-                    }else {
-                        //具体商品详情
-                        $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
-                    }
-                }
-            });
-        };
-        //放弃换款
-        $scope.dropBarter = function () {
-            OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012',
-                orderFlag:'recycle'}).success(function (data) {
-                if(data && data.n==1){
-                    $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
-                }
-            });
-        }
-    }])
+    // //确认换款
+    // .controller('CfmExchangeCtrl', ['$scope','$state','$stateParams','OrderService',function ($scope,$state,$stateParams,OrderService) {
+    //     $scope.orderstatus=$stateParams.orderstatus;
+    //     switch ($scope.orderstatus){
+    //         case '005005':
+    //             //根据订单号查询实际定价金额
+    //             OrderService.selectActualPrice({orderNo:$stateParams.orderno}).success(function (data){
+    //                 if(data && data.fixPrice){
+    //                     $scope.fixPrice = data.fixPrice;
+    //                 }
+    //             });
+    //             break;
+    //         default:
+    //             $state.go("main");
+    //             break;
+    //     }
+    //     //确认换款
+    //     $scope.confirmBarter = function () {
+    //         localStorage.setItem("actualprice",$scope.fixPrice);
+    //         localStorage.setItem("exchangeorderno",$stateParams.orderno);
+    //         OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005006'}).success(function (data) {
+    //             if(data && data.n==1){
+    //                 if(localStorage.getItem("toExchangeGoodId")==""||localStorage.getItem("toExchangeGoodId")==null) {
+    //                     $state.go('barterlist');
+    //                 }else {
+    //                     //具体商品详情
+    //                     $state.go('barterdetail', {goodId: localStorage.getItem("toExchangeGoodId")});
+    //                 }
+    //             }
+    //         });
+    //     };
+    //     //放弃换款
+    //     $scope.dropBarter = function () {
+    //         OrderService.update({orderno:$stateParams.orderno,shoporderstatuscode:'005012',
+    //             orderFlag:'recycle'}).success(function (data) {
+    //             if(data && data.n==1){
+    //                 $state.go('cfmrecycle', {orderno: $stateParams.orderno,orderstatus:'005012'});
+    //             }
+    //         });
+    //     }
+    // }])
     //换款列表
     .controller('BarterListCtrl', ['$scope','GoodService',function ($scope,GoodService) {
         $scope.evaluatePrice=localStorage.getItem("evaluationPrice");

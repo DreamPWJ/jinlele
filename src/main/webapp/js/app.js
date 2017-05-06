@@ -187,11 +187,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
                      templateUrl: 'html/recycle/cfmrecycle.html',
                      controller: 'CfmRecycleCtrl'
                  })
-                 .state('cfmexchange', {  //换款-确认换款
-                     url: '/cfmexchange/:orderno/:orderstatus',
-                     templateUrl: 'html/exchange/cfmexchange.html',
-                     controller: 'CfmExchangeCtrl'
-                 })
+                 // .state('cfmexchange', {  //换款-确认换款
+                 //     url: '/cfmexchange/:orderno/:orderstatus',
+                 //     templateUrl: 'html/exchange/cfmexchange.html',
+                 //     controller: 'CfmExchangeCtrl'
+                 // })
                  .state('barterlist', {  //换款列表
                      url: '/barterlist',
                      templateUrl: 'html/exchange/barterList.html',
