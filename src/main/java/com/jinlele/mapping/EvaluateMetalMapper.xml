@@ -7,13 +7,15 @@
     <result column="material_type_value" property="materialTypeValue" jdbcType="VARCHAR" />
     <result column="purity_value" property="purityValue" jdbcType="VARCHAR" />
     <result column="material_weight" property="materialWeight" jdbcType="DOUBLE" />
+    <result column="unitprice" property="unitprice" jdbcType="DOUBLE" />
+    <result column="depreciation" property="depreciation" jdbcType="DOUBLE" />
     <result column="material_price" property="materialPrice" jdbcType="DOUBLE" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="delete_code" property="deleteCode" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, service_id, material_type_value, purity_value, material_weight, material_price, 
-    create_time, delete_code
+    id, service_id, material_type_value, purity_value, material_weight, unitprice, depreciation, 
+    material_price, create_time, delete_code
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -27,11 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.jinlele.model.EvaluateMetal" >
     insert into evaluate_metal (id, service_id, material_type_value, 
-      purity_value, material_weight, material_price, 
-      create_time, delete_code)
+      purity_value, material_weight, unitprice, 
+      depreciation, material_price, create_time, 
+      delete_code)
     values (#{id,jdbcType=INTEGER}, #{serviceId,jdbcType=INTEGER}, #{materialTypeValue,jdbcType=VARCHAR}, 
-      #{purityValue,jdbcType=VARCHAR}, #{materialWeight,jdbcType=DOUBLE}, #{materialPrice,jdbcType=DOUBLE}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{deleteCode,jdbcType=CHAR})
+      #{purityValue,jdbcType=VARCHAR}, #{materialWeight,jdbcType=DOUBLE}, #{unitprice,jdbcType=DOUBLE}, 
+      #{depreciation,jdbcType=DOUBLE}, #{materialPrice,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteCode,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jinlele.model.EvaluateMetal" >
     insert into evaluate_metal
@@ -50,6 +54,12 @@
       </if>
       <if test="materialWeight != null" >
         material_weight,
+      </if>
+      <if test="unitprice != null" >
+        unitprice,
+      </if>
+      <if test="depreciation != null" >
+        depreciation,
       </if>
       <if test="materialPrice != null" >
         material_price,
@@ -77,6 +87,12 @@
       <if test="materialWeight != null" >
         #{materialWeight,jdbcType=DOUBLE},
       </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="depreciation != null" >
+        #{depreciation,jdbcType=DOUBLE},
+      </if>
       <if test="materialPrice != null" >
         #{materialPrice,jdbcType=DOUBLE},
       </if>
@@ -103,6 +119,12 @@
       <if test="materialWeight != null" >
         material_weight = #{materialWeight,jdbcType=DOUBLE},
       </if>
+      <if test="unitprice != null" >
+        unitprice = #{unitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="depreciation != null" >
+        depreciation = #{depreciation,jdbcType=DOUBLE},
+      </if>
       <if test="materialPrice != null" >
         material_price = #{materialPrice,jdbcType=DOUBLE},
       </if>
@@ -121,6 +143,8 @@
       material_type_value = #{materialTypeValue,jdbcType=VARCHAR},
       purity_value = #{purityValue,jdbcType=VARCHAR},
       material_weight = #{materialWeight,jdbcType=DOUBLE},
+      unitprice = #{unitprice,jdbcType=DOUBLE},
+      depreciation = #{depreciation,jdbcType=DOUBLE},
       material_price = #{materialPrice,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       delete_code = #{deleteCode,jdbcType=CHAR}

@@ -97,7 +97,7 @@ public class MetalCalculationServiceImpl implements IMetalCalculationService {
             com.jinlele.model.Service service = new com.jinlele.model.Service();
             service.setPrice(result);//估价结果
             serviceMapper.insertSelective(service);
-            evaluateMetalMapper.insertSelective(new EvaluateMetal(service.getId(), type, purity, weight, totalprice));
+            evaluateMetalMapper.insertSelective(new EvaluateMetal(service.getId(), type, purity, weight, totalprice,price,depreciation));
             resultMap.put("evaluateServiceId", service.getId());//返回serviceid
             //添加换款购物车
             if(goodId!=0&&goodChildId!=0){

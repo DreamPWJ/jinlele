@@ -13,23 +13,27 @@ public class EvaluateMetal {
 
     private Double materialWeight;
 
+    private Double unitprice;
+
+    private Double depreciation;
+
     private Double materialPrice;
 
     private Date createTime;
 
     private String deleteCode;
 
-    public EvaluateMetal(){}
+    public EvaluateMetal() {
+    }
 
-    /**
-     * 贵金属
-     */
-    public EvaluateMetal(Integer serviceId,String materialTypeValue,String purityValue,Double materialWeight,Double materialPrice){
+    public EvaluateMetal(Integer serviceId,String materialTypeValue,String purityValue,Double materialWeight,Double materialPrice,Double unitprice,Double depreciation){
         this.serviceId=serviceId;
         this.materialTypeValue=materialTypeValue;
         this.purityValue=purityValue;
         this.materialWeight=materialWeight;
         this.materialPrice=materialPrice;
+        this.unitprice=unitprice;
+        this.depreciation=depreciation;
     }
 
     public Integer getId() {
@@ -70,6 +74,22 @@ public class EvaluateMetal {
 
     public void setMaterialWeight(Double materialWeight) {
         this.materialWeight = materialWeight;
+    }
+
+    public Double getUnitprice() {
+        return unitprice;
+    }
+
+    public void setUnitprice(Double unitprice) {
+        this.unitprice = unitprice;
+    }
+
+    public Double getDepreciation() {
+        return depreciation;
+    }
+
+    public void setDepreciation(Double depreciation) {
+        this.depreciation = depreciation;
     }
 
     public Double getMaterialPrice() {
