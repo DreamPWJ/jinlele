@@ -850,16 +850,12 @@
             console.log(totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: $scope.totalprice,
+                totalprice:totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
-                orderType:JSON.stringify({type:$scope.order.orderType})
+                orderType:JSON.stringify({type:$stateParams.orderType})
             };
-            //通过config接口注入权限验证配置
-            WeiXinService.weichatConfig(localStorage.getItem("timestamp"), localStorage.getItem("noncestr"), localStorage.getItem("signature"));
-            //通过ready接口处理成功验证
-            wx.ready(function () {
                 //调用微信支付服务器端接口
                 WeiXinService.getweixinPayData($scope.param).success(function (data) {
                     WeiXinService.wxchooseWXPay(data) //调起微支付接口
@@ -878,7 +874,7 @@
                             }
                         });
                 });
-            })
+
         };
         //图片预览
         $scope.previewImg=function(src){
@@ -2581,7 +2577,7 @@
                         $scope.useful=false;
                         //调用支付接口
                         $scope.param = {
-                            totalprice: data.totalprice,
+                            totalprice: $scope.totalprice,
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -3116,7 +3112,7 @@
 
         $scope.pay = function () {
             $scope.param = {
-                totalprice: data.totalprice,
+                totalprice: $scope.totalprice,
                 orderNo: $scope.orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
