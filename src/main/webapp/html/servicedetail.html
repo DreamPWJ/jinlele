@@ -56,6 +56,7 @@
                 </section>
             </section>
         </section>
+
         <section class="product_list" ng-if="(orderinfo.type=='005'||orderinfo.type=='004') && diamond">
             <section class="product">
                 <section class="text" style="font-size: 0.8rem;font-weight: normal;padding:0.3rem 0">
@@ -76,6 +77,8 @@
                 </section>
             </section>
         </section>
+
+
         <section class=" photograph">
             <ul>
                 <li ng-repeat="item in pictures">
@@ -85,6 +88,48 @@
                 </li>
             </ul>
             <p>备注：{{pictures[0].descrip==null||pictures[0].descrip.length==0?'无':pictures[0].descrip}}</p>
+        </section>
+        <section class="cash" ng-if="(orderinfo.type=='005'||orderinfo.type=='004') && metal">
+            <span class="title">您的物品预估价格约为</span>
+            <span class="cash_title">变现公式</span>
+            <ul >
+                <li>{{metal.unitprice|number:2}}</li>
+                <li>*</li>
+                <li>{{metal.material_weight|number:3}}</li>
+                <li>-</li>
+                <li>{{metal.depreciation|number:2}}</li>
+            </ul>
+            <ul >
+                <li>金价</li>
+                <li></li>
+                <li>克重</li>
+                <li></li>
+                <li>折旧费</li>
+            </ul>
+            <span  class="cash_title">参考估值</span>
+            <span class="cash_price">{{orderinfo.evalPrice||0 |currency:"￥"}}</span>
+        </section>
+        <section class="cash" ng-if="(orderinfo.type=='005'||orderinfo.type=='004') && diamond">
+            <span class="title">您的物品预估价格约为</span>
+            <span class="cash_title">变现公式</span>
+
+            <ul>
+                <li>{{diamond.main_diamond_price||0 |number:2}}</li>
+                <li>+</li>
+                <li>{{diamond.sec_diamond_price||0 |number:2}}</li>
+                <li>+</li>
+                <li>{{diamond.material_price|number:2}}</li>
+            </ul>
+            <ul >
+                <li>主石价格</li>
+                <li></li>
+                <li>副石价格</li>
+                <li></li>
+                <li>贵金属价格</li>
+            </ul>
+
+            <span  class="cash_title">参考估值</span>
+            <span class="cash_price">{{orderinfo.evalPrice||0 |currency:"￥"}}</span>
         </section>
         <span class="title" ng-if="exGoods!=null">换款产品 <span style="float:right;padding-right:0.5rem">预选合计:￥{{prePrice|number:2}}</span></span>
         <section class="product_list" ng-if="exGoods!=null">
@@ -106,7 +151,7 @@
         </section>
         <section class="order_xq"  ng-switch on="orderinfo.type">
             <ul ng-switch-when="004">
-                <li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>
+                <!--<li><em class="content">估价总额：</em><i class="content">{{(products.price*products.num)|currency:'￥'}}</i></li>-->
                 <li><em class="content content_main">寄货方式：</em><i class="content content_main">{{orderinfo.sendway=="001"?"邮寄":"送到店"}}</i></li>
                 <li><em class="content content_main">取货方式：</em><i class="content content_main">{{orderinfo.getway=="001"?"邮寄":"到店取"}}</i></li>
                 <li><em class="subject">回收总额：</em><i class="subject subject_font">{{products.aturalprice?(products.aturalprice|currency:'￥'):'待定'}}</i></li>
