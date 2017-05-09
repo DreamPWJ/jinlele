@@ -248,8 +248,8 @@ public class OrderController {
      * 生成充值订单
      */
     @ResponseBody
-    @RequestMapping(value = "/saveRechargeOrder/{userId}/{rechargeMoney}")
-    public Map<String , Object>  saveRechargeOrder(@PathVariable Integer userId , @PathVariable Double rechargeMoney){
+    @RequestMapping(value = "/saveRechargeOrder")
+    public Map<String , Object>  saveRechargeOrder(Integer userId , Double rechargeMoney){
         return orderService.saveRechargeOrder(userId , rechargeMoney);
 
     }
