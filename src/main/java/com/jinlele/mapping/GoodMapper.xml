@@ -295,7 +295,7 @@
   <select id="getGoodDetail" resultType="map">
     select g.id as goodid,g.title,g.bannerurl,
     g.description,g.stocknum,g.price,g.oldprice,
-    g.canchange ,gc.minprice,gc.minexprice
+    g.canchange ,gc.minprice,gc.minexprice,g.deleteCode
     FROM good g,(SELECT min(price) as minprice,min(exprice) as minexprice,id cid,good_id gid FROM goodchild group by good_id) gc
     WHERE g.id = gc.gid and g.id = #{gooodId}
   </select>

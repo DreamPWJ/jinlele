@@ -1970,6 +1970,10 @@
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
                 return;
             }
+            if($scope.goodDetail.deleteCode=='002'){
+                CommonService.toolTip("很抱歉,该商品已下架", "");
+                return;
+            }
             if (!$scope.stocknum) {
                 CommonService.toolTip("很抱歉,该规格的商品已经缺货了", "");
                 return;
@@ -2027,6 +2031,10 @@
         $scope.changThis=function() {
             if (!$scope.gooddetail.goodchildId) {
                 CommonService.toolTip("请选择您要的商品信息", "tool-tip-message");
+                return;
+            }
+            if($scope.goodDetail.deleteCode=='002'){
+                CommonService.toolTip("很抱歉,该商品已下架", "");
                 return;
             }
             if (!$scope.stocknum) {

@@ -95,11 +95,12 @@
 
   <!--查询某个用户的购物车商品总数量-->
   <select id="getShopcharTotalNum"  resultType="int"  parameterType="Integer">
-     select
-         COALESCE(SUM(num),0) as totalnum
-     from shoppingcart
-     where  user_id = #{userId}
-     AND deleteCode = '001'
+      select
+           COALESCE(SUM(s.num),0) as totalnum
+       from shoppingcart s
+      left join good g on g.id = s.good_id
+       where  s.user_id = #{userId}
+        AND s.deleteCode = '001' and g.deleteCode = '001'
   </select>
 
   <!--查询某个用户，某个商品的信息-->
