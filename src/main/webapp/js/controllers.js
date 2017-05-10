@@ -51,6 +51,7 @@
         $scope.searchquery = function (searchcontent) {
             $scope.search = searchcontent;
             $scope.getNewProducts();
+
         };
 
         //获取首页分页新产品

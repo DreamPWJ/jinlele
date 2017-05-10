@@ -5,17 +5,21 @@
     <title></title>
 </head>
 <body>
-
+<input type="hidden" id="openid"  value="${openId}"/>
+<input type="hidden" id="userId"  value="${userId}"/>
 </body>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
 <script>
     $(function(){
-//        var openid = $('#openid').val();
-//        var userId = $('#userId').val();
-        localStorage.setItem("openId",'${openId}');
-        localStorage.setItem("jinlele_userId",'${userId}');
-        // window.location.href="http://www.6weiyi.com/jinlele/mall";//只能在一个网站中打开本网站的网页
-        window.open("http://www.6weiyi.com/jinlele/mall", "_blank");//可以在一个网站上打开另外的一个网站的地址
+        var openid = $('#openid').val();
+        var userId = $('#userId').val();
+        localStorage.setItem("openId",openid);
+        localStorage.setItem("jinlele_userId",userId);
+        setTimeout(function(){
+            window.location.href="http://www.6weiyi.com/jinlele/mall";
+        },10);
+
     });
 </script>
 </html>
