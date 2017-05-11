@@ -24,12 +24,14 @@
             });
         }
         //获取首页信息
+        // var openid = localStorage.getItem("openId");
+        // var userid = localStorage.getItem("jinlele_userId");
         MainService.getIndexInfo().success(function (data) {
             $scope.indexinfo = data;
             getBanners(data.banners);
-            console.log('data.banners=='+JSON.stringify(data.banners));
-            localStorage.setItem("openId",localStorage.getItem("openId")?localStorage.getItem("openId"): data.openId);//缓存微信用户唯一标示openId
-            localStorage.setItem("jinlele_userId",localStorage.getItem("jinlele_userId")?localStorage.getItem("jinlele_userId"): data.userId);//缓存微信用户唯一标示 userId
+            // console.log('data.banners=='+JSON.stringify(data.banners));
+            // localStorage.setItem("openId",openid);//缓存微信用户唯一标示openId
+            // localStorage.setItem("jinlele_userId",userid);//缓存微信用户唯一标示 userId
         }).then(function () {
             //是否是微信 初次获取签名 获取微信签名
             if (WeiXinService.isWeiXin()) {
@@ -651,7 +653,7 @@
                 if (r.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
-                        totalprice: $scope.totalprice,
+                        totalprice: $scope.totalprice.toFixed(2),
                         orderNo: r.orderno,
                         descrip: '六唯壹珠宝',
                         openid: localStorage.getItem("openId"),
@@ -851,7 +853,7 @@
             console.log(totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice:totalprice,
+                totalprice:totalprice.toFixed(2),
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1141,7 +1143,7 @@
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: totalprice,
+                totalprice: totalprice.toFixed(2),
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1369,7 +1371,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype) {
             $scope.param = {
-                totalprice: totalprice,
+                totalprice: totalprice.toFixed(2),
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1636,7 +1638,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
             $scope.param = {
-                totalprice: totalprice,
+                totalprice: totalprice.toFixed(2),
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -2525,7 +2527,7 @@
                             return;
                         }
                         $scope.param = {
-                            totalprice: data.totalprice,
+                            totalprice: data.totalprice.toFixed(2),
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -2586,7 +2588,7 @@
                         $scope.useful=false;
                         //调用支付接口
                         $scope.param = {
-                            totalprice: $scope.totalprice,
+                            totalprice: $scope.totalprice.toFixed(2),
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -3109,19 +3111,10 @@
 
         });
 
-        //OrderService.getReportImages({orderno:$stateParams.orderno,orderType:"007"}).success(function(data){
-        //    if(data) {
-        //        $scope.images = data.images;
-        //        console.log('$scope.images=='+$scope.images.length)
-        //    }else{
-        //        $scope.images = null;
-        //    }
-        //});
-
 
         $scope.pay = function () {
             $scope.param = {
-                totalprice: $scope.totalprice,
+                totalprice: $scope.totalprice.toFixed(2),
                 orderNo: $scope.orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -3129,6 +3122,7 @@
             };
             //调用支付接口
             console.log(JSON.stringify($scope.param));
+            alert(JSON.stringify($scope.param));
             //微信支付调用
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
                 WeiXinService.wxchooseWXPay(data)

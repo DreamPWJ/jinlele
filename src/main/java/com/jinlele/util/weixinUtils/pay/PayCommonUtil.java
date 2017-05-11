@@ -46,6 +46,7 @@ public class PayCommonUtil {
      * @return
      */
     public static Map<String, String> weixinPrePay(String sn, BigDecimal totalAmount, String description, String openid, String randomString, String orderType, HttpServletRequest request) {
+        System.out.println("totalAmount=="+totalAmount);
         SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();
         parameterMap.put("appid", PayCommonUtil.APPID);
         parameterMap.put("mch_id", PayCommonUtil.MCH_ID);// 商户号
