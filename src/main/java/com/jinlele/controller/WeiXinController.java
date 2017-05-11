@@ -245,11 +245,12 @@ public class WeiXinController {
     @ResponseBody
     @RequestMapping(value = "/weixin/weixinPay/{sn}/{totalAmount}/{description}/{openId}/{orderType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public SortedMap<String, Object> toWeiXinPay(@PathVariable String sn, @PathVariable BigDecimal totalAmount, @PathVariable String description, @PathVariable String openId,@PathVariable String orderType, HttpServletRequest request) {
-        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomString,orderType, request);
+        String randomStr =  randomString;
+        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomStr,orderType, request);
         SortedMap<String, Object> finalpackage = new TreeMap<String, Object>();//通过子类TreeMap实例化接口对象 可用于排序
         finalpackage.put("appId", PayCommonUtil.APPID);
         finalpackage.put("timeStamp", timeMillis);
-        finalpackage.put("nonceStr", randomString);
+        finalpackage.put("nonceStr", randomStr);
         finalpackage.put("package", "prepay_id=" + map.get("prepay_id"));
         finalpackage.put("signType", "MD5");
         String sign = PayCommonUtil.createSign("UTF-8", finalpackage);

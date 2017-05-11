@@ -3122,7 +3122,7 @@
             };
             //调用支付接口
             console.log(JSON.stringify($scope.param));
-            alert(JSON.stringify($scope.param));
+            // alert(JSON.stringify($scope.param));
             //微信支付调用
             WeiXinService.getweixinPayData($scope.param).success(function (data) {
                 WeiXinService.wxchooseWXPay(data)

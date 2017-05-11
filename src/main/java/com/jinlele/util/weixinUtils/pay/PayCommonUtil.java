@@ -56,7 +56,9 @@ public class PayCommonUtil {
         parameterMap.put("fee_type", "CNY");//人民币
         parameterMap.put("attach", orderType);//商家数据包 现在暂时有 订单类型
         BigDecimal total = totalAmount.multiply(new BigDecimal(100));//交易金额默认为人民币交易，接口中参数支付金额单位为【分】，参数值不能带小数
+        System.out.println("total=="+total);
         java.text.DecimalFormat df = new java.text.DecimalFormat("0");
+        System.out.println("df.format(total)=="+df.format(total));
         parameterMap.put("total_fee", df.format(total));// 支付金额
 
         parameterMap.put("spbill_create_ip", request.getRemoteAddr());// 终端IP
