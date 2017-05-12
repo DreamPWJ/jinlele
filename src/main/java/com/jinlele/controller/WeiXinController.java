@@ -233,6 +233,15 @@ public class WeiXinController {
         return "index.html";
     }
 
+    public static BigDecimal round(BigDecimal num ,int scale) {
+        BigDecimal result = num.divide(new BigDecimal(1), scale, BigDecimal.ROUND_HALF_UP);
+        return result;
+    }
+
+//    public static void main(String[] args) {
+//        System.out.println("带小数的四舍五入测试" + round(new BigDecimal(0.009852366874), 2)); //994.457
+//    }
+
     /**
      * 调用微信支付服务器端接口
      *
@@ -246,7 +255,7 @@ public class WeiXinController {
     @RequestMapping(value = "/weixin/weixinPay/{sn}/{totalAmount}/{description}/{openId}/{orderType}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public SortedMap<String, Object> toWeiXinPay(@PathVariable String sn, @PathVariable BigDecimal totalAmount, @PathVariable String description, @PathVariable String openId,@PathVariable String orderType, HttpServletRequest request) {
         String randomStr =  randomString;
-        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, totalAmount, description, openId, randomStr,orderType, request);
+        Map<String, String> map = PayCommonUtil.weixinPrePay(sn, round(totalAmount,2), description, openId, randomStr,orderType, request);
         SortedMap<String, Object> finalpackage = new TreeMap<String, Object>();//通过子类TreeMap实例化接口对象 可用于排序
         finalpackage.put("appId", PayCommonUtil.APPID);
         finalpackage.put("timeStamp", timeMillis);
@@ -459,10 +468,6 @@ public class WeiXinController {
 //        Map<String, String> map = PayCommonUtil.refund(refundModel.getSn(), refundModel.getRefundAmout());
 //   }
 
-    public static void main(String[] args) {
-        RefundModel refundModel = new RefundModel();
-        refundModel.setSn("20170501131100022631");
-        Map<String, String> map = PayCommonUtil.refundquery(refundModel.getSn());
-    }
+
 
 }

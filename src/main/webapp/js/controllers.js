@@ -653,7 +653,7 @@
                 if (r.errmsg == "ok") {
                     //调用微信支付服务器端接口
                     $scope.param = {
-                        totalprice: $scope.totalprice.toFixed(2),
+                        totalprice: $scope.totalprice,
                         orderNo: r.orderno,
                         descrip: '六唯壹珠宝',
                         openid: localStorage.getItem("openId"),
@@ -853,7 +853,7 @@
             console.log(totalprice);
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice:totalprice.toFixed(2),
+                totalprice:totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1143,7 +1143,7 @@
         $scope.weixinPay = function (orderno, totalprice) {
             //调用微信支付服务器端接口
             $scope.param = {
-                totalprice: totalprice.toFixed(2),
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1371,7 +1371,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype) {
             $scope.param = {
-                totalprice: totalprice.toFixed(2),
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -1638,7 +1638,7 @@
         //微信支付调用
         $scope.weixinPay = function (orderno, totalprice,ordertype,orderstatus) {
             $scope.param = {
-                totalprice: totalprice.toFixed(2),
+                totalprice: totalprice,
                 orderNo: orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
@@ -2527,7 +2527,7 @@
                             return;
                         }
                         $scope.param = {
-                            totalprice: data.totalprice.toFixed(2),
+                            totalprice: data.totalprice,
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -3048,13 +3048,13 @@
                     }
                     console.log('$scope.totalprice=='+$scope.totalprice);
                     console.log('$scope.jinlele_userId=='+localStorage.getItem("jinlele_userId"));
-                    console.log('$scope.changeprice=='+Math.abs($scope.totalprice.toFixed(2)));
+                    console.log('$scope.changeprice=='+Math.abs($scope.totalprice));
                     //如果结算金额大
                     if($scope.totalprice>0){
                         $scope.pay();  //去支付
                     }else{
                         //改变订单状态为已付款 把剩余的钱放入余额中
-                        OrderService.updateBarter({orderno:$scope.orderno,userId:localStorage.getItem("jinlele_userId"),changeprice:Math.abs($scope.totalprice.toFixed(2))})
+                        OrderService.updateBarter({orderno:$scope.orderno,userId:localStorage.getItem("jinlele_userId"),changeprice:Math.abs($scope.totalprice)})
                             .success(function (data) {
                                 console.log("返回的信息");
                                 console.log(data);
@@ -3114,7 +3114,7 @@
 
         $scope.pay = function () {
             $scope.param = {
-                totalprice: $scope.totalprice.toFixed(2),
+                totalprice: $scope.totalprice,
                 orderNo: $scope.orderno,
                 descrip: '六唯壹珠宝',
                 openid: localStorage.getItem("openId"),
