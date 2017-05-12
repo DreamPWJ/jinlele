@@ -2588,7 +2588,7 @@
                         $scope.useful=false;
                         //调用支付接口
                         $scope.param = {
-                            totalprice: $scope.totalprice.toFixed(2),
+                            totalprice: $scope.totalprice,
                             orderNo: data.orderNo,
                             descrip: '六唯壹珠宝',
                             openid: localStorage.getItem("openId"),
@@ -2838,7 +2838,7 @@
             $scope.status = data.status;
             $scope.getway = data.service.getway;
             $scope.images = data.images;
-            console.log('$scope.images=='+ JSON.stringify($scope.images))
+            console.log('$scope.images=='+ JSON.stringify($scope.images));
             if($scope.images) {
                 $scope.report = data.service;
             }else{
