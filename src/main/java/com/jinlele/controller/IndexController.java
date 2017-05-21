@@ -23,11 +23,12 @@ public class IndexController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getIndexInfo", method = RequestMethod.GET)
-    public Map<String, Object> getIndexInfo() {
-        Map<String, Object> indexmap=indexService.getIndexInfo();
+    @RequestMapping(value = "/getIndexInfo/{userId}", method = RequestMethod.GET)
+    public Map<String, Object> getIndexInfo(@PathVariable Integer userId) {
+        Map<String, Object> indexmap=indexService.getIndexInfo(userId);
 //        indexmap.put("openId",WeiXinController.openIds);
 //        indexmap.put("userId",WeiXinController.userIds);
+
         return indexmap;
     }
 

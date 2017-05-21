@@ -25,7 +25,7 @@ angular.module('starter.services', [])
                 var promise = deferred.promise;
                 promise = $http({
                     method: 'GET',
-                    url: JinLeLe.api + "/index/getIndexInfo"
+                    url: JinLeLe.api + "/index/getIndexInfo/"+ params.userid
                 }).success(function (data) {
                     deferred.resolve(data);// 声明执行成功，即http请求数据成功，可以返回数据了
                 }).error(function (err) {

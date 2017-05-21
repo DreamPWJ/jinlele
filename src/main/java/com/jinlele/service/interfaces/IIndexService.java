@@ -10,7 +10,7 @@ public interface IIndexService {
     /**
      * 获取首页数据展示
      */
-     Map<String, Object> getIndexInfo() ;
+     Map<String, Object> getIndexInfo(Integer userId) ;
 
     /**
      * 首页新品推荐分页显示

@@ -26,8 +26,9 @@
         //获取首页信息
         // var openid = localStorage.getItem("openId");
         // var userid = localStorage.getItem("jinlele_userId");
-        MainService.getIndexInfo().success(function (data) {
+        MainService.getIndexInfo({userid: localStorage.getItem("jinlele_userId")}).success(function (data) {
             $scope.indexinfo = data;
+            $scope.cartTotalNum=data.totalnum;
             getBanners(data.banners);
             // console.log('data.banners=='+JSON.stringify(data.banners));
             // localStorage.setItem("openId",openid);//缓存微信用户唯一标示openId
@@ -87,9 +88,9 @@
             })
         };
         $scope.getNewProducts();
-        CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
-            $scope.cartTotalNum=data.totalnum;
-        });
+        // CartService.getCartTotalNum({userid: localStorage.getItem("jinlele_userId")}).success(function(data){
+        //     $scope.cartTotalNum=data.totalnum;
+        // });
 
         //跳转到goodlist页面
         $scope.goolist = function (name) {

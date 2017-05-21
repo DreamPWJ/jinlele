@@ -1,12 +1,9 @@
 package com.jinlele.service.services;
-import com.jinlele.dao.BaseMapper;
-import com.jinlele.dao.GoodCatogoryMapper;
-import com.jinlele.dao.GoodMapper;
-import com.jinlele.dao.ShopBannerMapper;
+
+import com.jinlele.dao.*;
+import com.jinlele.model.ShoppingCart;
 import com.jinlele.service.interfaces.IIndexService;
 import com.jinlele.util.CommonUtil;
-import com.jinlele.util.SysConstants;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,12 +25,14 @@ public class IndexServiceImpl implements IIndexService {
     GoodMapper goodMapper;
     @Resource
     ShopBannerMapper shopBannerMapper;
+    @Resource
+    ShoppingCartMapper shoppingCartMapper;
 
     /**
      * 获取首页数据展示
      */
     @Override
-    public Map<String, Object> getIndexInfo() {
+    public Map<String, Object> getIndexInfo(Integer userId) {
         Map<String, Object> indexMap = new HashMap();
         //首页一级分类获取
         List firstCatogoryList = goodCatogoryMapper.getFirstCatogory();
@@ -41,12 +40,16 @@ public class IndexServiceImpl implements IIndexService {
         List secondCatogoryList = goodCatogoryMapper.getSecondCatogory();
         //获取所有的海报信息
         List<Map<String , Object>> banners = shopBannerMapper.listBanners();
+        //购物车商品数量
+        int totalnum = shoppingCartMapper.getShopcharTotalNum(userId);
+
         //新品推荐展示
         List newProductsList = goodMapper.getNewProducts();
         indexMap.put("firstCatogory", firstCatogoryList);
         indexMap.put("secondCatogory", secondCatogoryList);
         indexMap.put("newProducts", newProductsList);
         indexMap.put("banners", banners);
+        indexMap.put("totalnum" , totalnum);
         return indexMap;
     }
 
